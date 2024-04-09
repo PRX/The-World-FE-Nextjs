@@ -25,7 +25,7 @@ export const getServerSideProps =
             typeof params.id === 'string' ? params.id : params.id[0],
             10
           );
-        const { wp_can_preview: authToken, ...cookies } = req?.cookies || {};
+        const { 'tw-can_preview': authToken, ...cookies } = req?.cookies || {};
 
         if (id) {
           const [data] = await Promise.all([
