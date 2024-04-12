@@ -64,11 +64,9 @@ export const StoryCard = ({
     excerpt,
     featuredImage,
     primaryCategory,
-    additionalDates,
     additionalMedia
   } = data;
   const image = featuredImage?.node;
-  const { broadcastDate } = additionalDates || {};
   const { audio } = additionalMedia || {};
   const audioProps = {
     title,
@@ -178,12 +176,8 @@ export const StoryCard = ({
                 </Typography>
                 <Box className={classes.info}>
                   <Typography component="span" className={classes.date}>
-                    <Moment
-                      format="MMMM D, YYYY"
-                      tz="America/New_York"
-                      {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-                    >
-                      {broadcastDate || date}
+                    <Moment format="MMMM D, YYYY" tz="America/New_York">
+                      {date}
                     </Moment>
                   </Typography>
                   {primaryCategory && (
