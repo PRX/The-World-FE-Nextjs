@@ -54,8 +54,9 @@ import {
   SidebarCta
 } from '@components/Sidebar';
 import { StoryCard } from '@components/StoryCard';
-import { fetchApiContributorStories } from '@lib/fetch';
 import { StoryCardGrid } from '@components/StoryCardGrid';
+import { fetchApiContributorStories } from '@lib/fetch';
+import wrapLineBreaksWithParagraphs from '@lib/format/content/wrapLineBreaksWithParagraphs';
 import { getCollectionData, getCtaRegionData } from '@store/reducers';
 import { appendResourceCollection } from '@store/actions/appendResourceCollection';
 import { BioHeader } from './components/BioHeader';
@@ -90,7 +91,8 @@ export const Bio = ({ data }: IContentComponentProps<Contributor>) => {
     landingPage,
     contributorSocialLinks
   } = data;
-  const { image, teaser, program, position } = contributorDetails || {};
+  const { bio, image, teaser, program, position } = contributorDetails || {};
+  const body = bio || wrapLineBreaksWithParagraphs(description);
   const followLinks =
     contributorSocialLinks &&
     Object.entries(contributorSocialLinks)
@@ -203,19 +205,19 @@ export const Bio = ({ data }: IContentComponentProps<Contributor>) => {
       key: 'main top',
       children: (
         <>
-          {description && (
+          {body && (
             <Box my={3} display="grid" gap={3}>
               <Box className={classes.body}>
-                <HtmlContent html={description} />
+                <HtmlContent html={body} />
               </Box>
-              <Divider />
+              {hasStories && <Divider />}
             </Box>
           )}
           <Box display="grid" gap={1}>
             {featuredStory && (
               <StoryCard data={featuredStory} feature priority />
             )}
-            {featuredStories && (
+            {featuredStories?.length > 0 && (
               <StoryCardGrid data={featuredStories} gap={1} />
             )}
           </Box>

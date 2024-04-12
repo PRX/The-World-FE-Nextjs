@@ -35,9 +35,15 @@ export const useStoryCardStyles = makeStyles()((theme) => ({
       marginBlockEnd: 0
     }
   },
+  info: {
+    display: 'grid',
+    gap: theme.spacing(0.5)
+  },
+  date: {},
   primaryCategory: {
     display: 'grid',
     gridTemplateColumns: 'min-content 1fr',
+    gap: theme.spacing(0.5),
     position: 'relative',
     alignItems: 'center',
     zIndex: 1,
@@ -46,9 +52,9 @@ export const useStoryCardStyles = makeStyles()((theme) => ({
     textTransform: 'unset'
   },
   primaryCategoryLink: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   },
   imageWrapper: {
     position: 'absolute',

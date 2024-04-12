@@ -106,6 +106,7 @@ export const bioHeaderStyles = makeStyles()((theme) => ({
     overflow: 'hidden',
     margin: theme.typography.pxToRem(24),
     borderRadius: '50%',
+    backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up('sm')]: {
       marginLeft: 0
     },

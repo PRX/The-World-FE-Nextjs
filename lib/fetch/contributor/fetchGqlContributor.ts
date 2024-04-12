@@ -22,6 +22,7 @@ const GET_CONTRIBUTOR = gql`
       name
       description
       contributorDetails {
+        bio
         position
         teaser
         program {

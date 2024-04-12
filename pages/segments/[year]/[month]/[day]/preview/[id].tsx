@@ -9,7 +9,6 @@ import { IContentComponentProxyProps, SegmentIdType } from '@interfaces';
 import { wrapper } from '@store/configureStore';
 import { fetchAppData } from '@store/actions/fetchAppData';
 import { fetchSegmentData } from '@store/actions/fetchSegmentData';
-import { generateShareLinks } from '@lib/generate/social';
 
 const SegmentPage = ({ data }: IContentComponentProxyProps) => (
   <Segment data={data} />
@@ -31,15 +30,10 @@ export const getServerSideProps =
           ]);
 
           if (data) {
-            const { link, title } = data;
-            const shareLinks =
-              link != null ? generateShareLinks(link, title) : undefined;
-
             return {
               props: {
                 type: 'post--segment',
                 id: data.id,
-                ...(shareLinks && { shareLinks }),
                 data
               }
             };
