@@ -37,6 +37,9 @@ export const EPISODE_CARD_PROPS = gql`
                       ... on Post {
                         title
                       }
+                      ... on Segment {
+                        title
+                      }
                     }
                   }
                 }
