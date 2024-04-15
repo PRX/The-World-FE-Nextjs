@@ -40,6 +40,13 @@ export const storyCardGridStyles = makeStyles()((theme) => ({
     textWrap: 'balance'
   },
 
+  info: {
+    display: 'grid',
+    gap: theme.spacing(0.5)
+  },
+
+  date: {},
+
   primaryCategory: {
     display: 'grid',
     gridTemplateColumns: 'min-content 1fr',
@@ -53,9 +60,9 @@ export const storyCardGridStyles = makeStyles()((theme) => ({
   },
 
   primaryCategoryLink: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   },
 
   audio: {

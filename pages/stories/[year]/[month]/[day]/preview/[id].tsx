@@ -9,7 +9,6 @@ import { Story } from '@components/pages/Story';
 import { fetchAppData } from '@store/actions/fetchAppData';
 import { wrapper } from '@store/configureStore';
 import { fetchStoryData } from '@store/actions/fetchStoryData';
-import { generateShareLinks } from '@lib/generate/social';
 
 const StoryPage = ({ data }: IContentComponentProxyProps) => (
   <Story data={data} />
@@ -34,15 +33,10 @@ export const getServerSideProps =
           ]);
 
           if (data) {
-            const { link, title } = data;
-            const shareLinks =
-              link != null ? generateShareLinks(link, title) : undefined;
-
             return {
               props: {
                 type: 'post--story',
                 id: data.id,
-                ...(shareLinks && { shareLinks }),
                 data
               }
             };

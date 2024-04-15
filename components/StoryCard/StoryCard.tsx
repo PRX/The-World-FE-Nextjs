@@ -22,7 +22,6 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Grid,
   LinearProgress,
   Typography
   // CardActions,
@@ -177,45 +176,36 @@ export const StoryCard = ({
                 >
                   {title}
                 </Typography>
-                <Grid
-                  container
-                  justifyContent="flex-start"
-                  spacing={1}
-                  // style={{ marginBottom: 0 }}
-                >
-                  <Grid item xs={12}>
-                    <Typography component="span">
-                      <Moment
-                        format="MMMM D, YYYY"
-                        tz="America/New_York"
-                        {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-                      >
-                        {broadcastDate || date}
-                      </Moment>
-                    </Typography>
-                  </Grid>
+                <Box className={classes.info}>
+                  <Typography component="span" className={classes.date}>
+                    <Moment
+                      format="MMMM D, YYYY"
+                      tz="America/New_York"
+                      {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
+                    >
+                      {broadcastDate || date}
+                    </Moment>
+                  </Typography>
                   {primaryCategory && (
-                    <Grid item xs={12}>
-                      <Typography
-                        variant="overline"
-                        className={classes.primaryCategory}
-                      >
-                        <Label color="secondary" />
-                        {primaryCategory.link ? (
-                          <ContentLink
-                            className={classes.primaryCategoryLink}
-                            title={primaryCategory.name || ''}
-                            url={primaryCategory.link}
-                          >
-                            {primaryCategory.name}
-                          </ContentLink>
-                        ) : (
-                          <span>{primaryCategory.name}</span>
-                        )}
-                      </Typography>
-                    </Grid>
+                    <Typography
+                      variant="overline"
+                      className={classes.primaryCategory}
+                    >
+                      <Label color="secondary" />
+                      {primaryCategory.link ? (
+                        <ContentLink
+                          className={classes.primaryCategoryLink}
+                          title={primaryCategory.name || ''}
+                          url={primaryCategory.link}
+                        >
+                          {primaryCategory.name}
+                        </ContentLink>
+                      ) : (
+                        <span>{primaryCategory.name}</span>
+                      )}
+                    </Typography>
                   )}
-                </Grid>
+                </Box>
               </Box>
               {audio && (
                 <Box className={classes.audio}>

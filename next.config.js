@@ -30,6 +30,7 @@ module.exports = withPlausibleProxy({
       'www.pri.org',
       'pri9.lndo.site',
       'media-pri-org.s3.amazonaws.com',
+      'media-pri-dev.s3.amazonaws.com',
       'media-pri-dev.s3.us-east-1.amazonaws.com',
       'www.loe.org',
       'www.globalpost.com',
