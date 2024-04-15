@@ -113,11 +113,9 @@ export const StoryCardGrid = ({ data, ...other }: StoryCardGridProps) => {
           date,
           featuredImage,
           additionalMedia,
-          additionalDates,
           primaryCategory
         } = item;
         const image = featuredImage?.node;
-        const { broadcastDate } = additionalDates || {};
         const { audio } = additionalMedia || {};
         const pathname = link && new URL(link).pathname;
         const isLoading = pathname === loadingUrl;
@@ -182,12 +180,8 @@ export const StoryCardGrid = ({ data, ...other }: StoryCardGridProps) => {
                   </Box>
                   <Box className={classes.info}>
                     <Typography className={classes.date} component="span">
-                      <Moment
-                        format="MMMM D, YYYY"
-                        tz="America/New_York"
-                        {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-                      >
-                        {broadcastDate || date}
+                      <Moment format="MMMM D, YYYY" tz="America/New_York">
+                        {date}
                       </Moment>
                     </Typography>
                     {primaryCategory && (

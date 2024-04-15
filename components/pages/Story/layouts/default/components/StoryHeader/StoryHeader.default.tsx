@@ -41,7 +41,7 @@ export const StoryHeader = ({ data }: Props) => {
     contributors
   } = data;
   const { audio } = additionalMedia as PostAdditionalMedia;
-  const { broadcastDate, updatedDate } = additionalDates as PostAdditionalDates;
+  const { updatedDate } = additionalDates as PostAdditionalDates;
   const program = programs?.nodes[0];
   const bylines: [string, Contributor[]][] = [];
   const audioProps = {
@@ -79,18 +79,14 @@ export const StoryHeader = ({ data }: Props) => {
               {program.name}
             </ContentLink>
           )}
-          {(broadcastDate || date) && (
+          {date && (
             <Typography
               variant="subtitle1"
               component="div"
               className={classes.date}
             >
-              <Moment
-                format="MMMM D, YYYY"
-                tz="America/New_York"
-                {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-              >
-                {broadcastDate || date}
+              <Moment format="MMMM D, YYYY" tz="America/New_York">
+                {date}
               </Moment>
             </Typography>
           )}
