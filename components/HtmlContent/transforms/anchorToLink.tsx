@@ -45,7 +45,12 @@ export const anchorToLink = (
       url.searchParams
     ) {
       const q = url.searchParams.get('q');
-      url = q ? new URL(q) : undefined;
+
+      try {
+        url = q ? new URL(q) : undefined;
+      } catch {
+        url = undefined;
+      }
     }
 
     if (url?.href && isLocalUrl(url.href)) {
