@@ -257,8 +257,8 @@ export const SidebarList = ({
           );
         })}
       </List>
-      <SidebarFooter>
-        {showPagination && (
+      {showPagination && (
+        <SidebarFooter>
           <Pagination
             size="small"
             count={pageCount}
@@ -266,8 +266,8 @@ export const SidebarList = ({
             color="primary"
             onChange={handleSegmentsPageChange}
           />
-        )}
-      </SidebarFooter>
+        </SidebarFooter>
+      )}
     </>
   );
 };

@@ -25,7 +25,9 @@ export const episodeCardStyles = makeStyles()((theme) => {
     },
 
     header: {
-      padding: '1rem 1rem 0.5rem',
+      paddingInline: 0,
+      paddingBlockStart: theme.spacing(2),
+      paddingBlockEnd: theme.spacing(1.5),
       '& h1': {
         ...headingProps
       },

@@ -33,6 +33,7 @@ const GET_SEGMENT = gql`
       segmentContent {
         audio {
           id
+          mediaItemUrl
           audioFields {
             audioType
           }

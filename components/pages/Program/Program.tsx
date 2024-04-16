@@ -57,7 +57,7 @@ export const Program = ({ data }: IContentComponentProps<ProgramType>) => {
   const router = useRouter();
   const { query } = router;
   const store = useStore<RootState>();
-  const [state, setState] = useState(store.getState());
+  const state = store.getState();
   const [loadingStories, setLoadingStories] = useState(false);
   const [loadingEpisodes, setLoadingEpisodes] = useState(false);
   const [oldScrollY, setOldScrollY] = useState(0);
@@ -65,9 +65,6 @@ export const Program = ({ data }: IContentComponentProps<ProgramType>) => {
     useState<AbortController>();
   const [moreEpisodesController, setMoreEpisodesController] =
     useState<AbortController>();
-  const unsub = store.subscribe(() => {
-    setState(store.getState());
-  });
   const type = 'term--program';
   const {
     id,
@@ -144,11 +141,10 @@ export const Program = ({ data }: IContentComponentProps<ProgramType>) => {
 
   useEffect(
     () => () => {
-      unsub();
       moreStoriesController?.abort();
       moreEpisodesController?.abort();
     },
-    [unsub]
+    []
   );
 
   useEffect(() => {
@@ -246,7 +242,7 @@ export const Program = ({ data }: IContentComponentProps<ProgramType>) => {
             </Box>
           )}
           {isEpisodesView && latestEpisode && (
-            <EpisodeCard data={latestEpisode} hideProgramLink />
+            <EpisodeCard data={latestEpisode} hideProgramLink priority />
           )}
           {ctaInlineTop && (
             <>
@@ -398,8 +394,8 @@ export const Program = ({ data }: IContentComponentProps<ProgramType>) => {
                             <Image
                               src={avatarSrc}
                               alt={`Avatar of ${item.name}`}
-                              width={45}
-                              height={45}
+                              fill
+                              sizes="45px"
                               style={{ objectFit: 'cover' }}
                             />
                           </Avatar>
