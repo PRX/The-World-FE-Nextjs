@@ -19,7 +19,8 @@ export const enhanceImage =
     if (
       type === 'tag' &&
       name === 'img' &&
-      !(attribs.width === '1' && attribs.height === '1')
+      !(attribs.width === '1' && attribs.height === '1') &&
+      !/\.gif(?:\?|$)/.test(attribs.src)
     ) {
       const imageWidths = getImageWidths(node);
       const sizes = imageWidths
