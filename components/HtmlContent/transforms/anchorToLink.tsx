@@ -25,32 +25,44 @@ export const anchorToLink = (
       attribs,
       attribs: { href, key }
     } = node;
-    let url: URL | undefined = new URL(href, 'https://theworld.org');
+    const children = convertNodeToElement(
+      { ...node, attribs },
+      index,
+      transform
+    );
+    let url: URL | undefined;
+
+    try {
+      url = new URL(href, 'https://theworld.org');
+    } catch {
+      url = undefined;
+    }
 
     // Handle links copied from google searches for internal URL's.
-    if (/\/\/(www\.)?google\.com\/url/.test(url.href) && url.searchParams) {
+    if (
+      url &&
+      /\/\/(www\.)?google\.com\/url/.test(url.href) &&
+      url.searchParams
+    ) {
       const q = url.searchParams.get('q');
       url = q ? new URL(q) : undefined;
     }
 
     if (url?.href && isLocalUrl(url.href)) {
       const linkHref = generateContentLinkHref(url.href);
-      const children = convertNodeToElement(
-        { ...node, attribs },
-        index,
-        transform
-      );
 
       delete attribs.target;
 
-      return linkHref ? (
-        <Link href={linkHref} passHref key={key} legacyBehavior>
-          {children}
-        </Link>
-      ) : (
-        children
-      );
+      if (linkHref) {
+        return (
+          <Link href={linkHref} passHref key={key} legacyBehavior>
+            {children}
+          </Link>
+        );
+      }
     }
+
+    return children;
   }
 
   return undefined;
