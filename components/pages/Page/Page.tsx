@@ -11,7 +11,7 @@ import { Plausible, PlausibleEventArgs } from '@components/Plausible';
 import { pageStyles } from './Page.styles';
 import { PageHeader } from './components/PageHeader';
 
-export const Page = ({ data }: IContentComponentProps<PageType>) => {
+export const Page = ({ data, isPreview }: IContentComponentProps<PageType>) => {
   const { id, seo, title, content } = data || {};
   const { classes } = pageStyles();
 
@@ -24,10 +24,12 @@ export const Page = ({ data }: IContentComponentProps<PageType>) => {
   return (
     <>
       {seo && <MetaTags data={seo} />}
-      <Plausible
-        events={plausibleEvents}
-        subject={{ type: 'post--page', id }}
-      />
+      {!isPreview && (
+        <Plausible
+          events={plausibleEvents}
+          subject={{ type: 'post--page', id }}
+        />
+      )}
       <Container fixed>
         <Grid container>
           <Grid item xs={12}>

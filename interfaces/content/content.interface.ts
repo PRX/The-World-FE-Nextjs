@@ -7,6 +7,7 @@ import { ISocialLink } from '@interfaces/social';
 
 export interface IContentComponentProps<D> {
   data: D;
+  isPreview?: boolean;
 }
 
 export interface IContentComponentProxyProps {

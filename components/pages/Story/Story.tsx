@@ -14,7 +14,7 @@ import { Plausible, PlausibleEventArgs } from '@components/Plausible';
 import { parseDateParts } from '@lib/parse/date';
 import { layoutComponentMap } from './layouts';
 
-export const Story = ({ data }: IContentComponentProps<Post>) => {
+export const Story = ({ data, isPreview }: IContentComponentProps<Post>) => {
   const {
     seo,
     link,
@@ -75,7 +75,7 @@ export const Story = ({ data }: IContentComponentProps<Post>) => {
     });
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && !isPreview) {
     // eslint-disable-next-line no-console
     console.log(plausibleEvents);
   }
@@ -83,10 +83,12 @@ export const Story = ({ data }: IContentComponentProps<Post>) => {
   return (
     <>
       <MetaTags data={metatags} />
-      <Plausible
-        events={plausibleEvents}
-        subject={{ type: 'post--story', id: data.id }}
-      />
+      {!isPreview && (
+        <Plausible
+          events={plausibleEvents}
+          subject={{ type: 'post--story', id: data.id }}
+        />
+      )}
       <LayoutComponent data={data} />
     </>
   );

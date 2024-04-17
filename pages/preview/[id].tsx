@@ -12,7 +12,7 @@ import { fetchPageData } from '@store/actions/fetchPageData';
 import { generateShareLinks } from '@lib/generate/social';
 
 const EpisodePage = ({ data }: IContentComponentProxyProps) => (
-  <Page data={data} />
+  <Page data={data} isPreview />
 );
 
 export const getServerSideProps =

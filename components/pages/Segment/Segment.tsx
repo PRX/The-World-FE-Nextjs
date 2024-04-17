@@ -20,7 +20,10 @@ import { getCtaRegionData } from '@store/reducers';
 import { segmentStyles } from './Segment.styles';
 import { AudioHeader } from './components/SegmentHeader';
 
-export const Segment = ({ data }: IContentComponentProps<SegmentType>) => {
+export const Segment = ({
+  data,
+  isPreview
+}: IContentComponentProps<SegmentType>) => {
   const store = useStore<RootState>();
   const state = store.getState();
   const type = 'post--segment';
@@ -83,10 +86,12 @@ export const Segment = ({ data }: IContentComponentProps<SegmentType>) => {
           ...metatags
         }}
       />
-      <Plausible
-        events={plausibleEvents}
-        subject={{ type: 'post--segment', id }}
-      />
+      {!isPreview && (
+        <Plausible
+          events={plausibleEvents}
+          subject={{ type: 'post--segment', id }}
+        />
+      )}
       <Container fixed className={classes.main}>
         <Grid container>
           <Grid item xs={12}>

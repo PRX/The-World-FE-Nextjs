@@ -11,7 +11,7 @@ import { fetchAppData } from '@store/actions/fetchAppData';
 import { fetchEpisodeData } from '@store/actions/fetchEpisodeData';
 
 const EpisodePage = ({ data }: IContentComponentProxyProps) => (
-  <Episode data={data} />
+  <Episode data={data} isPreview />
 );
 
 export const getServerSideProps =

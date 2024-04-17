@@ -46,7 +46,10 @@ import { episodeStyles } from './Episode.styles';
 import { EpisodeLede } from './components/EpisodeLede';
 import { EpisodeHeader } from './components/EpisodeHeader';
 
-export const Episode = ({ data }: IContentComponentProps<EpisodeType>) => {
+export const Episode = ({
+  data,
+  isPreview
+}: IContentComponentProps<EpisodeType>) => {
   const store = useStore<RootState>();
   const state = store.getState();
   const type = 'post--episode';
@@ -139,7 +142,9 @@ export const Episode = ({ data }: IContentComponentProps<EpisodeType>) => {
   return (
     <>
       <MetaTags data={metatags} />
-      <Plausible events={plausibleEvents} subject={{ type, id }} />
+      {!isPreview && (
+        <Plausible events={plausibleEvents} subject={{ type, id }} />
+      )}
       <Container fixed>
         <Grid container>
           <Grid item xs={12}>

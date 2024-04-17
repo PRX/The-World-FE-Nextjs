@@ -85,13 +85,14 @@ const options = {
 export const gqlClient = new ApolloClient(options);
 
 export const getClient = (authToken?: string) => {
-  const authLink = setContext((_, { headers }) => {
+  const authLink = setContext((_, { headers, ...rest }) => {
     if (!authToken) return { headers };
 
     return {
+      ...rest,
       headers: {
         ...headers,
-        authorization: `Bearer ${authToken}`
+        Authorization: `Bearer ${authToken}`
       }
     };
   });

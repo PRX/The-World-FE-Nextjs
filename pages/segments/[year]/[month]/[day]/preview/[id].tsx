@@ -11,7 +11,7 @@ import { fetchAppData } from '@store/actions/fetchAppData';
 import { fetchSegmentData } from '@store/actions/fetchSegmentData';
 
 const SegmentPage = ({ data }: IContentComponentProxyProps) => (
-  <Segment data={data} />
+  <Segment data={data} isPreview />
 );
 
 export const getServerSideProps =

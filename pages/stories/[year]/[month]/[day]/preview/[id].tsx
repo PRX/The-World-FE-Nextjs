@@ -11,7 +11,7 @@ import { wrapper } from '@store/configureStore';
 import { fetchStoryData } from '@store/actions/fetchStoryData';
 
 const StoryPage = ({ data }: IContentComponentProxyProps) => (
-  <Story data={data} />
+  <Story data={data} isPreview />
 );
 
 export const getServerSideProps =
