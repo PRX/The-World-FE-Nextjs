@@ -42,11 +42,21 @@ export const getServerSideProps: GetServerSideProps = async ({
 }): Promise<GetServerSidePropsResult<any>> => {
   const { id } = params || {};
   const resourceId = Array.isArray(id) ? id[0] : id;
-  const embeddedPlayerUrl = `https://theworld.org/embed/audio/${id}`;
-  let data: MediaItem | undefined;
-  let message: string | undefined;
+
+  if (!resourceId) {
+    return { notFound: true };
+  }
+
+  const isNumeric = /^\d+$/.test(resourceId);
+
+  if (isNumeric) {
+    // TODO: Request is for an old embed using a Drupal nid. Try to get the WP ID and post type of the migrated post.
+  }
 
   if (resourceId) {
+    const embeddedPlayerUrl = `https://theworld.org/embed/audio/${resourceId}`;
+    let data: MediaItem | undefined;
+    let message: string | undefined;
     // Attempt to fetch story data.
     const story = await fetchGqlStory(resourceId);
 

@@ -10,5 +10,8 @@ export const IMAGE_PROPS = gql`
       width
       height
     }
+    imageFields {
+      mediaCredit
+    }
   }
 `;
