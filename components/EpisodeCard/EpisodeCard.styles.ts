@@ -89,8 +89,7 @@ export const episodeCardStyles = makeStyles()((theme) => {
     title: {
       marginTop: theme.typography.pxToRem(8),
       marginBottom: theme.typography.pxToRem(12),
-      fontSize: theme.typography.pxToRem(18),
-      textWrap: 'balance'
+      fontSize: theme.typography.pxToRem(18)
     },
 
     audio: {
