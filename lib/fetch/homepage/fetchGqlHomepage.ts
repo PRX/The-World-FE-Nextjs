@@ -24,6 +24,7 @@ const GET_HOMEPAGE = gql`
   query getHomepage($id: ID!, $idType: ProgramIdType) {
     program(id: $id, idType: $idType) {
       id
+      link
       landingPage {
         featuredPosts {
           ... on Post {

@@ -107,6 +107,7 @@ export const episodeCardStyles = makeStyles()((theme) => {
     },
 
     MuiCardActionsRoot: {
+      display: 'grid',
       margin: 0,
       padding: 0
     },

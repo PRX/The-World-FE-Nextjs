@@ -146,6 +146,9 @@ export const EpisodeCard = ({
         {segments && (
           <CardActions classes={{ root: classes.MuiCardActionsRoot }}>
             <SidebarList
+              paginationProps={{
+                pageSize: 15
+              }}
               data={segments.map((segment) => ({
                 data: segment?.segmentContent?.audio?.parent?.node || segment,
                 audio: segment?.segmentContent?.audio
