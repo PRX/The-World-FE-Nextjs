@@ -7,7 +7,7 @@ import type { Episode } from '@interfaces';
 import 'moment-timezone';
 import dynamic from 'next/dynamic';
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
-import { Headset } from '@mui/icons-material';
+import { Headset, NavigateNext } from '@mui/icons-material';
 import { ContentButton } from '@components/ContentButton';
 import { ContentLink } from '@components/ContentLink';
 import { AudioControls } from '@components/Player/components';
@@ -81,6 +81,9 @@ export const SidebarEpisode = ({
       {segmentsList && (
         <SidebarList
           disablePadding
+          paginationProps={{
+            pageSize: 15
+          }}
           data={segmentsList.map((segment) => ({
             data: segment?.segmentContent?.audio?.parent?.node || segment,
             audio: segment?.segmentContent?.audio
@@ -96,7 +99,7 @@ export const SidebarEpisode = ({
             color="primary"
             fullWidth
           >
-            More Episodes
+            More Episodes <NavigateNext />
           </ContentButton>
         </SidebarFooter>
       )}

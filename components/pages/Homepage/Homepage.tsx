@@ -53,7 +53,7 @@ export const Homepage = ({ data }: IContentComponentProps<HomepageType>) => {
   const { drawerMainNav } = appMenus || {};
   const store = useStore<RootState>();
   const state = store.getState();
-  const { landingPage, menus, latestStories } = data || {};
+  const { landingPage, menus, latestStories, link } = data || {};
   const featuredPosts =
     landingPage?.featuredPosts &&
     (landingPage.featuredPosts || []).reduce(
@@ -167,7 +167,15 @@ export const Homepage = ({ data }: IContentComponentProps<HomepageType>) => {
       children: (
         <>
           {latestEpisode && (
-            <SidebarEpisode data={latestEpisode} label="Latest Episode" />
+            <SidebarEpisode
+              data={latestEpisode}
+              label="Latest Episode"
+              {...(link &&
+                episodes.length > 1 && {
+                  collectionLink: `${link}?v=episodes`,
+                  collectionLinkShallow: true
+                })}
+            />
           )}
           <Hidden only="sm">
             {sidebarTop && <SidebarCta data={sidebarTop} />}
