@@ -5,7 +5,7 @@
 
 import { makeStyles } from 'tss-react/mui';
 
-export const ledeImageStyles = makeStyles()(theme => ({
+export const ledeImageStyles = makeStyles()((theme) => ({
   root: {
     display: 'grid',
     gridGap: '0.75rem',
@@ -26,12 +26,14 @@ export const ledeImageStyles = makeStyles()(theme => ({
   },
 
   footer: {
-    display: 'grid',
-    gridGap: '0.5rem',
-    '& p': {
+    display: 'grid'
+  },
+
+  caption: {
+    '& > *': {
       margin: 0
     },
-    '& p + p': {
+    '& > * + *': {
       marginTop: '1rem'
     },
     '& a': {
@@ -45,10 +47,9 @@ export const ledeImageStyles = makeStyles()(theme => ({
     }
   },
 
-  caption: {},
-
   credit: {
     display: 'flex',
+    gap: '0.25ch',
     fontSize: '0.75rem',
     '&::before': {
       content: "'Credit:'",

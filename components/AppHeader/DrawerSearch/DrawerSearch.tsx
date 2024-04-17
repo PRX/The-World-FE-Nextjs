@@ -4,7 +4,7 @@
  */
 
 import type { RootState } from '@interfaces';
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useRef } from 'react';
 import { useStore } from 'react-redux';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -18,10 +18,7 @@ import { appDrawerSearchStyles } from './DrawerSearch.styles';
 export const DrawerSearch = () => {
   const queryRef = useRef<HTMLInputElement>(null);
   const store = useStore<RootState>();
-  const [state, setState] = useState(store.getState());
-  const unsub = store.subscribe(() => {
-    setState(store.getState());
-  });
+  const state = store.getState();
   const query = getSearchQuery(state);
   const { classes } = appDrawerSearchStyles();
 
@@ -44,13 +41,6 @@ export const DrawerSearch = () => {
     queryRef.current.value = '';
     queryRef.current?.focus();
   };
-
-  useEffect(
-    () => () => {
-      unsub();
-    },
-    [unsub]
-  );
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">

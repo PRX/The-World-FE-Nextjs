@@ -56,8 +56,10 @@ export const StoryHeader = ({ data }: Props) => {
     ...(image?.sourceUrl && { imageUrl: image.sourceUrl }),
     linkResource: data
   } as Partial<IAudioData>;
-  const caption = image?.caption;
+  const { caption, imageFields } = image || {};
+  const { mediaCredit } = imageFields || {};
   const hasCaption = !!caption?.length;
+  const hasCredit = !!mediaCredit?.length;
   const hasFooter = hasCaption;
   const { classes, cx } = storyHeaderStyles();
 
@@ -187,6 +189,7 @@ export const StoryHeader = ({ data }: Props) => {
                 <HtmlContent html={caption} />
               </Box>
             )}
+            {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
           </Typography>
         </Container>
       )}

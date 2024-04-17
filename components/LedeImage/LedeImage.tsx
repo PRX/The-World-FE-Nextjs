@@ -14,13 +14,22 @@ export interface ILedeImageProps {
 }
 
 export const LedeImage = ({ data }: ILedeImageProps) => {
-  const { altText, caption, sourceUrl, mediaItemUrl, mediaDetails } = data;
+  const {
+    altText,
+    caption,
+    sourceUrl,
+    mediaItemUrl,
+    mediaDetails,
+    imageFields
+  } = data;
   const { width: w, height: h } = mediaDetails || {};
+  const { mediaCredit } = imageFields || {};
   const width = w || 16;
   const height = h ? (h === width && width / (16 / 9)) || h : 9;
   const { classes } = ledeImageStyles();
   const imageSrc = sourceUrl || mediaItemUrl;
-  const hasCaption = caption && !!caption.length;
+  const hasCaption = !!caption?.length;
+  const hasCredit = !!mediaCredit?.length;
   const hasFooter = hasCaption;
   const imageWidth = [
     ['max-width: 600px', '100vw'],
@@ -57,6 +66,7 @@ export const LedeImage = ({ data }: ILedeImageProps) => {
               <HtmlContent html={caption} />
             </Box>
           )}
+          {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
         </Typography>
       )}
     </figure>
