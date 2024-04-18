@@ -9,11 +9,13 @@ import {
   fetchGqlAudio,
   fetchGqlEpisode,
   fetchGqlSegment,
-  fetchGqlStory
+  fetchGqlStory,
+  fetchTwApi
 } from '@lib/fetch';
 import { AudioPlayer } from '@components/AudioPlayer';
 import { IAudioPlayerProps } from '@components/AudioPlayer/AudioPlayer.interfaces';
 import { MediaItem } from '@interfaces';
+import { encode } from 'base-64';
 
 export interface IEmbedAudioPageProps {
   data: MediaItem;
@@ -41,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   params
 }): Promise<GetServerSidePropsResult<any>> => {
   const { id } = params || {};
-  const resourceId = Array.isArray(id) ? id[0] : id;
+  let resourceId = Array.isArray(id) ? id[0] : id;
 
   if (!resourceId) {
     return { notFound: true };
@@ -51,12 +53,32 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   if (isNumeric) {
     // TODO: Request is for an old embed using a Drupal nid. Try to get the WP ID and post type of the migrated post.
+    const aliasData = await fetchTwApi<{
+      id: number;
+      type?: string;
+    }>(`tw/v2/alias`, {
+      _fields: 'id,type',
+      ...params,
+      slug: resourceId
+    }).then((resp) => resp && resp.data);
+
+    resourceId = aliasData && encode(`${aliasData.type}:${aliasData.id}`);
+
+    if (resourceId) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: `/embed/audio/${resourceId}`
+        }
+      };
+    }
   }
 
   if (resourceId) {
     const embeddedPlayerUrl = `https://theworld.org/embed/audio/${resourceId}`;
     let data: MediaItem | undefined;
     let message: string | undefined;
+
     // Attempt to fetch story data.
     const story = await fetchGqlStory(resourceId);
 
