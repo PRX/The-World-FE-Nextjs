@@ -219,8 +219,8 @@ export const SidebarList = ({
                       <Image
                         src={avatarSrc}
                         alt={`Avatar of ${text}`}
-                        width={styleOptions.avatar.size}
-                        height={styleOptions.avatar.size}
+                        fill
+                        sizes={`${styleOptions.avatar.size * 2}px`}
                         style={{ objectFit: 'cover' }}
                       />
                     </Avatar>
