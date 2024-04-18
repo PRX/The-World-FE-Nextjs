@@ -6,8 +6,10 @@
 import React from 'react';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { DomElement } from 'htmlparser2';
-import { parse } from 'url';
 import { findDescendant } from '@lib/parse/html';
+
+const twitterEmbedUrlPattern =
+  /(?:twitter|x)\.com\/[^/]+\/(?:status(?:es)?)\/(\w+)/;
 
 export const twitterEmbed = (node: DomElement) => {
   let embedUrl: string | null;
@@ -29,7 +31,7 @@ export const twitterEmbed = (node: DomElement) => {
           n.type === 'tag' &&
           n.name === 'a' &&
           'href' in n.attribs &&
-          n.parent?.name === 'blockquote'
+          twitterEmbedUrlPattern.test(n.attribs.href)
         ) {
           return n;
         }
@@ -45,11 +47,17 @@ export const twitterEmbed = (node: DomElement) => {
       break;
   }
 
-  if (embedUrl && embedUrl.match(/twitter.com/)) {
-    const { pathname } = parse(embedUrl);
-    const [, id] = (pathname || '').match(/\/(\w+)\W*$/) || [];
+  if (embedUrl) {
+    const [, id] = embedUrl.match(twitterEmbedUrlPattern) || [];
 
-    return <TwitterTweetEmbed tweetId={id} key={node.attribs.key} />;
+    if (!id) return null;
+
+    return (
+      <TwitterTweetEmbed
+        tweetId={id}
+        key={`${node.attribs.key}-twitter-${id}`}
+      />
+    );
   }
 
   return undefined;
