@@ -15,6 +15,8 @@ import type {
   PostStory,
   RootState
 } from '@interfaces';
+import type { DomElement } from 'htmlparser2';
+import { useRef } from 'react';
 import { useStore } from 'react-redux';
 import {
   Box,
@@ -41,6 +43,7 @@ import {
 import { SpotifyPlayer } from '@components/SpotifyPlayer';
 import { StoryCard } from '@components/StoryCard';
 import { parseDateParts } from '@lib/parse/date';
+import { findDescendant, findDescendants } from '@lib/parse/html';
 import { getCtaRegionData } from '@store/reducers';
 import { episodeStyles } from './Episode.styles';
 import { EpisodeLede } from './components/EpisodeLede';
@@ -85,9 +88,53 @@ export const Episode = ({
       (fieldGroup) => fieldGroup?.spotifyPlaylist && fieldGroup.spotifyPlaylist
     )
     .filter((v): v is string => !!v);
+  const musicHeardOnAir = useRef(new Set(spotifyPlaylist));
   const stories = relatedStories?.filter(
     (story): story is PostStory => !!story
   );
+
+  const removeMhoaHeading = (node: DomElement) => {
+    const mhoaTextNode =
+      !node.parent &&
+      findDescendant(
+        node,
+        (n) =>
+          n.type === 'text' && n.data?.match(/music\s+heard\s+on\s+air/i) && n
+      );
+
+    if (mhoaTextNode) {
+      return null;
+    }
+
+    return undefined;
+  };
+
+  const extractSpotifyLinks = (node: DomElement) => {
+    const spotifyLinks =
+      !node.parent &&
+      findDescendants(
+        node,
+        (n) =>
+          n.type === 'tag' &&
+          n.name === 'a' &&
+          n.attribs.href?.match(/open\.spotify\.com/i)
+      );
+
+    if (spotifyLinks) {
+      spotifyLinks.forEach((n) => {
+        const url = new URL(n.attribs.href);
+        const uri = `spotify:${url.pathname.replace('/', ':')}`;
+
+        musicHeardOnAir.current.add(uri);
+      });
+
+      return null;
+    }
+
+    return undefined;
+  };
+
+  const contentTransforms = [removeMhoaHeading, extractSpotifyLinks];
 
   // CTA data.
   const ctaInlineEnd = getCtaRegionData(state, 'content-inline-end', type, id);
@@ -157,10 +204,13 @@ export const Episode = ({
                 <EpisodeLede data={data} />
                 {content && (
                   <Box className={classes.body} my={2}>
-                    <HtmlContent html={content} />
+                    <HtmlContent
+                      html={content}
+                      transforms={contentTransforms}
+                    />
                   </Box>
                 )}
-                {spotifyPlaylist && !!spotifyPlaylist.length && (
+                {!!musicHeardOnAir.current.size && (
                   <Box my={3}>
                     <Divider classes={{ root: classes.MuiDividerRoot }} />
                     <Typography
@@ -171,7 +221,7 @@ export const Episode = ({
                       Music heard on air
                     </Typography>
                     <Grid container spacing={2}>
-                      {spotifyPlaylist.map((uri) => (
+                      {[...musicHeardOnAir.current].map((uri) => (
                         <Grid item xs={12} sm={6} lg={4} key={uri}>
                           <SpotifyPlayer uri={uri} size="large" stretch />
                         </Grid>
