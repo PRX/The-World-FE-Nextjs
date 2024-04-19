@@ -33,6 +33,15 @@ export const anchorToLink = (
     let url: URL | undefined;
     const sanitizedHref = sanitizeUrl(href);
 
+    if (sanitizedHref.startsWith('data:')) {
+      // Data URL link. Render children, but not the link.
+      return (
+        <>
+          {node.children.map((n) => convertNodeToElement(n, index, transform))}
+        </>
+      );
+    }
+
     try {
       url = new URL(sanitizedHref, 'https://theworld.org');
     } catch {
