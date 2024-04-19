@@ -6,7 +6,7 @@
 import { convertNodeToElement, Transform } from 'react-html-parser';
 import Link from 'next/link';
 import { generateContentLinkHref } from '@lib/routing';
-import { isLocalUrl } from '@lib/parse/url';
+import { isLocalUrl, sanitizeUrl } from '@lib/parse/url';
 import { DomElement } from 'htmlparser2';
 
 export const anchorToLink = (
@@ -31,9 +31,10 @@ export const anchorToLink = (
       transform
     );
     let url: URL | undefined;
+    const sanitizedHref = sanitizeUrl(href);
 
     try {
-      url = new URL(href, 'https://theworld.org');
+      url = new URL(sanitizedHref, 'https://theworld.org');
     } catch {
       url = undefined;
     }
