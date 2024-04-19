@@ -56,6 +56,7 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
           }:${index}`;
         }
       },
+      ...transforms,
       anchorToLink,
       audioDescendant,
       datawrapperEmbed,
@@ -65,8 +66,7 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
       instagramEmbed,
       scriptRemove,
       twitterEmbed,
-      videoSourceDescendant,
-      ...transforms
+      videoSourceDescendant
     ].reduce(
       (acc, func) => (acc || acc === null ? acc : func(node, transform, index)),
       undefined
