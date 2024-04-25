@@ -93,6 +93,11 @@ export const Episode = ({
     (story): story is PostStory => !!story
   );
 
+  const isSpotifyLinkNode = (node: DomElement) =>
+    node.type === 'tag' &&
+    node.name === 'a' &&
+    node.attribs.href?.match(/open\.spotify\.com/i);
+
   const removeMhoaHeading = (node: DomElement) => {
     const mhoaTextNode =
       !node.parent &&
@@ -100,7 +105,8 @@ export const Episode = ({
         node,
         (n) =>
           n.type === 'text' && n.data?.match(/music\s+heard\s+on\s+air/i) && n
-      );
+      ) &&
+      !findDescendants(node, isSpotifyLinkNode);
 
     if (mhoaTextNode) {
       return null;
@@ -110,15 +116,11 @@ export const Episode = ({
   };
 
   const extractSpotifyLinks = (node: DomElement) => {
+    const keepNode = node.type === 'tag' && ['p'].includes(node.name);
     const spotifyLinks =
-      !node.parent &&
-      findDescendants(
-        node,
-        (n) =>
-          n.type === 'tag' &&
-          n.name === 'a' &&
-          n.attribs.href?.match(/open\.spotify\.com/i)
-      );
+      !node.parent && findDescendants(node, isSpotifyLinkNode);
+
+    console.log(spotifyLinks, keepNode, node);
 
     if (spotifyLinks) {
       spotifyLinks.forEach((n) => {
@@ -128,7 +130,7 @@ export const Episode = ({
         musicHeardOnAir.current.add(uri);
       });
 
-      return null;
+      if (!keepNode) return null;
     }
 
     return undefined;
@@ -186,6 +188,8 @@ export const Episode = ({
     }
   });
 
+  console.log(musicHeardOnAir.current);
+
   return (
     <>
       <MetaTags data={metatags} />
@@ -221,11 +225,21 @@ export const Episode = ({
                       Music heard on air
                     </Typography>
                     <Grid container spacing={2}>
-                      {[...musicHeardOnAir.current].map((uri) => (
-                        <Grid item xs={12} sm={6} lg={4} key={uri}>
-                          <SpotifyPlayer uri={uri} size="large" stretch />
-                        </Grid>
-                      ))}
+                      {[...musicHeardOnAir.current].map((uri, _i, all) => {
+                        const itemProps = {
+                          key: uri,
+                          xs: 12,
+                          ...(all.length > 1 && {
+                            sm: 6,
+                            lg: 4
+                          })
+                        };
+                        return (
+                          <Grid item {...itemProps}>
+                            <SpotifyPlayer uri={uri} size="large" stretch />
+                          </Grid>
+                        );
+                      })}
                     </Grid>
                   </Box>
                 )}

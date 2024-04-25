@@ -17,6 +17,7 @@ import type {
   TermNode
 } from '@interfaces';
 import { useState } from 'react';
+import { uniqBy } from 'lodash';
 import Image from 'next/image';
 import {
   List,
@@ -99,7 +100,10 @@ export const SidebarList = ({
   const pageCount = Math.ceil(itemCount / pageSize);
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const pageItems = filteredItems?.slice(startIndex, endIndex);
+  const pageItems = uniqBy(
+    filteredItems,
+    (item) => item.data?.id || item.url || item.title
+  ).slice(startIndex, endIndex);
   const showSearch = hasData && data.length > pageSize;
   const showPagination = pageCount > 1;
   const { classes, cx } = sidebarListStyles();
