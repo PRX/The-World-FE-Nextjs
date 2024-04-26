@@ -54,7 +54,8 @@ export const StoryFeatured = ({ data }: IContentComponentProps<PostStory>) => {
     countries,
     provincesOrStates,
     regions,
-    people
+    people,
+    socialTags
   } = data;
   const { audio } = additionalMedia as PostAdditionalMedia;
   const audioUrl = audio?.sourceUrl || audio?.mediaItemUrl;
@@ -69,7 +70,8 @@ export const StoryFeatured = ({ data }: IContentComponentProps<PostStory>) => {
     ...(countries?.nodes || []),
     ...(provincesOrStates?.nodes || []),
     ...(regions?.nodes || []),
-    ...(people?.nodes || [])
+    ...(people?.nodes || []),
+    ...(socialTags?.nodes || [])
   ];
   const hasTags = !!allTags.length;
 

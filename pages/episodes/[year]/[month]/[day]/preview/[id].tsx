@@ -1,47 +1,45 @@
 /**
- * @file pages/episodes/[year]/[month]/[day]/[slug].tsx
+ * @file pages/episodes/[year]/[month]/[day]/preview/[id].tsx
  *
- * Episode page.
+ * Episode preview page.
  */
 
-import { Episode } from '@components/pages/Episode';
-import { EpisodeIdType, IContentComponentProxyProps } from '@interfaces';
-import { wrapper } from '@store/configureStore';
-import { fetchAppData } from '@store/actions/fetchAppData';
-import { fetchEpisodeData } from '@store/actions/fetchEpisodeData';
+import type { Episode } from '@interfaces';
+import { useEffect, useState } from 'react';
+import { Episode as EpisodePage } from '@components/pages/Episode';
+import { PreviewPlaceholder } from '@components/PreviewPlaceholder';
+import { GET_EPISODE } from '@lib/fetch';
 
-const EpisodePage = ({ data }: IContentComponentProxyProps) => (
-  <Episode data={data} isPreview />
-);
+const EpisodePreviewPage = () => {
+  const [data, setData] = useState<Episode>();
 
-export const getServerSideProps =
-  wrapper.getServerSideProps<IContentComponentProxyProps>(
-    (store) =>
-      async ({ req, params }) => {
-        const id =
-          params?.id &&
-          (typeof params.id === 'string' ? params.id : params.id[0]);
-        const { 'tw-can_preview': authToken, ...cookies } = req?.cookies || {};
+  useEffect(() => {
+    function handlePostMessage(e: MessageEvent<{ episode: Episode }>) {
+      const { episode } = e.data;
+      setData(episode);
+    }
 
-        if (id) {
-          const [data] = await Promise.all([
-            fetchEpisodeData(id, EpisodeIdType.DatabaseId, authToken),
-            store.dispatch<any>(fetchAppData(cookies))
-          ]);
+    window.addEventListener('message', handlePostMessage);
 
-          if (data) {
-            return {
-              props: {
-                type: 'post--episode',
-                id: data.id,
-                data
-              }
-            };
-          }
-        }
+    return () => {
+      window.removeEventListener('message', handlePostMessage);
+    };
+  }, []);
 
-        return { notFound: true };
-      }
-  );
+  useEffect(() => {
+    window.parent.postMessage(
+      {
+        query: GET_EPISODE
+      },
+      '*'
+    );
+  }, []);
 
-export default EpisodePage;
+  if (!data) {
+    return <PreviewPlaceholder />;
+  }
+
+  return <EpisodePage data={data} isPreview />;
+};
+
+export default EpisodePreviewPage;

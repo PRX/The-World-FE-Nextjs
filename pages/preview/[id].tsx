@@ -4,50 +4,42 @@
  * Preview Page drafts.
  */
 
-import { Page } from '@components/pages/Page';
-import { PageIdType, IContentComponentProxyProps } from '@interfaces';
-import { wrapper } from '@store/configureStore';
-import { fetchAppData } from '@store/actions/fetchAppData';
-import { fetchPageData } from '@store/actions/fetchPageData';
-import { generateShareLinks } from '@lib/generate/social';
+import type { Page } from '@interfaces';
+import { useEffect, useState } from 'react';
+import { Page as PagePage } from '@components/pages/Page';
+import { PreviewPlaceholder } from '@components/PreviewPlaceholder';
+import { GET_PAGE } from '@lib/fetch';
 
-const EpisodePage = ({ data }: IContentComponentProxyProps) => (
-  <Page data={data} isPreview />
-);
+const PagePreviewPage = () => {
+  const [data, setData] = useState<Page>();
 
-export const getServerSideProps =
-  wrapper.getServerSideProps<IContentComponentProxyProps>(
-    (store) =>
-      async ({ req, params }) => {
-        const id =
-          params?.id &&
-          (typeof params.id === 'string' ? params.id : params.id[0]);
-        const { 'tw-can_preview': authToken, ...cookies } = req?.cookies || {};
+  useEffect(() => {
+    function handlePostMessage(e: MessageEvent<{ page: Page }>) {
+      const { page } = e.data;
+      setData(page);
+    }
 
-        if (id) {
-          const [data] = await Promise.all([
-            fetchPageData(id, PageIdType.DatabaseId, authToken),
-            store.dispatch<any>(fetchAppData(cookies))
-          ]);
+    window.addEventListener('message', handlePostMessage);
 
-          if (data) {
-            const { link, title } = data;
-            const shareLinks =
-              link != null ? generateShareLinks(link, title) : undefined;
+    return () => {
+      window.removeEventListener('message', handlePostMessage);
+    };
+  }, []);
 
-            return {
-              props: {
-                type: 'post--episode',
-                id: data.id,
-                ...(shareLinks && { shareLinks }),
-                data
-              }
-            };
-          }
-        }
+  useEffect(() => {
+    window.parent.postMessage(
+      {
+        query: GET_PAGE
+      },
+      '*'
+    );
+  }, []);
 
-        return { notFound: true };
-      }
-  );
+  if (!data) {
+    return <PreviewPlaceholder />;
+  }
 
-export default EpisodePage;
+  return <PagePage data={data} isPreview />;
+};
+
+export default PagePreviewPage;

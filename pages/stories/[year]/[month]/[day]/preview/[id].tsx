@@ -1,14 +1,14 @@
 /**
- * @file pages/stories/[year]/[month]/[day]/[slug].tsx
+ * @file pages/stories/[year]/[month]/[day]/preview/[id].tsx
  *
- * Story page.
+ * Story preview page.
  */
 
 import type { Post } from '@interfaces';
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
 import { Story } from '@components/pages/Story';
 import { GET_STORY_POST } from '@lib/fetch';
+import { PreviewPlaceholder } from '@components/PreviewPlaceholder';
 
 const StoryPreviewPage = () => {
   const [data, setData] = useState<Post>();
@@ -36,52 +36,10 @@ const StoryPreviewPage = () => {
   }, []);
 
   if (!data) {
-    return (
-      <Box
-        sx={{
-          display: 'grid',
-          justifyItems: 'center',
-          alignContent: 'center',
-          rowGap: '2rem',
-          minHeight: '90vh'
-        }}
-      >
-        <CircularProgress />
-        <Typography variant="h4">Loading Preview Content...</Typography>
-      </Box>
-    );
+    return <PreviewPlaceholder />;
   }
 
   return <Story data={data} isPreview />;
 };
-
-// export const getServerSideProps =
-//   wrapper.getServerSideProps<IContentComponentProxyProps>(
-//     (store) =>
-//       async ({ req, params }) => {
-//         const id =
-//           params?.id &&
-//           (typeof params.id === 'string' ? params.id : params.id[0]);
-
-//         if (id) {
-//           const [data] = await Promise.all([
-//             fetchStoryData(id, PostIdType.DatabaseId, authToken),
-//             store.dispatch<any>(fetchAppData(cookies))
-//           ]);
-
-//           if (data) {
-//             return {
-//               props: {
-//                 type: 'post--story',
-//                 id: data.id,
-//                 data
-//               }
-//             };
-//           }
-//         }
-
-//         return { notFound: true };
-//       }
-//   );
 
 export default StoryPreviewPage;

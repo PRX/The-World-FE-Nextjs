@@ -1,47 +1,45 @@
 /**
- * @file pages/stories/[year]/[month]/[day]/[slug].tsx
+ * @file pages/stories/[year]/[month]/[day]/preview/[id].tsx
  *
- * Segment page.
+ * Segment preview page.
  */
 
-import { Segment } from '@components/pages/Segment';
-import { IContentComponentProxyProps, SegmentIdType } from '@interfaces';
-import { wrapper } from '@store/configureStore';
-import { fetchAppData } from '@store/actions/fetchAppData';
-import { fetchSegmentData } from '@store/actions/fetchSegmentData';
+import type { Segment } from '@interfaces';
+import { useEffect, useState } from 'react';
+import { Segment as SegmentPage } from '@components/pages/Segment';
+import { PreviewPlaceholder } from '@components/PreviewPlaceholder';
+import { GET_SEGMENT } from '@lib/fetch';
 
-const SegmentPage = ({ data }: IContentComponentProxyProps) => (
-  <Segment data={data} isPreview />
-);
+const SegmentPreviewPage = () => {
+  const [data, setData] = useState<Segment>();
 
-export const getServerSideProps =
-  wrapper.getServerSideProps<IContentComponentProxyProps>(
-    (store) =>
-      async ({ req, params }) => {
-        const id =
-          params?.id &&
-          (typeof params.id === 'string' ? params.id : params.id[0]);
-        const { 'tw-can_preview': authToken, ...cookies } = req?.cookies || {};
+  useEffect(() => {
+    function handlePostMessage(e: MessageEvent<{ segment: Segment }>) {
+      const { segment } = e.data;
+      setData(segment);
+    }
 
-        if (id) {
-          const [data] = await Promise.all([
-            fetchSegmentData(id, SegmentIdType.DatabaseId, authToken),
-            store.dispatch<any>(fetchAppData(cookies))
-          ]);
+    window.addEventListener('message', handlePostMessage);
 
-          if (data) {
-            return {
-              props: {
-                type: 'post--segment',
-                id: data.id,
-                data
-              }
-            };
-          }
-        }
+    return () => {
+      window.removeEventListener('message', handlePostMessage);
+    };
+  }, []);
 
-        return { notFound: true };
-      }
-  );
+  useEffect(() => {
+    window.parent.postMessage(
+      {
+        query: GET_SEGMENT
+      },
+      '*'
+    );
+  }, []);
 
-export default SegmentPage;
+  if (!data) {
+    return <PreviewPlaceholder />;
+  }
+
+  return <SegmentPage data={data} isPreview />;
+};
+
+export default SegmentPreviewPage;
