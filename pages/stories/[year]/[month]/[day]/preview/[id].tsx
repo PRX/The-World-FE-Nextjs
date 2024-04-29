@@ -1,50 +1,45 @@
 /**
- * @file pages/stories/[year]/[month]/[day]/[slug].tsx
+ * @file pages/stories/[year]/[month]/[day]/preview/[id].tsx
  *
- * Story page.
+ * Story preview page.
  */
 
-import { PostIdType, type IContentComponentProxyProps } from '@interfaces';
+import type { Post } from '@interfaces';
+import { useEffect, useState } from 'react';
 import { Story } from '@components/pages/Story';
-import { fetchAppData } from '@store/actions/fetchAppData';
-import { wrapper } from '@store/configureStore';
-import { fetchStoryData } from '@store/actions/fetchStoryData';
+import { GET_STORY_POST } from '@lib/fetch';
+import { PreviewPlaceholder } from '@components/PreviewPlaceholder';
 
-const StoryPage = ({ data }: IContentComponentProxyProps) => (
-  <Story data={data} isPreview />
-);
+const StoryPreviewPage = () => {
+  const [data, setData] = useState<Post>();
 
-export const getServerSideProps =
-  wrapper.getServerSideProps<IContentComponentProxyProps>(
-    (store) =>
-      async ({ req, params }) => {
-        const id =
-          params?.id &&
-          parseInt(
-            typeof params.id === 'string' ? params.id : params.id[0],
-            10
-          );
-        const { 'tw-can_preview': authToken, ...cookies } = req?.cookies || {};
+  useEffect(() => {
+    function handlePostMessage(e: MessageEvent<{ post: Post }>) {
+      const { post } = e.data;
+      setData(post);
+    }
 
-        if (id) {
-          const [data] = await Promise.all([
-            fetchStoryData(id, PostIdType.DatabaseId, authToken),
-            store.dispatch<any>(fetchAppData(cookies))
-          ]);
+    window.addEventListener('message', handlePostMessage);
 
-          if (data) {
-            return {
-              props: {
-                type: 'post--story',
-                id: data.id,
-                data
-              }
-            };
-          }
-        }
+    return () => {
+      window.removeEventListener('message', handlePostMessage);
+    };
+  }, []);
 
-        return { notFound: true };
-      }
-  );
+  useEffect(() => {
+    window.parent.postMessage(
+      {
+        query: GET_STORY_POST
+      },
+      '*'
+    );
+  }, []);
 
-export default StoryPage;
+  if (!data) {
+    return <PreviewPlaceholder />;
+  }
+
+  return <Story data={data} isPreview />;
+};
+
+export default StoryPreviewPage;

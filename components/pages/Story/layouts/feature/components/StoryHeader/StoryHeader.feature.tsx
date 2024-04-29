@@ -73,12 +73,12 @@ export const StoryHeader = ({ data }: Props) => {
         component="header"
         className={cx(classes.root, { [classes.withImage]: !!featuredImage })}
       >
-        {image?.sourceUrl && (
+        {image?.mediaItemUrl && (
           <Box className={classes.imageWrapper}>
             <Image
               alt={image.altText || ''}
               className={cx('image')}
-              src={image.sourceUrl}
+              src={image.mediaItemUrl}
               layout="fill"
               objectFit="cover"
               priority

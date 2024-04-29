@@ -9,7 +9,7 @@ import { gql } from '@apollo/client';
 import { getClient } from '@lib/fetch/api';
 import { IMAGE_PROPS, POST_SEO_PROPS } from '@lib/fetch/api/graphql';
 
-const GET_PAGE = gql`
+export const GET_PAGE = gql`
   query getPage($id: ID!, $idType: PageIdType) {
     page(id: $id, idType: $idType) {
       id

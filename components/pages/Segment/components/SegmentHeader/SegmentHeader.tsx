@@ -10,8 +10,10 @@ import type {
 } from '@interfaces';
 import type React from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/legacy/image';
 import { Box, Typography } from '@mui/material';
 import { ContentLink } from '@components/ContentLink';
+import { HtmlContent } from '@components/HtmlContent';
 import { IAudioControlsProps } from '@components/Player/components';
 import { IAudioData } from '@components/Player/types';
 import { audioHeaderStyles } from './SegmentHeader.styles';
@@ -30,62 +32,113 @@ interface Props {
 }
 
 export const AudioHeader = ({ data }: Props) => {
-  const { title, contributors, programs, segmentDates, segmentContent } = data;
+  const {
+    title,
+    contributors,
+    programs,
+    segmentDates,
+    segmentContent,
+    featuredImage
+  } = data;
   const { audio } = segmentContent || {};
   const program = programs?.nodes[0];
   const { broadcastDate } = segmentDates as SegmentSegmentDates;
+  const image = featuredImage?.node;
+  const { caption, imageFields } = image || {};
+  const { mediaCredit } = imageFields || {};
+  const hasCaption = !!caption?.length;
+  const hasCredit = !!mediaCredit?.length;
+  const hasFooter = hasCaption;
   const audioProps = {
     queuedFrom: 'Page Header Controls',
-    linkResource: data
+    linkResource: data,
+    ...(image?.mediaItemUrl && { imageUrl: image.mediaItemUrl })
   } as Partial<IAudioData>;
-  const { classes } = audioHeaderStyles();
+  const { classes, cx } = audioHeaderStyles();
 
   return (
-    <Box className={classes.root} mt={4} mb={2}>
-      <Box mb={3}>
-        <Typography variant="h1" className={classes.title}>
-          {title}
-        </Typography>
-      </Box>
-      <Box className={classes.meta} mb={2}>
-        <Box className={classes.info}>
-          {program?.link && (
-            <ContentLink url={program.link} className={classes.programLink}>
-              {program.name}
-            </ContentLink>
-          )}
-          {broadcastDate && (
-            <Moment
-              className={classes.date}
-              format="MMM. D, YYYY"
-              tz="America/New_York"
-              parse="YYYY-MM-DD"
-            >
-              {broadcastDate}
-            </Moment>
-          )}
-          {!!contributors?.nodes.length && (
-            <ul className={classes.byline}>
-              {contributors.nodes.map(
-                (person: Contributor) =>
-                  person?.link && (
-                    <li className={classes.bylineItem} key={person.id}>
-                      <ContentLink
-                        className={classes.bylineLink}
-                        url={person.link}
-                      >
-                        {person.name}
-                      </ContentLink>
-                    </li>
-                  )
+    <>
+      <Box
+        className={cx(classes.root, { withImage: !!featuredImage })}
+        mt={4}
+        mb={2}
+      >
+        {image?.mediaItemUrl && (
+          <Box className={classes.lede}>
+            <Image
+              alt={image.altText || ''}
+              className={cx('image')}
+              src={image.mediaItemUrl}
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+          </Box>
+        )}
+        <Box className={classes.content}>
+          <Box mb={3}>
+            <Typography variant="h1" className={classes.title}>
+              {title}
+            </Typography>
+          </Box>
+          <Box className={classes.meta} mb={2}>
+            <Box className={classes.info}>
+              {program?.link && (
+                <ContentLink url={program.link} className={classes.programLink}>
+                  {program.name}
+                </ContentLink>
               )}
-            </ul>
-          )}
-        </Box>
-        <Box className={classes.audio}>
-          {audio && <AudioControls id={audio.id} fallbackProps={audioProps} />}
+              {broadcastDate && (
+                <Moment
+                  className={classes.date}
+                  format="MMM. D, YYYY"
+                  tz="America/New_York"
+                  parse="YYYY-MM-DD"
+                >
+                  {broadcastDate}
+                </Moment>
+              )}
+              {!!contributors?.nodes.length && (
+                <ul className={classes.byline}>
+                  {contributors.nodes.map(
+                    (person: Contributor) =>
+                      person?.link && (
+                        <li className={classes.bylineItem} key={person.id}>
+                          <ContentLink
+                            className={classes.bylineLink}
+                            url={person.link}
+                          >
+                            {person.name}
+                          </ContentLink>
+                        </li>
+                      )
+                  )}
+                </ul>
+              )}
+            </Box>
+            <Box className={classes.audio}>
+              {audio && (
+                <AudioControls id={audio.id} fallbackProps={audioProps} />
+              )}
+            </Box>
+          </Box>
         </Box>
       </Box>
-    </Box>
+
+      {hasFooter && (
+        <Typography
+          variant="caption"
+          component="div"
+          className={classes.footer}
+        >
+          {hasCaption && (
+            <Box className={classes.caption}>
+              <HtmlContent html={caption} />
+            </Box>
+          )}
+          {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
+        </Typography>
+      )}
+    </>
   );
 };

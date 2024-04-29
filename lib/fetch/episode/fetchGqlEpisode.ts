@@ -24,7 +24,7 @@ const CONTRIBUTOR_PROPS = gql`
   }
 `;
 
-const GET_EPISODE = gql`
+export const GET_EPISODE = gql`
   query getEpisode($id: ID!, $idType: EpisodeIdType) {
     episode(id: $id, idType: $idType) {
       id

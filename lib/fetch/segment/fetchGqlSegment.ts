@@ -9,13 +9,19 @@ import { gql } from '@apollo/client';
 import { getClient } from '@lib/fetch/api';
 import { IMAGE_PROPS, POST_SEO_PROPS } from '@lib/fetch/api/graphql';
 
-const GET_SEGMENT = gql`
+export const GET_SEGMENT = gql`
   query getSegment($id: ID!, $idType: SegmentIdType) {
     segment(id: $id, idType: $idType) {
       id
       link
       title
       content
+      featuredImage {
+        node {
+          ...ImageProps
+          caption
+        }
+      }
       contributors {
         nodes {
           id

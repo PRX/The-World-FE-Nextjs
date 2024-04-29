@@ -35,7 +35,7 @@ export const STORY_CARD_PROPS = gql`
   ${IMAGE_PROPS}
 `;
 
-const GET_POST = gql`
+export const GET_STORY_POST = gql`
   query getPost($id: ID!, $idType: PostIdType) {
     post(id: $id, idType: $idType) {
       id
@@ -198,7 +198,7 @@ export const fetchGqlStory = async (
   const response = await gqlClient.query<{
     post: Maybe<PostStory>;
   }>({
-    query: GET_POST,
+    query: GET_STORY_POST,
     variables: {
       id: storyId,
       idType: PostIdType.Id
