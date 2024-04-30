@@ -55,6 +55,7 @@ export const LedeImage = ({ data }: ILedeImageProps) => {
         priority
         alt={altText || ''}
         objectFit="cover"
+        className={classes.imageWrapper}
       />
       {hasFooter && (
         <Typography

@@ -8,13 +8,15 @@ import { makeStyles } from 'tss-react/mui';
 export const ledeImageStyles = makeStyles()((theme) => ({
   root: {
     display: 'grid',
-    gridGap: '0.75rem',
+    gridGap: '0.5rem',
     margin: 0
   },
 
   imageWrapper: {
     position: 'relative',
-    paddingTop: `${100 / (16 / 9)}%`
+    overflow: 'hidden',
+    paddingTop: `${100 / (16 / 9)}%`,
+    borderRadius: theme.spacing(1)
   },
 
   image: {
@@ -26,7 +28,11 @@ export const ledeImageStyles = makeStyles()((theme) => ({
   },
 
   footer: {
-    display: 'grid'
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'start',
+    columnGap: theme.spacing(4),
+    paddingInline: theme.spacing(1)
   },
 
   caption: {
