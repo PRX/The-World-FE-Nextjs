@@ -108,6 +108,8 @@ export type CallToAction = ContentNode & DatabaseIdentifier & Node & NodeWithTem
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the call_to_action object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the call_to_action object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -132,6 +134,8 @@ export type CallToAction = ContentNode & DatabaseIdentifier & Node & NodeWithTem
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** The password for the call_to_action object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the CallToAction type and the callToAction type */
   preview?: Maybe<CallToActionToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -5346,12 +5350,8 @@ export type CreateUserInput = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']['input']>;
   /** An array of roles to be assigned to the user. */
@@ -5411,6 +5411,8 @@ export type CtaRegion = ContentNode & DatabaseIdentifier & Node & NodeWithExcerp
   excerpt?: Maybe<Scalars['String']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the cta_region object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the cta_region object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -5435,6 +5437,8 @@ export type CtaRegion = ContentNode & DatabaseIdentifier & Node & NodeWithExcerp
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** The password for the cta_region object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the CtaRegion type and the ctaRegion type */
   preview?: Maybe<CtaRegionToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -6891,6 +6895,8 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the episode object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the episode object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -6915,6 +6921,8 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** The password for the episode object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Episode type and the person type */
   people?: Maybe<EpisodeToPersonConnection>;
   /** Added to the GraphQL Schema because the ACF Field Group &quot;Podcast Metadata&quot; was set to Show in GraphQL. */
@@ -9048,29 +9056,6 @@ export type LicenseToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxono
   node: Taxonomy;
 };
 
-/** Input for the login mutation. */
-export type LoginInput = {
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The plain-text password for the user logging in. */
-  password: Scalars['String']['input'];
-  /** The username used for login. Typically a unique or email address depending on specific configuration */
-  username: Scalars['String']['input'];
-};
-
-/** The payload for the login mutation. */
-export type LoginPayload = {
-  __typename?: 'LoginPayload';
-  /** JWT Token that can be used in future requests for Authentication */
-  authToken?: Maybe<Scalars['String']['output']>;
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
-  refreshToken?: Maybe<Scalars['String']['output']>;
-  /** The user that was logged in */
-  user?: Maybe<User>;
-};
-
 /** File details for a Media Item */
 export type MediaDetails = {
   __typename?: 'MediaDetails';
@@ -9142,6 +9127,8 @@ export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNo
   fileSize?: Maybe<Scalars['Int']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the attachment object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the attachment object. */
   id: Scalars['ID']['output'];
   /** Added to the GraphQL Schema because the ACF Field Group &quot;Image Fields&quot; was set to Show in GraphQL. */
@@ -9189,6 +9176,8 @@ export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNo
   parentDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']['output']>;
+  /** The password for the attachment object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** Whether the object is a node in the preview state */
@@ -9700,8 +9689,12 @@ export type MediaItem_Imagefields = AcfFieldGroup & {
   fieldGroupName?: Maybe<Scalars['String']['output']>;
   /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
   hideImage?: Maybe<Scalars['Boolean']['output']>;
+  /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
   imageTitle?: Maybe<Scalars['String']['output']>;
+  /** Give credit when credit is due. See image usage agreement for required credit text format. */
   mediaCredit?: Maybe<Scalars['String']['output']>;
+  /** Provide link back to source as required by image usage agreement. */
+  mediaCreditUrl?: Maybe<Scalars['String']['output']>;
 };
 
 /** Details of an available size for a media item */
@@ -10194,6 +10187,8 @@ export enum MimeTypeEnum {
   AudioXMsWma = 'AUDIO_X_MS_WMA',
   /** audio/x-realaudio mime type. */
   AudioXRealaudio = 'AUDIO_X_REALAUDIO',
+  /** image/avif mime type. */
+  ImageAvif = 'IMAGE_AVIF',
   /** image/bmp mime type. */
   ImageBmp = 'IMAGE_BMP',
   /** image/gif mime type. */
@@ -10295,6 +10290,8 @@ export type Newsletter = ContentNode & DatabaseIdentifier & MenuItemLinkable & N
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the newsletter object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the newsletter object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -10326,6 +10323,8 @@ export type Newsletter = ContentNode & DatabaseIdentifier & MenuItemLinkable & N
   newsletterId: Scalars['Int']['output'];
   /** Added to the GraphQL Schema because the ACF Field Group &quot;Newsletter Options&quot; was set to Show in GraphQL. */
   newsletterOptions?: Maybe<Newsletter_Newsletteroptions>;
+  /** The password for the newsletter object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Newsletter type and the newsletter type */
   preview?: Maybe<NewsletterToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -10637,6 +10636,8 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the page object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the page object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -10678,6 +10679,8 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   parentDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']['output']>;
+  /** The password for the page object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Page type and the page type */
   preview?: Maybe<PageToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -11614,6 +11617,8 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the post object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the post object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -11642,6 +11647,8 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** The password for the post object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Post type and the person type */
   people?: Maybe<PostToPersonConnection>;
   /** Connection between the Post type and the postFormat type */
@@ -15323,23 +15330,6 @@ export type ReadingSettings = {
   showOnFront?: Maybe<Scalars['String']['output']>;
 };
 
-/** Input for the refreshJwtAuthToken mutation. */
-export type RefreshJwtAuthTokenInput = {
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
-  jwtRefreshToken: Scalars['String']['input'];
-};
-
-/** The payload for the refreshJwtAuthToken mutation. */
-export type RefreshJwtAuthTokenPayload = {
-  __typename?: 'RefreshJwtAuthTokenPayload';
-  /** JWT Token that can be used in future requests for Authentication */
-  authToken?: Maybe<Scalars['String']['output']>;
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-};
-
 /** The region type */
 export type Region = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Region';
@@ -15943,12 +15933,8 @@ export type RegisterUserInput = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']['input']>;
   /** A string that contains the user's username. */
@@ -16455,10 +16441,6 @@ export type RootMutation = {
   generateAuthorizationCode?: Maybe<GenerateAuthorizationCodePayload>;
   /** Increase the count. */
   increaseCount?: Maybe<Scalars['Int']['output']>;
-  /** Login a user. Request for an authToken and User details in response */
-  login?: Maybe<LoginPayload>;
-  /** Use a valid JWT Refresh token to retrieve a new JWT Auth Token */
-  refreshJwtAuthToken?: Maybe<RefreshJwtAuthTokenPayload>;
   /** The registerUser mutation */
   registerUser?: Maybe<RegisterUserPayload>;
   /** The resetUserPassword mutation */
@@ -16845,18 +16827,6 @@ export type RootMutationGenerateAuthorizationCodeArgs = {
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
   count?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The root mutation */
-export type RootMutationLoginArgs = {
-  input: LoginInput;
-};
-
-
-/** The root mutation */
-export type RootMutationRefreshJwtAuthTokenArgs = {
-  input: RefreshJwtAuthTokenInput;
 };
 
 
@@ -21055,6 +21025,8 @@ export type Segment = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
+  /** Whether the segment object is password protected. */
+  hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the segment object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -21079,6 +21051,8 @@ export type Segment = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** The password for the segment object. */
+  password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Segment type and the person type */
   people?: Maybe<SegmentToPersonConnection>;
   /** Connection between the Segment type and the segment type */
@@ -25513,12 +25487,8 @@ export type UpdateUserInput = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']['input']>;
-  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']['input']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']['input']>;
   /** An array of roles to be assigned to the user. */
@@ -25575,22 +25545,12 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   isContentNode: Scalars['Boolean']['output'];
   /** Whether the node represents the front page. */
   isFrontPage: Scalars['Boolean']['output'];
-  /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
-  isJwtAuthSecretRevoked: Scalars['Boolean']['output'];
   /** Whether  the node represents the blog page. */
   isPostsPage: Scalars['Boolean']['output'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
-  jwtAuthExpiration?: Maybe<Scalars['String']['output']>;
-  /** A JWT token that can be used in future requests for authentication/authorization */
-  jwtAuthToken?: Maybe<Scalars['String']['output']>;
-  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
-  jwtRefreshToken?: Maybe<Scalars['String']['output']>;
-  /** A unique secret tied to the users JWT token that can be revoked or refreshed. Revoking the secret prevents JWT tokens from being issued to the user. Refreshing the token invalidates previously issued tokens, but allows new tokens to be issued. */
-  jwtUserSecret?: Maybe<Scalars['String']['output']>;
   /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
   lastName?: Maybe<Scalars['String']['output']>;
   /** The preferred language locale set for the user. Value derived from get_user_locale(). */

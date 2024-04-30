@@ -8,7 +8,8 @@ import type {
   PostStory,
   Post_Additionaldates as PostAdditionalDates,
   Contributor,
-  Post_Additionalmedia as PostAdditionalMedia
+  Post_Additionalmedia as PostAdditionalMedia,
+  MediaItem
 } from '@interfaces';
 import type { IAudioControlsProps } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
@@ -18,6 +19,7 @@ import dynamic from 'next/dynamic';
 import 'moment-timezone';
 import { Box, Container, Typography, ThemeProvider } from '@mui/material';
 import { HtmlContent } from '@components/HtmlContent';
+import { ImageCredit } from '@components/ImageCredit';
 import {
   storyHeaderStyles,
   storyHeaderTheme
@@ -60,7 +62,7 @@ export const StoryHeader = ({ data }: Props) => {
   const { mediaCredit } = imageFields || {};
   const hasCaption = !!caption?.length;
   const hasCredit = !!mediaCredit?.length;
-  const hasFooter = hasCaption;
+  const hasFooter = hasCaption || hasCredit;
   const { classes, cx } = storyHeaderStyles();
 
   if (contributors?.nodes.length) {
@@ -189,7 +191,12 @@ export const StoryHeader = ({ data }: Props) => {
                 <HtmlContent html={caption} />
               </Box>
             )}
-            {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
+            {hasCredit && (
+              <ImageCredit
+                className={classes.credit}
+                data={image as MediaItem}
+              />
+            )}
           </Typography>
         </Container>
       )}

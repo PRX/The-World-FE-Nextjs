@@ -47,13 +47,5 @@ export const ledeImageStyles = makeStyles()((theme) => ({
     }
   },
 
-  credit: {
-    display: 'flex',
-    gap: '0.25ch',
-    fontSize: '0.75rem',
-    '&::before': {
-      content: "'Credit:'",
-      marginRight: '0.25rem'
-    }
-  }
+  credit: {}
 }));

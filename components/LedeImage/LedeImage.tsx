@@ -7,6 +7,7 @@ import type { MediaItem } from '@interfaces';
 import Image from 'next/legacy/image';
 import { Box, Typography } from '@mui/material';
 import { HtmlContent } from '@components/HtmlContent';
+import { ImageCredit } from '@components/ImageCredit';
 import { ledeImageStyles } from './LedeImage.styles';
 
 export interface ILedeImageProps {
@@ -30,7 +31,7 @@ export const LedeImage = ({ data }: ILedeImageProps) => {
   const imageSrc = sourceUrl || mediaItemUrl;
   const hasCaption = !!caption?.length;
   const hasCredit = !!mediaCredit?.length;
-  const hasFooter = hasCaption;
+  const hasFooter = hasCaption || hasCredit;
   const imageWidth = [
     ['max-width: 600px', '100vw'],
     ['max-width: 960px', '560px'],
@@ -66,7 +67,7 @@ export const LedeImage = ({ data }: ILedeImageProps) => {
               <HtmlContent html={caption} />
             </Box>
           )}
-          {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
+          {hasCredit && <ImageCredit data={data} />}
         </Typography>
       )}
     </figure>

@@ -35,7 +35,7 @@ export const Page = ({ data, isPreview }: IContentComponentProps<PageType>) => {
           <Grid item xs={12}>
             <PageHeader data={data} />
             {content && (
-              <Box className={classes.body} my={2}>
+              <Box className={classes.body} my={4}>
                 <HtmlContent html={content} />
               </Box>
             )}

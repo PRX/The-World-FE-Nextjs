@@ -12,6 +12,7 @@ export const IMAGE_PROPS = gql`
     }
     imageFields {
       mediaCredit
+      mediaCreditUrl
     }
   }
 `;
