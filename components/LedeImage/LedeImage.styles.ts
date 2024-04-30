@@ -28,11 +28,15 @@ export const ledeImageStyles = makeStyles()((theme) => ({
   },
 
   footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'start',
-    columnGap: theme.spacing(4),
-    paddingInline: theme.spacing(1)
+    display: 'grid',
+
+    [`${theme.breakpoints.up('lg')}`]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'start',
+      columnGap: theme.spacing(4),
+      paddingInline: theme.spacing(1)
+    }
   },
 
   caption: {
