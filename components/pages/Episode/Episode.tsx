@@ -120,8 +120,6 @@ export const Episode = ({
     const spotifyLinks =
       !node.parent && findDescendants(node, isSpotifyLinkNode);
 
-    console.log(spotifyLinks, keepNode, node);
-
     if (spotifyLinks) {
       spotifyLinks.forEach((n) => {
         const url = new URL(n.attribs.href);
@@ -187,8 +185,6 @@ export const Episode = ({
       ]);
     }
   });
-
-  console.log(musicHeardOnAir.current);
 
   return (
     <>
