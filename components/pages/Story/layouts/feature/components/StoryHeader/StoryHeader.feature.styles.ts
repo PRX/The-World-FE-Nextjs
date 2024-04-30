@@ -180,14 +180,7 @@ export const storyHeaderStyles = makeStyles()((theme) => ({
 
   caption: {},
 
-  credit: {
-    display: 'flex',
-    fontSize: '0.75rem',
-    '&::before': {
-      content: "'Credit:'",
-      marginRight: '0.25rem'
-    }
-  },
+  credit: {},
 
   withImage: {}
 }));

@@ -5,6 +5,7 @@
 
 import type {
   Contributor,
+  MediaItem,
   PostSegment,
   Segment_Segmentdates as SegmentSegmentDates
 } from '@interfaces';
@@ -14,6 +15,7 @@ import Image from 'next/legacy/image';
 import { Box, Typography } from '@mui/material';
 import { ContentLink } from '@components/ContentLink';
 import { HtmlContent } from '@components/HtmlContent';
+import { ImageCredit } from '@components/ImageCredit';
 import { IAudioControlsProps } from '@components/Player/components';
 import { IAudioData } from '@components/Player/types';
 import { audioHeaderStyles } from './SegmentHeader.styles';
@@ -48,7 +50,7 @@ export const AudioHeader = ({ data }: Props) => {
   const { mediaCredit } = imageFields || {};
   const hasCaption = !!caption?.length;
   const hasCredit = !!mediaCredit?.length;
-  const hasFooter = hasCaption;
+  const hasFooter = hasCaption || hasCredit;
   const audioProps = {
     queuedFrom: 'Page Header Controls',
     linkResource: data,
@@ -136,7 +138,7 @@ export const AudioHeader = ({ data }: Props) => {
               <HtmlContent html={caption} />
             </Box>
           )}
-          {hasCredit && <Box className={classes.credit}>{mediaCredit}</Box>}
+          {hasCredit && <ImageCredit data={image as MediaItem} />}
         </Typography>
       )}
     </>

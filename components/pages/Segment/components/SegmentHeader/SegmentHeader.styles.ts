@@ -112,6 +112,7 @@ export const audioHeaderStyles = makeStyles()((theme) => ({
 
   info: {
     display: 'grid',
+    justifyItems: 'start',
     alignContent: 'start',
     gridGap: theme.typography.pxToRem(4)
   },
@@ -139,11 +140,16 @@ export const audioHeaderStyles = makeStyles()((theme) => ({
   },
 
   footer: {
-    display: 'flex',
-    gap: '0.5rem',
-    justifyContent: 'space-between',
-    alignItems: 'start',
-    marginBottom: theme.typography.pxToRem(16),
+    display: 'grid',
+
+    [`${theme.breakpoints.up('md')}`]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'start',
+      columnGap: theme.spacing(4),
+      paddingInline: theme.spacing(1)
+    },
+
     '& p': {
       margin: 0
     },

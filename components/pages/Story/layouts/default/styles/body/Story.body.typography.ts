@@ -19,8 +19,20 @@ export const storyBodyTypography = (theme: Theme) => ({
     }
   },
 
-  '& h2, & h3, & h4, & h5, & h6': {
-    ...headingProps
+  '& > *': {
+    marginBlock: 0
+  },
+
+  '& > * + *': {
+    marginBlockStart: '1em'
+  },
+
+  '& > :where(h2, h3, h4, h5, h6)': {
+    ...headingProps,
+    marginBlockStart: '1.5em',
+    '& + p': {
+      marginBlockStart: '0.7em'
+    }
   },
 
   '& .has-text-align-center': {
