@@ -112,6 +112,7 @@ export const audioHeaderStyles = makeStyles()((theme) => ({
 
   info: {
     display: 'grid',
+    justifyItems: 'start',
     alignContent: 'start',
     gridGap: theme.typography.pxToRem(4)
   },

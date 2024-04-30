@@ -4,8 +4,8 @@
  */
 
 import type { MediaItem } from '@interfaces';
+import Link from 'next/link';
 import { Box } from '@mui/material';
-import { ContentLink } from '@components/ContentLink';
 import { imageCreditStyles } from './ImageCredit.styles';
 
 export type ImageCreditProps = {
@@ -26,13 +26,9 @@ export const ImageCredit = ({ data, className }: ImageCreditProps) => {
     <Box className={cx(classes.root, className)}>
       {!mediaCreditUrl && mediaCredit}
       {mediaCreditUrl && (
-        <ContentLink
-          className={classes.link}
-          url={mediaCreditUrl}
-          target="_blank"
-        >
+        <Link className={classes.link} href={mediaCreditUrl} target="_blank">
           {mediaCredit}{' '}
-        </ContentLink>
+        </Link>
       )}
     </Box>
   );

@@ -13,5 +13,7 @@ export const imageCreditStyles = makeStyles()(() => ({
       marginRight: '0.25rem'
     }
   },
-  link: {}
+  link: {
+    textDecoration: 'none'
+  }
 }));
