@@ -144,9 +144,11 @@ export const audioHeaderStyles = makeStyles()((theme) => ({
 
     [`${theme.breakpoints.up('md')}`]: {
       display: 'flex',
+      flexWrap: 'wrap',
       justifyContent: 'space-between',
       alignItems: 'start',
       columnGap: theme.spacing(4),
+      rowGap: theme.spacing(0.5),
       paddingInline: theme.spacing(1)
     },
 

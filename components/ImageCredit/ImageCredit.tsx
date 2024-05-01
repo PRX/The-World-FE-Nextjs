@@ -20,8 +20,6 @@ export const ImageCredit = ({ data, className }: ImageCreditProps) => {
 
   if (!mediaCredit) return null;
 
-  if (!mediaCreditUrl) return <span>{mediaCredit}</span>;
-
   return (
     <Box className={cx(classes.root, className)}>
       {!mediaCreditUrl && mediaCredit}
