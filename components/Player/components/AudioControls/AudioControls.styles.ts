@@ -15,6 +15,7 @@ export const useAudioControlsStyles = makeStyles()((theme) => ({
     alignItems: 'center',
     fontSize: '1.5em',
     filter: 'url(#shadowed-goo)',
+    transform: 'translateZ(0)',
     '& > *': {},
     '& > :first-of-type': {
       padding: '0.25em',
