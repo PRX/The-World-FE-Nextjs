@@ -68,6 +68,7 @@
     "react-moment": "^1.1.2",
     "react-player": "^2.9.0",
     "react-redux": "^8.0.5",
+    "react-social-media-embed": "^2.5.13",
     "react-twitter-embed": "^4.0.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

@@ -15,6 +15,8 @@ const PagePreviewPage = () => {
 
   useEffect(() => {
     function handlePostMessage(e: MessageEvent<{ page: Page }>) {
+      if (!e.data.page) return;
+
       const { page } = e.data;
       setData(page);
     }

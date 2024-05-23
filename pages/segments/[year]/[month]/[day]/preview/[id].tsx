@@ -15,6 +15,8 @@ const SegmentPreviewPage = () => {
 
   useEffect(() => {
     function handlePostMessage(e: MessageEvent<{ segment: Segment }>) {
+      if (!e.data.segment) return;
+
       const { segment } = e.data;
       setData(segment);
     }

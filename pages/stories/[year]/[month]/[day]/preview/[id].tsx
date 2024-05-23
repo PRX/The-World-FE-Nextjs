@@ -15,6 +15,8 @@ const StoryPreviewPage = () => {
 
   useEffect(() => {
     function handlePostMessage(e: MessageEvent<{ post: Post }>) {
+      if (!e.data.post) return;
+
       const { post } = e.data;
       setData(post);
     }

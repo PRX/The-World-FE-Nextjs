@@ -15,6 +15,8 @@ const EpisodePreviewPage = () => {
 
   useEffect(() => {
     function handlePostMessage(e: MessageEvent<{ episode: Episode }>) {
+      if (!e.data.episode) return;
+
       const { episode } = e.data;
       setData(episode);
     }

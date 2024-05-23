@@ -18,8 +18,10 @@ import {
   fixNestedSpans,
   instagramEmbed,
   scriptRemove,
+  tiktokEmbed,
   twitterEmbed,
-  videoSourceDescendant
+  videoSourceDescendant,
+  youtubeIframe
 } from './transforms';
 
 export interface IHtmlContentProps {
@@ -28,9 +30,9 @@ export interface IHtmlContentProps {
     // eslint-disable-next-line no-unused-vars
     N: DomElement,
     // eslint-disable-next-line no-unused-vars
-    F: Transform,
+    F?: Transform,
     // eslint-disable-next-line no-unused-vars
-    I: number
+    I?: number
   ) => ReactElement | void | null)[];
 }
 
@@ -45,8 +47,6 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
 
   const transform = (node: DomElement, index: number) =>
     [
-      fixNestedSpans,
-      fixBlockInParagraph,
       // Transform to add `key` attribute to all tag nodes.
       (n: DomElement) => {
         if (n.type === 'tag') {
@@ -56,6 +56,8 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
           }:${index}`;
         }
       },
+      fixNestedSpans,
+      fixBlockInParagraph,
       ...transforms,
       anchorToLink,
       audioDescendant,
@@ -66,7 +68,9 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
       instagramEmbed,
       scriptRemove,
       twitterEmbed,
-      videoSourceDescendant
+      tiktokEmbed,
+      videoSourceDescendant,
+      youtubeIframe
     ].reduce(
       (acc, func) => (acc || acc === null ? acc : func(node, transform, index)),
       undefined

@@ -158,8 +158,11 @@ export const storyHeaderStyles = makeStyles()((theme) => ({
   },
 
   footer: {
-    display: 'grid',
-    gridGap: '0.5rem',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    columnGap: '2rem',
+    rowGap: '0.5rem',
     marginBottom: theme.typography.pxToRem(16),
     '& p': {
       margin: 0
