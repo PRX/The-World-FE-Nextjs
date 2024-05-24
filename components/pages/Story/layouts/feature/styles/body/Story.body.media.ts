@@ -48,16 +48,10 @@ export const storyBodyMediaStyles = (theme: Theme) =>
               gridRow: 'content',
               height: 'calc(100% - 2rem)',
               alignSelf: 'center',
+              backgroundColor: theme.palette.divider,
               backgroundImage: [
-                `radial-gradient(circle at bottom, ${theme.palette.primary.light}, transparent)`,
-                `repeating-radial-gradient(circle at bottom, ${alpha(
-                  theme.palette.common.white,
-                  0.1
-                )}, ${alpha(
-                  theme.palette.common.white,
-                  0.1
-                )} 5px, transparent 0, transparent 40px)`,
-                `linear-gradient(to bottom right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`
+                `radial-gradient(circle at bottom, ${theme.palette.background.default}, transparent)`,
+                `repeating-radial-gradient(circle at bottom, ${theme.palette.background.default}, ${theme.palette.background.default} 5px, transparent 0, transparent 40px)`
               ].join(','),
               zIndex: -1
             },
