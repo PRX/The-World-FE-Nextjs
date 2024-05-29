@@ -5,7 +5,7 @@
 
 import type { MediaItem } from '@interfaces';
 import Link from 'next/link';
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { imageCreditStyles } from './ImageCredit.styles';
 
 export type ImageCreditProps = {
@@ -21,13 +21,13 @@ export const ImageCredit = ({ data, className }: ImageCreditProps) => {
   if (!mediaCredit) return null;
 
   return (
-    <Box className={cx(classes.root, className)}>
+    <Typography className={cx(classes.root, className)} variant="caption">
       {!mediaCreditUrl && mediaCredit}
       {mediaCreditUrl && (
         <Link className={classes.link} href={mediaCreditUrl} target="_blank">
           {mediaCredit}{' '}
         </Link>
       )}
-    </Box>
+    </Typography>
   );
 };

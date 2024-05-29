@@ -4,7 +4,7 @@
  * Convert placeholder markup with twitter embed component.
  */
 import React from 'react';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
+import { XEmbed } from 'react-social-media-embed';
 import { DomElement } from 'htmlparser2';
 import { findDescendant } from '@lib/parse/html';
 
@@ -52,12 +52,7 @@ export const twitterEmbed = (node: DomElement) => {
 
     if (!id) return null;
 
-    return (
-      <TwitterTweetEmbed
-        tweetId={id}
-        key={`${node.attribs.key}-twitter-${id}`}
-      />
-    );
+    return <XEmbed url={embedUrl} key={`${node.attribs.key}-twitter-${id}`} />;
   }
 
   return undefined;

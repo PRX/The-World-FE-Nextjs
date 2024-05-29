@@ -38,7 +38,9 @@ export const makeYoutubeEmbedUrl = (videoId: string) => {
     'feature=oembed'
   ].join('&')}`;
 
-  return `//www.youtube.com/embed/${getYoutubeVideoId(videoId)}${opts}`;
+  return `//www.youtube-nocookie.com/embed/${getYoutubeVideoId(
+    videoId
+  )}${opts}`;
 };
 
 // Vimeo URL Patterns:
@@ -50,7 +52,7 @@ export const getVimeoVideoId = (videoId: string) => {
   const result =
     videoId.indexOf('/') > -1
       ? // Vimeo's urls all have the video id at the end of the path segment,
-        // after the last '/' up to the end of the string (or '?' if pressent)
+        // after the last '/' up to the end of the string (or '?' if present)
         videoId.match(/\/([^?/]+)(?:\?|$)/i)?.[1]
       : // Not URL. Assume original value is the Id
         videoId;

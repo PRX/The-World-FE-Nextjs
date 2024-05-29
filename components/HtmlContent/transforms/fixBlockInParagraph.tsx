@@ -3,7 +3,8 @@
  *
  * Unwrap paragraph content that contain a paragraph.
  */
-import { DomElement } from 'htmlparser2';
+import type { JSX } from 'react';
+import type { DomElement } from 'htmlparser2';
 import { convertNodeToElement, type Transform } from 'react-html-parser';
 import { findDescendant } from '@lib/parse/html';
 
@@ -18,8 +19,8 @@ export const fixBlockInParagraph = (node: DomElement, transform: Transform) => {
   });
 
   if (isParagraph && blockDescendant) {
-    const children: ReturnType<typeof convertNodeToElement>[] = [];
-    let pChildren: ReturnType<typeof convertNodeToElement>[] = [];
+    const children: JSX.Element[] = [];
+    let pChildren: JSX.Element[] = [];
 
     node.children
       .map((n: DomElement) => {
@@ -49,7 +50,7 @@ export const fixBlockInParagraph = (node: DomElement, transform: Transform) => {
       children.push(<p>{[...pChildren]}</p>);
     }
 
-    return children;
+    return <>{children.map((c) => c)}</>;
   }
 
   return undefined;

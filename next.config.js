@@ -24,18 +24,11 @@ module.exports = withPlausibleProxy({
     TWITTER_ACCOUNT_ID: process.env.TWITTER_ACCOUNT_ID
   },
   images: {
-    domains: [
-      'theworld.org',
-      'media.pri.org',
-      'www.pri.org',
-      'pri9.lndo.site',
-      'media-pri-org.s3.amazonaws.com',
-      'media-pri-dev.s3.amazonaws.com',
-      'media-pri-dev.s3.us-east-1.amazonaws.com',
-      'www.loe.org',
-      'www.globalpost.com',
-      'media.wnyc.org',
-      'media2.wnyc.org'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**'
+      }
     ],
     deviceSizes: [370, 600, 960, 1280, 1920],
     imageSizes: [50, 86, 100, 172, 300, 400, 568, 808]

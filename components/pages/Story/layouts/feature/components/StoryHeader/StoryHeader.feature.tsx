@@ -185,19 +185,14 @@ export const StoryHeader = ({ data }: Props) => {
       </Box>
       {hasFooter && (
         <Container fixed className={classes.footer}>
-          <Typography variant="caption" component="div">
-            {hasCaption && (
-              <Box className={classes.caption}>
-                <HtmlContent html={caption} />
-              </Box>
-            )}
-            {hasCredit && (
-              <ImageCredit
-                className={classes.credit}
-                data={image as MediaItem}
-              />
-            )}
-          </Typography>
+          {hasCaption && (
+            <Typography className={classes.caption} variant="caption">
+              <HtmlContent html={caption} />
+            </Typography>
+          )}
+          {hasCredit && (
+            <ImageCredit className={classes.credit} data={image as MediaItem} />
+          )}
         </Container>
       )}
     </ThemeProvider>

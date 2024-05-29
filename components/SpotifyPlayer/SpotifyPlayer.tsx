@@ -35,8 +35,9 @@ export const SpotifyPlayer = ({
       src={url}
       width={width}
       height={height}
-      frameBorder="0"
       allow="encrypted-media"
+      sandbox="allow-scripts"
+      style={{ border: 'none' }}
     />
   );
 };

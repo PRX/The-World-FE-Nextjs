@@ -9,7 +9,7 @@ import { findDescendant } from '@lib/parse/html';
 import { makeVimeoEmbedUrl, makeYoutubeEmbedUrl } from '@lib/parse/url';
 
 export const videoSourceDescendant = (node: DomElement) => {
-  const rgxYoutube = /www\.youtube\.com|youtu.be/;
+  const rgxYoutube = /((m|www)\.)?youtube(-nocookie)?\.com|youtu.be/;
   const rgxVimeo = /vimeo\.com/;
   const videoSource = findDescendant(node, (n: DomElement) => {
     if (
@@ -59,7 +59,7 @@ export const videoSourceDescendant = (node: DomElement) => {
             title={src}
             allow="encrypted-media; accelerometer; gyroscope; picture-in-picture"
             allowFullScreen
-            scrolling="no"
+            sandbox="allow-scripts"
             src={src}
             tabIndex={-1}
           />
