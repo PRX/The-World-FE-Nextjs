@@ -22,7 +22,12 @@ export const youtubeIframe = (node: DomElement) => {
       allowfullscreen,
       ...rest
     } = node.attribs;
-    const url = new URL(src);
+    const sanitizedSrc = [
+      // Ensure src URL has https protocol.
+      (s: string) =>
+        !/^https?:\/\//i.test(s) ? s.replace(/^([^/]*\/\/)?/, 'https://') : s
+    ].reduce<string>((a, fn) => fn(a), src);
+    const url = new URL(sanitizedSrc);
 
     if (url.hostname.endsWith('.com') && !url.hostname.includes('-nocookie')) {
       url.hostname = url.hostname.replace('.com', '-nocookie.com');

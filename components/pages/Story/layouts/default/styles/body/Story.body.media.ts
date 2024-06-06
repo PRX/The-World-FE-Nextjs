@@ -179,7 +179,7 @@ export const storyBodyMediaStyles = (theme: Theme) =>
     },
 
     // Legacy YouTube embed styles.
-    '& .media-youtube-video': {
+    '& .media-youtube-video, & > p:has(iframe:where([src*="youtube"]))': {
       position: 'relative',
       height: 0,
       paddingTop: `${(9 / 16) * 100}%`,
