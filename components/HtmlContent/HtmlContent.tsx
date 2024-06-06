@@ -56,6 +56,15 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
           }:${index}`;
         }
       },
+      // Transform to remove inline styles.
+      // Keep an eye out for WP blocks potentially breaking.
+      // Some block types may use inline styles to some options.
+      (n: DomElement) => {
+        if (n.type === 'tag') {
+          // eslint-disable-next-line no-param-reassign
+          delete n.attribs.style;
+        }
+      },
       fixNestedSpans,
       fixBlockInParagraph,
       ...transforms,

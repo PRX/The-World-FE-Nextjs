@@ -179,20 +179,21 @@ export const storyBodyMediaStyles = (theme: Theme) =>
     },
 
     // Legacy YouTube embed styles.
-    '& .media-youtube-video, & > p:has(iframe:where([src*="youtube"]))': {
-      position: 'relative',
-      height: 0,
-      paddingTop: `${(9 / 16) * 100}%`,
-      '& iframe': {
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        border: 0
-      }
-    },
+    '& .media-youtube-video, & :not([class]):has( > iframe:where([src*="youtube"]))':
+      {
+        position: 'relative',
+        height: 0,
+        paddingTop: `${(9 / 16) * 100}%`,
+        '& iframe': {
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: 0
+        }
+      },
 
     // YouTube embeds.
     '& .wp-block-embed-youtube': {},
