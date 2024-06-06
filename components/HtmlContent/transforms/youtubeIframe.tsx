@@ -33,6 +33,9 @@ export const youtubeIframe = (node: DomElement) => {
       url.hostname = url.hostname.replace('.com', '-nocookie.com');
     }
 
+    // Remove inline styles.
+    delete rest.style;
+
     const attributes = {
       ...rest,
       src: url.toString(),
