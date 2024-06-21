@@ -176,6 +176,7 @@ export const StoryHeader = ({ data }: Props) => {
                     id={audio.id}
                     fallbackProps={audioProps}
                     variant="feature"
+                    key={audio.id}
                   />
                 </Box>
               )}
