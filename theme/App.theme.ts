@@ -70,7 +70,8 @@ export const useAppStyles = makeStyles<{
   socialShareMenu: {
     position: 'absolute',
     right: theme.spacing(2),
-    bottom: `calc(100% + ${theme.spacing(2)})`
+    bottom: `calc(100% + ${theme.spacing(2)})`,
+    pointerEvents: 'none'
   },
   loadUnderWrapper: {}
 }));

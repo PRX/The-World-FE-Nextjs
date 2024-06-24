@@ -131,7 +131,11 @@ export const StoryHeader = ({ data }: Props) => {
         </Box>
         {audio && (
           <Box className={classes.audio}>
-            <AudioControls id={audio.id} fallbackProps={audioProps} />
+            <AudioControls
+              id={audio.id}
+              fallbackProps={audioProps}
+              key={audio.id}
+            />
           </Box>
         )}
       </Box>
