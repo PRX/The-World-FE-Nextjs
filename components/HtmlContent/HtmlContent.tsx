@@ -17,7 +17,7 @@ import {
   fixBlockInParagraph,
   fixNestedSpans,
   instagramEmbed,
-  scriptRemove,
+  removeScriptTag,
   tiktokEmbed,
   twitterEmbed,
   videoSourceDescendant,
@@ -42,7 +42,13 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
   const cleanHtml = (dirtyHtml: string) =>
     [
       (h: string) =>
-        h.replace(/\r?\n|\r/g, '').replace(/<[^>/]+>(\s|&nbsp;)*<\/[^>]+>/g, '')
+        h
+          // Remove new line characters.
+          .replace(/\r?\n|\r/g, '')
+          // Remove empty tags or tags containing only spaces.
+          .replace(/<[^>/]+>(\s|&nbsp;)*<\/[^>]+>/g, '')
+          // Remove style tags.
+          .replace(/<style[^>]*>.*<\/style>/g, '')
     ].reduce((acc, func) => func(acc), dirtyHtml);
 
   const transform = (node: DomElement, index: number) =>
@@ -65,6 +71,7 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
           delete n.attribs.style;
         }
       },
+      removeScriptTag,
       fixNestedSpans,
       fixBlockInParagraph,
       ...transforms,
@@ -75,7 +82,6 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
       facebookVideo,
       fbRootRemove,
       instagramEmbed,
-      scriptRemove,
       twitterEmbed,
       tiktokEmbed,
       videoSourceDescendant,
