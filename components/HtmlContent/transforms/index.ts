@@ -8,7 +8,7 @@ export * from './fbRootRemove';
 export * from './fixBlockInParagraph';
 export * from './fixNestedSpans';
 export * from './instagramEmbed';
-export * from './scriptRemove';
+export * from './removeScriptTag';
 export * from './tiktokEmbed';
 export * from './twitterEmbed';
 export * from './videoSourceDescendant';

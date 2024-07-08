@@ -15,7 +15,7 @@ export const TikTokEmbed = ({ url, videoId }: ITikTokEmbedProps) => {
     width: number;
     height: number;
   }>();
-  const src = `https://www.tiktok.com/embed/v2/${videoId}?lang=${navigator.language}&embedFrom=oembed`;
+  const src = `https://www.tiktok.com/embed/v2/${videoId}?embedFrom=oembed`;
 
   useEffect(() => {
     function handleMessage(e: MessageEvent) {
