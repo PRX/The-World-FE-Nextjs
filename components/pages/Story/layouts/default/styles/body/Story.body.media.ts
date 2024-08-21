@@ -175,6 +175,11 @@ export const storyBodyMediaStyles = (theme: Theme) =>
         '& .wp-block-embed__wrapper': {
           aspectRatio: 16 / 9
         }
+      },
+      '&:where(.wp-embed-aspect-4-3)': {
+        '& .wp-block-embed__wrapper': {
+          aspectRatio: 4 / 3
+        }
       }
     },
 
