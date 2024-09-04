@@ -3,13 +3,15 @@
  * Component for story card links.
  */
 
-import type { Episode } from '@interfaces';
+import type { Episode, RootState } from '@interfaces';
+import { useStore } from 'react-redux';
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import { Headset, NavigateNext } from '@mui/icons-material';
 import { ContentButton } from '@components/ContentButton';
 import { ContentLink } from '@components/ContentLink';
 import { DateTime } from '@components/DateTime';
 import { AudioControls } from '@components/Player/components';
+import { getSettingsTimeZone } from '@store/reducers';
 import { sidebarEpisodeStyles } from './SidebarEpisode.styles';
 import { SidebarHeader } from '../SidebarHeader';
 import { SidebarFooter } from '../SidebarFooter';
@@ -28,6 +30,9 @@ export const SidebarEpisode = ({
   collectionLink,
   collectionLinkShallow
 }: SidebarEpisodeProps) => {
+  const store = useStore<RootState>();
+  const state = store.getState();
+  const timeZone = getSettingsTimeZone(state);
   const { title, date, featuredImage, episodeDates, episodeAudio } = data;
   const image = featuredImage?.node;
   const imageUrl = image?.sourceUrl || image?.mediaItemUrl;
@@ -70,6 +75,7 @@ export const SidebarEpisode = ({
               'aria-label': `Episode from ${episodeDate.toLocaleDateString(
                 'en-US',
                 {
+                  ...(timeZone && { timeZone }),
                   weekday: 'long',
                   month: 'long',
                   day: 'numeric',

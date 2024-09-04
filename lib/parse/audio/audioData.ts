@@ -83,18 +83,13 @@ export const parseAudioData = (
         parent.node.date)) ||
     audioBroadcastDate ||
     dataDate;
-  const dateString =
-    broadcastDate &&
-    ((d) => {
-      const date = new Date(`${d}T00:00:00`);
-      return date.toLocaleDateString(undefined, { dateStyle: 'medium' });
-    })(broadcastDate);
+  const date = broadcastDate && new Date(`${broadcastDate}T00:00:00`);
   const info = [
     ...(program ? [program.name] : []),
     ...(audioAuthor
       ? audioAuthor.map(({ name }: Contributor) => name).filter((v) => !!v)
       : []),
-    ...(dateString ? [dateString] : [])
+    ...(date ? [date] : [])
   ];
 
   return {

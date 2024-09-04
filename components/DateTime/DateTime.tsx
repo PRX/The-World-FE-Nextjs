@@ -3,7 +3,9 @@
  * Component for rendering dates.
  */
 
-import { Maybe } from '@interfaces';
+import { Maybe, RootState } from '@interfaces';
+import { getSettingsTimeZone } from '@store/reducers';
+import { useStore } from 'react-redux';
 
 export type DateTimeProps = {
   className?: string;
@@ -18,6 +20,10 @@ export const DateTime = ({
   locale,
   options
 }: DateTimeProps) => {
+  const store = useStore<RootState>();
+  const state = store.getState();
+  const timeZone = getSettingsTimeZone(state);
+
   if (!date) return null;
 
   const usedDateValue =
@@ -26,10 +32,10 @@ export const DateTime = ({
       : date;
   const renderDate =
     usedDateValue instanceof Date ? usedDateValue : new Date(usedDateValue);
-  const formattedDate = renderDate.toLocaleDateString(
-    locale || 'en-US',
-    options
-  );
+  const formattedDate = renderDate.toLocaleDateString(locale || 'en-US', {
+    ...(timeZone && { timeZone }),
+    ...options
+  });
 
   return (
     <time className={className} dateTime={`${usedDateValue}`}>

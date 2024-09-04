@@ -8,7 +8,8 @@ import type {
   Maybe,
   Menu,
   Program,
-  RootQueryToCtaRegionConnection
+  RootQueryToCtaRegionConnection,
+  Settings
 } from '@interfaces';
 import { gql } from '@apollo/client';
 import { gqlClient } from '@lib/fetch/api';
@@ -19,6 +20,9 @@ import { CTA_PROPS, CTA_REGION_PROPS, MENU_PROPS } from '../api/graphql';
 
 const GET_APP = gql`
   query getApp {
+    allSettings {
+      generalSettingsTimezone
+    }
     program(id: "the-world", idType: SLUG) {
       id
       posts(first: 10, where: { orderby: { field: DATE, order: DESC } }) {
@@ -56,6 +60,7 @@ const GET_APP = gql`
 
 export const fetchGqlApp = async () => {
   const response = await gqlClient.query<{
+    allSettings: Settings;
     program: Maybe<Program>;
     headerMenu: Maybe<Menu>;
     footerMenu: Maybe<Menu>;
@@ -91,6 +96,7 @@ export const fetchGqlApp = async () => {
   );
 
   return {
+    ...(data.allSettings && { settings: data.allSettings }),
     ...(latestStories && { latestStories }),
     menus: {
       ...(drawerMainNav && { drawerMainNav: parseMenu(drawerMainNav) }),
