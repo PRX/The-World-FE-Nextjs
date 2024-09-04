@@ -4,19 +4,16 @@
  */
 
 import type { Episode } from '@interfaces';
-import 'moment-timezone';
-import dynamic from 'next/dynamic';
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import { Headset, NavigateNext } from '@mui/icons-material';
 import { ContentButton } from '@components/ContentButton';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { AudioControls } from '@components/Player/components';
 import { sidebarEpisodeStyles } from './SidebarEpisode.styles';
 import { SidebarHeader } from '../SidebarHeader';
 import { SidebarFooter } from '../SidebarFooter';
 import { SidebarList } from '../SidebarList';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 export interface SidebarEpisodeProps {
   data: Episode;
@@ -38,6 +35,11 @@ export const SidebarEpisode = ({
   const { id: audioId, audioFields } = audio || {};
   const { segmentsList } = audioFields || {};
   const { broadcastDate } = episodeDates || {};
+  const usedDateString = (broadcastDate && `${broadcastDate}T00:00:00`) || date;
+  const episodeDate =
+    usedDateString && typeof usedDateString !== 'undefined'
+      ? new Date(usedDateString)
+      : undefined;
   const { classes } = sidebarEpisodeStyles();
 
   return (
@@ -64,14 +66,27 @@ export const SidebarEpisode = ({
             component="p"
             gutterBottom
             className={classes.title}
+            {...(episodeDate && {
+              'aria-label': `Episode from ${episodeDate.toLocaleDateString(
+                'en-US',
+                {
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }
+              )}`
+            })}
           >
-            <Moment
-              format="dddd, MMMM D, YYYY"
-              tz="America/New_York"
-              {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-            >
-              {broadcastDate || date}
-            </Moment>
+            <DateTime
+              date={usedDateString}
+              options={{
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              }}
+            />
           </Typography>
           <ContentLink url={data.link} className={classes.link}>
             {data.title}

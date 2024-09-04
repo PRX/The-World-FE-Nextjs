@@ -42,7 +42,7 @@ export const Segment = ({
   const metatags = {
     ...seo,
     ...(broadcastDate && {
-      pubdate: parseDateParts(broadcastDate).join('-')
+      pubdate: broadcastDate
     })
   };
 

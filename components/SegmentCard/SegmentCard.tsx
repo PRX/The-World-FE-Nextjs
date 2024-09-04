@@ -5,8 +5,6 @@
 
 import type { Segment } from '@interfaces';
 import { useEffect, useState } from 'react';
-import 'moment-timezone';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import {
   Card,
@@ -18,9 +16,8 @@ import {
 } from '@mui/material';
 import PlayCircleOutlineRounded from '@mui/icons-material/PlayCircleOutlineRounded';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { segmentCardStyles } from './SegmentCard.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 export interface SegmentCardProps {
   data: Segment;
@@ -83,9 +80,14 @@ export const SegmentCard = ({ data }: SegmentCardProps) => {
               color="textSecondary"
               noWrap
             >
-              <Moment format="MMMM D, YYYY" tz="America/New_York">
-                {cardDate}
-              </Moment>
+              <DateTime
+                date={cardDate}
+                options={{
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }}
+              />
             </Typography>
           )}
           <Typography

@@ -8,7 +8,10 @@ import padStart from 'lodash/padStart';
  *    Duration in seconds.
  */
 export const parseDateParts = (date: number | string | Date): string[] => {
-  const dt = new Date(date);
+  const dt =
+    typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)
+      ? new Date(`${date}T00:00:00`)
+      : new Date(date);
   const dtYear = `${dt.getFullYear()}`;
   const dtMonth = padStart(`${dt.getMonth() + 1}`, 2, '0');
   const dtDate = padStart(`${dt.getDate()}`, 2, '0');

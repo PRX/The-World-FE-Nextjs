@@ -14,12 +14,8 @@ import type {
 import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { episodeHeaderStyles } from './EpisodeHeader.styles';
-
-const Moment = dynamic(() => {
-  import('moment-timezone');
-  return import('react-moment');
-}) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -58,14 +54,15 @@ export const EpisodeHeader = ({ data }: Props) => {
               {program.name}
             </ContentLink>
           )}
-          <Moment
+          <DateTime
             className={classes.date}
-            format="MMM. D, YYYY"
-            tz="America/New_York"
-            {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-          >
-            {broadcastDate || date}
-          </Moment>
+            date={broadcastDate || date}
+            options={{
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }}
+          />
         </Box>
         {audio && (
           <Box className={classes.audio}>

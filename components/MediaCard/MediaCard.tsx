@@ -5,8 +5,6 @@
 
 import type { MediaItem } from '@interfaces';
 import { useEffect, useState } from 'react';
-import 'moment-timezone';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import {
   Card,
@@ -20,9 +18,8 @@ import PlayCircleOutlineRounded from '@mui/icons-material/PlayCircleOutlineRound
 import ImageRounded from '@mui/icons-material/ImageRounded';
 import VideocamRounded from '@mui/icons-material/VideocamRounded';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { mediaCardStyles } from './MediaCard.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 export interface MediaCardProps {
   data: MediaItem;
@@ -94,9 +91,14 @@ export const MediaCard = ({ data }: MediaCardProps) => {
               color="textSecondary"
               noWrap
             >
-              <Moment format="MMMM D, YYYY" tz="America/New_York" unix>
-                {cardDate}
-              </Moment>
+              <DateTime
+                date={cardDate}
+                options={{
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }}
+              />
             </Typography>
           )}
           <Typography

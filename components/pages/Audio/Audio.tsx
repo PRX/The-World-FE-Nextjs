@@ -46,7 +46,7 @@ export const Audio = () => {
   const metatags = {
     ...dataMetatags,
     ...(broadcastDate && {
-      pubdate: parseDateParts(broadcastDate * 1000).join('-')
+      pubdate: broadcastDate
     })
   };
 
@@ -68,7 +68,7 @@ export const Audio = () => {
     }),
     ...(broadcastDate &&
       (() => {
-        const dt = parseDateParts(broadcastDate * 1000);
+        const dt = parseDateParts(broadcastDate);
         return {
           'Broadcast Year': dt[0],
           'Broadcast Month': dt.slice(0, 2).join('-'),

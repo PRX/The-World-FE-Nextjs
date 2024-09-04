@@ -11,7 +11,6 @@ import type {
 import type { IAudioControlsProps } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
 import { useEffect, useState } from 'react';
-import 'moment-timezone';
 import dynamic from 'next/dynamic';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
@@ -33,10 +32,9 @@ import {
 import { Label } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/styles';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { HtmlContent } from '@components/HtmlContent';
 import { useStoryCardStyles, storyCardTheme } from './StoryCard.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -176,9 +174,14 @@ export const StoryCard = ({
                 </Typography>
                 <Box className={classes.info}>
                   <Typography component="span" className={classes.date}>
-                    <Moment format="MMMM D, YYYY" tz="America/New_York">
-                      {date}
-                    </Moment>
+                    <DateTime
+                      date={date}
+                      options={{
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                      }}
+                    />
                   </Typography>
                   {primaryCategory && (
                     <Typography

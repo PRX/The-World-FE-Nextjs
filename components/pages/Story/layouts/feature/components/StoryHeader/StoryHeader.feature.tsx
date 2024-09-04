@@ -13,19 +13,17 @@ import type {
 } from '@interfaces';
 import type { IAudioControlsProps } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
-import { ContentLink } from '@components/ContentLink';
-import Image from 'next/legacy/image';
 import dynamic from 'next/dynamic';
-import 'moment-timezone';
+import Image from 'next/legacy/image';
 import { Box, Container, Typography, ThemeProvider } from '@mui/material';
+import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { HtmlContent } from '@components/HtmlContent';
 import { ImageCredit } from '@components/ImageCredit';
 import {
   storyHeaderStyles,
   storyHeaderTheme
 } from './StoryHeader.feature.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -123,9 +121,14 @@ export const StoryHeader = ({ data }: Props) => {
                     component="div"
                     className={classes.date}
                   >
-                    <Moment format="MMMM D, YYYY" tz="America/New_York">
-                      {date}
-                    </Moment>
+                    <DateTime
+                      date={date}
+                      options={{
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                      }}
+                    />
                   </Typography>
                 )}
                 {updatedDate && (
@@ -136,12 +139,14 @@ export const StoryHeader = ({ data }: Props) => {
                   >
                     {' '}
                     Updated on{' '}
-                    <Moment
-                      format="MMM. D, YYYY · h:mm A z"
-                      tz="America/New_York"
-                    >
-                      {updatedDate}
-                    </Moment>
+                    <DateTime
+                      date={updatedDate}
+                      options={{
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      }}
+                    />
                   </Typography>
                 )}
                 {!!bylines.length && (

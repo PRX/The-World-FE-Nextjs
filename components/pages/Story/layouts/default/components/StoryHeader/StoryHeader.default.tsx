@@ -10,17 +10,13 @@ import type {
   Contributor,
   Post_Additionalmedia as PostAdditionalMedia
 } from '@interfaces';
+import { DateTime } from '@components/DateTime';
 import type { IAudioControlsProps } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
 import { ContentLink } from '@components/ContentLink';
 import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
 import { storyHeaderStyles } from './StoryHeader.default.styles';
-
-const Moment = dynamic(() => {
-  import('moment-timezone');
-  return import('react-moment');
-}) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -85,9 +81,14 @@ export const StoryHeader = ({ data }: Props) => {
               component="div"
               className={classes.date}
             >
-              <Moment format="MMMM D, YYYY" tz="America/New_York">
-                {date}
-              </Moment>
+              <DateTime
+                date={date}
+                options={{
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }}
+              />
             </Typography>
           )}
           {updatedDate && (
@@ -98,9 +99,14 @@ export const StoryHeader = ({ data }: Props) => {
             >
               {' '}
               Updated on{' '}
-              <Moment format="MMM. D, YYYY · h:mm A z" tz="America/New_York">
-                {updatedDate}
-              </Moment>
+              <DateTime
+                date={updatedDate}
+                options={{
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                }}
+              />
             </Typography>
           )}
           {bylines && (

@@ -86,7 +86,7 @@ export const parseAudioData = (
   const dateString =
     broadcastDate &&
     ((d) => {
-      const date = new Date(d);
+      const date = new Date(`${d}T00:00:00`);
       return date.toLocaleDateString(undefined, { dateStyle: 'medium' });
     })(broadcastDate);
   const info = [
