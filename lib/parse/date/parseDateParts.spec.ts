@@ -11,5 +11,15 @@ describe('lib/parse/date', () => {
       expect(result[1]).toEqual('02');
       expect(result[2]).toEqual('16');
     });
+
+    test('should date string w/o time into array of padded date parts with correct day', () => {
+      const result = parseDateParts('1977-03-25');
+
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(3);
+      expect(result[0]).toEqual('1977');
+      expect(result[1]).toEqual('03');
+      expect(result[2]).toEqual('25');
+    });
   });
 });

@@ -44,6 +44,10 @@ export const reducers = combineReducers({
 });
 
 export const getAppData = (state: RootState) => state?.appData;
+export const getSettings = (state: RootState) =>
+  fromAppData.getAppSettings(state.appData);
+export const getSettingsTimeZone = (state: RootState) =>
+  state.appData?.settings?.generalSettingsTimezone;
 export const getAppDataMenu = (state: RootState, menu: string) =>
   fromAppData.getAppDataMenu(getAppData(state), menu);
 export const getAppDataLatestStories = (state: RootState) =>

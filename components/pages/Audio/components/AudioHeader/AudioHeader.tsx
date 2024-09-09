@@ -12,14 +12,10 @@ import type React from 'react';
 import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { IAudioControlsProps } from '@components/Player/components';
 import { IAudioData } from '@components/Player/types';
 import { audioHeaderStyles } from './AudioHeader.styles';
-
-const Moment = dynamic(() => {
-  import('moment-timezone');
-  return import('react-moment');
-}) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -54,16 +50,14 @@ export const AudioHeader = ({ data }: Props) => {
               {program.name}
             </ContentLink>
           )}
-          {broadcastDate && (
-            <Moment
-              className={classes.date}
-              format="MMM. D, YYYY · h:mm A z"
-              tz="America/New_York"
-              unix
-            >
-              {broadcastDate}
-            </Moment>
-          )}
+          <DateTime
+            date={broadcastDate}
+            options={{
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric'
+            }}
+          />
           {!!contributors?.nodes.length && (
             <ul className={classes.byline}>
               {contributors.nodes.map(

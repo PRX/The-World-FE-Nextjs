@@ -7,8 +7,9 @@ import React, { useContext } from 'react';
 import Image from 'next/legacy/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
-import { Marquee } from '@components/Marquee';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
+import { Marquee } from '@components/Marquee';
 import { PlayerContext } from '@components/Player/contexts/PlayerContext';
 import { useTrackInfoStyles } from './TrackInfo.styles';
 
@@ -78,11 +79,24 @@ export const TrackInfo = ({ className }: ITrackInfoProps) => {
                 >
                   {info
                     .filter((t) => !!t)
-                    .map((text) => (
-                      <span className={styles.infoItem} key={text}>
-                        {text}
-                      </span>
-                    ))}
+                    .map((value) =>
+                      value instanceof Date ? (
+                        <DateTime
+                          className={styles.infoItem}
+                          date={value}
+                          options={{
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          }}
+                          key={`${value.toUTCString()}`}
+                        />
+                      ) : (
+                        <span className={styles.infoItem} key={value}>
+                          {value}
+                        </span>
+                      )
+                    )}
                 </Typography>
               </Marquee>
             ) : null}

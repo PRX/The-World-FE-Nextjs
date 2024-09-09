@@ -8,6 +8,7 @@ import Image from 'next/legacy/image';
 import { Box, BoxProps, IconButton, Tooltip, Typography } from '@mui/material';
 import { DeleteSharp, DragHandleSharp } from '@mui/icons-material';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { PlayerContext } from '@components/Player/contexts/PlayerContext';
 import { IAudioData } from '@components/Player/types';
 import { usePlaylistItemStyles } from './PlaylistItem.styles';
@@ -76,11 +77,24 @@ export const PlaylistItem = ({
             >
               {info
                 .filter((t) => !!t)
-                .map((text) => (
-                  <span className={styles.infoItem} key={text}>
-                    {text}
-                  </span>
-                ))}
+                .map((value) =>
+                  value instanceof Date ? (
+                    <DateTime
+                      className={styles.infoItem}
+                      date={value}
+                      options={{
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      }}
+                      key={`${value.toUTCString()}`}
+                    />
+                  ) : (
+                    <span className={styles.infoItem} key={value}>
+                      {value}
+                    </span>
+                  )
+                )}
             </Typography>
           ) : null}
         </Box>

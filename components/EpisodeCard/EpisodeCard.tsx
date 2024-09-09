@@ -7,7 +7,6 @@ import type React from 'react';
 import type { Episode } from '@interfaces';
 import type { IAudioControlsProps } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
-import 'moment-timezone';
 import dynamic from 'next/dynamic';
 import Image from 'next/legacy/image';
 import {
@@ -24,11 +23,10 @@ import {
 import { EqualizerRounded } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/styles';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { HtmlContent } from '@components/HtmlContent';
 import { SidebarList } from '@components/Sidebar';
 import { episodeCardStyles, episodeCardTheme } from './EpisodeCard.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 const AudioControls = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.AudioControls)
@@ -108,15 +106,15 @@ export const EpisodeCard = ({
                       <Divider orientation="vertical" flexItem />
                     </>
                   )}
-                  <Moment
-                    format={
-                      showProgramLink ? 'MMMM D, YYYY' : 'dddd, MMMM D, YYYY'
-                    }
-                    tz="America/New_York"
-                    {...(broadcastDate && { parse: 'YYYY-MM-DD' })}
-                  >
-                    {broadcastDate || date}
-                  </Moment>
+                  <DateTime
+                    date={broadcastDate || date}
+                    options={{
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric'
+                    }}
+                  />
                 </Typography>
                 <Typography
                   variant="h5"

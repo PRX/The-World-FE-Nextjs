@@ -46,7 +46,7 @@ export interface IAudioData {
   /**
    * Info strings.
    */
-  info?: string[];
+  info?: (string | Date)[];
 
   /**
    * Source URL for image to use in thumbnail or feature art.

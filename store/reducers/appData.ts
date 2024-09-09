@@ -23,6 +23,7 @@ export const appData = (state: AppDataState, action: AppDataAction) => {
   }
 };
 
+export const getAppSettings = (state: Maybe<AppDataState>) => state?.settings;
 export const getAppDataMenu = (state: Maybe<AppDataState>, menu: string) =>
   state?.menus?.[menu];
 export const getAppDataLatestStories = (state: Maybe<AppDataState>) =>

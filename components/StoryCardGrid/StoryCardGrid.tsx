@@ -12,7 +12,6 @@ import type {
 } from '@components/Player/components';
 import type { IAudioData } from '@components/Player/types';
 import { useEffect, useState } from 'react';
-import 'moment-timezone';
 import dynamic from 'next/dynamic';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
@@ -34,9 +33,8 @@ import {
 } from '@mui/material';
 import { Label } from '@mui/icons-material';
 import { ContentLink } from '@components/ContentLink';
+import { DateTime } from '@components/DateTime';
 import { storyCardGridStyles } from './StoryCardGrid.styles';
-
-const Moment = dynamic(() => import('react-moment')) as any;
 
 const PlayAudioButton = dynamic(() =>
   import('@components/Player/components').then((mod) => mod.PlayAudioButton)
@@ -180,9 +178,14 @@ export const StoryCardGrid = ({ data, ...other }: StoryCardGridProps) => {
                   </Box>
                   <Box className={classes.info}>
                     <Typography className={classes.date} component="span">
-                      <Moment format="MMMM D, YYYY" tz="America/New_York">
-                        {date}
-                      </Moment>
+                      <DateTime
+                        date={date}
+                        options={{
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric'
+                        }}
+                      />
                     </Typography>
                     {primaryCategory && (
                       <Typography
