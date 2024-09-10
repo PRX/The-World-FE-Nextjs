@@ -33,6 +33,12 @@ export const DateTime = ({
     typeof usedDateValue === 'string' &&
     /^\d{4}-\d{2}-\d{2}/.test(usedDateValue)
   ) {
+    // Ensure times are denoted with`T` instead of a space.
+    usedDateValue = usedDateValue.replace(
+      /\s(\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?)/,
+      'T$1'
+    );
+
     // Ensure ISO 8601 dates have a time.
     if (!/T\d{2}:\d{2}:\d{2}/.test(usedDateValue)) {
       usedDateValue = `${usedDateValue}T00:00:00`;
