@@ -13,6 +13,7 @@ import {
   Segment
 } from '@interfaces';
 import { generateAudioUrl } from '@lib/generate/string';
+import { sanitizeIso8601Date } from '@lib/sanitize';
 
 export const parseAudioData = (
   data: MediaItem,
@@ -83,13 +84,13 @@ export const parseAudioData = (
         parent.node.date)) ||
     audioBroadcastDate ||
     dataDate;
-  const date = broadcastDate && new Date(`${broadcastDate}T00:00:00`);
+  const date = broadcastDate && sanitizeIso8601Date(broadcastDate);
   const info = [
     ...(program ? [program.name] : []),
     ...(audioAuthor
       ? audioAuthor.map(({ name }: Contributor) => name).filter((v) => !!v)
       : []),
-    ...(date ? [date] : [])
+    ...(date ? [new Date(date)] : [])
   ];
 
   return {

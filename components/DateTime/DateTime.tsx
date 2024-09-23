@@ -4,6 +4,7 @@
  */
 
 import type { Maybe, RootState } from '@interfaces';
+import { sanitizeIso8601Date } from '@lib/sanitize';
 import { getSettingsTimeZone } from '@store/reducers';
 import { useStore } from 'react-redux';
 
@@ -24,43 +25,18 @@ export const DateTime = ({
   const state = store.getState();
   const timeZone = getSettingsTimeZone(state);
 
-  if (!date) return null;
+  const usedDateValue =
+    typeof date === 'string'
+      ? sanitizeIso8601Date(date, timeZone || undefined)
+      : date;
 
-  let usedDateValue = date;
-
-  // Date strings from the API should be in ISO 8601, but could be missing some elements.
-  if (
-    typeof usedDateValue === 'string' &&
-    /^\d{4}-\d{2}-\d{2}/.test(usedDateValue)
-  ) {
-    // Ensure times are denoted with`T` instead of a space.
-    usedDateValue = usedDateValue.replace(
-      /\s(\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?)/,
-      'T$1'
-    );
-
-    // Ensure ISO 8601 dates have a time.
-    if (!/T\d{2}:\d{2}:\d{2}/.test(usedDateValue)) {
-      usedDateValue = `${usedDateValue}T00:00:00`;
-    }
-
-    // Ensure ISO 8601 dates are set to settings time-zone if they do not already have a time-zone offset.
-    if (!/[+-]\d{2}:?\d{2}$/.test(usedDateValue)) {
-      // Time-zone from settings will be in long format, eg `America/New_York`.
-      // We need to convert that to a offset string.
-      const tz = new Date()
-        .toLocaleTimeString('en-US', {
-          ...(timeZone && { timeZone }),
-          timeZoneName: 'longOffset'
-        })
-        .match(/GMT(.+)/)?.[1];
-
-      usedDateValue = `${usedDateValue}${tz}`;
-    }
-  }
+  if (!usedDateValue) return null;
 
   const renderDate =
     usedDateValue instanceof Date ? usedDateValue : new Date(usedDateValue);
+
+  if (renderDate.toString() === 'Invalid Date') return null;
+
   const formattedDate = renderDate.toLocaleDateString(locale || 'en-US', {
     ...(timeZone && { timeZone }),
     ...options
