@@ -9,6 +9,7 @@ import type {
   IconButtonColors,
   RootState
 } from '@interfaces';
+import { useEffect, useState } from 'react';
 import { useStore } from 'react-redux';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -30,6 +31,8 @@ const renderIcon = (icon: string) => {
 export const AppHeaderNav = () => {
   const store = useStore<RootState>();
   const state = store.getState();
+  const [supportsAnimationTimeline, setSupportsAnimationTimeline] =
+    useState(false);
   const headerNav = getAppDataMenu(state, 'headerNav');
   const { classes, cx } = appHeaderNavStyles();
   const menuItems = headerNav
@@ -47,7 +50,7 @@ export const AppHeaderNav = () => {
           {
             icon: 'heart',
             color: 'secondary',
-            sticky: true
+            sticky: supportsAnimationTimeline
           }
         ]
       ]);
@@ -122,6 +125,10 @@ export const AppHeaderNav = () => {
       )}
     </span>
   );
+
+  useEffect(() => {
+    setSupportsAnimationTimeline(CSS.supports('animation-timeline', 'view()'));
+  }, []);
 
   if (!menuItems?.length) return null;
 
