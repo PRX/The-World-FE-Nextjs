@@ -18,7 +18,7 @@ export const TwitterCard = ({ data }: ITwitterCardProps) => {
         name="twitter:account_id"
         content={process.env.TWITTER_ACCOUNT_ID}
       />
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       {twitterTitle && <meta name="twitter:title" content={twitterTitle} />}
       {twitterDescription && (
         <meta name="twitter:description" content={twitterDescription} />
