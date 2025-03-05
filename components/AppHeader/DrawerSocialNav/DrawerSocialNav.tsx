@@ -14,7 +14,9 @@ import {
   faXTwitter,
   faLinkedin,
   faFlipboard,
-  faWhatsapp
+  faWhatsapp,
+  faBluesky,
+  faTiktok
 } from '@fortawesome/free-brands-svg-icons';
 import { getAppDataMenu } from '@store/reducers';
 import { drawerTopNavStyles } from './DrawerSocialNav.styles';
@@ -26,7 +28,9 @@ const iconComponentMap = new Map();
   ['twitter', <FontAwesomeIcon icon={faXTwitter} aria-label="Twitter" />],
   ['linkedin', <FontAwesomeIcon icon={faLinkedin} aria-label="LinkedIn" />],
   ['flipboard', <FontAwesomeIcon icon={faFlipboard} aria-label="Flipboard" />],
-  ['whatsapp', <FontAwesomeIcon icon={faWhatsapp} aria-label="WhatsApp" />]
+  ['whatsapp', <FontAwesomeIcon icon={faWhatsapp} aria-label="WhatsApp" />],
+  ['bluesky', <FontAwesomeIcon icon={faBluesky} aria-label="Bluesky" />],
+  ['tiktok', <FontAwesomeIcon icon={faTiktok} aria-label="TikTok" />]
 ].forEach(([key, icon]) => {
   iconComponentMap.set(key, icon);
 });
@@ -55,17 +59,9 @@ export const DrawerSocialNav = () => {
           .map(({ service, ...other }) => {
             if (!service) return other;
 
-            const servicesOptions = new Map([
-              [
-                'facebook',
-                {
-                  icon: 'facebook'
-                }
-              ],
-              ['instagram', { icon: 'instagram' }],
-              ['twitter', { icon: 'twitter' }]
-            ]);
-            const options = servicesOptions.get(service);
+            const options = {
+              ...(iconComponentMap.has(service) && { icon: service })
+            };
 
             return {
               ...options,
