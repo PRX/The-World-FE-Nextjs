@@ -14,6 +14,10 @@ servicesMap.set('instagram.com', 'instagram');
 servicesMap.set('www.instagram.com', 'instagram');
 servicesMap.set('twitter.com', 'twitter');
 servicesMap.set('www.twitter.com', 'twitter');
+servicesMap.set('www.twitter.com', 'twitter');
+servicesMap.set('bsky.app', 'bluesky');
+servicesMap.set('tiktok.com', 'tiktok');
+servicesMap.set('www.tiktok.com', 'tiktok');
 
 function getServiceFromUrl(url?: Maybe<string>) {
   if (!url) return undefined;
