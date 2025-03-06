@@ -23,6 +23,9 @@ module.exports = withPlausibleProxy({
     FB_APP_ID: process.env.FB_APP_ID,
     TWITTER_ACCOUNT_ID: process.env.TWITTER_ACCOUNT_ID
   },
+  experimental: {
+    instrumentationHook: true
+  },
   images: {
     remotePatterns: [
       {

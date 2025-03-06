@@ -8,13 +8,9 @@ function TwError(props) {
 
 TwError.getInitialProps = ({ req, res, err }: NextPageContext) => {
   const statusCode = res?.statusCode || err?.statusCode || 404;
-  const { headers, url } = req || {};
 
   // eslint-disable-next-line no-console
-  console.dir({
-    url,
-    headers
-  });
+  console.error({ req, res, err, statusCode });
 
   return { statusCode };
 };

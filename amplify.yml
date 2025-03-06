@@ -18,6 +18,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - yarn install sharp
     build:
       commands:
         - yarn run build
