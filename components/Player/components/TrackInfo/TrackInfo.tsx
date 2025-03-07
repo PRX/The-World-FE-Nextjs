@@ -7,6 +7,7 @@ import React, { useContext } from 'react';
 import Image from 'next/legacy/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
+import { sanitizeIso8601Date } from '@lib/sanitize';
 import { ContentLink } from '@components/ContentLink';
 import { DateTime } from '@components/DateTime';
 import { Marquee } from '@components/Marquee';
@@ -79,24 +80,32 @@ export const TrackInfo = ({ className }: ITrackInfoProps) => {
                 >
                   {info
                     .filter((t) => !!t)
-                    .map((value) =>
-                      value instanceof Date ? (
+                    .map((value) => {
+                      const dateValue =
+                        value instanceof Date
+                          ? value
+                          : new Date(sanitizeIso8601Date(value) || '');
+                      const isDateValue =
+                        value instanceof Date ||
+                        !Number.isNaN(dateValue.getTime());
+
+                      return isDateValue ? (
                         <DateTime
                           className={styles.infoItem}
-                          date={value}
+                          date={dateValue}
                           options={{
                             month: 'short',
                             day: 'numeric',
                             year: 'numeric'
                           }}
-                          key={`${value.toUTCString()}`}
+                          key={`${dateValue.toUTCString()}`}
                         />
                       ) : (
                         <span className={styles.infoItem} key={value}>
                           {value}
                         </span>
-                      )
-                    )}
+                      );
+                    })}
                 </Typography>
               </Marquee>
             ) : null}

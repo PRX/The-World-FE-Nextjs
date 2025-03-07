@@ -47,5 +47,11 @@ describe('lib/sanitize', () => {
 
       expect(result?.endsWith('+01:00')).toBe(true);
     });
+
+    test('should support UTC dates.', () => {
+      const result = sanitizeIso8601Date('1977-03-25T00:00:00Z');
+
+      expect(result).toEqual('1977-03-25T00:00:00Z');
+    });
   });
 });

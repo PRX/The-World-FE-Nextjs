@@ -4,8 +4,9 @@
  */
 
 import type { MediaItem } from '@interfaces';
-import Link from 'next/link';
 import { Typography } from '@mui/material';
+import { isLocalUrl } from '@lib/parse/url';
+import { ContentLink } from '@components/ContentLink';
 import { imageCreditStyles } from './ImageCredit.styles';
 
 export type ImageCreditProps = {
@@ -16,6 +17,7 @@ export type ImageCreditProps = {
 export const ImageCredit = ({ data, className }: ImageCreditProps) => {
   const { imageFields } = data;
   const { mediaCredit, mediaCreditUrl } = imageFields || {};
+  const mediaCreditUrlIsLocal = !!mediaCreditUrl && isLocalUrl(mediaCreditUrl);
   const { classes, cx } = imageCreditStyles();
 
   if (!mediaCredit) return null;
@@ -23,10 +25,25 @@ export const ImageCredit = ({ data, className }: ImageCreditProps) => {
   return (
     <Typography className={cx(classes.root, className)} variant="caption">
       {!mediaCreditUrl && mediaCredit}
-      {mediaCreditUrl && (
-        <Link className={classes.link} href={mediaCreditUrl} target="_blank">
-          {mediaCredit}{' '}
-        </Link>
+      {mediaCreditUrl && mediaCreditUrlIsLocal && (
+        <ContentLink
+          className={classes.link}
+          href={mediaCreditUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {mediaCredit}
+        </ContentLink>
+      )}
+      {mediaCreditUrl && !mediaCreditUrlIsLocal && (
+        <a
+          className={classes.link}
+          href={mediaCreditUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {mediaCredit}
+        </a>
       )}
     </Typography>
   );

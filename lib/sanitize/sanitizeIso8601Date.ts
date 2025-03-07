@@ -31,7 +31,7 @@ export const sanitizeIso8601Date = (
     }
 
     // Ensure ISO 8601 dates are set to settings time-zone if they do not already have a time-zone offset.
-    if (!/[+-]\d{2}:?\d{2}$/.test(usedDateValue)) {
+    if (!/([+-]\d{2}:?\d{2}|Z)$/.test(usedDateValue)) {
       // Time-zone from settings will be in long format, eg `America/New_York`.
       // We need to convert that to a offset string.
       const tz = new Date()
