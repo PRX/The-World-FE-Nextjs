@@ -4,15 +4,16 @@
  */
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlContributorSegments } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, c, f, e } = req.query;
-  const contributorId = !!id && (typeof id === 'string' ? id : id[0]);
+  const contributorId = Array.isArray(id) ? id[0] : id;
   const cursor = !!c && (typeof c === 'string' ? c : c[0]);
   const pageSize = !!f && parseInt(typeof f === 'string' ? f : f[0], 10);
   const exclude = !!e && (typeof e === 'string' ? [e] : e);
 
-  if (contributorId) {
+  if (contributorId && validateUniqueId(contributorId)) {
     const segments = await fetchGqlContributorSegments(contributorId, {
       ...(cursor && { cursor }),
       ...(pageSize && { pageSize }),

@@ -5,12 +5,13 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlCategory } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const categoryId = !!id && (typeof id === 'string' ? id : id[0]);
+  const categoryId = Array.isArray(id) ? id[0] : id;
 
-  if (categoryId) {
+  if (categoryId && validateUniqueId(categoryId)) {
     const category = await fetchGqlCategory(categoryId);
 
     if (category) {

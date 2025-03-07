@@ -5,12 +5,13 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlContributor } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const contributorId = !!id && (typeof id === 'string' ? id : id[0]);
+  const contributorId = Array.isArray(id) ? id[0] : id;
 
-  if (contributorId) {
+  if (contributorId && validateUniqueId(contributorId)) {
     const contributor = await fetchGqlContributor(contributorId);
 
     if (contributor) {

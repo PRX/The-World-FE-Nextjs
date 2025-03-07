@@ -16,6 +16,7 @@ import { AudioPlayer } from '@components/AudioPlayer';
 import { IAudioPlayerProps } from '@components/AudioPlayer/AudioPlayer.interfaces';
 import { MediaItem } from '@interfaces';
 import { encode } from 'base-64';
+import { validateUniqueId } from '@lib/validate';
 
 export interface IEmbedAudioPageProps {
   data: MediaItem;
@@ -74,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
-  if (resourceId) {
+  if (resourceId && validateUniqueId(resourceId)) {
     const embeddedPlayerUrl = `https://theworld.org/embed/audio/${resourceId}`;
     let data: MediaItem | undefined;
     let message: string | undefined;
