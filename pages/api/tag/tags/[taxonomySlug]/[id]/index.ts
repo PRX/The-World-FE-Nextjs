@@ -6,16 +6,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlTag } from '@lib/fetch';
 import { taxonomySlugToSingularName } from '@lib/map/taxonomy';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, taxonomySlug: ts } = req.query;
-  const tagId = !!id && (typeof id === 'string' ? id : id[0]);
+  const tagId = Array.isArray(id) ? id[0] : id;
   const taxonomySlug =
     (!!ts && (typeof ts === 'string' ? ts : ts[0])) || undefined;
   const taxonomySingleName =
     taxonomySlug && taxonomySlugToSingularName.get(taxonomySlug);
 
-  if (tagId) {
+  if (tagId && validateUniqueId(tagId)) {
     const tag = await fetchGqlTag(tagId, undefined, taxonomySingleName);
 
     if (tag) {

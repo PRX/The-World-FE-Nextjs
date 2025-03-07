@@ -4,15 +4,16 @@
  */
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlCategoryPosts } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, c, f, e } = req.query;
-  const categoryId = !!id && (typeof id === 'string' ? id : id[0]);
+  const categoryId = Array.isArray(id) ? id[0] : id;
   const cursor = !!c && (typeof c === 'string' ? c : c[0]);
   const pageSize = !!f && parseInt(typeof f === 'string' ? f : f[0], 10);
   const exclude = !!e && (typeof e === 'string' ? [e] : e);
 
-  if (categoryId) {
+  if (categoryId && validateUniqueId(categoryId)) {
     const posts = await fetchGqlCategoryPosts(categoryId, {
       ...(cursor && { cursor }),
       ...(pageSize && { pageSize }),

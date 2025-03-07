@@ -5,12 +5,14 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlStory } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+  const storyId = Array.isArray(id) ? id[0] : id;
 
-  if (id) {
-    const story = await fetchGqlStory(id as string);
+  if (storyId && validateUniqueId(storyId)) {
+    const story = await fetchGqlStory(storyId);
 
     if (story) {
       return res.status(200).json(story);

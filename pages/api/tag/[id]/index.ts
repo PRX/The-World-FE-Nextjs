@@ -5,12 +5,13 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchGqlTag } from '@lib/fetch';
+import { validateUniqueId } from '@lib/validate';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const tagId = !!id && (typeof id === 'string' ? id : id[0]);
+  const tagId = Array.isArray(id) ? id[0] : id;
 
-  if (tagId) {
+  if (tagId && validateUniqueId(tagId)) {
     const tag = await fetchGqlTag(tagId);
 
     if (tag) {
