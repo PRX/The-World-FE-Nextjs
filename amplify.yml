@@ -26,7 +26,6 @@ frontend:
     baseDirectory: .next
     files:
       - '**/*'
-      - '../next-logger.config.js'
   cache:
     paths:
       - 'node_modules/**/*'
