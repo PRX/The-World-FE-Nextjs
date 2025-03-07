@@ -18,7 +18,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
-        - yarn add sharp pino next-logger
+        - yarn add sharp
     build:
       commands:
         - yarn run build
@@ -26,9 +26,7 @@ frontend:
     baseDirectory: .next
     files:
       - '**/*'
-      - 'instrumentation.ts'
-      - 'next.config.js'
-      - 'next-logger.config.js'
+      - '../next-logger.config.js'
   cache:
     paths:
       - 'node_modules/**/*'
