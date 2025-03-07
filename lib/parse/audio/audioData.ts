@@ -93,8 +93,6 @@ export const parseAudioData = (
     ...(date ? [new Date(date)] : [])
   ];
 
-  console.log(info);
-
   return {
     guid: id,
     url: generateAudioUrl(url),
