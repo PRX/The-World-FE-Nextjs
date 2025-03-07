@@ -36,16 +36,16 @@ describe('lib/sanitize', () => {
     test('should add time-zone offset for the passed time zone-string.', () => {
       const result = sanitizeIso8601Date('1977-03-25', 'America/New_York');
 
-      expect(result?.endsWith('-04:00')).toBe(true);
+      expect(result?.endsWith('-05:00')).toBe(true);
     });
 
     test('should not add time-zone offset for the passed time-zone string when dateString has time-zone offset.', () => {
       const result = sanitizeIso8601Date(
-        '1977-03-25T00:00:00+05:00',
+        '1977-03-25T00:00:00+01:00',
         'America/New_York'
       );
 
-      expect(result?.endsWith('+05:00')).toBe(true);
+      expect(result?.endsWith('+01:00')).toBe(true);
     });
   });
 });
