@@ -11,6 +11,7 @@ import { ContentLink } from '@components/ContentLink';
 import { DateTime } from '@components/DateTime';
 import { PlayerContext } from '@components/Player/contexts/PlayerContext';
 import { IAudioData } from '@components/Player/types';
+import { sanitizeIso8601Date } from '@lib/sanitize';
 import { usePlaylistItemStyles } from './PlaylistItem.styles';
 import { PlayAudioButton } from '../PlayAudioButton';
 
@@ -77,24 +78,31 @@ export const PlaylistItem = ({
             >
               {info
                 .filter((t) => !!t)
-                .map((value) =>
-                  value instanceof Date ? (
+                .map((value) => {
+                  const dateValue =
+                    value instanceof Date
+                      ? value
+                      : new Date(sanitizeIso8601Date(value) || '');
+                  const isDateValue =
+                    value instanceof Date || !Number.isNaN(dateValue.getTime());
+
+                  return isDateValue ? (
                     <DateTime
                       className={styles.infoItem}
-                      date={value}
+                      date={dateValue}
                       options={{
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric'
                       }}
-                      key={`${value.toUTCString()}`}
+                      key={`${dateValue.toString()}`}
                     />
                   ) : (
                     <span className={styles.infoItem} key={value}>
                       {value}
                     </span>
-                  )
-                )}
+                  );
+                })}
             </Typography>
           ) : null}
         </Box>
