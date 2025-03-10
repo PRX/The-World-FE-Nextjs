@@ -16,10 +16,10 @@ describe('lib/sanitize', () => {
       expect(result2).toBeNull();
     });
 
-    test('should add midnight time string to date only strings.', () => {
+    test('should add noon time string to date only strings.', () => {
       const result = sanitizeIso8601Date('1977-03-25');
 
-      expect(result?.startsWith('1977-03-25T00:00:00')).toBe(true);
+      expect(result?.startsWith('1977-03-25T12:00:00')).toBe(true);
     });
 
     test('should add local time-zone offset when not passed a timeZone parameter.', () => {
@@ -36,7 +36,7 @@ describe('lib/sanitize', () => {
     test('should add time-zone offset for the passed time zone-string.', () => {
       const result = sanitizeIso8601Date('1977-03-25', 'America/New_York');
 
-      expect(result?.endsWith('-05:00')).toBe(true);
+      expect(result).toEqual('1977-03-25T12:00:00-04:00');
     });
 
     test('should not add time-zone offset for the passed time-zone string when dateString has time-zone offset.', () => {
@@ -48,7 +48,7 @@ describe('lib/sanitize', () => {
       expect(result?.endsWith('+01:00')).toBe(true);
     });
 
-    test('should support UTC dates.', () => {
+    test('should support UTC.', () => {
       const result = sanitizeIso8601Date('1977-03-25T00:00:00Z');
 
       expect(result).toEqual('1977-03-25T00:00:00Z');

@@ -40,7 +40,7 @@ export const SidebarEpisode = ({
   const { id: audioId, audioFields } = audio || {};
   const { segmentsList } = audioFields || {};
   const { broadcastDate } = episodeDates || {};
-  const usedDateString = (broadcastDate && `${broadcastDate}T00:00:00`) || date;
+  const usedDateString = broadcastDate || date;
   const episodeDate =
     usedDateString && typeof usedDateString !== 'undefined'
       ? new Date(usedDateString)

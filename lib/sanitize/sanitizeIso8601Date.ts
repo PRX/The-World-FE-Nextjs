@@ -25,9 +25,9 @@ export const sanitizeIso8601Date = (
       'T$1'
     );
 
-    // Ensure ISO 8601 dates have a time.
+    // Ensure ISO 8601 dates have a time. Use noon instead of midnight to avoid issues with Daylight Savings Time.
     if (!/T\d{2}:\d{2}:\d{2}/.test(usedDateValue)) {
-      usedDateValue = `${usedDateValue}T00:00:00`;
+      usedDateValue = `${usedDateValue}T12:00:00`;
     }
 
     // Ensure ISO 8601 dates are set to settings time-zone if they do not already have a time-zone offset.

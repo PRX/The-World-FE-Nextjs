@@ -98,7 +98,7 @@ export const TrackInfo = ({ className }: ITrackInfoProps) => {
                             day: 'numeric',
                             year: 'numeric'
                           }}
-                          key={`${dateValue.toUTCString()}`}
+                          key={`${dateValue.toString()}`}
                         />
                       ) : (
                         <span className={styles.infoItem} key={value}>
