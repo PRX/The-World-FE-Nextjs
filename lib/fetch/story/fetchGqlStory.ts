@@ -30,7 +30,6 @@ export const STORY_CARD_PROPS = gql`
           audioTitle
         }
       }
-      video
     }
   }
   ${IMAGE_PROPS}
@@ -61,6 +60,7 @@ export const GET_STORY_POST = gql`
           sourceUrl
           mediaItemUrl
         }
+        video
       }
       presentation {
         format
