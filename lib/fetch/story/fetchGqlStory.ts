@@ -30,6 +30,7 @@ export const STORY_CARD_PROPS = gql`
           audioTitle
         }
       }
+      video
     }
   }
   ${IMAGE_PROPS}
