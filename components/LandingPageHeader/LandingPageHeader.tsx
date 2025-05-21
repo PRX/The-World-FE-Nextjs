@@ -49,8 +49,9 @@ export const LandingPageHeader = ({
                 <Image
                   src={logo.sourceUrl}
                   alt={logo.altText || `Logo for ${title}`}
-                  layout="fill"
                   objectFit="cover"
+                  width={200}
+                  height={200}
                 />
               </Box>
             )}
