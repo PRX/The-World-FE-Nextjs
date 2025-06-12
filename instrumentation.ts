@@ -88,12 +88,14 @@ const logger = pino({
   serializers: {
     ...pino.stdSerializers,
     err: (e) => {
-      const { stack, ...err } = pino.stdSerializers.err(e);
+      const { stack, ...err } = pino.stdSerializers.err(e) || {};
       return {
         ...err,
-        ...(err.type !== 'ApolloError' && {
-          stack: stack.split(/\n\s*/g)
-        }),
+        ...(err?.type &&
+          err.type !== 'ApolloError' &&
+          stack && {
+            stack: stack.split(/\n\s*/g)
+          }),
         ...(e.req && { req: pino.stdSerializers.req(e.req) })
       };
     }
