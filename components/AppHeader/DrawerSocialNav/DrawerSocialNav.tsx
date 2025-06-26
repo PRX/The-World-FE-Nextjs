@@ -16,7 +16,8 @@ import {
   faFlipboard,
   faWhatsapp,
   faBluesky,
-  faTiktok
+  faTiktok,
+  faYoutube
 } from '@fortawesome/free-brands-svg-icons';
 import { getAppDataMenu } from '@store/reducers';
 import { drawerTopNavStyles } from './DrawerSocialNav.styles';
@@ -30,7 +31,8 @@ const iconComponentMap = new Map();
   ['flipboard', <FontAwesomeIcon icon={faFlipboard} aria-label="Flipboard" />],
   ['whatsapp', <FontAwesomeIcon icon={faWhatsapp} aria-label="WhatsApp" />],
   ['bluesky', <FontAwesomeIcon icon={faBluesky} aria-label="Bluesky" />],
-  ['tiktok', <FontAwesomeIcon icon={faTiktok} aria-label="TikTok" />]
+  ['tiktok', <FontAwesomeIcon icon={faTiktok} aria-label="TikTok" />],
+  ['youtube', <FontAwesomeIcon icon={faYoutube} aria-label="YouTube" />]
 ].forEach(([key, icon]) => {
   iconComponentMap.set(key, icon);
 });

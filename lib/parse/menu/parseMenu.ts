@@ -18,6 +18,8 @@ servicesMap.set('www.twitter.com', 'twitter');
 servicesMap.set('bsky.app', 'bluesky');
 servicesMap.set('tiktok.com', 'tiktok');
 servicesMap.set('www.tiktok.com', 'tiktok');
+servicesMap.set('youtube.com', 'youtube');
+servicesMap.set('www.youtube.com', 'youtube');
 
 function getServiceFromUrl(url?: Maybe<string>) {
   if (!url) return undefined;
