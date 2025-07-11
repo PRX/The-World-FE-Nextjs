@@ -8,3 +8,12 @@ Disallow: /license
 Disallow: /node
 Disallow: /taxonomy/term
 Disallow: /api
+
+User-agent: meta-externalagent/1.1
+Disallow: /
+
+User-agent: meta-externalfetcher/1.1
+Disallow: /
+
+User-agent: meta-externalads/1.1
+Disallow: /
