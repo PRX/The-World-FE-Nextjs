@@ -35,6 +35,11 @@ export const OpenGraph = ({ data }: IOpenGraphProps) => {
         content="The World from PRX"
         key="og:site_name"
       />
+      <meta
+        property="og:ttl"
+        content="86400"
+        key="og:ttl"
+      />
       {opengraphType && (
         <meta property="og:type" content={opengraphType} key="og:type" />
       )}
