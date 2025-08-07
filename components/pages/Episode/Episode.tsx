@@ -67,7 +67,8 @@ export const Episode = ({
     episodeDates,
     episodeAudio,
     episodeContributors,
-    episodeContent
+    episodeContent,
+    resourceDevelopmentTags
   } = data || ({} as typeof data);
   const { broadcastDate } = episodeDates as EpisodeEpisodeDates;
   const metatags = {
@@ -149,6 +150,9 @@ export const Episode = ({
   // Plausible Events.
   const props = {
     Title: title,
+    ...(!!resourceDevelopmentTags?.nodes.length && {
+      'Resource Development': resourceDevelopmentTags.nodes[0].name
+    }),
     ...(broadcastDate &&
       (() => {
         const dt = parseDateParts(broadcastDate);

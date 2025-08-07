@@ -36,9 +36,15 @@ export const GET_SEGMENT = gql`
           link
         }
       }
+      resourceDevelopmentTags {
+        nodes {
+          name
+        }
+      }
       segmentContent {
         audio {
           id
+          title
           mediaItemUrl
           audioFields {
             audioType
