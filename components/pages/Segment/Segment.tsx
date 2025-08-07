@@ -29,7 +29,15 @@ export const Segment = ({
   const type = 'post--segment';
   const { classes } = segmentStyles();
 
-  const { seo, id, title, content, segmentContent, segmentDates } = data;
+  const {
+    seo,
+    id,
+    title,
+    content,
+    resourceDevelopmentTags,
+    segmentContent,
+    segmentDates
+  } = data;
   const { audio } = segmentContent || {};
   const {
     title: fileName,
@@ -58,6 +66,9 @@ export const Segment = ({
     Title: title,
     'Audio Type': audioType,
     'File Name': fileName,
+    ...(!!resourceDevelopmentTags?.nodes.length && {
+      'Resource Development': resourceDevelopmentTags.nodes[0].name
+    }),
     ...(broadcastDate &&
       (() => {
         const dt = parseDateParts(broadcastDate);

@@ -75,11 +75,6 @@ export const Story = ({ data, isPreview }: IContentComponentProps<Post>) => {
     });
   }
 
-  if (process.env.NODE_ENV !== 'production' && !isPreview) {
-    // eslint-disable-next-line no-console
-    console.log(plausibleEvents);
-  }
-
   return (
     <>
       <MetaTags data={metatags} />

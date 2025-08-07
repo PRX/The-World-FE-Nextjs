@@ -44,6 +44,11 @@ export const GET_EPISODE = gql`
           name
         }
       }
+      resourceDevelopmentTags {
+        nodes {
+          name
+        }
+      }
       episodeDates {
         broadcastDate
       }
