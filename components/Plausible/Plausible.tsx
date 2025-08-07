@@ -39,7 +39,7 @@ export const Plausible = ({
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       // eslint-disable-next-line no-console
-      console.log(events);
+      console.log('Plausible Events:', events);
     }
 
     (events || []).forEach((args) => plausible.apply(this, args));
