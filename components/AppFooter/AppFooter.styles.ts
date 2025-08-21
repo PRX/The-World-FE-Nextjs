@@ -33,13 +33,13 @@ export const appFooterStyles = makeStyles()((theme) => ({
   prxLogo: {
     width: '100%',
     maxWidth: theme.typography.pxToRem(167),
-    height: 'auto',
+    height: 'auto'
   },
 
   gbhLogo: {
     width: '100%',
     maxWidth: theme.typography.pxToRem(104),
-    height: 'auto',
+    height: 'auto'
   },
 
   link: {
@@ -92,8 +92,13 @@ export const appFooterStyles = makeStyles()((theme) => ({
     gridGap: theme.typography.pxToRem(8),
     justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
-      display: 'grid',
-      gridTemplateColumns: `repeat(2, ${theme.typography.pxToRem(300)})`
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      maxWidth: `${theme.breakpoints.values.md}px`,
+      '&:has(li:nth-of-type(4))': {
+        maxWidth: `608px` // 2 logos + gap
+      }
     }
   },
 
@@ -110,7 +115,7 @@ export const appFooterStyles = makeStyles()((theme) => ({
     border: `1px solid ${theme.palette.grey[300]}`,
     [theme.breakpoints.up('md')]: {
       width: '300px',
-      height: '100px',
+      height: '100px'
     }
   },
 
@@ -124,8 +129,7 @@ export const appFooterStyles = makeStyles()((theme) => ({
     padding: 0,
     gridTemplateColumns: `1fr`,
     gridGap: theme.typography.pxToRem(8),
-    justifyContent: 'center',
-
+    justifyContent: 'center'
   },
 
   sponsoredByMuiLi: {
@@ -139,7 +143,7 @@ export const appFooterStyles = makeStyles()((theme) => ({
     border: `1px solid ${theme.palette.grey[300]}`,
     [theme.breakpoints.up('md')]: {
       width: '300px',
-      height: '100px',
+      height: '100px'
     }
   },
 
@@ -149,5 +153,5 @@ export const appFooterStyles = makeStyles()((theme) => ({
     justifyContent: 'center'
   },
 
-  copyright: {},
+  copyright: {}
 }));
