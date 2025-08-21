@@ -93,8 +93,13 @@ export const appFooterStyles = makeStyles()((theme) => ({
     justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
       display: 'grid',
-      gridTemplateColumns: `repeat(2, ${theme.typography.pxToRem(300)})`
-    }
+      gridTemplateColumns: `repeat(2, ${theme.typography.pxToRem(300)})`,
+      justifyContent: 'center',
+
+      '&:has(> li:nth-child(3)):not(:has(> li:nth-child(4)))': {
+        gridTemplateColumns: `repeat(3, ${theme.typography.pxToRem(300)})`,
+      },
+    },
   },
 
   fundedByMuiLi: {

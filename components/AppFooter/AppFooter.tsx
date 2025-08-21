@@ -87,6 +87,7 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
+            {/*
             <li className={classes.fundedByMuiLi}>
               <a
                 className={classes.logoLink}
@@ -103,6 +104,7 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
+            */}
             <li className={classes.fundedByMuiLi}>
               <a
                 className={classes.logoLink}
