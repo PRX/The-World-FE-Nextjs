@@ -30,14 +30,13 @@ export const DatavizEmbed = ({
 }: IDatavizEmbedProps) => {
   const [iframeHeight, setIframeHeight] = useState(height);
 
-  function handleMessage(event: MessageEvent<TwDatavizMessageData>) {
-    console.log(event);
-    if (event.data.type === 'TwDatavizUpdateHeight' && event.data.payload) {
-      setIframeHeight(event.data.payload);
-    }
-  }
-
   useEffect(() => {
+    function handleMessage(event: MessageEvent<TwDatavizMessageData>) {
+      if (event.data.type === 'TwDatavizUpdateHeight' && event.data.payload) {
+        setIframeHeight(event.data.payload);
+      }
+    }
+
     window.addEventListener('message', handleMessage);
 
     return () => {

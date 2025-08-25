@@ -9,7 +9,7 @@ import { findDescendant } from '@lib/parse/html';
 import { Box } from '@mui/material';
 import { DatavizEmbed } from '@components/DatavizEmbed';
 
-export const datawrapperEmbed = (node: DomElement) => {
+export const datavizEmbed = (node: DomElement) => {
   const isFigureNode = node.type === 'tag' && node.name === 'figure';
   const isEmbedWrapper =
     node.type === 'tag' && node.attribs.class?.includes('embed__wrapper');
