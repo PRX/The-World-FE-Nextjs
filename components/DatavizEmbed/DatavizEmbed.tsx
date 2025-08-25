@@ -15,7 +15,10 @@ export interface IDatavizEmbedProps
   class?: string;
 }
 
-export type TwDatavizMessageData = { tw: { dataviz: { height: number } } };
+export type TwDatavizMessageData = {
+  type: 'TwDatavizUpdateHeight';
+  payload: number;
+};
 
 export const DatavizEmbed = ({
   title,
@@ -27,12 +30,10 @@ export const DatavizEmbed = ({
 }: IDatavizEmbedProps) => {
   const [iframeHeight, setIframeHeight] = useState(height);
 
-  function handleMessage(a: MessageEvent<TwDatavizMessageData>) {
-    if (typeof a.data.tw?.dataviz?.height !== 'undefined') {
-      const {
-        dataviz: { height: newHeight }
-      } = a.data.tw;
-      setIframeHeight(newHeight);
+  function handleMessage(event: MessageEvent<TwDatavizMessageData>) {
+    console.log(event);
+    if (event.data.type === 'TwDatavizUpdateHeight' && event.data.payload) {
+      setIframeHeight(event.data.payload);
     }
   }
 
