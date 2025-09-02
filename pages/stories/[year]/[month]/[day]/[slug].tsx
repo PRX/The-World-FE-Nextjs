@@ -10,6 +10,7 @@ import { fetchAppData } from '@store/actions/fetchAppData';
 import { wrapper } from '@store/configureStore';
 import { fetchStoryData } from '@store/actions/fetchStoryData';
 import { generateShareLinks } from '@lib/generate/social';
+import getDateAgeInSeconds from '@lib/math/time/getDateAgeInSeconds';
 
 const StoryPage = ({ data }: IContentComponentProxyProps) => (
   <Story data={data} />
@@ -18,7 +19,7 @@ const StoryPage = ({ data }: IContentComponentProxyProps) => (
 export const getServerSideProps =
   wrapper.getServerSideProps<IContentComponentProxyProps>(
     (store) =>
-      async ({ req, params }) => {
+      async ({ res, req, params }) => {
         const slug =
           params?.slug &&
           (typeof params.slug === 'string' ? params.slug : params.slug[0]);
@@ -30,9 +31,25 @@ export const getServerSideProps =
           ]);
 
           if (data) {
-            const { link, title } = data;
+            const { link, title, date } = data;
             const shareLinks =
               link != null ? generateShareLinks(link, title) : undefined;
+
+            if (date) {
+              const ageInSeconds = getDateAgeInSeconds(date);
+              const maxAge =
+                ageInSeconds > 60 * 60 * 24 * 7 ? ageInSeconds : 60 * 60; // Cache for 1 hour for the first week.
+
+              if (process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line no-console
+                console.log('Cache-Control s-maxage:', maxAge);
+              }
+
+              res.setHeader(
+                'Cache-Control',
+                `public, s-maxage=${maxAge} state-while-revalidate=3600`
+              );
+            }
 
             return {
               props: {
