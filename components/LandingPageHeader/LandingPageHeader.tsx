@@ -40,6 +40,7 @@ export const LandingPageHeader = ({
             layout="fill"
             objectFit="cover"
             priority
+            quality={85}
           />
         )}
         <Box className={classes.content}>

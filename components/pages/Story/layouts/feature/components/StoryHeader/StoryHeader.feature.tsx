@@ -82,6 +82,7 @@ export const StoryHeader = ({ data }: Props) => {
               layout="fill"
               objectFit="cover"
               priority
+              quality={85}
             />
           </Box>
         )}

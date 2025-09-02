@@ -52,6 +52,7 @@ export const LedeImage = ({ data }: ILedeImageProps) => {
         height={height}
         layout="responsive"
         sizes={sizes}
+        quality={85}
         priority
         alt={altText || ''}
         objectFit="cover"

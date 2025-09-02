@@ -54,6 +54,7 @@ export const enhanceImage =
             width={width || 16}
             height={height || 9}
             sizes={sizes}
+            quality={85}
           />
         </div>
       ) : (
@@ -65,6 +66,7 @@ export const enhanceImage =
           height={height || 9}
           sizes={sizes}
           key={key}
+          quality={85}
         />
       );
     }
