@@ -86,14 +86,16 @@ export const AudioHeader = ({ data }: Props) => {
                   {program.name}
                 </ContentLink>
               )}
-              <DateTime
-                date={broadcastDate}
-                options={{
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                }}
-              />
+              {broadcastDate && (
+                <DateTime
+                  date={broadcastDate}
+                  options={{
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                  }}
+                />
+              )}
               {!!contributors?.nodes.length && (
                 <ul className={classes.byline}>
                   {contributors.nodes.map(

@@ -30,6 +30,7 @@ export const EpisodeHeader = ({ data }: Props) => {
     data;
   const { broadcastDate } = episodeDates as EpisodeEpisodeDates;
   const { audio } = episodeAudio as EpisodeEpisodeAudio;
+  const publishedDate = broadcastDate || date;
   const audioProps = {
     title,
     queuedFrom: 'Page Header Controls',
@@ -54,15 +55,17 @@ export const EpisodeHeader = ({ data }: Props) => {
               {program.name}
             </ContentLink>
           )}
-          <DateTime
-            className={classes.date}
-            date={broadcastDate || date}
-            options={{
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }}
-          />
+          {publishedDate && (
+            <DateTime
+              className={classes.date}
+              date={publishedDate}
+              options={{
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }}
+            />
+          )}
         </Box>
         {audio && (
           <Box className={classes.audio}>

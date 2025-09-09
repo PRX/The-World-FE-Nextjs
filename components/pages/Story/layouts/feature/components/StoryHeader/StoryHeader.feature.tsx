@@ -46,7 +46,8 @@ export const StoryHeader = ({ data }: Props) => {
     contributors
   } = data;
   const { audio } = additionalMedia as PostAdditionalMedia;
-  const { updatedDate } = additionalDates as PostAdditionalDates;
+  const { broadcastDate, updatedDate } = additionalDates as PostAdditionalDates;
+  const publishedDate = broadcastDate || date;
   const image = featuredImage?.node;
   const program = programs?.nodes[0];
   const bylines: [string, Contributor[]][] = [];
@@ -116,14 +117,14 @@ export const StoryHeader = ({ data }: Props) => {
                     {program.name}
                   </ContentLink>
                 )}
-                {date && (
+                {publishedDate && (
                   <Typography
                     variant="subtitle1"
                     component="div"
                     className={classes.date}
                   >
                     <DateTime
-                      date={date}
+                      date={publishedDate}
                       options={{
                         month: 'long',
                         day: 'numeric',
