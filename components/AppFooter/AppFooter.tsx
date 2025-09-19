@@ -121,22 +121,6 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
-            <li className={classes.fundedByMuiLi}>
-              <a
-                className={classes.logoLink}
-                href="https://cpb.org/"
-                aria-label="Corporation for Public Broadcasting"
-              >
-                <Image
-                  className={classes.logo}
-                  alt="Corporation for Public Broadcasting"
-                  title="Corporation for Public Broadcasting"
-                  src="https://media.pri.org/s3fs-public/images/2024/03/g10.png"
-                  width="128"
-                  height="60"
-                />
-              </a>
-            </li>
           </ol>
         </Box>
       </Container>
