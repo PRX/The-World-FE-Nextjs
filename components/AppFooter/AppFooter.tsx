@@ -3,22 +3,22 @@
  * Component for links to content page.
  */
 
-import type { IButtonWithUrl, RootState } from '@interfaces';
-import { useStore } from 'react-redux';
+import React from 'react';
 import Image from 'next/legacy/image';
+import { useStore } from 'react-redux';
+import { parse } from 'url';
 import { Box, Breadcrumbs, Container, Divider, Link } from '@mui/material';
-import { ContentLink } from '@components/ContentLink';
 import { isLocalUrl } from '@lib/parse/url';
+import { handleButtonClick } from '@lib/routing';
+import { getMenusData } from '@store/reducers';
 import TwLogo from '@svg/tw-white.svg';
 import PrxLogo from '@svg/PRX-Logo-Horizontal-Color.svg';
 import GBHLogo from '@svg/GBH-Logo-Purple.svg';
-import { getAppDataMenu } from '@store/reducers';
 import { appFooterStyles } from './AppFooter.styles';
 
 export const AppFooter = () => {
-  const store = useStore<RootState>();
-  const state = store.getState();
-  const footerNav = getAppDataMenu(state, 'footerNav');
+  const store = useStore();
+  const footerNav = getMenusData(store.getState(), 'footerNav');
   const copyrightDate = new Date().getFullYear();
   const { classes, cx } = appFooterStyles();
   const fundedByLogoClasses = cx(classes.logo);
@@ -87,24 +87,6 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
-            {/*
-            <li className={classes.fundedByMuiLi}>
-              <a
-                className={classes.logoLink}
-                href="https://www.macfound.org/"
-                aria-label="MacArthur Foundation"
-              >
-                <Image
-                  className={classes.logo}
-                  alt="MacArthur Foundation"
-                  title="MacArthur Foundation"
-                  src="https://media.pri.org/s3fs-public/images/2024/03/macarthur-foundation-logo-ec538487d4-seeklogo.png"
-                  width="171"
-                  height="60"
-                />
-              </a>
-            </li>
-            */}
             <li className={classes.fundedByMuiLi}>
               <a
                 className={classes.logoLink}
@@ -121,22 +103,6 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
-            <li className={classes.fundedByMuiLi}>
-              <a
-                className={classes.logoLink}
-                href="https://cpb.org/"
-                aria-label="Corporation for Public Broadcasting"
-              >
-                <Image
-                  className={classes.logo}
-                  alt="Corporation for Public Broadcasting"
-                  title="Corporation for Public Broadcasting"
-                  src="https://media.pri.org/s3fs-public/images/2024/03/g10.png"
-                  width="128"
-                  height="60"
-                />
-              </a>
-            </li>
           </ol>
         </Box>
       </Container>
@@ -149,20 +115,21 @@ export const AppFooter = () => {
             classes={{ ol: classes.footerNavMuiOl }}
           >
             {footerNav
-              .filter((v): v is IButtonWithUrl => !!v.url)
+              .map(({ url, ...other }) => ({ ...other, url: parse(url) }))
               .map(({ name, url, key, attributes }) =>
-                isLocalUrl(url) ? (
-                  <ContentLink
-                    url={url}
+                isLocalUrl(url.href) ? (
+                  <Link
+                    href={url.path}
+                    onClick={handleButtonClick(url)}
                     key={key}
                     className={classes.link}
                     {...attributes}
                   >
                     {name}
-                  </ContentLink>
+                  </Link>
                 ) : (
                   <a
-                    href={url}
+                    href={url.href}
                     className={classes.link}
                     key={key}
                     {...attributes}
