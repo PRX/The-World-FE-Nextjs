@@ -42,14 +42,11 @@ export const storyHeaderStyles = makeStyles()((theme) => ({
   bylinePeople: {},
 
   bylinePerson: {
-    '&::after': {
+    '&:not(:first-of-type):not(:last-of-type)::before': {
       content: "', '"
     },
     '&:last-of-type:not(:only-child)::before': {
       content: "' and '"
-    },
-    '&:last-of-type::after': {
-      content: "''"
     }
   },
 
