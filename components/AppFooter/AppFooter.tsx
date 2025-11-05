@@ -87,40 +87,6 @@ export const AppFooter = () => {
                 />
               </a>
             </li>
-            {/*
-            <li className={classes.fundedByMuiLi}>
-              <a
-                className={classes.logoLink}
-                href="https://www.macfound.org/"
-                aria-label="MacArthur Foundation"
-              >
-                <Image
-                  className={classes.logo}
-                  alt="MacArthur Foundation"
-                  title="MacArthur Foundation"
-                  src="https://media.pri.org/s3fs-public/images/2024/03/macarthur-foundation-logo-ec538487d4-seeklogo.png"
-                  width="171"
-                  height="60"
-                />
-              </a>
-            </li>
-            */}
-            <li className={classes.fundedByMuiLi}>
-              <a
-                className={classes.logoLink}
-                href="https://www.fordfoundation.org/"
-                aria-label="Ford Foundation"
-              >
-                <Image
-                  className={classes.logo}
-                  alt="Ford Foundation"
-                  title="Ford Foundation"
-                  src="https://media.pri.org/s3fs-public/images/2024/03/logo_of_the_ford_foundation.png"
-                  width="270"
-                  height="40"
-                />
-              </a>
-            </li>
           </ol>
         </Box>
       </Container>
