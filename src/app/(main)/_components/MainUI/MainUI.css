@@ -1,0 +1,5 @@
+@property --ui-drawer--width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 62;
+}

@@ -1,0 +1,43 @@
+@property --gutter-top {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --gutter-bottom {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --gutter-left {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --gutter-right {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  --tw-logo-globe--animation-duration: 30s;
+
+  --z-ui: 1000;
+  --z-dialog: 10000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(205 47% 42%);
+    --foreground: #efefef;
+  }
+}
+
+body {
+  background-color: var(--color-blue);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}

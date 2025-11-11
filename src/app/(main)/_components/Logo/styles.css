@@ -1,0 +1,101 @@
+@property --tw-logo-globe--animation-duration {
+  syntax: "<duration>";
+  inherits: true;
+  initial-value: -1;
+}
+
+#tw-logo-globe {
+  --_tw-logo-globe--animation-duration: var(
+    --tw-logo-globe--animation-duration,
+    1s
+  );
+  --_tw-logo-globe--stroke: var(
+    --tw-logo-globe--stroke,
+    var(--tw-logo--color, currentColor)
+  );
+}
+
+#tw-logo-globe--longitude-1 {
+  animation: tw-logo-globe--longitude-1--tween
+    var(--_tw-logo-globe--animation-duration) linear infinite normal forwards;
+}
+@keyframes tw-logo-globe--longitude-1--tween {
+  0% {
+    d: path(
+      "M328.375416,-106.457429C29.986398,-106.457427,-19.599106,346.337968,328.375416,391.200508"
+    );
+  }
+  100% {
+    d: path(
+      "M328.375416,-106.457429C134.164223,14.162241,111.097442,269.939912,328.375416,391.200508"
+    );
+  }
+}
+
+#tw-logo-globe--longitude-2 {
+  animation: tw-logo-globe--longitude-2--tween
+    var(--_tw-logo-globe--animation-duration) linear infinite normal forwards;
+}
+@keyframes tw-logo-globe--longitude-2--tween {
+  0% {
+    d: path(
+      "M328.375416,-106.457429C135.216524,15.380621,112.417609,269.168214,328.375416,391.200508"
+    );
+  }
+  100% {
+    d: path(
+      "M328.375416,-106.457429C266.945154,18.02812,239.147069,264.931998,328.375416,391.200508"
+    );
+  }
+}
+
+#tw-logo-globe--longitude-3 {
+  animation: tw-logo-globe--longitude-3--tween
+    var(--_tw-logo-globe--animation-duration) linear infinite normal forwards;
+}
+@keyframes tw-logo-globe--longitude-3--tween {
+  0% {
+    d: path(
+      "M328.375416,-106.457429C266.945154,18.02812,239.147069,264.931998,328.375416,391.200508"
+    );
+  }
+  100% {
+    d: path(
+      "M328.375416,-106.457429C375.455739,0.07313,439.196737,231.830253,328.375416,391.200508"
+    );
+  }
+}
+
+#tw-logo-globe--longitude-4 {
+  animation: tw-logo-globe--longitude-4--tween
+    var(--_tw-logo-globe--animation-duration) linear infinite normal forwards;
+}
+@keyframes tw-logo-globe--longitude-4--tween {
+  0% {
+    d: path(
+      "M328.375416,-106.457429C375.455739,0.07313,439.196737,231.830253,328.375416,391.200508"
+    );
+  }
+  100% {
+    d: path(
+      "M328.375416,-106.457429C508.079829,7.874547,568.006561,239.407301,328.375416,391.200508"
+    );
+  }
+}
+
+#tw-logo-globe--longitude-5 {
+  animation: tw-logo-globe--longitude-5--tween
+    var(--_tw-logo-globe--animation-duration) linear infinite normal forwards;
+}
+@keyframes tw-logo-globe--longitude-5--tween {
+  0% {
+    d: path(
+      "M328.375416,-106.457429C508.079829,7.874547,568.006561,239.407301,328.375416,391.200508"
+    );
+  }
+  100% {
+    d: path(
+      "M328.375416,-106.457429C606.981352,-97.691512,687.219713,308.008066,328.375416,391.200508"
+    );
+  }
+}
