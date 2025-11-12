@@ -4,7 +4,7 @@
  * Parse API audio data to player audio data.
  */
 
-import type { IAudioData } from "@/components/Player/types";
+import type { IAudioData } from "@/interfaces/player";
 import type {
   Contributor,
   Episode,

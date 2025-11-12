@@ -3,7 +3,7 @@
  * Interfaces for content.
  */
 
-import { ISocialLink } from '@interfaces/social';
+import type { ISocialLink } from "@/interfaces/social";
 
 export interface IContentComponentProps<D> {
   data: D;

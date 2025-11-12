@@ -4,8 +4,7 @@
  * Define interfaces for ctaRegionGroupData.
  */
 
-import { AnyAction } from 'redux';
-import { ICtaFilterProps, ICtaMessage } from '@interfaces/cta';
+import type { ICtaFilterProps, ICtaMessage } from "@/interfaces/cta";
 
 export interface CtaRegionGroupData {
   // Key: CTA Region Group Name
@@ -31,7 +30,7 @@ export interface CtaRegionGroupDataState {
   filterProps?: CtaRegionGroupFilterProps;
 }
 
-export interface CtaRegionGroupAction extends AnyAction {
+export interface CtaRegionGroupAction {
   payload: {
     ctaRegionData?: CtaRegionGroupDataState;
     data?: CtaRegionGroupData;

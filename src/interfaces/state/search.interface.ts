@@ -4,12 +4,11 @@
  * Define interfaces for search state.
  */
 
-import { AnyAction } from 'redux';
-import { ContentNodeConnection } from '@interfaces/api';
+import type { ContentNodeConnection } from "@/interfaces/api";
 
-export const searchFacetKeys = ['posts', 'episodes', 'segments'] as const;
+export const searchFacetKeys = ["posts", "episodes", "segments"] as const;
 export type SearchFacet = (typeof searchFacetKeys)[number];
-export type SearchFacetAll = (typeof searchFacetKeys)[number] | 'all';
+export type SearchFacetAll = (typeof searchFacetKeys)[number] | "all";
 
 // eslint-disable-next-line no-unused-vars
 export type SearchQueryCursors = { [key in SearchFacet]?: string };
@@ -48,7 +47,7 @@ export type SearchResultsData = {
   [key in SearchFacet]?: ContentNodeConnection;
 };
 
-export interface SearchAction extends AnyAction {
+export interface SearchAction {
   payload: {
     search?: SearchState;
     query: string;

@@ -10,8 +10,8 @@ import type {
   ProvinceOrState,
   Region,
   SocialTag,
-  Tag
-} from '@interfaces';
+  Tag,
+} from "@/interfaces";
 
 export type PostTag =
   | Tag

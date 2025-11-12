@@ -4,7 +4,7 @@
  * Define interfaces for collections state.
  */
 
-import { PageInfo } from '@interfaces/api';
+import type { PageInfo } from "@/interfaces/api";
 
 export type RefItem = {
   cursor: string;

@@ -1,12 +1,12 @@
-import {
+import type {
   ContentNode,
   Episode,
   Node,
   NodeWithFeaturedImage,
   NodeWithTitle,
   PostStory,
-  Segment
-} from '@interfaces';
+  Segment,
+} from "@/interfaces";
 
 /**
  * Audio data interface.

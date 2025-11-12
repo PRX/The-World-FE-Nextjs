@@ -4,8 +4,7 @@
  * Define interfaces for ctaData.
  */
 
-import { AnyAction } from 'redux';
-import { ICtaMessage } from '@interfaces/cta';
+import type { ICtaMessage } from "@/interfaces/cta";
 
 export interface CtaDataState {
   // Key: Resource signature.
@@ -24,7 +23,7 @@ export interface CtaDataState {
   };
 }
 
-export interface CtaAction extends AnyAction {
+export interface CtaAction {
   payload: {
     ctaData?: CtaDataState;
     type: string;

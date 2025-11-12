@@ -3,7 +3,7 @@
  * Interfaces for link.
  */
 
-import type { Maybe } from '@interfaces/api';
+import type { Maybe } from "@/interfaces/api";
 
 export interface ICMApiCustomField {
   Key: string;

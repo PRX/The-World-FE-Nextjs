@@ -12,7 +12,6 @@ import type {
   CategoryToPostConnection,
   CollectionQueryOptions,
   ContributorToPostConnection,
-  IApp,
   ICMApiCustomField,
   INewsletterOptions,
   INewsletterData,
@@ -108,8 +107,8 @@ export const fetchApiQueryAlias = async (alias: string, init?: RequestInit) =>
  * @returns
  *    App data object.
  */
-export const fetchApiApp = async (init?: RequestInit) =>
-  fetchApi<IApp>({ path: "app", init });
+// export const fetchApiApp = async (init?: RequestInit) =>
+//   fetchApi<IApp>({ path: "app", init });
 
 /**
  * Method that simplifies GET queries for homepage data.

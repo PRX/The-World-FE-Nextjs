@@ -3,11 +3,15 @@
  * Interfaces for content.
  */
 
-import { Category, ContentNode, Newsletter, Program } from '@interfaces/api';
-import { IButton } from '@interfaces/button';
-import { INewsletterOptions } from '@interfaces/newsletter';
+import type {
+  Category,
+  ContentNode,
+  Newsletter,
+  Program,
+} from "@/interfaces/api";
+import type { INewsletterOptions } from "@/interfaces/newsletter";
 
-export type CtaMessageType = 'info' | 'optin' | 'donation' | 'newsletter';
+export type CtaMessageType = "info" | "optin" | "donation" | "newsletter";
 
 export interface ICtaMessage {
   name: string;
@@ -17,8 +21,8 @@ export interface ICtaMessage {
   message?: string;
   optinLabel?: string;
   cookieLifespan?: number;
-  action?: IButton;
-  dismiss?: IButton;
+  // action?: IButton;
+  // dismiss?: IButton;
   newsletter?: Newsletter;
   newsletterOptions?: INewsletterOptions;
   targetContent?: ContentNode[];
