@@ -28,6 +28,14 @@ const nextConfig: NextConfig = withPlausibleProxy({
     deviceSizes: [370, 600, 960, 1280, 1920, 2048, 3840],
     imageSizes: [50, 86, 100, 172, 200, 300, 400, 568, 808],
   },
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
 });
 
 export default nextConfig;

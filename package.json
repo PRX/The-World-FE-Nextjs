@@ -33,6 +33,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@graphql-codegen/cli": "^6.0.0",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/base-64": "^1.0.2",
     "@types/htmlparser2": "^4.1.0",

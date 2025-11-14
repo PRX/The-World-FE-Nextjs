@@ -1,7 +1,6 @@
 "use client";
 
 import { HeartHandshakeIcon, MenuIcon, PlayIcon, XIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React, { type CSSProperties, useEffect, useRef, useState } from "react";
 import cn from "@/lib/util/css/cn";
@@ -10,7 +9,12 @@ import "./MainUI.css";
 import { useBreakpoint } from "@react-awesome/use-breakpoint";
 import { usePathname } from "next/navigation";
 import DonateModalLink from "@/components/Donate/DonateModalLink";
+import CcnLogo from "@/assets/svg/logos/CCN-Logo.svg";
+import GbhLogo from "@/assets/svg/logos/GBH-Logo.svg";
+import ProgressiveLogo from "@/assets/svg/logos/Progressive-Logo.svg";
+import PrxLogo from "@/assets/svg/logos/PRX-Logo-Horizontal.svg";
 import MainUIContext from "../../_contexts/MainUIContext";
+import MainUIFooterLogoGroup from "./MainUIFooterLogoGroup";
 
 export default function MainUI({
   children,
@@ -135,10 +139,10 @@ export default function MainUI({
     >
       <header
         ref={headerRef}
-        className="
-        fixed bottom-full translate-y-(--gutter-top) z-(--z-ui) grid 
-        before:absolute before:inset-0 before:z-[-1] before:bg-navy-blue/30 before:backdrop-blur-lg before:mask-b-from-25% before:mask-b-to-100%
-      "
+        className={cn(
+          "fixed bottom-full translate-y-(--gutter-top) z-(--z-ui) grid",
+          "before:absolute before:inset-0 before:z-[-1] before:bg-navy-blue/30 before:backdrop-blur-lg before:mask-b-from-25% before:mask-b-to-100%",
+        )}
       >
         <div className="p-4 hidden">
           <div className="bg-foreground text-navy-blue rounded-md max-w-[900px] grid place-content-center mx-auto p-6">
@@ -151,6 +155,10 @@ export default function MainUI({
               type="button"
               className="p-1 cursor-pointer"
               onClick={handleMenuClick}
+              aria-label="Main Menu"
+              aria-haspopup="true"
+              aria-controls="main-menu"
+              aria-expanded={isMenuOpen}
             >
               <MenuIcon />
             </button>
@@ -172,6 +180,9 @@ export default function MainUI({
         </div>
       </header>
       <div
+        id="main-menu"
+        role="menu"
+        aria-labelledby="main-menu-button"
         className={cn(
           "fixed inset-0 flex flex-col transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
           "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none",
@@ -184,10 +195,12 @@ export default function MainUI({
           <div className="flex items-center gap-2">
             <button
               type="button"
+              id="main-menu-button-mobile"
               className="p-1 cursor-pointer"
               onClick={() => {
                 setIsMenuOpen(false);
               }}
+              aria-label="Close Menu"
             >
               <MenuIcon />
             </button>
@@ -283,52 +296,24 @@ export default function MainUI({
         {children}
       </MainUIContext.Provider>
 
-      <footer className="self-end flex gap-[24px] flex-wrap p-4 md:ml-(--gutter-left) mb-(--gutter-bottom) items-center justify-center font-serif">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      <footer className="grid justify-items-center gap-16 py-20 ml-(--gutter-left) mb-(--gutter-bottom)">
+        <div className="flex flex-wrap justify-center gap-x-20 gap-y-10">
+          <MainUIFooterLogoGroup heading="Produced By">
+            <PrxLogo aria-label="PRX" />
+            <GbhLogo data-color="inherit" aria-label="GBH" />
+          </MainUIFooterLogoGroup>
+
+          <MainUIFooterLogoGroup heading="Thanks To Our Sponsor">
+            <ProgressiveLogo aria-label="Progressive Insurance" />
+          </MainUIFooterLogoGroup>
+        </div>
+
+        <MainUIFooterLogoGroup heading="Major Funders">
+          <CcnLogo
+            className="!h-18"
+            aria-label="Carnegie Corporation of New York"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        </MainUIFooterLogoGroup>
       </footer>
     </div>
   );

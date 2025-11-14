@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
-import MainUI from "./_components/MainUI/MainUI";
+import MainUI from "./_components/MainUI";
 import "./_css/main.css";
 import "@/css/globals.css";
 import LogoDefs from "./_components/Logo/LogoDefs";
