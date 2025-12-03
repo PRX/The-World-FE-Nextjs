@@ -11,18 +11,18 @@ import type {
 } from "@/interfaces/api";
 import type { INewsletterOptions } from "@/interfaces/newsletter";
 
-export type CtaMessageType = "info" | "optin" | "donation" | "newsletter";
+export type CtaMessageType = "info" | "donation" | "newsletter";
 
 export interface ICtaMessage {
-  name: string;
+  id: string;
   type: CtaMessageType;
   hash: string;
   heading?: string;
   message?: string;
   optinLabel?: string;
   cookieLifespan?: number;
-  // action?: IButton;
-  // dismiss?: IButton;
+  action?: { name: string; url: string };
+  dismiss?: { name: string };
   newsletter?: Newsletter;
   newsletterOptions?: INewsletterOptions;
   targetContent?: ContentNode[];

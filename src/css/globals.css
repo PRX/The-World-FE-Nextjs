@@ -14,6 +14,8 @@
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
     "DejaVu Sans Mono", monospace;
 
+  --text-md: calc(var(--spacing) * 4);
+
   /* Remove default color utilities. */
   --color-\*: initial;
   /* Define our own color palette. */
@@ -21,6 +23,7 @@
   --color-white: hsl(0 100% 100%);
   --color-navy-blue: hsl(200 100% 17%);
   --color-blue: hsl(200 55% 40%);
+  --color-light-blue: hsl(200 55% 50%);
   --color-cyan: hsl(200 83% 75%);
   --color-red: hsl(4 63% 49%);
   --color-burnt-orange: hsl(35 96% 41%);
@@ -32,6 +35,7 @@
 
   /* shadcn/ui theme */
   --color-background: var(--background);
+  --color-background-end: var(--background-end);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -62,10 +66,15 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Animations */
+
+  /* ...ADD ANIMATIONS HERE... */
 }
 
 :root {
   --background: transparent;
+  --background-end: transparent;
   --foreground: var(--color-white);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: var(--color-white);
@@ -77,8 +86,8 @@
   --secondary-foreground: var(--color-white);
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: var(--color-cyan);
-  --accent-foreground: var(--color-navy-blue);
+  --accent: color-mix(in oklch, var(--color-white) 20%, transparent);
+  --accent-foreground: var(--color-white);
   --destructive: oklch(0.704 0.191 22.216);
   --border: var(--color-cyan);
   --input: oklch(1 0 0 / 15%);
@@ -150,7 +159,7 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
+  --ring: var(--color-cyan);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -171,6 +180,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-xl/normal;
   }
 }

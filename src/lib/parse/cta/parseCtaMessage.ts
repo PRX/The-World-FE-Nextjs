@@ -28,7 +28,7 @@ export const parseCtaMessage = (
 ) =>
   cta?.ctaOptions?.ctaType
     ? ({
-        name: cta.id,
+        id: cta.id,
         type: cta.ctaOptions.ctaType,
         hash: `${cta.id}:${cta.modified}`,
         ...(cta.ctaOptions.content?.heading && {
@@ -40,9 +40,10 @@ export const parseCtaMessage = (
         ...(cta.ctaSettings?.cookieLifespan && {
           cookieLifespan: cta.ctaSettings.cookieLifespan,
         }),
-        ...(cta.ctaOptions.optInSettings?.optInText && {
-          optinLabel: cta.ctaOptions.optInSettings.optInText,
-        }),
+        ...(cta.ctaOptions.ctaType === "optin" &&
+          cta.ctaOptions.optInSettings?.optInText && {
+            optinLabel: cta.ctaOptions.optInSettings.optInText,
+          }),
         ...(cta.ctaOptions.actions?.actionButtonLabel && {
           action: {
             name: cta.ctaOptions.actions.actionButtonLabel,

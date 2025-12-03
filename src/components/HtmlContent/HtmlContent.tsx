@@ -9,6 +9,7 @@ import parse, {
   type HTMLReactParserOptions,
   type DOMNode,
 } from "html-react-parser";
+import { cn } from "@/lib/utils";
 // import {
 //   anchorToLink,
 //   audioDescendant,
@@ -29,6 +30,7 @@ import parse, {
 
 export interface IHtmlContentProps {
   html?: Maybe<string>;
+  className?: string;
   transforms?: ((
     // eslint-disable-next-line no-unused-vars
     N: DOMNode,
@@ -39,7 +41,11 @@ export interface IHtmlContentProps {
   ) => ReactElement | undefined | null)[];
 }
 
-export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
+export const HtmlContent = ({
+  className,
+  html,
+  transforms = [],
+}: IHtmlContentProps) => {
   if (!html) return null;
 
   const cleanHtml = (dirtyHtml: string) =>
@@ -96,10 +102,20 @@ export const HtmlContent = ({ html, transforms = [] }: IHtmlContentProps) => {
   //   );
 
   return (
-    <>
+    <div
+      className={cn(
+        // Block spacing.
+        "[&>*+*]:mt-[1.2em]",
+        // Anchor links.
+        "[&_a]:underline [&_a]:underline-offset-4",
+        // Lists.
+        "[&_:where(ul,ol)]:ps-10 [&_ul]:list-disc [&_ol]:list-decimal",
+        className,
+      )}
+    >
       {parse(cleanHtml(html), {
         // transform: transform,
       })}
-    </>
+    </div>
   );
 };

@@ -1,17 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { type ReactNode, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function DonateModalLink({
   campaign,
   className,
   children,
   ...props
-}: {
+}: React.ComponentProps<typeof Button> & {
   campaign: string;
-  children?: ReactNode;
-  className?: string;
 }) {
   const [modal, setModal] = useState<{ open: (c: string) => void }>();
   const handleClick = useCallback(() => {
@@ -27,21 +26,22 @@ export default function DonateModalLink({
   }, []);
 
   return modal ? (
-    <button
+    <Button
       type="button"
+      {...props}
       className={cn("cursor-pointer", className)}
       onClick={handleClick}
     >
       {children}
-    </button>
+    </Button>
   ) : (
-    <a
-      className={cn(className)}
-      href={`?campaign=${campaign}`}
-      target={`donate-to-the-world:${campaign}`}
-      {...props}
-    >
-      {children}
-    </a>
+    <Button asChild {...props}>
+      <a
+        href={`?campaign=${campaign}`}
+        target={`donate-to-the-world:${campaign}`}
+      >
+        {children}
+      </a>
+    </Button>
   );
 }

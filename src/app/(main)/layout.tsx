@@ -15,11 +15,18 @@ export const metadata: Metadata = {
 export default async function MainLayout({
   children,
   browser,
+  siteBanner,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
+  siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
+  const mainUiProps = {
+    browser,
+    siteBanner,
+  };
+
   return (
     <html lang="en">
       <head>
@@ -41,7 +48,7 @@ export default async function MainLayout({
           selfHosted
           trackOutboundLinks
         >
-          <MainUI browser={browser}>{children}</MainUI>
+          <MainUI {...mainUiProps}>{children}</MainUI>
         </PlausibleProvider>
         <LogoDefs />
       </body>

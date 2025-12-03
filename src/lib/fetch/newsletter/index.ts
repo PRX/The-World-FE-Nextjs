@@ -1,1 +1,1 @@
-export * from './fetchGqlNewsletter';
+export * from "./fetchGqlNewsletter";

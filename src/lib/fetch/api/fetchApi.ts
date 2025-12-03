@@ -165,6 +165,7 @@ export const postNewsletterSubscription = async (
     emailAddress,
     customFields,
   };
+
   return fetch("/api/newsletter/subscribe", {
     ...init,
     method: "POST",

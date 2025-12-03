@@ -2,6 +2,7 @@ export * from "./api";
 export * from "./audio";
 export * from "./category";
 export * from "./contributor";
+export * from "./cta";
 export * from "./episode";
 export * from "./newsletter";
 export * from "./page";
