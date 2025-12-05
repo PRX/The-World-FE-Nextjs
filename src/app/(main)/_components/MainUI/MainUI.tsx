@@ -210,7 +210,7 @@ export default function MainUI({
           role="menu"
           aria-labelledby="main-menu-button"
           className={cn(
-            "fixed inset-0 flex flex-col transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
+            "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
             "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}
@@ -246,7 +246,7 @@ export default function MainUI({
           <div
             ref={drawerRef}
             className={cn(
-              "grid grid-cols-1 gap-x-2 overflow-hidden",
+              "grow grid grid-cols-1 gap-x-2 overflow-hidden",
               "md:w-(--ui-drawer--width)",
               {
                 "max-md:*:nth-[n+2]:hidden": hasBrowser,
