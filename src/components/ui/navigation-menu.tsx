@@ -24,7 +24,7 @@ function NavigationMenu({
         } as React.CSSProperties
       }
       className={cn(
-        "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
+        "group/navigation-menu relative justify-stretch items-center",
         className,
       )}
       {...props}
@@ -47,8 +47,10 @@ function NavigationMenuList({
       data-slot="navigation-menu-list"
       data-size={size}
       className={cn(
-        "group flex flex-1 list-none justify-center gap-1 data-[size=compact]:gap-2 data-[size=compact]:my-4",
+        "group flex gap-1 list-none data-[size=compact]:justify-center data-[size=compact]:gap-2 data-[size=compact]:my-4",
         "data-[orientation=vertical]:flex-col",
+        // Size: Compact
+        "data-[size=compact]:[&>li>:where(a,button)]:grid data-[size=compact]:[&>li>:where(a,button)]:grid-rows-[repeat(2,min-content)] data-[size=compact]:[&>li>:where(a,button)]:justify-items-center data-[size=compact]:[&>li>:where(a,button)]:items-start data-[size=compact]:[&>li>:where(a,button)]:w-auto data-[size=compact]:[&>li>:where(a,button)]:p-2 data-[size=compact]:[&>li>:where(a,button)]:rounded-sm data-[size=compact]:[&>li>:where(a,button)]:text-sm data-[size=compact]:[&>li>:where(a,button)]:font-medium",
         className,
       )}
       {...props}
@@ -64,7 +66,7 @@ function NavigationMenuItem({
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
       className={cn(
-        "relative group-data-[size=compact]:grid group-data-[size=compact]:px-3",
+        "relative grid group-data-[size=compact]:grid group-data-[size=compact]:px-3",
         className,
       )}
       {...props}
@@ -90,12 +92,10 @@ function NavigationMenuItemSeparator({
 }
 
 const navigationMenuTriggerStyle = cva([
-  "group flex items-center justify-center rounded-sm bg-background px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
-  "hover:bg-accent/20 hover:text-white focus-visible:bg-accent/20 focus-visible:text-white",
+  "group flex items-center justify-center rounded-sm bg-background px-4 py-2 disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
+  "hover:bg-accent hover:text-white focus-visible:bg-accent focus-visible:text-white",
   // Size: Normal.
   "group-data-[size=normal]:data-[state=open]:hover:bg-accent group-data-[size=normal]:data-[state=open]:text-accent-foreground group-data-[size=normal]:data-[state=open]:focus:bg-accent group-data-[size=normal]:data-[state=open]:bg-accent/50 group-data-[size=normal]:focus-visible:ring-ring/50 group-data-[size=normal]:focus-visible:ring-[3px] group-data-[size=normal]:focus-visible:outline-1",
-  // Size: Compact
-  "group-data-[size=compact]:grid group-data-[size=compact]:grid-rows-[repeat(2,min-content)] group-data-[size=compact]:justify-items-center group-data-[size=compact]:items-start group-data-[size=compact]:w-auto group-data-[size=compact]:p-2",
 ]);
 
 function NavigationMenuTrigger({
@@ -140,7 +140,7 @@ function NavigationMenuContent({
         } as React.CSSProperties
       }
       className={cn(
-        "top-0 left-0 relative md:absolute md:w-auto md:mask-[linear-gradient(to_right,transparent,black_var(--blur-lg))] md: backdrop-blur-lg",
+        "top-0 left-0 relative pe-0.5 md:absolute md:w-auto md:mask-[linear-gradient(to_right,transparent,black_var(--blur-lg))] md:backdrop-blur-lg",
         "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out",
         "group-data-[orientation=horizontal]:data-[motion=from-end]:slide-in-from-right-52 group-data-[orientation=horizontal]:data-[motion=from-start]:slide-in-from-left-52 group-data-[orientation=horizontal]:data-[motion=to-end]:slide-out-to-right-52 group-data-[orientation=horizontal]:data-[motion=to-start]:slide-out-to-left-52",
         "group-data-[orientation=vertical]:data-[motion=from-end]:slide-in-from-bottom-12 group-data-[orientation=vertical]:data-[motion=from-start]:slide-in-from-top-12 group-data-[orientation=vertical]:data-[motion=to-end]:slide-out-to-bottom-12 group-data-[orientation=vertical]:data-[motion=to-start]:slide-out-to-top-12",
@@ -207,8 +207,11 @@ function NavigationMenuLink({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "flex gap-1 items-center rounded-r-sm p-2 pl-(--blur-lg) transition-all outline-none font-bold whitespace-nowrap",
-        "data-[active=true]:focus:bg-accent/80 data-[active=true]:hover:bg-accent/80 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground hover:bg-accent/20 hover:text-white focus:bg-accent/20 focus:text-white focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-current focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-6",
+        "flex gap-2 items-center rounded-sm p-2 transition-all outline-none text-base font-bold whitespace-nowrap",
+        "hover:bg-accent hover:text-white hover:backdrop-blur-sm focus:backdrop-blur-sm focus:bg-accent/40 focus:text-white focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:outline-1",
+        "[&_svg:not([class*='text-'])]:text-current [&_svg:not([class*='size-'])]:size-6",
+        "group-data-[size=compact]:rounded-l-none group-data-[size=compact]:pl-(--blur-lg)",
+        "data-[active=true]:focus:bg-accent/80 data-[active=true]:hover:bg-accent/80 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground",
         className,
       )}
       {...props}
@@ -218,12 +221,17 @@ function NavigationMenuLink({
 
 function NavigationMenuLinkSeparator({
   className,
+  from = "start",
   ...props
-}: React.ComponentProps<typeof Separator>) {
+}: React.ComponentProps<typeof Separator> & { from?: "start" | "end" }) {
   return (
     <Separator
       className={cn(
-        "bg-transparent bg-linear-to-r from-border/0 to-border/50",
+        "bg-transparent from-border/50 to-border/0",
+        {
+          "bg-linear-to-r": from === "start",
+          "bg-linear-to-l": from === "end",
+        },
         className,
       )}
       {...props}

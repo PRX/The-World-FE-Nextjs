@@ -1,6 +1,7 @@
 "use client";
 
-import { HeartHandshakeIcon, MenuIcon, PlayIcon, XIcon } from "lucide-react";
+import type { AppMenus } from "@/interfaces";
+import { HeartHandshakeIcon, MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import React, {
   type CSSProperties,
@@ -22,16 +23,21 @@ import PrxLogo from "@/assets/svg/logos/PRX-Logo-Horizontal.svg";
 import MainUIContext from "../../_contexts/MainUIContext";
 import MainUIFooterLogoGroup from "./MainUIFooterLogoGroup";
 import { Toaster } from "@/components/ui/sonner";
+import MainUIMenu from "./MainUIMenu";
+import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
 
 export default function MainUI({
   children,
   browser,
   siteBanner,
+  menus,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
   siteBanner: React.ReactNode;
+  menus: AppMenus;
 }>) {
+  const { footerNav } = menus || {};
   const pathname = usePathname();
   const { greaterOrEqual } = useBreakpoint();
   const isDesktopLayout = greaterOrEqual("md");
@@ -138,7 +144,7 @@ export default function MainUI({
   }, [pathname, updateGutters]);
 
   return (
-    <MainUIContext.Provider value={{ isMenuOpen, updateGutters }}>
+    <MainUIContext.Provider value={{ isMenuOpen, updateGutters, menus }}>
       <Toaster />
       <div
         className="group/ui grid min-h-svh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
@@ -232,7 +238,7 @@ export default function MainUI({
           </div>
 
           {/* Tag Line */}
-          <div className="p-4 pt-0 text-base/5">
+          <div className="p-4 pt-0 text-base/5 max-w-62">
             <p>Public radio’s longest-running daily global news program.</p>
           </div>
 
@@ -240,7 +246,7 @@ export default function MainUI({
           <div
             ref={drawerRef}
             className={cn(
-              "grow grid grid-cols-1 gap-x-2",
+              "grid grid-cols-1 gap-x-2 overflow-hidden",
               "md:w-(--ui-drawer--width)",
               {
                 "max-md:*:nth-[n+2]:hidden": hasBrowser,
@@ -253,48 +259,39 @@ export default function MainUI({
           >
             <div
               className={cn(
-                "overflow-y-auto transition-all",
-                "grid border-1 border-white/20 p-1 rounded-lg", // TEMP STYLES
+                "overflow-x-hidden overflow-y-auto no-scrollbar transition-all",
+                "mask-t-from-[calc(100%-var(--spacing)*3)]",
               )}
               onPointerEnter={() => {
                 setIsMenuExpanded(true);
               }}
             >
-              <div
-                className={cn(
-                  "grid place-items-center bg-foreground md:bg-foreground/30 rounded-md text-navy-blue", // TEMP STYLES
-                )}
-              >
-                <span
-                  className={cn({ "[writing-mode:vertical-lr]": !!browser })}
-                >
-                  MENU
-                </span>
-                <button
-                  className="grid place-items-center"
-                  type="button"
-                  onClick={() => {
-                    document.dispatchEvent(
-                      new CustomEvent("player-open", {
-                        bubbles: true,
-                        cancelable: true,
-                      }),
-                    );
-                  }}
-                >
-                  <PlayIcon />
-                </button>
-              </div>
+              <MainUIMenu />
             </div>
+
             {browser}
           </div>
 
+          <NavigationMenuLinkSeparator />
+
           {/* Footer */}
-          <div className="p-4 text-xs/4">
-            <p>©2025 The World from PRX</p>
-            <p>
-              PRX is a 501(c)(3) organization recognized by the IRS: #263347402.
-            </p>
+          <div className="grid gap-2 p-4 text-xs/4 max-w-62">
+            {footerNav && (
+              <nav className="flex flex-wrap gap-x-2">
+                {footerNav.map(({ key, url, label, attributes }) => (
+                  <Link href={url} key={key} {...attributes}>
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            )}
+            <div>
+              <p>©2025 The World from PRX</p>
+              <p>
+                PRX is a 501(c)(3) organization recognized by the IRS:
+                #263347402.
+              </p>
+            </div>
           </div>
         </div>
         <div

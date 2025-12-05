@@ -5,6 +5,7 @@ import "./_css/main.css";
 import "@/css/globals.css";
 import LogoDefs from "./_components/Logo/LogoDefs";
 import LogoGlobe from "./_components/Logo/LogoGlobe";
+import { fetchGqlApp } from "@/lib/fetch";
 
 export const metadata: Metadata = {
   title: "The World from PRX",
@@ -22,8 +23,10 @@ export default async function MainLayout({
   siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
+  const { menus } = (await fetchGqlApp()) || { menus: {} };
   const mainUiProps = {
     browser,
+    menus,
     siteBanner,
   };
 

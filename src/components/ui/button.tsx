@@ -20,6 +20,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        unstyled: "",
       },
       size: {
         default:
@@ -50,6 +51,7 @@ function Button({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
+  const isUnstyled = variant === "unstyled";
 
   return (
     <Comp
@@ -62,7 +64,11 @@ function Button({
             "var(--button-background-end, var(--color-purple))",
         } as React.CSSProperties
       }
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={
+        isUnstyled
+          ? className
+          : cn(buttonVariants({ variant, size, className }))
+      }
       {...props}
     />
   );
