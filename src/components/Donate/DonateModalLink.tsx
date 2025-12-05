@@ -35,7 +35,7 @@ export default function DonateModalLink({
       {children}
     </Button>
   ) : (
-    <Button asChild {...props}>
+    <Button asChild {...props} className={cn("cursor-pointer", className)}>
       <a
         href={`?campaign=${campaign}`}
         target={`donate-to-the-world:${campaign}`}
