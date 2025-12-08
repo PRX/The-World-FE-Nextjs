@@ -163,9 +163,8 @@ export default function NewsletterCta({
                       message: "Email address must be valid.",
                     },
                   })}
-                  className="h-10 md:text-xl text-foreground placeholder:text-foreground/70 dark:bg-navy-blue/30 dark:not-focus-visible:border-light-blue/50 shadow-none"
+                  className="h-10 md:text-xl text-foreground placeholder:text-foreground/70 bg-navy-blue/30 not-focus-visible:border-light-blue/50 shadow-none"
                   type="email"
-                  pattern={emailPattern}
                   placeholder="Email Address..."
                   autoComplete="off"
                   aria-invalid={!!errors?.emailAddress}
@@ -206,7 +205,7 @@ export default function NewsletterCta({
             <Field orientation="horizontal">
               <Checkbox
                 {...register("optedIn")}
-                className="dark:data-[state=checked]:bg-(--button-background) dark:data-[state=checked]:border-(--button-background-end) dark:text-foreground"
+                className="data-[state=checked]:bg-(--button-background) data-[state=checked]:border-(--button-background-end) text-foreground"
                 id="cta-newsletter-opt-in"
                 defaultChecked={false}
                 onCheckedChange={(checked) => {

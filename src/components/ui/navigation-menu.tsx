@@ -92,8 +92,8 @@ function NavigationMenuItemSeparator({
 }
 
 const navigationMenuTriggerStyle = cva([
-  "group flex items-center justify-center rounded-sm bg-background px-4 py-2 disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
-  "hover:bg-accent hover:text-white focus-visible:bg-accent focus-visible:text-white",
+  "group flex items-center justify-center rounded-sm bg-transparent px-4 py-2 disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
+  "hover:bg-primary hover:text-primary-foreground hover:backdrop-blur-sm focus:backdrop-blur-sm focus-visible:bg-primary focus-visible:text-primary-foreground",
   // Size: Normal.
   "group-data-[size=normal]:data-[state=open]:hover:bg-accent group-data-[size=normal]:data-[state=open]:text-accent-foreground group-data-[size=normal]:data-[state=open]:focus:bg-accent group-data-[size=normal]:data-[state=open]:bg-accent/50 group-data-[size=normal]:focus-visible:ring-ring/50 group-data-[size=normal]:focus-visible:ring-[3px] group-data-[size=normal]:focus-visible:outline-1",
 ]);
@@ -208,10 +208,10 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "flex gap-2 items-center rounded-sm p-2 transition-all outline-none text-base font-bold whitespace-nowrap",
-        "hover:bg-accent hover:text-white hover:backdrop-blur-sm focus:backdrop-blur-sm focus:bg-accent/40 focus:text-white focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:outline-1",
+        "hover:bg-primary hover:text-primary-foreground hover:backdrop-blur-sm focus:backdrop-blur-sm focus:bg-primary focus:text-primary-foreground focus-visible:ring-ring focus-visible:ring-[3px] focus-visible:outline-1",
         "[&_svg:not([class*='text-'])]:text-current [&_svg:not([class*='size-'])]:size-6",
         "group-data-[size=compact]:rounded-l-none group-data-[size=compact]:pl-(--blur-lg)",
-        "data-[active=true]:focus:bg-accent/80 data-[active=true]:hover:bg-accent/80 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground",
+        "data-[active=true]:focus:bg-primary/50 data-[active=true]:hover:bg-primary-foreground data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
         className,
       )}
       {...props}

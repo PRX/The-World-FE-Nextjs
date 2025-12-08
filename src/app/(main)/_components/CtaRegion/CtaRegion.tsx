@@ -60,7 +60,7 @@ export default function CtaRegion({
   return (
     <div
       className={cn(
-        "dark @container/cta-region max-w-250 mx-auto relative",
+        "@container/cta-region max-w-250 mx-auto relative",
         ctaRegionVariants({ type }),
         className,
       )}

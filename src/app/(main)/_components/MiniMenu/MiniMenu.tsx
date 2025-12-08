@@ -49,7 +49,7 @@ export default function MiniMenu() {
             <span>Listen</span>
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid justify-stretch gap-y-1 py-2 [&>a]:mr-2 min-w-50">
+          <NavigationMenuContent className="grid justify-stretch gap-y-1 py-2 [&>a]:mr-1.5 min-w-50">
             <NavigationMenuLink asChild>
               <Link href="/podcasts">
                 <PodcastIcon /> Podcasts
@@ -78,7 +78,7 @@ export default function MiniMenu() {
             <span>Explore</span>
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid gap-y-1 py-2 [&>a]:mr-1.5 min-w-50">
+          <NavigationMenuContent className="grid justify-stretch gap-y-1 py-2 [&>a]:mr-1.5 min-w-50">
             <NavigationMenuLink asChild>
               <Link href="/episodes">
                 <BoomBoxIcon /> Episodes
@@ -125,38 +125,28 @@ export default function MiniMenu() {
             <span>Info</span>
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid justify-stretch gap-y-1 py-2 [&>a]:mr-2 min-w-50">
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/about">
-                  <LogoGlobe /> About
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+          <NavigationMenuContent className="grid justify-stretch gap-y-1 py-2 [&>a]:mr-1.5 min-w-50">
+            <NavigationMenuLink asChild>
+              <Link href="/about">
+                <LogoGlobe /> About
+              </Link>
+            </NavigationMenuLink>
 
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/team">
-                  <UsersIcon /> The Team
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/contact-us">
-                  <MessageCircleQuestionIcon /> Contact
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/privacy-policy">
-                  <ShieldUserIcon /> Privacy
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link href="/team">
+                <UsersIcon /> The Team
+              </Link>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <Link href="/contact-us">
+                <MessageCircleQuestionIcon /> Contact
+              </Link>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <Link href="/privacy-policy">
+                <ShieldUserIcon /> Privacy
+              </Link>
+            </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
