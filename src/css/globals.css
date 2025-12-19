@@ -73,7 +73,8 @@
 }
 
 :root {
-  --background: oklch(0.129 0.042 264.695);
+  --background: var(--color-blue);
+  --background-end: var(--color-green);
   --foreground: var(--color-white);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: var(--color-white);
@@ -81,11 +82,11 @@
   --popover-foreground: var(--color-white);
   --primary: hsl(from var(--color-white) h s l / 20%);
   --primary-foreground: var(--color-white);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: var(--color-white);
+  --secondary: var(--color-cyan);
+  --secondary-foreground: var(--color-navy-blue);
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
+  --accent: hsl(from var(--color-white) h s l / 20%);
   --accent-foreground: var(--color-white);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -180,6 +181,10 @@
   }
   body {
     @apply bg-background text-foreground text-xl/normal;
+  }
+  html,
+  body {
+    overscroll-behavior-y: none;
   }
 }
 

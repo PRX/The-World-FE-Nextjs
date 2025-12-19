@@ -2,26 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import cn from "@/lib/util/css/cn";
 import MiniMenu from "./_components/MiniMenu";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div
       className={cn(
-        "pt-(--gutter-top) pr-(--gutter-right)",
-        "md:grid md:grid-cols-[minmax(var(--gutter-left),min-content)_1fr]",
+        "pl-[max(var(--gutter-left),var(--spacing)*28)] pr-(--gutter-right)",
       )}
     >
       <div className="hidden md:block">
         <div
           className={cn(
             "group-data-menu-open/ui:-translate-x-full transition-transform",
-            "sticky top-(--gutter-top) bottom-(--gutter-bottom) left-0",
+            "fixed top-(--gutter-top) bottom-(--gutter-bottom) left-0 w-28",
           )}
         >
           <MiniMenu />
         </div>
       </div>
-      <main className="col-start-2 grid p-8 min-h-[200vh] transition-margin">
+      <main className="col-start-2 grid content-start gap-y-3 p-8 min-h-[200vh] transition-margin">
         <Image
           className="dark:invert w-45"
           src="/next.svg"
@@ -52,29 +52,31 @@ export default function Home() {
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <Button asChild>
+            <a
+              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                className="dark:invert"
+                src="/vercel.svg"
+                alt="Vercel logomark"
+                width={20}
+                height={20}
+              />
+              Deploy now
+            </a>
+          </Button>
+          <Button variant="outline" asChild>
+            <a
+              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read our docs
+            </a>
+          </Button>
         </div>
       </main>
     </div>

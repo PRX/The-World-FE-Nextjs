@@ -1,3 +1,3 @@
-export default function DefaultBrowser() {
+export default function EpisodesBrowserDefault() {
   return null;
 }

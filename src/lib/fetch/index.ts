@@ -5,6 +5,7 @@ export * from "./category";
 export * from "./contributor";
 export * from "./cta";
 export * from "./episode";
+export * from "./homepage";
 export * from "./newsletter";
 export * from "./page";
 export * from "./program";

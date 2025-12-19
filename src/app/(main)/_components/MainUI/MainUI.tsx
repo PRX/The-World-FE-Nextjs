@@ -29,11 +29,13 @@ import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
 export default function MainUI({
   children,
   browser,
+  hero,
   siteBanner,
   menus,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
+  hero: React.ReactNode;
   siteBanner: React.ReactNode;
   menus: AppMenus;
 }>) {
@@ -139,15 +141,20 @@ export default function MainUI({
     setHasBrowser(!!childElementCount && childElementCount > 1);
 
     updateGutters();
-
-    window.scrollTo(0, 0);
   }, [pathname, updateGutters]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Scroll to top when route changes.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
-    <MainUIContext.Provider value={{ isMenuOpen, updateGutters, menus }}>
+    <MainUIContext.Provider
+      value={{ isMenuOpen, isMenuExpanded, hasBrowser, updateGutters, menus }}
+    >
       <Toaster />
       <div
-        className="group/ui grid min-h-svh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
+        className="group/ui flex flex-col min-h-svh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
         style={styles}
         {...(isMenuOpen && { "data-menu-open": true })}
         {...(isPlayerOpen && { "data-player-open": true })}
@@ -242,6 +249,8 @@ export default function MainUI({
             <p>Public radio’s longest-running daily global news program.</p>
           </div>
 
+          <NavigationMenuLinkSeparator />
+
           {/* Menu and Browser */}
           <div
             ref={drawerRef}
@@ -260,7 +269,6 @@ export default function MainUI({
             <div
               className={cn(
                 "overflow-x-hidden overflow-y-auto no-scrollbar transition-all",
-                "mask-t-from-[calc(100%-var(--spacing)*3)]",
               )}
               onPointerEnter={() => {
                 setIsMenuExpanded(true);
@@ -279,7 +287,12 @@ export default function MainUI({
             {footerNav && (
               <nav className="flex flex-wrap gap-x-2">
                 {footerNav.map(({ key, url, label, attributes }) => (
-                  <Link href={url} key={key} {...attributes}>
+                  <Link
+                    className="hover:underline underline-offset-2"
+                    href={url}
+                    key={key}
+                    {...attributes}
+                  >
                     {label}
                   </Link>
                 ))}
@@ -317,7 +330,11 @@ export default function MainUI({
           </div>
         </div>
 
-        <div className={`-mt-(--gutter-top) md:mt-0`}>{children}</div>
+        <div className="grow">
+          {hero}
+
+          {children}
+        </div>
 
         <footer className="grid justify-items-center gap-16 py-20 ml-(--gutter-left) mb-(--gutter-bottom)">
           <div className="flex flex-wrap justify-center gap-x-20 gap-y-10">

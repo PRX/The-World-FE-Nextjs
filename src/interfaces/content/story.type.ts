@@ -5,5 +5,5 @@
 import type { Category, Maybe, Post } from "@/interfaces/api";
 
 export type PostStory = Post & {
-  primaryCategory?: Maybe<Category>;
+  // Add props that were aliased in the query.
 };

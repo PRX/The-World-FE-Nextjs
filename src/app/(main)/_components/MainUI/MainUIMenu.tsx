@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext } from "react";
-import Link from "next/link";
+import { type HTMLProps, useContext } from "react";
+import NextLink, { type LinkProps } from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuLabel,
   NavigationMenuLink,
   NavigationMenuLinkSeparator,
   NavigationMenuList,
@@ -34,6 +35,7 @@ import YoutubeIcon from "@/assets/svg/icons/brands/youtube.svg";
 import MainUIContext from "../../_contexts/MainUIContext";
 import DonateModalLink from "@/components/Donate/DonateModalLink";
 import LogoGlobe from "../Logo/LogoGlobe";
+import { usePathname } from "next/navigation";
 
 const iconProps = { "aria-hidden": true };
 const serviceIconMap = new Map<string | undefined, React.JSX.Element>();
@@ -44,9 +46,27 @@ serviceIconMap.set("twitter", <TwitterXIcon {...iconProps} />);
 serviceIconMap.set("tiktok", <TikTokIcon {...iconProps} />);
 serviceIconMap.set("youtube", <YoutubeIcon {...iconProps} />);
 
+const Link = ({ href, ...props }: LinkProps & HTMLProps<HTMLAnchorElement>) => {
+  const pathname = usePathname();
+  const isActive = pathname.startsWith(href);
+
+  return (
+    href && (
+      <NextLink
+        href={href}
+        className="NavigationMenuLink"
+        {...props}
+        data-active={isActive}
+      />
+    )
+  );
+};
+
 export default function MainUIMenu() {
-  const { isMenuOpen, menus } = useContext(MainUIContext);
+  const { isMenuOpen, isMenuExpanded, hasBrowser, menus } =
+    useContext(MainUIContext);
   const { socialsNav } = menus || {};
+  const isMenuCollapsed = hasBrowser && !isMenuExpanded;
 
   return (
     <NavigationMenu
@@ -54,6 +74,7 @@ export default function MainUIMenu() {
       orientation="vertical"
       viewport={false}
       inert={!isMenuOpen}
+      data-collapsed={isMenuCollapsed}
     >
       <NavigationMenuList
         size="normal"
@@ -62,7 +83,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/podcasts">
-              <PodcastIcon /> Podcasts
+              <PodcastIcon />
+              <NavigationMenuLabel>Podcasts</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -70,15 +92,17 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/stations">
-              <RadioTowerIcon /> Station Finder
+              <RadioTowerIcon />
+              <NavigationMenuLabel>Station Finder</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/newsletter">
-              <MailIcon /> Newsletter
+            <Link href="/newsletters/top-of-the-world">
+              <MailIcon />
+              <NavigationMenuLabel>Newsletter</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -86,7 +110,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <DonateModalLink variant="unstyled" campaign="731684">
-              <HeartHandshakeIcon /> Donate
+              <HeartHandshakeIcon />
+              <NavigationMenuLabel>Donate</NavigationMenuLabel>
             </DonateModalLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -101,7 +126,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/episodes">
-              <BoomBoxIcon /> Episodes
+              <BoomBoxIcon />
+              <NavigationMenuLabel>Episodes</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -109,7 +135,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/segments">
-              <CassetteTapeIcon /> Segments
+              <CassetteTapeIcon />
+              <NavigationMenuLabel>Segments</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -117,7 +144,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/stories">
-              <BookOpenIcon /> Stories
+              <BookOpenIcon />
+              <NavigationMenuLabel>Stories</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -131,24 +159,27 @@ export default function MainUIMenu() {
       >
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/taxonomy/category">
-              <BookmarkIcon /> By Category
+            <Link href="/categories">
+              <BookmarkIcon />
+              <NavigationMenuLabel>By Category</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/taxonomy/country">
-              <Globe2Icon /> By Country
+            <Link href="/countries">
+              <Globe2Icon />
+              <NavigationMenuLabel>By Country</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/taxonomy/contributor">
-              <UserIcon /> By Contributor
+            <Link href="/contributors">
+              <UserIcon />
+              <NavigationMenuLabel>By Contributor</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -163,15 +194,17 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/about">
-              <LogoGlobe /> About
+              <LogoGlobe />
+              <NavigationMenuLabel>About</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/team">
-              <UsersIcon /> The Team
+            <Link href="/programs/the-world/team">
+              <UsersIcon />
+              <NavigationMenuLabel>The Team</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -179,7 +212,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/contact-us">
-              <MessageCircleQuestionIcon /> Contact
+              <MessageCircleQuestionIcon />
+              <NavigationMenuLabel>Contact</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -187,7 +221,8 @@ export default function MainUIMenu() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/privacy-policy">
-              <ShieldUserIcon /> Privacy
+              <ShieldUserIcon />
+              <NavigationMenuLabel>Privacy</NavigationMenuLabel>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -206,7 +241,8 @@ export default function MainUIMenu() {
                 <NavigationMenuItem key={key}>
                   <NavigationMenuLink asChild>
                     <Link href={url} {...attributes} target="_blank">
-                      {IconComponent || <ExternalLinkIcon />} {label}
+                      {IconComponent || <ExternalLinkIcon />}
+                      <NavigationMenuLabel>{label}</NavigationMenuLabel>
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

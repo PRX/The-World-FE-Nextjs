@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-export default function HeaderImage({ data }: { data: MediaItem }) {
+export default function HeroImageBackground({ data }: { data: MediaItem }) {
   const { altText, mediaDetails, mediaItemUrl, sourceUrl } = data;
   const imageSrc = sourceUrl || mediaItemUrl;
   const { width, height } = mediaDetails || {};
@@ -63,7 +63,7 @@ export default function HeaderImage({ data }: { data: MediaItem }) {
           } as CSSProperties
         }
         className={cn(
-          "absolute inset-0 grid -z-[1] bg-(image:--image) bg-cover bg-fixed bg-center transition-opacity delay-200",
+          "fixed inset-0 grid -z-[1] bg-(image:--image) bg-cover bg-fixed bg-center transition-opacity delay-200",
           {
             "opacity-0": !loaded,
             "opacity-100": loaded,

@@ -76,13 +76,18 @@ function NavigationMenuItem({
 
 function NavigationMenuItemSeparator({
   className,
+  from = "start",
   ...props
-}: React.ComponentProps<typeof Separator>) {
+}: React.ComponentProps<typeof Separator> & { from?: "start" | "end" }) {
   return (
     <li className="self-stretch">
       <Separator
         className={cn(
-          "bg-transparent bg-linear-to-r from-border to-border/0",
+          "bg-transparent from-cyan/50 to-cyan/0",
+          {
+            "bg-linear-to-r": from === "start",
+            "bg-linear-to-l": from === "end",
+          },
           className,
         )}
         {...props}
@@ -93,7 +98,7 @@ function NavigationMenuItemSeparator({
 
 const navigationMenuTriggerStyle = cva([
   "group flex items-center justify-center rounded-sm bg-transparent px-4 py-2 disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
-  "hover:bg-primary hover:text-primary-foreground hover:backdrop-blur-sm focus:backdrop-blur-sm focus-visible:bg-primary focus-visible:text-primary-foreground",
+  "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125 focus:backdrop-blur-sm focus:backdrop-brightness-125 focus-visible:bg-primary focus-visible:text-primary-foreground",
   // Size: Normal.
   "group-data-[size=normal]:data-[state=open]:hover:bg-accent group-data-[size=normal]:data-[state=open]:text-accent-foreground group-data-[size=normal]:data-[state=open]:focus:bg-accent group-data-[size=normal]:data-[state=open]:bg-accent/50 group-data-[size=normal]:focus-visible:ring-ring/50 group-data-[size=normal]:focus-visible:ring-[3px] group-data-[size=normal]:focus-visible:outline-1",
 ]);
@@ -140,11 +145,13 @@ function NavigationMenuContent({
         } as React.CSSProperties
       }
       className={cn(
-        "top-0 left-0 relative pe-0.5 md:absolute md:w-auto md:mask-[linear-gradient(to_right,transparent,black_var(--blur-lg))] md:backdrop-blur-lg",
+        "top-0 left-0 relative pe-0.5 md:absolute md:w-auto md:mask-[linear-gradient(to_right,transparent,black_var(--blur-lg))] md:backdrop-blur-lg md:backdrop-brightness-110",
         "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out",
         "group-data-[orientation=horizontal]:data-[motion=from-end]:slide-in-from-right-52 group-data-[orientation=horizontal]:data-[motion=from-start]:slide-in-from-left-52 group-data-[orientation=horizontal]:data-[motion=to-end]:slide-out-to-right-52 group-data-[orientation=horizontal]:data-[motion=to-start]:slide-out-to-left-52",
         "group-data-[orientation=vertical]:data-[motion=from-end]:slide-in-from-bottom-12 group-data-[orientation=vertical]:data-[motion=from-start]:slide-in-from-top-12 group-data-[orientation=vertical]:data-[motion=to-end]:slide-out-to-bottom-12 group-data-[orientation=vertical]:data-[motion=to-start]:slide-out-to-top-12",
 
+        // Link hover overrides.
+        "**:data-[slot=navigation-menu-link]:hover:bg-secondary/30 **:data-[slot=navigation-menu-link]:hover:text-primary-foreground",
         // Link focus overrides.
         "**:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
 
@@ -208,10 +215,11 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "flex gap-2 items-center rounded-sm p-2 transition-all outline-none text-base font-bold whitespace-nowrap",
-        "hover:bg-primary hover:text-primary-foreground hover:backdrop-blur-sm focus:backdrop-blur-sm focus:bg-primary focus:text-primary-foreground focus-visible:ring-ring focus-visible:ring-[3px] focus-visible:outline-1",
+        "group-data-[collapsed=true]/navigation-menu:w-10",
+        "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125 focus:backdrop-blur-sm focus:backdrop-brightness-125 focus:bg-background/10 focus:text-background-foreground focus-visible:ring-ring/50 focus-visible:inset-ring-1 xfocus-visible:outline-1",
         "[&_svg:not([class*='text-'])]:text-current [&_svg:not([class*='size-'])]:size-6",
         "group-data-[size=compact]:rounded-l-none group-data-[size=compact]:pl-(--blur-lg)",
-        "data-[active=true]:focus:bg-primary/50 data-[active=true]:hover:bg-primary-foreground data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
+        "data-[active=true]:focus:bg-ring/50 data-[active=true]:hover:bg-secondary/30 data-[active=true]:bg-secondary/20 data-[active=true]:backdrop-blur-sm data-[active=true]:backdrop-brightness-125 data-[active=true]:text-background-foreground",
         className,
       )}
       {...props}
@@ -227,7 +235,7 @@ function NavigationMenuLinkSeparator({
   return (
     <Separator
       className={cn(
-        "bg-transparent from-border/50 to-border/0",
+        "bg-transparent from-cyan/50 to-green/0",
         {
           "bg-linear-to-r": from === "start",
           "bg-linear-to-l": from === "end",
@@ -257,6 +265,25 @@ function NavigationMenuIndicator({
   );
 }
 
+function NavigationMenuLabel({
+  className,
+  ...rest
+}: React.ComponentProps<
+  React.ForwardRefExoticComponent<
+    React.HTMLAttributes<HTMLSpanElement> & React.RefAttributes<HTMLSpanElement>
+  >
+>) {
+  return (
+    <span
+      className={cn(
+        "group-data-[collapsed=true]/navigation-menu:sr-only transition-opacity",
+        className,
+      )}
+      {...rest}
+    />
+  );
+}
+
 export {
   NavigationMenu,
   NavigationMenuList,
@@ -269,4 +296,5 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
+  NavigationMenuLabel,
 };

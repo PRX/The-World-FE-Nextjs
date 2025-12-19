@@ -1,9 +1,6 @@
 import type { Button, Settings } from "@/interfaces";
 
-export type AppMenus = {
-  socialsNav?: Button[];
-  footerNav?: Button[];
-};
+export type AppMenus = Partial<Record<"socialsNav" | "footerNav", Button[]>>;
 
 export type App = {
   settings?: Settings;

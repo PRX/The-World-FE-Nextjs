@@ -3,14 +3,16 @@
  * Interfaces for button.
  */
 
+import type { UrlObject } from "node:url";
+
 export type Button = {
   key?: string | number;
   label: string;
-  url: string | URL;
+  url: string | (UrlObject & string);
   service?: string;
   itemLinkClass?: string;
   icon?: string;
   title?: string;
   children?: Button[];
-  attributes?: { [k: string]: string };
+  attributes?: Record<string, string>;
 };

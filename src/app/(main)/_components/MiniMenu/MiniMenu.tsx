@@ -66,7 +66,7 @@ export default function MiniMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/newsletter">
+            <Link href="/newsletters/top-of-the-world">
               <MailIcon /> Newsletter
             </Link>
           </NavigationMenuLink>
@@ -133,7 +133,7 @@ export default function MiniMenu() {
             </NavigationMenuLink>
 
             <NavigationMenuLink asChild>
-              <Link href="/team">
+              <Link href="/programs/the-world/team">
                 <UsersIcon /> The Team
               </Link>
             </NavigationMenuLink>

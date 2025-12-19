@@ -16,16 +16,19 @@ export const metadata: Metadata = {
 export default async function MainLayout({
   children,
   browser,
+  hero,
   siteBanner,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
+  hero: React.ReactNode;
   siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
   const { menus } = (await fetchGqlApp()) || { menus: {} };
   const mainUiProps = {
     browser,
+    hero,
     menus,
     siteBanner,
   };
@@ -39,7 +42,7 @@ export default async function MainLayout({
         />
       </head>
       <body className="antialiased overflow-clip overflow-y-auto max-md:has-data-menu-open:overflow-y-clip">
-        <div className="fixed inset-0 z-[-1] bg-linear-to-r/oklch from-blue to-green">
+        <div className="fixed inset-0 z-[-1] bg-linear-to-r/oklch from-blue to-green overflow-clip">
           <LogoGlobe
             animated
             className="absolute left-0 bottom-0 aspect-square w-[calc(max(110vw,110vh))] max-h-[160vh] translate-x-[-30%] translate-y-[50%] opacity-10"

@@ -3,7 +3,7 @@ import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { getCachedEpisode } from "@/app/(main)/episodes/[year]/[month]/[day]/[slug]/page";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 
-export default async function EpisodesSiteBanner({
+export default async function EpisodeSiteBanner({
   params,
 }: {
   params: Promise<{ slug: string }>;
