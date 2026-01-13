@@ -1,4 +1,5 @@
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { DateTime } from "@/components/DateTime";
 import { CassetteTapeIcon } from "lucide-react";
 
 export default async function SegmentsByDateHero({
@@ -15,11 +16,14 @@ export default async function SegmentsByDateHero({
       <h1 className="flex gap-2 items-center text-3xl font-black">
         <CassetteTapeIcon className="size-[1em]" />
         Segments for{" "}
-        {date.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        <DateTime
+          date={date}
+          options={{
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }}
+        />
       </h1>
     </HeroHeader>
   );

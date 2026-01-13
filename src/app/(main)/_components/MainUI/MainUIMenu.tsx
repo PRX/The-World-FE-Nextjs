@@ -168,7 +168,7 @@ export default function MainUIMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/countries">
+            <Link href="/tags/countries">
               <Globe2Icon />
               <NavigationMenuLabel>By Country</NavigationMenuLabel>
             </Link>

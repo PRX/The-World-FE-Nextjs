@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import PlausibleProvider from "next-plausible";
 import MainUI from "./_components/MainUI";
 import "./_css/main.css";
@@ -6,6 +7,15 @@ import "@/css/globals.css";
 import LogoDefs from "./_components/Logo/LogoDefs";
 import LogoGlobe from "./_components/Logo/LogoGlobe";
 import { fetchGqlApp } from "@/lib/fetch";
+
+export const getCachedAppData = unstable_cache(
+  async () => fetchGqlApp(),
+  ["app"],
+  {
+    tags: ["app"],
+    revalidate: 60,
+  },
+);
 
 export const metadata: Metadata = {
   title: "The World from PRX",
@@ -25,12 +35,13 @@ export default async function MainLayout({
   siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
-  const { menus } = (await fetchGqlApp()) || { menus: {} };
+  const { menus, settings } = (await getCachedAppData()) || { menus: {} };
   const mainUiProps = {
     browser,
     hero,
-    menus,
     siteBanner,
+    menus,
+    settings,
   };
 
   return (

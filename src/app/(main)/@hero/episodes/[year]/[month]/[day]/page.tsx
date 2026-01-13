@@ -1,4 +1,5 @@
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { DateTime } from "@/components/DateTime";
 import { BoomBoxIcon } from "lucide-react";
 
 export default async function EpisodesByDateHero({
@@ -15,11 +16,14 @@ export default async function EpisodesByDateHero({
       <h1 className="flex gap-2 items-center text-3xl font-black">
         <BoomBoxIcon className="size-[1em]" />
         Episodes for{" "}
-        {date.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        <DateTime
+          date={date}
+          options={{
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }}
+        />
       </h1>
     </HeroHeader>
   );

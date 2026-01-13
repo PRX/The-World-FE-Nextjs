@@ -106,7 +106,7 @@ export default function MiniMenu() {
             </NavigationMenuLink>
 
             <NavigationMenuLink asChild>
-              <Link href="/countries">
+              <Link href="/tags/countries">
                 <EarthIcon /> By Country
               </Link>
             </NavigationMenuLink>

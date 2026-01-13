@@ -1,13 +1,13 @@
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { ProgramIdType } from "@/interfaces";
+import { CategoryIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlCategory } from "@/lib/fetch";
-import { uniqueId } from "lodash";
+import Explorer from "@/app/(main)/_components/Explorer";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 
 export const getCachedCategory = unstable_cache(
-  async (slug) => fetchGqlCategory(slug, ProgramIdType.Slug),
+  async (slug) => fetchGqlCategory(slug, CategoryIdType.Slug),
   ["category"],
   {
     tags: ["category", "taxonomy"],
@@ -17,17 +17,33 @@ export const getCachedCategory = unstable_cache(
 
 export default async function TaxonomyPage({
   params,
+  searchParams,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<Record<"slugs", string | string[]>>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }) {
-  const { slug } = await params;
-  const data = await getCachedCategory(slug);
+  const { slugs } = await params;
+  const slug = slugs && (typeof slugs === "string" ? slugs : slugs.pop());
+  const resolvedSearchParams = await searchParams;
+  let data: Awaited<ReturnType<typeof getCachedCategory>>;
 
-  if (!data) {
-    return notFound();
+  if (slug) {
+    data = await getCachedCategory(slug);
+
+    if (!data) return notFound();
   }
 
-  const { id } = data;
+  const { id, name } = data || {};
+  const explorerProps = {
+    ...(slug &&
+      name && {
+        category: {
+          value: slug,
+          displayValue: name,
+        },
+      }),
+    searchParams: resolvedSearchParams,
+  };
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",
@@ -38,14 +54,7 @@ export default async function TaxonomyPage({
 
   return (
     <div className="mt-10 ml-(--gutter-left) mr-(--gutter-right)">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(var(--spacing)*100,100%),1fr))] gap-4 px-8">
-        {new Array(30).fill(null).map(() => (
-          <div
-            className="grid aspect-[4/5] bg-white/10 rounded-md"
-            key={uniqueId()}
-          ></div>
-        ))}
-      </div>
+      <Explorer {...explorerProps} />
 
       {shownContentEndMessage && (
         <div className="px-4">

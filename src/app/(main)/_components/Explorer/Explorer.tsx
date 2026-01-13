@@ -1,10 +1,23 @@
 import type { ContentTypeEnum, TaxonomyEnum } from "@/interfaces";
 import { uniqueId } from "lodash";
-import { CalendarIcon, TypeIcon, XIcon } from "lucide-react";
+import {
+  BookmarkIcon,
+  BookOpenIcon,
+  BoomBoxIcon,
+  CalendarIcon,
+  CassetteTapeIcon,
+  EarthIcon,
+  TypeIcon,
+  UserIcon,
+  XIcon,
+} from "lucide-react";
 import { decode } from "base-64";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import ExplorerClearFilterButton from "./ExplorerClearFilterButton";
+
+type FilterValueConfig = { value: string; displayValue: string };
+type FilterValue = string | FilterValueConfig | Date;
 
 export type FilterOptions = Record<
   Lowercase<
@@ -17,9 +30,11 @@ export type FilterOptions = Record<
       | "Storyformat"
     >
   >,
-  string
+  FilterValue
 > & {
-  date: Record<"after" | "before", string | Date>;
+  year: string;
+  month: string;
+  date: FilterValue;
   type: Lowercase<
     keyof Pick<typeof ContentTypeEnum, "Post" | "Episode" | "Segment">
   >;
@@ -34,22 +49,53 @@ export type FilterConfig = {
   priority: number;
   param: string;
   label: string;
-  value: string | { value: string; displayValue: string };
-  displayValue?: string;
+  value: FilterValue;
+  format?(v: FilterValue): string;
   hidden?: boolean;
   icon?: React.JSX.Element;
-  render?(value: string): React.JSX.Element;
+  render?(v: string): React.JSX.Element | null;
 };
+
+const typeIconMap = new Map<string, React.JSX.Element>();
+typeIconMap.set("episode", <BoomBoxIcon />);
+typeIconMap.set("segment", <CassetteTapeIcon />);
+typeIconMap.set("post", <BookOpenIcon />);
 
 const filterConfigMap = new Map<string, Partial<FilterConfig>>([
   [
-    "searchText",
+    "type",
     {
       priority: 0,
+      param: "type",
+      label: "Content Type",
+    },
+  ],
+  [
+    "searchText",
+    {
+      priority: 0.1,
       param: "search",
       label: "Search Text",
       icon: <TypeIcon />,
       render: (v) => <>"{v}"</>,
+    },
+  ],
+  [
+    "date",
+    {
+      priority: 1,
+      param: "date",
+      label: "Date",
+      icon: <CalendarIcon />,
+      format: (date: Date) => {
+        const d = typeof date === "string" ? new Date(date) : date;
+
+        return d.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      },
     },
   ],
   [
@@ -59,9 +105,12 @@ const filterConfigMap = new Map<string, Partial<FilterConfig>>([
       param: "year",
       label: "Year",
       icon: <CalendarIcon />,
-      render: (v) => {
-        const date = new Date(`${v}/01`);
-        return <>{date.toLocaleDateString(undefined, { year: "numeric" })}</>;
+      format: (year: string) => {
+        const d = new Date(`${year}/01`);
+
+        return d.toLocaleDateString("en-US", {
+          year: "numeric",
+        });
       },
     },
   ],
@@ -72,23 +121,103 @@ const filterConfigMap = new Map<string, Partial<FilterConfig>>([
       param: "month",
       label: "Month",
       icon: <CalendarIcon />,
-      render: (v) => {
-        const date = new Date(`2000/${v}`);
-        return <>{date.toLocaleDateString(undefined, { month: "long" })}</>;
+      format: (month: string) => {
+        const d = new Date(`2000/${month}`);
+
+        return d.toLocaleDateString("en-US", {
+          month: "long",
+        });
       },
     },
   ],
   [
-    "day",
+    "category",
     {
-      priority: 1.3,
-      param: "day",
-      label: "Day",
-      icon: <CalendarIcon />,
-      render: (v) => {
-        const date = new Date(`2000/01/${v}`);
-        return <>{date.toLocaleDateString(undefined, { day: "numeric" })}</>;
-      },
+      priority: 2,
+      param: "category",
+      label: "Category",
+      icon: <BookmarkIcon />,
+    },
+  ],
+  [
+    "tag",
+    {
+      priority: 2.1,
+      param: "tag",
+      label: "Tag",
+      icon: <BookmarkIcon />,
+    },
+  ],
+  [
+    "socialtag",
+    {
+      priority: 2.2,
+      param: "socialtag",
+      label: "Social Tag",
+      icon: <BookmarkIcon />,
+    },
+  ],
+  [
+    "contributor",
+    {
+      priority: 3,
+      param: "contributor",
+      label: "Contributor",
+      icon: <UserIcon />,
+    },
+  ],
+  [
+    "continent",
+    {
+      priority: 4,
+      param: "continent",
+      label: "Continent",
+      icon: <EarthIcon />,
+    },
+  ],
+  [
+    "region",
+    {
+      priority: 4.1,
+      param: "region",
+      label: "Region",
+      icon: <EarthIcon />,
+    },
+  ],
+  [
+    "country",
+    {
+      priority: 4.2,
+      param: "country",
+      label: "Country",
+      icon: <EarthIcon />,
+    },
+  ],
+  [
+    "provinceorstate",
+    {
+      priority: 4.3,
+      param: "provinceorstate",
+      label: "Province/State",
+      icon: <EarthIcon />,
+    },
+  ],
+  [
+    "city",
+    {
+      priority: 4.4,
+      param: "city",
+      label: "City",
+      icon: <EarthIcon />,
+    },
+  ],
+  [
+    "person",
+    {
+      priority: 5,
+      param: "person",
+      label: "Person",
+      icon: <UserIcon />,
     },
   ],
 ]);
@@ -113,11 +242,15 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
       .map(([k, value]) => {
         const config = filterConfigMap.get(k);
         if (!config) return null;
-        return {
+        const c = {
           ...config,
           value,
           hidden: true,
         } as FilterConfig;
+
+        filterConfigMap.set(k, c);
+
+        return c;
       })
       .filter((v) => !!v)
       .sort((a, b) => a.priority - b.priority),
@@ -131,10 +264,18 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
       .map(([k, value]) => {
         const config = filterConfigMap.get(k);
         if (!config) return null;
-        return {
+        const c = {
           ...config,
           value,
         } as FilterConfig;
+
+        if (k === "type") {
+          c.icon = typeIconMap.get(k);
+        }
+
+        filterConfigMap.set(k, c);
+
+        return c;
       })
       .filter((v) => !!v)
       .sort((a, b) => a.priority - b.priority),
@@ -149,29 +290,43 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
       {hasMutableFilters && (
         <div className="flex flex-wrap items-center gap-2">
           {mutableFilters.map((config) => {
-            const { param, icon, label, render, value } = config;
-            const { displayValue } =
-              typeof value === "string" ? { displayValue: value } : value;
+            const { param, icon, label, render, value, format } = config;
+            const v =
+              typeof value === "string" || value instanceof Date
+                ? value
+                : value.displayValue;
+            const displayValue = format
+              ? format(value)
+              : (typeof v === "string" && v) ||
+                v.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                });
+
             return (
-              <Badge
-                className="relative pe-6"
-                variant="secondary"
-                aria-label={label}
-                key={param}
-              >
-                {icon}
-                <span className="-mb-0.5">
-                  {render ? render(displayValue) : displayValue}
-                </span>
-                <Button
-                  className="absolute inset-0 left-auto p-0 w-5 h-auto rounded-full hover:bg-current/20 hover:text-current"
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={`Remove ${label} Filter`}
+              displayValue && (
+                <Badge
+                  className="relative pe-6"
+                  variant="secondary"
+                  aria-label={label}
+                  key={param}
                 >
-                  <XIcon className="size-3" />
-                </Button>
-              </Badge>
+                  {icon}
+                  <span className="-mb-0.5">
+                    {render ? render(displayValue) : displayValue}
+                  </span>
+                  <ExplorerClearFilterButton
+                    param={param}
+                    className="absolute inset-0 left-auto p-0 w-5 h-auto rounded-full hover:bg-current/20 hover:text-current"
+                    variant="ghost"
+                    size="icon-sm"
+                    title={`Remove ${label} Filter`}
+                  >
+                    <XIcon className="size-3" />
+                  </ExplorerClearFilterButton>
+                </Badge>
+              )
             );
           })}
         </div>

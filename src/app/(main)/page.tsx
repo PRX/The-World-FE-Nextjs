@@ -14,7 +14,7 @@ export default function Home() {
       <div className="hidden md:block">
         <div
           className={cn(
-            "group-data-menu-open/ui:-translate-x-full transition-transform",
+            "group-data-menu-open/ui:-translate-x-full delay-(--default-transition-duration) transition-transform",
             "fixed top-(--gutter-top) bottom-(--gutter-bottom) left-0 w-28",
           )}
         >

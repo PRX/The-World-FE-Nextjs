@@ -17,17 +17,13 @@ export default async function EpisodesByDayPage({
     resolvedSearchParams,
   );
 
-  const after = new Date(`${year}-${month}-${day}`);
-  const before = new Date(after);
-
-  before.setDate(before.getDate() + 1);
-  before.setMilliseconds(-1);
+  const date = new Date(`${year}-${month}-${day}`);
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
         type="episode"
-        date={{ after, before }}
+        date={date}
         searchParams={resolvedSearchParams}
       />
     </div>

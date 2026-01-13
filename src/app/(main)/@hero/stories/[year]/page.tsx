@@ -1,4 +1,5 @@
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { DateTime } from "@/components/DateTime";
 import { BookOpenIcon } from "lucide-react";
 
 export default async function StoriesByYearHero({
@@ -15,9 +16,12 @@ export default async function StoriesByYearHero({
       <h1 className="flex gap-2 items-center text-3xl font-black">
         <BookOpenIcon className="size-[1em]" />
         Stories for{" "}
-        {date.toLocaleDateString(undefined, {
-          year: "numeric",
-        })}
+        <DateTime
+          date={date}
+          options={{
+            year: "numeric",
+          }}
+        />
       </h1>
     </HeroHeader>
   );

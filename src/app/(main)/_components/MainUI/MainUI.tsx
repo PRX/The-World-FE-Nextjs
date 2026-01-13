@@ -1,6 +1,6 @@
 "use client";
 
-import type { AppMenus } from "@/interfaces";
+import type { AppMenus, Settings } from "@/interfaces";
 import { HeartHandshakeIcon, MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import React, {
@@ -32,12 +32,14 @@ export default function MainUI({
   hero,
   siteBanner,
   menus,
+  settings,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
   hero: React.ReactNode;
   siteBanner: React.ReactNode;
   menus: AppMenus;
+  settings?: Settings;
 }>) {
   const { footerNav } = menus || {};
   const pathname = usePathname();
@@ -69,6 +71,7 @@ export default function MainUI({
   const updateGutters = useCallback(() => {
     // This can be called by descendent components after they change their local state.
     // Need to delay the update till after the next render to account for layout changes.
+    // Divide pixel values by 4 to convert to spacing units.
     setTimeout(() => {
       const headerRefHeight =
         headerRef.current?.getBoundingClientRect().height || 0;
@@ -83,10 +86,10 @@ export default function MainUI({
         }),
         ...(headerRefHeight
           ? {
-              top: headerRefHeight / 4, // Divide by 4 to convert pixels to spacing units.
+              top: headerRefHeight / 4,
             }
           : {
-              top: (topNavRef.current?.getBoundingClientRect().height || 0) / 4, // Divide by 4 to convert pixels to spacing units.
+              top: (topNavRef.current?.getBoundingClientRect().height || 0) / 4,
             }),
       }));
     }, 0);
@@ -150,7 +153,14 @@ export default function MainUI({
 
   return (
     <MainUIContext.Provider
-      value={{ isMenuOpen, isMenuExpanded, hasBrowser, updateGutters, menus }}
+      value={{
+        isMenuOpen,
+        isMenuExpanded,
+        hasBrowser,
+        updateGutters,
+        menus,
+        settings,
+      }}
     >
       <Toaster />
       <div
@@ -218,7 +228,7 @@ export default function MainUI({
           aria-labelledby="main-menu-button"
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
-            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none",
+            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none md:delay-(--default-transition-duration)",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}
           inert={!isMenuOpen}
@@ -289,7 +299,7 @@ export default function MainUI({
                 {footerNav.map(({ key, url, label, attributes }) => (
                   <Link
                     className="hover:underline underline-offset-2"
-                    href={url}
+                    href={url.replace(/^https?:\/\/(www\.)?theworld\.org/i, "")}
                     key={key}
                     {...attributes}
                   >

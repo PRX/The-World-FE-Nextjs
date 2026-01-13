@@ -13,17 +13,12 @@ export default async function StoriesByMonthPage({
 
   redirectToValidDatedRoute("/stories", { year, month }, resolvedSearchParams);
 
-  const after = new Date(`${year}-${month}`);
-  const before = new Date(after);
-
-  before.setMonth(before.getMonth() + 1);
-  before.setMilliseconds(-1);
-
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
         type="post"
-        date={{ after, before }}
+        year={year}
+        month={month}
         searchParams={resolvedSearchParams}
       />
     </div>

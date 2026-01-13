@@ -1,4 +1,4 @@
-import type { AppMenus } from "@/interfaces";
+import type { AppMenus, Settings } from "@/interfaces";
 import React from "react";
 
 export const MainUIContext = React.createContext<{
@@ -7,6 +7,7 @@ export const MainUIContext = React.createContext<{
   hasBrowser: boolean;
   updateGutters(): void;
   menus: AppMenus;
+  settings?: Settings;
 }>({
   isMenuOpen: false,
   isMenuExpanded: false,

@@ -17,19 +17,11 @@ export default async function StoriesByDayPage({
     resolvedSearchParams,
   );
 
-  const after = new Date(`${year}-${month}-${day}`);
-  const before = new Date(after);
-
-  before.setDate(before.getDate() + 1);
-  before.setMilliseconds(-1);
+  const date = new Date(`${year}-${month}-${day}`);
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer
-        type="post"
-        date={{ after, before }}
-        searchParams={resolvedSearchParams}
-      />
+      <Explorer type="post" date={date} searchParams={resolvedSearchParams} />
     </div>
   );
 }
