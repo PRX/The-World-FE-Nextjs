@@ -6,6 +6,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
   subdirectory: uid(6),
   scriptName: uid(),
 })({
+  output: "standalone",
   env: {
     APP_DOMAIN: process.env.APP_DOMAIN,
     API_URL_BASE: process.env.API_URL_BASE,
