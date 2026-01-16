@@ -40,7 +40,7 @@ jobs:
         run: |
           aws ssm put-parameter \
             --region us-east-1 \
-            --name /prx/stag/Terra/The_World-Frontent/pkg/docker-image-tag \
+            --name /prx/stag/Terra/The_World-Frontend/pkg/docker-image-tag \
             --value github/prx/theworld-org:${{ github.sha }} \
             --overwrite
 
