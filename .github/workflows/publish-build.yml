@@ -9,6 +9,12 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  APP_DOMAIN: theworld.org
+  API_URL_BASE: https://api.theworld.org
+  WP_REST_ENDPOINT: wp-json
+  WP_GRAPHQL_ENDPOINT: graphql
+
 jobs:
   publish-build:
     runs-on: ubuntu-24.04-arm
