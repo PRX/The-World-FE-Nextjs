@@ -4,13 +4,7 @@
  * @param id Homepage identifier.
  */
 
-import type {
-  Homepage,
-  Maybe,
-  Menu,
-  Program,
-  RootQueryToPostConnection,
-} from "@/interfaces";
+import type { Homepage, Maybe, Menu, Program } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
@@ -31,9 +25,17 @@ const GET_HOMEPAGE = gql`
           ... on Post {
             ...PostCardProps
           }
-          ... on Episode {
-            ...EpisodeCardProps
-          }
+        }
+      }
+      episodes(first: 10, where: { orderby: { field: DATE, order: DESC } }) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...EpisodeCardProps
         }
       }
     }

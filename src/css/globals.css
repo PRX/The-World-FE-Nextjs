@@ -76,7 +76,7 @@
   --background: var(--color-blue);
   --background-end: var(--color-green);
   --foreground: var(--color-white);
-  --card: oklch(0.208 0.042 265.755);
+  --card: var(--color-navy-blue);
   --card-foreground: var(--color-white);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: var(--color-white);
@@ -185,6 +185,7 @@
   html,
   body {
     overscroll-behavior-y: none;
+    scrollbar-gutter: stable;
   }
 }
 

@@ -10,10 +10,19 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { SetContextLink } from "@apollo/client/link/context";
+import { stripIgnoredCharacters } from "graphql";
 
 const httpLink = new HttpLink({
-  uri: `${process.env.API_URL_BASE}/${process.env.WP_GRAPHQL_ENDPOINT}`,
+  uri: `${process.env.API_URL_BASE?.replace(/\/+$/, "")}/${process.env.WP_GRAPHQL_ENDPOINT?.replaceAll(/^\/+|\/+$/g, "")}`,
   credentials: "same-origin",
+  fetch: (url, options) => {
+    const oUrl = new URL(url.toString());
+    const compressedQuery = stripIgnoredCharacters(
+      oUrl.searchParams.get("query") || "",
+    );
+    oUrl.searchParams.set("query", compressedQuery);
+    return fetch(oUrl.toString(), options);
+  },
   fetchOptions: {
     method: "GET",
   },
