@@ -50,7 +50,6 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
 
   return (
     <div className="absolute inset-0 grid -z-1 bg-navy-blue/50 mask-b-from-75%">
-      {/* Image element hidden with a mask so we can get srcset and sizes. */}
       <Image
         ref={imageRef}
         className={cn("absolute inset-0 transition-all", {
