@@ -14,6 +14,19 @@ const GET_HOMEPAGE = gql`
     program(id: $id, idType: $idType) {
       id
       link
+      programContributors {
+        team {
+          id
+          name
+          link
+          contributorDetails {
+            position
+            image {
+              ...ImageProps
+            }
+          }
+        }
+      }
       landingPage {
         featuredPosts {
           ... on Post {

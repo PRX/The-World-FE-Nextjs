@@ -40,7 +40,8 @@ export default async function Home() {
 
   if (!data) return null;
 
-  const { id, posts, landingPage, menus } = data;
+  const { id, programContributors, posts, landingPage, menus } = data;
+  const { team } = programContributors || {};
   const { quickLinks } = menus;
   const quickLinksMenu = parseMenu(quickLinks);
   const carouselsData = quickLinks.map(({ label, url, connectedNode }) => {
@@ -65,6 +66,7 @@ export default async function Home() {
   const postsNodes = (posts?.nodes || []) as Post[];
   const featuredPostsNodes = (featuredPosts || []) as Post[];
 
+  // Prepend Latest Headlines carousel config.
   carouselsData.unshift({
     key: id,
     header: <>Latest Headlines</>,
@@ -74,6 +76,7 @@ export default async function Home() {
 
   return (
     <div className="grid gap-y-8 mt-12">
+      {/* Quick Links Menu */}
       <div className="sticky top-(--gutter-top) z-2 overflow-hidden">
         <CardCarousel>
           <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*4)] [&>svg]:size-8" />
@@ -97,13 +100,19 @@ export default async function Home() {
       </div>
 
       <main className="grid gap-y-8">
-        {/* Latest Headlines Carousel */}
+        {/* Headlines Carousels */}
         {carouselsData.map(
           ({ key, header, featuredPostsNodes: fpn, postsNodes: pn }) => {
+            // Combine featured post with latest posts.
             const slides = [
+              // Featured posts should be first.
               ...fpn,
+              // Append latest posts, filtering out any duplicates with the featured posts.
               ...(pn.filter(({ id }) => !fpn.find((p) => p?.id === id)) || []),
-            ].slice(0, 20);
+            ]
+              // Cap the number of slides for consistency.
+              // May remove this since its affect amy not be noticeable.
+              .slice(0, 20);
             return (
               <div
                 className="grid grid-cols-[max(var(--gutter-left),var(--spacing)*28)_1fr] justify-start gap-y-2 -mb-1"
@@ -220,6 +229,63 @@ export default async function Home() {
               </div>
             );
           },
+        )}
+
+        {/* Team Carousel */}
+        {!!team?.length && (
+          <div className="grid grid-cols-[max(var(--gutter-left),var(--spacing)*28)_1fr] justify-start gap-y-2 -mb-1">
+            <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
+              <Link href="/programs/the-world/team">Meet th Team</Link>
+            </h2>
+            <div className="row-start-2 col-span-2 overflow-hidden">
+              <CardCarousel>
+                <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*4)]" />
+                <CarouselContent>
+                  {team
+                    ?.filter((v) => !!v)
+                    .map(({ id, name, link, contributorDetails }) => {
+                      const { position, image } = contributorDetails || {};
+                      const contributorLink = generateContentLinkHref(link);
+                      const { altText, sourceUrl, mediaItemUrl } = image || {};
+                      const imageSrc = sourceUrl || mediaItemUrl;
+
+                      return (
+                        <CarouselItem
+                          className={cn(
+                            "grid basis-45 h-83",
+                            "md:nth-of-type-[1]:ml-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*2)]",
+                          )}
+                          key={id}
+                        >
+                          <Card>
+                            {contributorLink && (
+                              <CardLink href={contributorLink} />
+                            )}
+                            {imageSrc && (
+                              <CardImage>
+                                <Image
+                                  src={imageSrc}
+                                  alt={altText || ""}
+                                  fill
+                                  style={{
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </CardImage>
+                            )}
+                            <CardHeader>
+                              <CardTitle>{name}</CardTitle>
+                              <p>{position}</p>
+                            </CardHeader>
+                          </Card>
+                        </CarouselItem>
+                      );
+                    })}
+                </CarouselContent>
+                <CarouselNext />
+              </CardCarousel>
+            </div>
+          </div>
         )}
       </main>
     </div>

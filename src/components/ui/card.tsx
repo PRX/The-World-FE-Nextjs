@@ -8,7 +8,7 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "@container/card",
+        "@container/card group/card",
         "group-nth-of-type-[7n+2]/carousel-item:[--card:var(--color-brown)]",
         "group-nth-of-type-[7n+3]/carousel-item:[--card:var(--color-burnt-orange)]",
         "group-nth-of-type-[7n+4]/carousel-item:[--card:var(--color-light-blue)]",
@@ -27,7 +27,12 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
       <div
         className={cn("absolute inset-0 -z-3 bg-card rounded-sm overflow-clip")}
       >
-        <LogoGlobe className="absolute aspect-square h-[85%] top-0 right-0 translate-x-[33.333%] -translate-y-[10%] opacity-10" />
+        <LogoGlobe
+          className={cn(
+            "absolute aspect-square h-[85%] top-0 right-0 translate-x-[33.333%] -translate-y-[10%] transition-transform opacity-10",
+            "group-hover/card:scale-95 group-focus-within/card:scale-95",
+          )}
+        />
       </div>
       {children}
     </div>
@@ -48,7 +53,8 @@ function CardImage({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="image"
       className={cn(
-        "absolute inset-0 -z-2 overflow-clip rounded-sm",
+        "absolute inset-0 -z-2 overflow-clip rounded-sm [&>img]:transition-transform",
+        "group-hover/card:[&>img]:scale-105 group-focus-within/card:[&>img]:scale-105",
         className,
       )}
       {...props}
