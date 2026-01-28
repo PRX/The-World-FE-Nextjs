@@ -102,7 +102,10 @@ export default async function Home() {
       <main className="grid gap-y-8">
         {/* Headlines Carousels */}
         {carouselsData.map(
-          ({ key, header, featuredPostsNodes: fpn, postsNodes: pn }) => {
+          (
+            { key, header, featuredPostsNodes: fpn, postsNodes: pn },
+            carouselIndex,
+          ) => {
             // Combine featured post with latest posts.
             const slides = [
               // Featured posts should be first.
@@ -132,7 +135,7 @@ export default async function Home() {
                   >
                     <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28))]" />
                     <CarouselContent className="">
-                      {slides.map((post) => {
+                      {slides.map((post, index) => {
                         if (!post) return null;
 
                         const {
@@ -173,9 +176,16 @@ export default async function Home() {
                                     src={imageSrc}
                                     alt={altText || ""}
                                     fill
+                                    sizes={`(min-width: 768px) ${index === 0 ? "1440px" : "900px"}, 240vw`}
                                     style={{
                                       objectFit: "cover",
                                     }}
+                                    loading={
+                                      carouselIndex === 0 ? "eager" : "lazy"
+                                    }
+                                    {...(carouselIndex === 0 && {
+                                      preload: true,
+                                    })}
                                   />
                                 </CardImage>
                               )}
@@ -267,6 +277,7 @@ export default async function Home() {
                                   src={imageSrc}
                                   alt={altText || ""}
                                   fill
+                                  sizes="540px"
                                   style={{
                                     objectFit: "cover",
                                   }}

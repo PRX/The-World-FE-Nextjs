@@ -66,7 +66,8 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
         sizes={`(width <= ${aspectRatio * 100}vh) ${aspectRatio * 100}vh, 100vw`}
         alt={altText || ""}
         fill
-        priority
+        preload
+        loading="eager"
       />
       <div className="absolute inset-0 opacity-60 bg-linear-to-r from-navy-blue to-10%"></div>
       <div className="absolute inset-0 bg-linear-to-t from-navy-blue to-navy-blue/25 to-75%"></div>

@@ -236,9 +236,12 @@ export default function HeroEpisodesCarousel({
                                       src={imageSrc}
                                       alt={altText || ""}
                                       fill
+                                      sizes="(min-width: 768px) 840px, 240vw"
                                       style={{
                                         objectFit: "cover",
                                       }}
+                                      loading="eager"
+                                      preload
                                     />
                                   </CardImage>
                                 )}
@@ -284,7 +287,7 @@ export default function HeroEpisodesCarousel({
             </div>
           )}
         </div>
-        <div className="flex gap-2 justify-center w-120">
+        <div className="flex gap-2 justify-center w-140">
           {nodes.map((e, i) => (
             <button
               type="button"
