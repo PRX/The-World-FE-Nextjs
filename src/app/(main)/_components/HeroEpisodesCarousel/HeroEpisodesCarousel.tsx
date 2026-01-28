@@ -26,6 +26,7 @@ import {
   CardFooter,
   CardHeader,
   CardImage,
+  CardLink,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
@@ -75,8 +76,7 @@ export default function HeroEpisodesCarousel({
         "relative grid content-end max-w-full",
         "pt-[calc(var(--gutter-top)+var(--spacing)*4)] pl-[max(var(--gutter-left),var(--spacing)*28)] pr-(--gutter-right)",
         {
-          "min-h-screen md:min-h-[calc(80svh+var(--gutter-top))] -mb-[25svh]":
-            !!image,
+          "min-h-screen md:min-h-[calc(80svh+var(--gutter-top))]": !!image,
         },
         className,
       )}
@@ -104,10 +104,14 @@ export default function HeroEpisodesCarousel({
                 "relative grid content-end gap-y-3 size-140",
                 "before:absolute before:inset-0 before:-z-1 before:bg-background/40 before:mask-t-from-0 before:rounded-sm before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
                 "hover:before:opacity-100 hover:before:scale-[104%] hover:before:transition-all",
+                "focus-within:before:opacity-100 focus-within:before:scale-[104%] focus-within:before:transition-all",
               )}
             >
               {linkHref && (
-                <Link href={linkHref} className="absolute inset-0"></Link>
+                <Link
+                  href={linkHref}
+                  className="absolute inset-0 focus-visible:outline-none"
+                ></Link>
               )}
               <h3 className="text-5xl font-bold text-balance">{title}</h3>
               <div className="flex items-center gap-4">
@@ -144,8 +148,8 @@ export default function HeroEpisodesCarousel({
           </AnimatePresence>
           {/* Segments Carousel */}
           {!!segmentsList?.length && (
-            <div className="flex flex-col justify-items-start gap-y-2 overflow-hidden pb-1 -mb-1">
-              <h2 className="text-cyan font-serif font-bold italic uppercase">
+            <div className="flex flex-col justify-items-start gap-y-2 overflow-hidden -mb-1">
+              <h2 className="text-cyan font-serif font-bold italic uppercase ml-2">
                 In This Episode&hellip;
               </h2>
               <AnimatePresence custom={direction} mode="popLayout">
@@ -181,8 +185,10 @@ export default function HeroEpisodesCarousel({
                     }}
                     plugins={[WheelGestures()]}
                     key={episodeId}
+                    className=""
                   >
-                    <CarouselContent>
+                    <CarouselPrevious className="rounded-s-sm" />
+                    <CarouselContent className="">
                       {segmentsList?.map((segment) => {
                         if (!segment) return null;
 
@@ -206,7 +212,7 @@ export default function HeroEpisodesCarousel({
 
                         return (
                           <CarouselItem
-                            className="group/carousel-item basis-[calc(min(280px,80dvw))] grid"
+                            className="basis-[calc(min(280px,80dvw))] grid"
                             key={id}
                           >
                             <motion.div
@@ -223,13 +229,16 @@ export default function HeroEpisodesCarousel({
                               }}
                             >
                               <Card className={cn("aspect-260/360")}>
+                                {linkHref && <CardLink href={linkHref} />}
                                 {imageSrc && (
                                   <CardImage>
                                     <Image
                                       src={imageSrc}
                                       alt={altText || ""}
                                       fill
-                                      objectFit="cover"
+                                      style={{
+                                        objectFit: "cover",
+                                      }}
                                     />
                                   </CardImage>
                                 )}
@@ -262,19 +271,12 @@ export default function HeroEpisodesCarousel({
                                     </div>
                                   </CardFooter>
                                 )}
-                                {linkHref && (
-                                  <Link
-                                    href={linkHref}
-                                    className="absolute inset-0"
-                                  ></Link>
-                                )}
                               </Card>
                             </motion.div>
                           </CarouselItem>
                         );
                       })}
                     </CarouselContent>
-                    <CarouselPrevious className="rounded-s-sm" />
                     <CarouselNext />
                   </Carousel>
                 </motion.div>

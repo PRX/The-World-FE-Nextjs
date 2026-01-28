@@ -7,13 +7,7 @@
 import type { Homepage, Maybe, Menu, Program } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import {
-  IMAGE_PROPS,
-  MENU_PROPS,
-  POST_CARD_PROPS,
-  EPISODE_CARD_PROPS,
-} from "@/lib/fetch/api/graphql";
-import { parseMenu } from "@/lib/parse/menu";
+import { MENU_PROPS, EPISODE_CARD_PROPS } from "@/lib/fetch/api/graphql";
 
 const GET_HOMEPAGE = gql`
   query getHomepage($id: ID!, $idType: ProgramIdType) {
@@ -25,6 +19,17 @@ const GET_HOMEPAGE = gql`
           ... on Post {
             ...PostCardProps
           }
+        }
+      }
+      posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...PostCardProps
         }
       }
       episodes(first: 10, where: { orderby: { field: DATE, order: DESC } }) {
@@ -43,10 +48,8 @@ const GET_HOMEPAGE = gql`
       ...MenuProps
     }
   }
-  ${EPISODE_CARD_PROPS}
-  ${POST_CARD_PROPS}
-  ${IMAGE_PROPS}
   ${MENU_PROPS}
+  ${EPISODE_CARD_PROPS}
 `;
 
 export async function fetchGqlHomepage() {
@@ -70,7 +73,7 @@ export async function fetchGqlHomepage() {
   return {
     ...homepage,
     menus: {
-      ...(quickLinksMenu && { quickLinks: parseMenu(quickLinksMenu) }),
+      ...(quickLinksMenu && { quickLinks: quickLinksMenu }),
     },
   } as Homepage;
 }

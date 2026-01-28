@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { AUDIO_PROPS } from "./audio.fragment";
 
 export const EPISODE_CARD_PROPS = gql`
   fragment EpisodeCardProps on Episode {
@@ -20,8 +21,7 @@ export const EPISODE_CARD_PROPS = gql`
     }
     episodeAudio {
       audio {
-        id
-        duration
+        ...AudioProps
         audioFields {
           segmentsList {
             ... on Segment {
@@ -35,34 +35,7 @@ export const EPISODE_CARD_PROPS = gql`
               }
               segmentContent {
                 audio {
-                  id
-                  duration
-                  parent {
-                    node {
-                      contentTypeName
-                      id
-                      link
-                      ... on Post {
-                        title
-                        additionalDates {
-                          broadcastDate
-                        }
-                        featuredImage {
-                          node {
-                            ...ImageProps
-                          }
-                        }
-                      }
-                      ... on Segment {
-                        title
-                        featuredImage {
-                          node {
-                            ...ImageProps
-                          }
-                        }
-                      }
-                    }
-                  }
+                  ...AudioProps
                 }
               }
             }
@@ -78,4 +51,5 @@ export const EPISODE_CARD_PROPS = gql`
       }
     }
   }
+  ${AUDIO_PROPS}
 `;

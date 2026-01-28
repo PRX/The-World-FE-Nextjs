@@ -164,7 +164,7 @@ export default function MainUI({
     >
       <Toaster />
       <div
-        className="group/ui flex flex-col min-h-svh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
+        className="group/ui flex flex-col min-h-dvh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
         style={styles}
         {...(isMenuOpen && { "data-menu-open": true })}
         {...(isPlayerOpen && { "data-player-open": true })}
@@ -209,7 +209,7 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo animated duration="30s" />
+                <Logo className="w-[40vw] max-h-10" animated duration="30s" />
               </Link>
             </h1>
             <span>
@@ -222,6 +222,7 @@ export default function MainUI({
             </span>
           </div>
         </div>
+
         <div
           id="main-menu"
           role="menu"
@@ -234,7 +235,7 @@ export default function MainUI({
           inert={!isMenuOpen}
         >
           {/* Header */}
-          <div className="col-span-full p-3 md:hidden">
+          <div className="top-0 p-3 md:hidden">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -317,6 +318,7 @@ export default function MainUI({
             </div>
           </div>
         </div>
+
         <div
           ref={uiBottomRef}
           className={cn(
@@ -360,7 +362,7 @@ export default function MainUI({
 
           <MainUIFooterLogoGroup heading="Major Funders">
             <CcnLogo
-              className="!h-18"
+              className="h-18!"
               aria-label="Carnegie Corporation of New York"
             />
           </MainUIFooterLogoGroup>

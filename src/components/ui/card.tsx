@@ -1,7 +1,7 @@
-import * as React from "react";
-
+import type * as React from "react";
 import { cn } from "@/lib/utils";
 import LogoGlobe from "@/app/(main)/_components/Logo/LogoGlobe";
+import Link from "next/link";
 
 function Card({ className, children, ...props }: React.ComponentProps<"div">) {
   return (
@@ -9,23 +9,37 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
       data-slot="card"
       className={cn(
         "@container/card",
-        "relative isolate bg-card text-card-foreground flex flex-col justify-end items-stretch gap-4 rounded-sm py-3 shadow-sm",
-        "after:absolute after:inset-0 after:-z-1 after:bg-linear-to-t after:to-50% after:from-card/90 after:rounded-sm",
-        "group-nth-of-type-[7n+2]/carousel-item:bg-brown",
-        "group-nth-of-type-[7n+3]/carousel-item:bg-burnt-orange",
-        "group-nth-of-type-[7n+4]/carousel-item:bg-blue",
-        "group-nth-of-type-[7n+5]/carousel-item:bg-green",
-        "group-nth-of-type-[7n+6]/carousel-item:bg-purple",
-        "group-nth-of-type-[7n+7]/carousel-item:bg-red",
+        "group-nth-of-type-[7n+2]/carousel-item:[--card:var(--color-brown)]",
+        "group-nth-of-type-[7n+3]/carousel-item:[--card:var(--color-burnt-orange)]",
+        "group-nth-of-type-[7n+4]/carousel-item:[--card:var(--color-light-blue)]",
+        "group-nth-of-type-[7n+5]/carousel-item:[--card:var(--color-green)]",
+        "group-nth-of-type-[7n+6]/carousel-item:[--card:var(--color-purple)]",
+        "group-nth-of-type-[7n+7]/carousel-item:[--card:var(--color-red)]",
+        "relative isolate text-card-foreground flex flex-col justify-end items-stretch gap-4 rounded-sm py-3 shadow-sm",
+        "after:absolute after:inset-0 after:-z-1 after:bg-linear-to-t after:to-50% after:from-navy-blue/90 after:rounded-sm",
+        "before:absolute before:inset-0 before:-z-9 before:bg-cyan/10 before:rounded-lg before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
+        "hover:before:opacity-100 hover:before:-inset-2 hover:before:transition-all",
+        "focus-within:before:opacity-100 focus-within:before:-inset-2 focus-within:before:transition-all",
         className,
       )}
       {...props}
     >
-      <div className="absolute inset-0 -z-3 rounded-sm overflow-clip">
+      <div
+        className={cn("absolute inset-0 -z-3 bg-card rounded-sm overflow-clip")}
+      >
         <LogoGlobe className="absolute aspect-square h-[85%] top-0 right-0 translate-x-[33.333%] -translate-y-[10%] opacity-10" />
       </div>
       {children}
     </div>
+  );
+}
+
+function CardLink({ href }: React.ComponentProps<typeof Link>) {
+  return (
+    <Link
+      href={href}
+      className="absolute inset-0 focus-visible:outline-none"
+    ></Link>
   );
 }
 
@@ -107,6 +121,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   Card,
+  CardLink,
   CardImage,
   CardHeader,
   CardFooter,

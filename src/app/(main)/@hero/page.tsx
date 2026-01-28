@@ -1,5 +1,7 @@
 import { getCachedHomepage } from "@/app/(main)/page";
 import HeroEpisodesCarousel from "../_components/HeroEpisodesCarousel";
+import MiniMenu from "../_components/MiniMenu";
+import { cn } from "@/lib/utils";
 
 export default async function HomeHero() {
   const data = await getCachedHomepage();
@@ -8,5 +10,21 @@ export default async function HomeHero() {
 
   const { episodes } = data;
 
-  return episodes && <HeroEpisodesCarousel episodes={episodes} />;
+  return (
+    episodes && (
+      <>
+        <div className="hidden md:block">
+          <div
+            className={cn(
+              "group-data-menu-open/ui:-translate-x-full delay-(--default-transition-duration) transition-transform",
+              "fixed z-(--z-ui) top-(--gutter-top) left-0 w-28",
+            )}
+          >
+            <MiniMenu />
+          </div>
+        </div>
+        <HeroEpisodesCarousel episodes={episodes} />
+      </>
+    )
+  );
 }

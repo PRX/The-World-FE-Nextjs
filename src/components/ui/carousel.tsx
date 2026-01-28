@@ -4,12 +4,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -139,7 +134,7 @@ function Carousel({
 }
 
 function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
-  const { carouselRef, orientation } = useCarousel();
+  const { carouselRef } = useCarousel();
 
   return (
     <div
@@ -150,7 +145,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
       <div
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-2" : "-mt-2 flex-col",
+          // orientation === "horizontal" ? "-ml-2" : "-mt-2 flex-col",
           className,
         )}
         {...props}
@@ -169,8 +164,12 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       aria-roledescription="slide"
       data-slot="carousel-item"
       className={cn(
+        "group/carousel-item",
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "px-2" : "py-2",
+        "p-2",
+        {
+          "last-of-type:mr-2": orientation === "horizontal",
+        },
         className,
       )}
       {...props}

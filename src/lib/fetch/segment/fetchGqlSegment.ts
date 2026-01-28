@@ -7,7 +7,11 @@
 import type { Maybe, Segment, SegmentIdType } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { getClient } from "@/lib/fetch/api";
-import { IMAGE_PROPS, POST_SEO_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+  POST_SEO_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 export const GET_SEGMENT = gql`
   query getSegment($id: ID!, $idType: SegmentIdType) {
@@ -43,12 +47,7 @@ export const GET_SEGMENT = gql`
       }
       segmentContent {
         audio {
-          id
-          title
-          mediaItemUrl
-          audioFields {
-            audioType
-          }
+          ...AudioProps
         }
       }
       segmentDates {
@@ -61,6 +60,7 @@ export const GET_SEGMENT = gql`
   }
   ${POST_SEO_PROPS}
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export async function fetchGqlSegment(

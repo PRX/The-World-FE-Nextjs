@@ -2,9 +2,8 @@
  * Define homepage data interfaces and types.
  */
 
-import type { Program } from "@/interfaces/api";
-import type { Button } from "@/interfaces/button";
+import type { MenuItem, Program } from "@/interfaces/api";
 
 export type Homepage = Program & {
-  menus: Record<string, Button[]>;
+  menus: Record<"quickLinks", MenuItem[]>;
 };
