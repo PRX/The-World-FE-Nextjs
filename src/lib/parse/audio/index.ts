@@ -1,1 +1,1 @@
-export * from './audioData';
+export * from "./parseAudioData";

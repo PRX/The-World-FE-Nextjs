@@ -7,6 +7,7 @@ import "@/css/globals.css";
 import LogoDefs from "./_components/Logo/LogoDefs";
 import LogoGlobe from "./_components/Logo/LogoGlobe";
 import { fetchGqlApp } from "@/lib/fetch";
+import { Player } from "@/components/Player";
 
 export const getCachedAppData = unstable_cache(
   async () => fetchGqlApp(),
@@ -65,7 +66,9 @@ export default async function MainLayout({
           selfHosted
           trackOutboundLinks
         >
-          <MainUI {...mainUiProps}>{children}</MainUI>
+          <Player>
+            <MainUI {...mainUiProps}>{children}</MainUI>
+          </Player>
         </PlausibleProvider>
         <LogoDefs />
       </body>

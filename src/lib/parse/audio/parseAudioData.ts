@@ -4,7 +4,7 @@
  * Parse API audio data to player audio data.
  */
 
-import type { IAudioData } from "@/interfaces/player";
+import type { PlayerAudio } from "@/components/Player/types";
 import type {
   Contributor,
   Episode,
@@ -17,7 +17,7 @@ import { sanitizeIso8601Date } from "@/lib/sanitize";
 
 export const parseAudioData = (
   data: MediaItem,
-  fallbackProps?: Partial<IAudioData>,
+  fallbackProps?: Partial<PlayerAudio>,
 ) => {
   const {
     id,
@@ -28,6 +28,7 @@ export const parseAudioData = (
     audioFields,
     parent,
     contributors,
+    duration,
   } = data;
   const url = sourceUrl || mediaItemUrl;
 
@@ -94,13 +95,14 @@ export const parseAudioData = (
   ];
 
   return {
-    guid: id,
+    id: id,
     url: generateAudioUrl(url),
+    ...(duration && { duration: duration }),
     ...(title && { title }),
     ...(queuedFrom && { queuedFrom }),
     ...(link && { link }),
     ...(imageUrl && { imageUrl }),
     ...(info.length ? { info } : {}),
     ...(linkResource && { linkResource }),
-  } as IAudioData;
+  } as PlayerAudio;
 };

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import {
   Card,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardImage,
@@ -18,13 +19,18 @@ import {
 } from "@/components/ui/card";
 import type { Category, Post } from "@/interfaces";
 import { generateContentLinkHref } from "@/lib/routing/content";
-import { BookmarkIcon, ListPlusIcon, PlayIcon } from "lucide-react";
+import { BookmarkIcon } from "lucide-react";
 import { formatDuration } from "@/lib/parse/time";
 import CardCarousel from "./_components/CardCarousel";
 import { DateTime } from "@/components/DateTime";
 import Link from "next/link";
 import { parseMenu } from "@/lib/parse/menu";
 import { Button } from "@/components/ui/button";
+import {
+  AddAudioButton,
+  PlayAudioButton,
+  type PlayerAudio,
+} from "@/components/Player";
 
 export const getCachedHomepage = unstable_cache(
   async () => fetchGqlHomepage(),
@@ -158,6 +164,12 @@ export default async function Home() {
                         const imageSrc = sourceUrl || mediaItemUrl;
                         const linkHref = generateContentLinkHref(link);
                         const pcLinkHref = generateContentLinkHref(pcLink);
+                        const fallbackProps = {
+                          title,
+                          queuedFrom: "Card Controls",
+                          ...(imageSrc && { imageUrl: imageSrc }),
+                          linkResource: post,
+                        } as Partial<PlayerAudio>;
 
                         return (
                           <CarouselItem
@@ -215,16 +227,26 @@ export default async function Home() {
                                 <CardFooter>
                                   <div
                                     className={cn(
-                                      "relative z-1 flex justify-between items-center leading-1 [&_svg]:text-cyan",
+                                      "relative z-1 flex justify-between items-center leading-1",
                                     )}
                                   >
                                     <span className="flex items-center gap-x-2">
-                                      <PlayIcon />
+                                      <PlayAudioButton
+                                        className="text-cyan"
+                                        variant="ghost"
+                                        audio={audio}
+                                        fallbackProps={fallbackProps}
+                                      />
                                       {duration && (
                                         <span>{formatDuration(duration)}</span>
                                       )}
                                     </span>
-                                    <ListPlusIcon />
+                                    <AddAudioButton
+                                      className="text-cyan"
+                                      variant="ghost"
+                                      audio={audio}
+                                      fallbackProps={fallbackProps}
+                                    />
                                   </div>
                                 </CardFooter>
                               )}
@@ -286,7 +308,9 @@ export default async function Home() {
                             )}
                             <CardHeader>
                               <CardTitle>{name}</CardTitle>
-                              <p>{position}</p>
+                              <CardDescription className="text-balance">
+                                {position}
+                              </CardDescription>
                             </CardHeader>
                           </Card>
                         </CarouselItem>

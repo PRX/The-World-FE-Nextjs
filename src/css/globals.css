@@ -10,9 +10,7 @@
     Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro,
     sans-serif;
   --font-serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
-  --font-mono:
-    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-    "DejaVu Sans Mono", monospace;
+  --font-mono: Roboto, Arial, Helvetica, sans-serif;
 
   --text-md: calc(var(--spacing) * 4);
 
@@ -26,6 +24,7 @@
   --color-light-blue: hsl(200 55% 50%);
   --color-cyan: hsl(200 83% 75%);
   --color-red: hsl(4 63% 49%);
+  --color-orange: hsl(35 100% 50%);
   --color-burnt-orange: hsl(35 96% 41%);
   --color-green: hsl(177 94% 30%);
   --color-dark-green: hsl(177 91% 27%);

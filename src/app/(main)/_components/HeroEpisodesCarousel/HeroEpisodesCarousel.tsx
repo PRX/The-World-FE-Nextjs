@@ -1,7 +1,9 @@
 "use client";
 
 import type { Post, ProgramToEpisodeConnection } from "@/interfaces";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import WheelGestures from "embla-carousel-wheel-gestures";
 import { AnimatePresence, motion, stagger } from "motion/react";
 import HeroImageBackground from "@/app/(main)/_components/HeroImageBackground";
@@ -9,9 +11,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { HtmlContent } from "@/components/HtmlContent";
 import { DateTime } from "@/components/DateTime";
-import { ListPlusIcon, PlayIcon } from "lucide-react";
 import { generateContentLinkHref } from "@/lib/routing";
-import Link from "next/link";
 import { formatDuration } from "@/lib/parse/time";
 import {
   Carousel,
@@ -29,7 +29,12 @@ import {
   CardLink,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
+import {
+  AddAudioButton,
+  PlayAudioButton,
+  PlayerContext,
+  type PlayerAudio,
+} from "@/components/Player";
 
 export type HeroEpisodesCarouselProps = React.ComponentProps<
   React.ForwardRefExoticComponent<
@@ -44,6 +49,7 @@ export default function HeroEpisodesCarousel({
   episodes,
   ...rest
 }: HeroEpisodesCarouselProps) {
+  const { isQueued, isCurrentTrack, isPlaying } = useContext(PlayerContext);
   const { nodes } = episodes;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -61,6 +67,8 @@ export default function HeroEpisodesCarousel({
   } = episode;
   const { broadcastDate } = episodeDates || {};
   const { node: image } = featuredImage || {};
+  const { sourceUrl, mediaItemUrl } = image || {};
+  const imageSrc = sourceUrl || mediaItemUrl;
   const { teaser } = teaserFields || {};
   const { audio } = episodeAudio || {};
   const { audioFields, duration } = audio || {};
@@ -69,6 +77,12 @@ export default function HeroEpisodesCarousel({
   const hasExcerpt = !!excerpt?.trim();
   const hasTeaser = !!teaser?.trim();
   const hasAudio = !!audio;
+  const audioProps = {
+    title,
+    queuedFrom: "Card Controls (Hero Episodes Carousel)",
+    ...(imageSrc && { imageUrl: imageSrc }),
+    linkResource: episode,
+  } as Partial<PlayerAudio>;
 
   return (
     <div
@@ -136,12 +150,32 @@ export default function HeroEpisodesCarousel({
                 )
               )}
               {hasAudio && (
-                <div className="flex justify-between items-center p-2 bg-navy-blue/80 bg-linear-to-l from-purple backdrop-blur-sm border border-purple rounded-sm leading-1">
+                <div
+                  className={cn(
+                    "flex justify-between items-center p-2 bg-navy-blue/80 bg-linear-to-r from-navy-blue/80 to-navy-blue/80 backdrop-blur-sm border border-transparent rounded-sm leading-1",
+                    "transition-[--tw-gradient-from,--tw-gradient-to,border-color]",
+                    {
+                      "to-purple border-purple": isQueued(audio.id),
+                      "from-cyan/50": isCurrentTrack(audio.id),
+                      "from-red": isPlaying(audio.id),
+                    },
+                  )}
+                >
                   <span className="flex items-center gap-x-2">
-                    <PlayIcon className="text-cyan" />
+                    <PlayAudioButton
+                      className={cn("text-cyan")}
+                      variant="ghost"
+                      audio={audio}
+                      fallbackProps={audioProps}
+                    />
                     {duration && <span>{formatDuration(duration)}</span>}
                   </span>
-                  <ListPlusIcon />
+                  <AddAudioButton
+                    className={cn("text-cyan")}
+                    variant="ghost"
+                    audio={audio}
+                    fallbackProps={audioProps}
+                  />
                 </div>
               )}
             </motion.div>
@@ -193,8 +227,9 @@ export default function HeroEpisodesCarousel({
                         if (!segment) return null;
 
                         const { segmentContent } = segment;
-                        const { audio } = segmentContent || {};
-                        const { duration, parent } = audio || {};
+                        const { audio: segmentAudio } = segmentContent || {};
+                        const { duration: segmentAudioDuration, parent } =
+                          segmentAudio || {};
                         const isParentAStory =
                           parent?.node.contentTypeName === "post";
                         const {
@@ -207,8 +242,15 @@ export default function HeroEpisodesCarousel({
                         {};
                         const { altText, sourceUrl, mediaItemUrl } =
                           featuredImage?.node || {};
-                        const imageSrc = sourceUrl || mediaItemUrl;
-                        const linkHref = generateContentLinkHref(segmentLink);
+                        const segmentImageSrc = sourceUrl || mediaItemUrl;
+                        const segmentLinkHref =
+                          generateContentLinkHref(segmentLink);
+                        const segmentAudioProps = {
+                          title,
+                          queuedFrom: "Card Controls (Hero Episodes Carousel)",
+                          ...(segmentImageSrc && { imageUrl: segmentImageSrc }),
+                          linkResource: parent?.node || segment,
+                        } as Partial<PlayerAudio>;
 
                         return (
                           <CarouselItem
@@ -229,11 +271,13 @@ export default function HeroEpisodesCarousel({
                               }}
                             >
                               <Card className={cn("aspect-260/360")}>
-                                {linkHref && <CardLink href={linkHref} />}
-                                {imageSrc && (
+                                {segmentLinkHref && (
+                                  <CardLink href={segmentLinkHref} />
+                                )}
+                                {segmentImageSrc && (
                                   <CardImage>
                                     <Image
-                                      src={imageSrc}
+                                      src={segmentImageSrc}
                                       alt={altText || ""}
                                       fill
                                       sizes="(min-width: 768px) 840px, 240vw"
@@ -255,22 +299,34 @@ export default function HeroEpisodesCarousel({
                                     </CardAction>
                                   )}
                                 </CardHeader>
-                                {audio && (
+                                {!!segmentAudio && (
                                   <CardFooter>
                                     <div
                                       className={cn(
-                                        "relative z-1 flex justify-between items-center leading-1 [&_svg]:text-cyan",
+                                        "relative z-1 flex justify-between items-center leading-1",
                                       )}
                                     >
                                       <span className="flex items-center gap-x-2">
-                                        <PlayIcon />
-                                        {duration && (
+                                        <PlayAudioButton
+                                          className="text-cyan"
+                                          variant="ghost"
+                                          audio={segmentAudio}
+                                          fallbackProps={segmentAudioProps}
+                                        />
+                                        {segmentAudioDuration && (
                                           <span>
-                                            {formatDuration(duration)}
+                                            {formatDuration(
+                                              segmentAudioDuration,
+                                            )}
                                           </span>
                                         )}
                                       </span>
-                                      <ListPlusIcon />
+                                      <AddAudioButton
+                                        className="text-cyan"
+                                        variant="ghost"
+                                        audio={segmentAudio}
+                                        fallbackProps={segmentAudioProps}
+                                      />
                                     </div>
                                   </CardFooter>
                                 )}

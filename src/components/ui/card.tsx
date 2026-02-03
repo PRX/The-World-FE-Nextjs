@@ -16,10 +16,13 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
         "group-nth-of-type-[7n+6]/carousel-item:[--card:var(--color-purple)]",
         "group-nth-of-type-[7n+7]/carousel-item:[--card:var(--color-red)]",
         "relative isolate text-card-foreground flex flex-col justify-end items-stretch gap-4 rounded-sm py-3 shadow-sm",
-        "after:absolute after:inset-0 after:-z-1 after:bg-linear-to-t after:to-50% after:from-navy-blue/90 after:rounded-sm",
+        "after:absolute after:inset-0 after:-z-1 after:bg-navy-blue/90 after:bg-linear-to-r after:from-transparent after:to-transparent after:mask-t-from-12 after:mask-t-to-60% after:rounded-sm after:transition-[--tw-gradient-from,--tw-gradient-to]",
         "before:absolute before:inset-0 before:-z-9 before:bg-cyan/10 before:rounded-lg before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
         "hover:before:opacity-100 hover:before:-inset-2 hover:before:transition-all",
         "focus-within:before:opacity-100 focus-within:before:-inset-2 focus-within:before:transition-all",
+        "has-[button[data-queued]]:after:to-purple/80",
+        "has-[button[data-queued=current]]:after:from-cyan/50",
+        "has-[button[data-queued=current]]:has-[button[data-playing]]:after:from-red/80",
         className,
       )}
       {...props}
@@ -89,7 +92,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-current/60 text-sm/tight", className)}
       {...props}
     />
   );

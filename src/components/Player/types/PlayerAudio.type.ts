@@ -11,7 +11,7 @@ import type {
 /**
  * Audio data interface.
  */
-export interface IAudioData {
+export type PlayerAudio = {
   /**
    * Id for the audio MediaItem.
    */
@@ -54,9 +54,9 @@ export interface IAudioData {
   imageUrl?: string;
 
   /**
-   * Duration of audio track formatted as '[HH:]MM:SS'.
+   * Duration of audio track in seconds'.
    */
-  duration?: string;
+  duration?: number;
 
   /**
    * Content link resource data.
@@ -66,4 +66,4 @@ export interface IAudioData {
     | PostStory
     | Episode
     | Segment;
-}
+};

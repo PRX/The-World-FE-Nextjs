@@ -1,7 +1,7 @@
 "use client";
 
 import type { AppMenus, Settings } from "@/interfaces";
-import { HeartHandshakeIcon, MenuIcon, XIcon } from "lucide-react";
+import { HeartHandshakeIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React, {
   type CSSProperties,
@@ -25,6 +25,16 @@ import MainUIFooterLogoGroup from "./MainUIFooterLogoGroup";
 import { Toaster } from "@/components/ui/sonner";
 import MainUIMenu from "./MainUIMenu";
 import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
+import {
+  ForwardButton,
+  NextButton,
+  PlayButton,
+  PlayerProgress,
+  PreviousButton,
+  ReplayButton,
+  TimeInfo,
+  TrackInfo,
+} from "@/components/Player";
 
 export default function MainUI({
   children,
@@ -327,18 +337,27 @@ export default function MainUI({
           )}
           inert={!isPlayerOpen}
         >
-          <div className="grid place-items-center h-20 bg-foreground/30 text-navy-blue">
-            PLAYER
-            <button
-              type="button"
-              onClick={() => {
-                setIsPlayerOpen(false);
-                updateGutters();
-              }}
-              className="absolute top-2 right-2"
-            >
-              <XIcon />
-            </button>
+          <div className="relative flex items-center gap-x-6 px-4 py-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md">
+            <div className="absolute inset-0 bottom-auto">
+              <PlayerProgress />
+            </div>
+            {/* Playback Controls */}
+            <div className={cn("flex items-center gap-1")}>
+              <ReplayButton />
+              <PlayButton />
+              <ForwardButton />
+            </div>
+            <TimeInfo className="text-sm" />
+            {/* Track Info */}
+            <div className="grow flex gap-x-4 justify-start">
+              <TrackInfo />
+              {/* Track Selection Controls */}
+              <div className={cn("flex items-center gap-1 empty:hidden")}>
+                <PreviousButton />
+                <NextButton />
+              </div>
+            </div>
+            {/* Player Settings */}
           </div>
         </div>
 
