@@ -7,6 +7,11 @@ import type { PlayerAudio } from "./PlayerAudio.type";
 
 export interface IPlayerState {
   /**
+   * Standalone player flag. Tracks will not be removed from playlist when completed.
+   */
+  standalone?: boolean;
+
+  /**
    * Boolean to play or pause track playback.
    */
   playing: boolean;
@@ -19,7 +24,7 @@ export interface IPlayerState {
   /**
    * Holds the currently playing audio data.
    */
-  currentTrackIndex?: number;
+  currentTrackIndex: number;
 
   /**
    * Holds all the audio data that can be played.

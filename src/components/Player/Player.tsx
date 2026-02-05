@@ -6,7 +6,7 @@
  */
 
 import type React from "react";
-import type { PlayerAudio } from "./types";
+import type { IPlayerState, PlayerAudio } from "./types";
 import {
   useCallback,
   useEffect,
@@ -20,19 +20,20 @@ import { PlayerContext } from "./contexts";
 import { PlayerActionTypes } from "./state";
 import { playerInitialState, playerStateReducer } from "./state/Player.reducer";
 
-export type PlayerProps = React.PropsWithChildren;
+export type PlayerProps = React.PropsWithChildren & Partial<IPlayerState>;
 
 export type KeyboardEventWithTarget = KeyboardEvent & {
   target: EventTarget;
 };
 
-export const Player = ({ children }: PlayerProps) => {
+export const Player = ({ children, ...initialState }: PlayerProps) => {
   const plausible = usePlausible();
   const audioElm = useRef<HTMLAudioElement>(null);
   const [state, dispatch] = useReducer(playerStateReducer, {
     ...playerInitialState,
+    ...initialState,
   });
-  const { tracks = [], playing, currentTrackIndex = 0, muted, volume } = state;
+  const { tracks = [], playing, currentTrackIndex = 0, muted, volume, standalone } = state;
   const currentTrack = tracks?.[currentTrackIndex] || ({} as PlayerAudio);
   const currentTrackDurationSeconds = currentTrack.duration || 0;
   const { url } = currentTrack;
@@ -572,18 +573,22 @@ export const Player = ({ children }: PlayerProps) => {
   );
 
   useEffect(() => {
+    if (standalone) return;
+
     const playerStateJson = localStorage?.getItem("playerState");
 
     if (playerStateJson) {
+      const payload = JSON.parse(playerStateJson) as IPlayerState;
+
       dispatch({
         type: PlayerActionTypes.PLAYER_HYDRATE,
-        payload: JSON.parse(playerStateJson),
+        payload
       });
     }
   }, []);
 
   useEffect(() => {
-    if (localStorage) {
+    if (!standalone && localStorage) {
       localStorage.setItem(
         "playerState",
         JSON.stringify({

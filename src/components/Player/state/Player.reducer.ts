@@ -3,17 +3,20 @@
  * Defines reducer for handling player state actions.
  */
 
+import { wrap } from "motion/react";
 import type { IPlayerState, PlayerAudio } from "../types";
 import {
   PlayerActionTypes as ActionTypes,
   type IPlayerAction,
 } from "./Player.actions";
+import { clamp } from "lodash";
 
 export const playerInitialState: IPlayerState = {
   playing: false,
   autoplay: true,
   muted: false,
   volume: 0.8,
+  currentTrackIndex: 0,
   tracks: [],
 };
 
@@ -22,6 +25,7 @@ export const playerStateReducer = (
   action: IPlayerAction,
 ): IPlayerState => {
   const {
+    standalone,
     autoplay,
     playing,
     currentTrackIndex = 0,
@@ -133,24 +137,38 @@ export const playerStateReducer = (
       return {
         ...state,
         tracks: [],
-        currentTrackIndex: undefined,
+        currentTrackIndex: 0,
         playing: false,
       };
 
     case ActionTypes.PLAYER_COMPLETE_CURRENT_TRACK:
-      return {
+      console.log({
         ...state,
-        tracks: [
+        tracks: standalone ? tracks : [
           ...tracks.slice(0, currentTrackIndex),
           ...tracks.slice(currentTrackIndex + 1),
         ],
-        currentTrackIndex:
-          tracks.length - 1 > 0
-            ? Math.min(tracks.length - 2, currentTrackIndex)
-            : undefined,
+        currentTrackIndex: standalone ?
+          clamp(currentTrackIndex + 1, 0, tracks.length - 1) :
+          clamp(currentTrackIndex, 0, tracks.length - 2),
         playing:
           // Not last track...
-          tracks.length - 1 !== currentTrackIndex &&
+          tracks.length - 1 !== (standalone ? currentTrackIndex + 1 : currentTrackIndex) &&
+          // ...and we are auto playing.
+          autoplay,
+      })
+      return {
+        ...state,
+        tracks: standalone ? tracks : [
+          ...tracks.slice(0, currentTrackIndex),
+          ...tracks.slice(currentTrackIndex + 1),
+        ],
+        currentTrackIndex: standalone ?
+          clamp(currentTrackIndex + 1, 0, tracks.length - 1) :
+          clamp(currentTrackIndex, 0, tracks.length - 2),
+        playing:
+          // Not last track...
+          tracks.length - 1 !== (standalone ? currentTrackIndex + 1 : currentTrackIndex) &&
           // ...and we are auto playing.
           autoplay,
       };

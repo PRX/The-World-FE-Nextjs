@@ -1,5 +1,6 @@
 export * from "./AddAudioButton";
 export * from "./AutoPlayButton";
+export * from "./EmbedModalContent";
 export * from "./ForwardButton";
 export * from "./NextButton";
 export * from "./PlayAudioButton";

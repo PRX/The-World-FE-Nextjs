@@ -19,11 +19,12 @@ import {
 import { useContext, useState } from "react";
 import { PlayerContext } from "../../contexts";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { EmbedModalContent } from "../EmbedModalContent";
 
 export type PlayerMenuProps = React.ComponentProps<typeof DropdownMenu> & {
   triggerProps?: React.ComponentProps<typeof DropdownMenuTrigger>;
@@ -80,6 +81,7 @@ export function PlayerMenu({
             )}
 
             <DropdownMenuItem
+              id="menu-embed-audio"
               onClick={() => {
                 setIsEmbedDialogOpen(true);
               }}
@@ -102,13 +104,17 @@ export function PlayerMenu({
       </DropdownMenu>
 
       {/* Embed Dialog */}
-      <Dialog open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Embed Audio</DialogTitle>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <Drawer open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
+        <DrawerContent
+          className="z-(--z-ui) pb-8"
+          aria-describedby="menu-embed-audio"
+        >
+          <DrawerHeader>
+            <DrawerTitle>Embed Audio</DrawerTitle>
+          </DrawerHeader>
+          <EmbedModalContent />
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }

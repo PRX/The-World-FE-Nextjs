@@ -3,14 +3,17 @@
 
 @custom-variant light (&:is(.light *));
 @custom-variant dark (&:is(.dark *));
-@custom-variant starting (@starting-style);
+@custom-variant media-hover (@media (hover: hover));
 
 @theme inline {
   --font-sans:
     Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro,
     sans-serif;
   --font-serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
-  --font-mono: Roboto, Arial, Helvetica, sans-serif;
+  --font-mono:
+    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  --font-mono-sans: Roboto, Arial, Helvetica, sans-serif;
 
   --text-md: calc(var(--spacing) * 4);
 

@@ -76,7 +76,8 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
     >
       <Slider
         className={cn(
-          "w-full max-w-25 cursor-pointer opacity-0 transition-opacity",
+          "w-full max-w-25 cursor-pointer transition-opacity",
+          "media-hover:opacity-0",
           "group-hover/volume:opacity-100 group-focus-within/volume:opacity-100",
         )}
         max={1}

@@ -72,7 +72,10 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   return (
     <div
       {...other}
-      className={cn("flex place-items-center font-mono", className)}
+      className={cn(
+        "flex place-items-center font-mono-sans whitespace-nowrap",
+        className,
+      )}
     >
       <AnimatePresence initial={false} mode="wait">
         {duration ? (

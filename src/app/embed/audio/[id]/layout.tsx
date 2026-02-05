@@ -7,7 +7,7 @@ export default async function AudioEmbedLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-transparent">{children}</body>
     </html>
   );
 }

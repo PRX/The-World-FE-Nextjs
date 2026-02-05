@@ -49,7 +49,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
     playerProgressInitialState,
   );
   const { scrubPosition, played } = state;
-  const { currentTrackIndex = 0, tracks } = playerState;
+  const { currentTrackIndex = 0, tracks, standalone } = playerState;
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: trackDuration } = currentTrack || {};
   const totalDurationSeconds = audioElm?.duration || trackDuration || 0;
@@ -176,6 +176,8 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
   }, [audioElm]);
 
   useEffect(() => {
+    if (standalone) return;
+    
     const playerStateJson = localStorage?.getItem("playerProgressState");
 
     if (playerStateJson) {
@@ -187,7 +189,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
   }, []);
 
   useEffect(() => {
-    if (localStorage) {
+    if (!standalone && localStorage) {
       localStorage.setItem("playerProgressState", JSON.stringify(state));
     }
   }, [state]);
