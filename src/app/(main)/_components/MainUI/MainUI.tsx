@@ -26,14 +26,17 @@ import { Toaster } from "@/components/ui/sonner";
 import MainUIMenu from "./MainUIMenu";
 import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
 import {
+  AutoplayButton,
   ForwardButton,
   NextButton,
   PlayButton,
+  PlayerMenu,
   PlayerProgress,
   PreviousButton,
   ReplayButton,
   TimeInfo,
   TrackInfo,
+  VolumeControls,
 } from "@/components/Player";
 
 export default function MainUI({
@@ -337,7 +340,7 @@ export default function MainUI({
           )}
           inert={!isPlayerOpen}
         >
-          <div className="relative flex items-center gap-x-6 px-4 py-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md">
+          <div className="relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md">
             <div className="absolute inset-0 bottom-auto">
               <PlayerProgress />
             </div>
@@ -349,8 +352,9 @@ export default function MainUI({
             </div>
             <TimeInfo className="text-sm" />
             {/* Track Info */}
-            <div className="grow flex gap-x-4 justify-start">
+            <div className="grow flex justify-start items-center gap-x-4">
               <TrackInfo />
+              <PlayerMenu contentProps={{ className: "z-(--z-ui)" }} />
               {/* Track Selection Controls */}
               <div className={cn("flex items-center gap-1 empty:hidden")}>
                 <PreviousButton />
@@ -358,6 +362,10 @@ export default function MainUI({
               </div>
             </div>
             {/* Player Settings */}
+            <div className="flex justify-end items-center gap-x-4">
+              <VolumeControls />
+              <AutoplayButton />
+            </div>
           </div>
         </div>
 

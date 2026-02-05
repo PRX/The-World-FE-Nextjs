@@ -17,16 +17,6 @@ export interface IPlayerState {
   autoplay: boolean;
 
   /**
-   * Current time played.
-   */
-  currentTime: number;
-
-  /**
-   * Duration of current track.
-   */
-  currentDuration: number;
-
-  /**
    * Holds the currently playing audio data.
    */
   currentTrackIndex?: number;
@@ -34,7 +24,7 @@ export interface IPlayerState {
   /**
    * Holds all the audio data that can be played.
    */
-  tracks?: PlayerAudio[];
+  tracks: PlayerAudio[];
 
   /**
    * Current volume of the player as a value between 0 and 1.

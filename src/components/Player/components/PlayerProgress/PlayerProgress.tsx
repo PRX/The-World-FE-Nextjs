@@ -23,13 +23,20 @@ import {
   playerProgressStateReducer,
 } from "../../state";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type PlayerProgressProps = React.ComponentProps<"div"> & {
+  onScrub?(scrubPosition: number): void;
   updateFrequency?: number;
 };
 
 export const PlayerProgress: React.FC<PlayerProgressProps> = ({
   className,
+  onScrub,
   updateFrequency = 500,
   ...rest
 }: PlayerProgressProps) => {
@@ -41,22 +48,12 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
     playerProgressStateReducer,
     playerProgressInitialState,
   );
-  const { scrubPosition, played, playedSeconds, duration } = state;
-  const {
-    currentTrackIndex = 0,
-    tracks,
-    currentTime: playerCurrentTime,
-    currentDuration: playerCurrentDuration,
-  } = playerState;
+  const { scrubPosition, played } = state;
+  const { currentTrackIndex = 0, tracks } = playerState;
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: trackDuration } = currentTrack || {};
-  const totalDurationSeconds =
-    duration || playerCurrentDuration || trackDuration || 0;
-  const progress =
-    scrubPosition ||
-    (played !== Infinity && played) ||
-    (playedSeconds || playerCurrentTime) / totalDurationSeconds ||
-    0;
+  const totalDurationSeconds = audioElm?.duration || trackDuration || 0;
+  const progress = scrubPosition || (played !== Infinity && played) || 0;
   const progressDuration = convertSecondsToDuration(
     Math.round(totalDurationSeconds * progress),
   );
@@ -66,17 +63,22 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
    * @param position Ratio of pointer horizontal location relative to
    * progress track.
    */
-  const updateScrubPosition = useCallback((e: PointerEvent) => {
-    if (!trackRef.current) return;
+  const updateScrubPosition = useCallback(
+    (e: PointerEvent) => {
+      if (!trackRef.current) return;
 
-    const rect = trackRef.current.getBoundingClientRect();
-    const position = Math.max(0, Math.min(e.offsetX / rect.width, 1));
+      const rect = trackRef.current.getBoundingClientRect();
+      const position = Math.max(0, Math.min(e.offsetX / rect.width, 1));
 
-    dispatch({
-      type: PlayerActionTypes.PLAYER_UPDATE_SCRUB_POSITION,
-      payload: position,
-    });
-  }, []);
+      dispatch({
+        type: PlayerActionTypes.PLAYER_UPDATE_SCRUB_POSITION,
+        payload: position,
+      });
+
+      if (onScrub) onScrub(position);
+    },
+    [onScrub],
+  );
 
   /**
    * Update player progress visuals.
@@ -89,13 +91,11 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
       dispatch({
         type: PlayerActionTypes.PLAYER_UPDATE_PROGRESS,
         payload: {
-          duration: d || duration,
-          playedSeconds: updatedPlayed,
           played: updatedPlayed / (d || totalDurationSeconds),
         },
       });
     },
-    [audioElm, duration, totalDurationSeconds],
+    [audioElm, totalDurationSeconds],
   );
 
   /**
@@ -145,7 +145,9 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
    * @param e Pointer Event
    */
   const handlePointerUp = useCallback(() => {
-    seekTo((scrubPosition || played) * totalDurationSeconds);
+    const newTime = (scrubPosition || played) * totalDurationSeconds;
+
+    seekTo(newTime);
 
     dispatch({
       type: PlayerActionTypes.PLAYER_UPDATE_PROGRESS_TO_SCRUB_POSITION,
@@ -167,6 +169,10 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
     const newLoaded = buffered.length ? buffered.end(0) / audioElm.duration : 0;
 
     setLoaded(newLoaded);
+
+    if (newLoaded >= 1 && updateInterval.current) {
+      clearInterval(updateInterval.current);
+    }
   }, [audioElm]);
 
   useEffect(() => {
@@ -185,15 +191,6 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
       localStorage.setItem("playerProgressState", JSON.stringify(state));
     }
   }, [state]);
-
-  /**
-   * Update state when player state's currentTime changes.
-   */
-  useEffect(() => {
-    if (playerCurrentTime !== null) {
-      updateProgress(playerCurrentTime);
-    }
-  }, [playerCurrentTime, updateProgress]);
 
   /**
    * Setup update interval.
@@ -254,15 +251,20 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
       }
       ref={trackRef}
     >
-      <span
-        className={cn(
-          "relative col-start-2 row-start-1 z-2 bg-orange rounded-r-full",
-          "before:absolute before:inset-0 before:bg-orange before:rounded-full before:transition-transform",
-          "group-hover/playerProgress:before:scale-300",
-          "group-data-scrubbing/playerProgress:before:scale-300",
-        )}
-        data-text={progressDuration}
-      />
+      <Tooltip open={!!scrubPosition}>
+        <TooltipTrigger asChild>
+          <span
+            className={cn(
+              "relative col-start-2 row-start-1 z-2 bg-orange rounded-r-full",
+              "before:absolute before:inset-0 before:bg-orange before:rounded-full before:transition-transform",
+              "group-hover/playerProgress:before:scale-300",
+              "group-data-scrubbing/playerProgress:before:scale-300",
+            )}
+            data-text={progressDuration}
+          />
+        </TooltipTrigger>
+        <TooltipContent>{progressDuration}</TooltipContent>
+      </Tooltip>
     </div>
   );
 };

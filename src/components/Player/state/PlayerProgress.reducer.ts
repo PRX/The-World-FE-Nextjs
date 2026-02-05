@@ -10,9 +10,7 @@ import {
 } from "./Player.actions";
 
 export const playerProgressInitialState: IPlayerProgressState = {
-  duration: 0,
   played: 0,
-  playedSeconds: 0,
   loaded: 0,
   loadedSeconds: 0,
 };
@@ -21,7 +19,7 @@ export const playerProgressStateReducer = (
   state: IPlayerProgressState,
   action: IPlayerAction,
 ): IPlayerProgressState => {
-  const { scrubPosition, played, duration } = state;
+  const { scrubPosition, played } = state;
   const headPosition = scrubPosition || played;
 
   switch (action.type) {
@@ -38,14 +36,7 @@ export const playerProgressStateReducer = (
       return {
         ...state,
         played: headPosition,
-        playedSeconds: duration * headPosition,
         scrubPosition: undefined,
-      };
-
-    case ActionTypes.PLAYER_UPDATE_CURRENT_DURATION:
-      return {
-        ...state,
-        duration: action.payload as number,
       };
 
     default:

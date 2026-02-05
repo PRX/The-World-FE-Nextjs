@@ -77,7 +77,7 @@
   --foreground: var(--color-white);
   --card: var(--color-navy-blue);
   --card-foreground: var(--color-white);
-  --popover: oklch(0.208 0.042 265.755);
+  --popover: var(--color-navy-blue);
   --popover-foreground: var(--color-white);
   --primary: hsl(from var(--color-white) h s l / 20%);
   --primary-foreground: var(--color-white);

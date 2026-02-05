@@ -19,14 +19,10 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   ...other
 }: TimeInfoProps) => {
   const { audioElm, state: playerState } = useContext(PlayerContext);
-  const {
-    currentTrackIndex = 0,
-    tracks,
-    currentTime: playerCurrentTime,
-  } = playerState;
+  const { currentTrackIndex = 0, tracks } = playerState;
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: audioDuration } = currentTrack || {};
-  const [currentTime, setCurrentTime] = useState(playerCurrentTime);
+  const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(audioDuration || 0);
   const playedDuration = convertSecondsToDuration(currentTime);
   const trackDuration = convertSecondsToDuration(duration);
@@ -40,10 +36,10 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
       const { currentTime: ct, duration: d } = audioElm || {};
       const updatedPlayed = seconds || seconds === 0 ? seconds : ct;
 
-      setCurrentTime(updatedPlayed || playerCurrentTime);
+      setCurrentTime(updatedPlayed || 0);
       setDuration(d || audioDuration || 0);
     },
-    [audioElm, playerCurrentTime, audioDuration],
+    [audioElm, audioDuration],
   );
 
   /**
@@ -59,15 +55,6 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   const handleUpdate = useCallback(() => {
     updateProgress();
   }, [updateProgress]);
-
-  /**
-   * Update state when player state's currentTime changes.
-   */
-  useEffect(() => {
-    if (playerCurrentTime !== null) {
-      updateProgress(playerCurrentTime);
-    }
-  }, [playerCurrentTime, updateProgress]);
 
   /**
    * Setup audio element event handlers.

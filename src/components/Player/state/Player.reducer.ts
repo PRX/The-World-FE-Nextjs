@@ -12,10 +12,9 @@ import {
 export const playerInitialState: IPlayerState = {
   playing: false,
   autoplay: true,
-  currentTime: 0,
-  currentDuration: 0,
   muted: false,
   volume: 0.8,
+  tracks: [],
 };
 
 export const playerStateReducer = (
@@ -28,7 +27,6 @@ export const playerStateReducer = (
     currentTrackIndex = 0,
     tracks = [],
     muted,
-    currentTime,
   } = state;
   let audioTrackIndex: number;
   let isInTracks: boolean;
@@ -74,7 +72,6 @@ export const playerStateReducer = (
           0,
           Math.min(action.payload as number, tracks.length - 1),
         ),
-        currentTime: 0,
       };
 
     case ActionTypes.PLAYER_PLAY_EPISODE:
@@ -84,7 +81,6 @@ export const playerStateReducer = (
           0,
           tracks.findIndex(({ id }) => id === action.payload),
         ),
-        currentTime: 0,
       };
 
     case ActionTypes.PLAYER_PLAY_AUDIO:
@@ -104,7 +100,6 @@ export const playerStateReducer = (
           ],
           currentTrackIndex: tracks?.length ? currentTrackIndex + 1 : 0,
         }),
-        currentTime: 0,
         playing: true,
       };
 
@@ -132,16 +127,13 @@ export const playerStateReducer = (
             ? currentTrackIndex - 1
             : Math.max(0, Math.min(currentTrackIndex, tracks.length - 2)),
         playing: audioTrackIndex === currentTrackIndex ? false : playing,
-        currentTime: audioTrackIndex === currentTrackIndex ? 0 : currentTime,
       };
 
     case ActionTypes.PLAYER_REMOVE_ALL_TRACKS:
       return {
         ...state,
-        tracks: undefined,
+        tracks: [],
         currentTrackIndex: undefined,
-        currentDuration: 0,
-        currentTime: 0,
         playing: false,
       };
 
@@ -156,8 +148,6 @@ export const playerStateReducer = (
           tracks.length - 1 > 0
             ? Math.min(tracks.length - 2, currentTrackIndex)
             : undefined,
-        currentTime: 0,
-        currentDuration: 0,
         playing:
           // Not last track...
           tracks.length - 1 !== currentTrackIndex &&
@@ -170,28 +160,19 @@ export const playerStateReducer = (
         ...state,
         currentTrackIndex: action.payload as number,
         playing: true,
-        currentTime: 0,
       };
 
     case ActionTypes.PLAYER_NEXT_TRACK:
       return {
         ...state,
         currentTrackIndex: Math.min(currentTrackIndex + 1, tracks.length - 1),
-        currentTime: 0,
       };
 
     case ActionTypes.PLAYER_PREVIOUS_TRACK:
       return {
         ...state,
         currentTrackIndex: Math.max(currentTrackIndex - 1, 0),
-        currentTime: 0,
       };
-
-    case ActionTypes.PLAYER_UPDATE_CURRENT_TIME:
-      return { ...state, currentTime: action.payload as number };
-
-    case ActionTypes.PLAYER_UPDATE_CURRENT_DURATION:
-      return { ...state, currentDuration: action.payload as number };
 
     case ActionTypes.PLAYER_MUTE:
       return { ...state, muted: true };

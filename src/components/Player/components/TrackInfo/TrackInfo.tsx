@@ -89,7 +89,11 @@ export const TrackInfo = ({ className }: TrackInfoProps) => {
       {linkResourceHref && (
         <Link
           href={linkResourceHref}
-          className="absolute inset-0 -indent-10000"
+          className={cn(
+            "absolute -inset-1 -indent-10000 rounded-sm outline-none",
+            "hover:bg-current/10",
+            "focus-visible:ring-ring/50 focus-visible:ring-4",
+          )}
         >
           {linkResource.title}
         </Link>

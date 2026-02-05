@@ -32,14 +32,7 @@ export const Player = ({ children }: PlayerProps) => {
   const [state, dispatch] = useReducer(playerStateReducer, {
     ...playerInitialState,
   });
-  const {
-    tracks = [],
-    playing,
-    currentTrackIndex = 0,
-    currentTime,
-    muted,
-    volume,
-  } = state;
+  const { tracks = [], playing, currentTrackIndex = 0, muted, volume } = state;
   const currentTrack = tracks?.[currentTrackIndex] || ({} as PlayerAudio);
   const currentTrackDurationSeconds = currentTrack.duration || 0;
   const { url } = currentTrack;
@@ -127,10 +120,9 @@ export const Player = ({ children }: PlayerProps) => {
 
   const seekTo = useCallback(
     (time: number) => {
-      dispatch({
-        type: PlayerActionTypes.PLAYER_UPDATE_CURRENT_TIME,
-        payload: boundedTime(time),
-      });
+      if (audioElm.current) {
+        audioElm.current.currentTime = boundedTime(time);
+      }
     },
     [boundedTime],
   );
@@ -421,13 +413,7 @@ export const Player = ({ children }: PlayerProps) => {
   }, []);
 
   const handleLoadedMetadata = useCallback(() => {
-    // When audio data loads, update duration and current time, then start
-    // playing if we were playing before.
-    dispatch({
-      type: PlayerActionTypes.PLAYER_UPDATE_CURRENT_DURATION,
-      payload: audioElm.current?.duration || currentTrackDurationSeconds,
-    });
-
+    // When audio data loads, start playing if we were playing before.
     if (playing) {
       // Plausible: Played
       plausible("App Player: Played", {
@@ -437,13 +423,7 @@ export const Player = ({ children }: PlayerProps) => {
       });
       startPlaying();
     }
-  }, [
-    currentTrack.title,
-    plausible,
-    playing,
-    startPlaying,
-    currentTrackDurationSeconds,
-  ]);
+  }, [currentTrack.title, plausible, playing, startPlaying]);
 
   const handleEnded = useCallback(() => {
     // Plausible: Completed
@@ -463,12 +443,18 @@ export const Player = ({ children }: PlayerProps) => {
       const key = event.code || event.key;
       const hasModifier =
         event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
-      const targetNodeName = (event.target as HTMLElement).nodeName;
+      const target = event.target as HTMLElement;
+      const targetNodeName = target.nodeName;
+      const targetRole = target.getAttribute("role");
       const fromInput = ["INPUT", "TEXTAREA"].includes(targetNodeName);
 
       // Bail if modifier key is pressed to allow browser shortcuts to function,
       // or event originated from a form input.
       if (hasModifier || fromInput) return;
+
+      if (tracks.length) {
+        event.preventDefault();
+      }
 
       switch (key) {
         case "KeyA":
@@ -498,10 +484,14 @@ export const Player = ({ children }: PlayerProps) => {
           seekBy(10);
           break;
         case "ArrowLeft":
-          seekBy(-5);
+          if (!targetRole || ["slider"].includes(targetRole)) {
+            seekBy(-5);
+          }
           break;
         case "ArrowRight":
-          seekBy(5);
+          if (!targetRole || ["slider"].includes(targetRole)) {
+            seekBy(5);
+          }
           break;
         case "Comma":
           if (!playing) {
@@ -577,6 +567,7 @@ export const Player = ({ children }: PlayerProps) => {
       toggleAutoplay,
       toggleMute,
       togglePlayPause,
+      tracks.length,
     ],
   );
 
@@ -656,10 +647,6 @@ export const Player = ({ children }: PlayerProps) => {
     if (audioElm.current)
       audioElm.current.volume = volume || audioElm.current.volume;
   }, [volume]);
-
-  useEffect(() => {
-    if (audioElm.current) audioElm.current.currentTime = currentTime;
-  }, [currentTime]);
 
   useEffect(() => {
     loadAudio(url, playing);
