@@ -19,7 +19,7 @@ export interface IPlayerContext {
   enableAutoplay(): void;
   disableAutoplay(): void;
   toggleAutoplay(): void;
-  toggleMute(): void;
+  toggleMute(): boolean;
   seekTo(time: number): void;
   seekBy(time: number): void;
   replay(): void;
@@ -29,7 +29,7 @@ export interface IPlayerContext {
   previousTrack(): void;
   setTrack(index: number): void;
   setTracks(tracks: PlayerAudio[]): void;
-  setVolume(volume: number): void;
+  setVolume(volume: number): number;
   addTrack(track: PlayerAudio): void;
   removeTrack(track: PlayerAudio): void;
   clearPlaylist(): void;

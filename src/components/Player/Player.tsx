@@ -33,7 +33,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
     ...playerInitialState,
     ...initialState,
   });
-  const { tracks = [], playing, currentTrackIndex = 0, muted, volume, standalone } = state;
+  const { tracks = [], playing, currentTrackIndex = 0, standalone } = state;
   const currentTrack = tracks?.[currentTrackIndex] || ({} as PlayerAudio);
   const currentTrackDurationSeconds = currentTrack.duration || 0;
   const { url } = currentTrack;
@@ -210,33 +210,41 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, []);
 
   const volumeUp = useCallback(() => {
-    dispatch({
-      type: PlayerActionTypes.PLAYER_UPDATE_VOLUME,
-      payload: boundedVolume((audioElm.current?.volume || state.volume) + 0.05),
-    });
-  }, [boundedVolume, state.volume]);
+    const bv = boundedVolume((audioElm.current ? audioElm.current.volume : 0.8) + 0.05);
+
+    if (audioElm.current) {
+      audioElm.current.volume = bv;
+    }
+
+    return audioElm.current?.volume || bv;
+  }, [boundedVolume]);
 
   const volumeDown = useCallback(() => {
-    dispatch({
-      type: PlayerActionTypes.PLAYER_UPDATE_VOLUME,
-      payload: boundedVolume((audioElm.current?.volume || state.volume) - 0.05),
-    });
-  }, [boundedVolume, state.volume]);
+    const bv = boundedVolume((audioElm.current ? audioElm.current.volume : 0.8) - 0.05);
+
+    if (audioElm.current) {
+      audioElm.current.volume = bv;
+    }
+
+    return audioElm.current?.volume || bv;
+  }, [boundedVolume]);
 
   const setVolume = useCallback(
     (newVolume: number) => {
-      dispatch({
-        type: PlayerActionTypes.PLAYER_UPDATE_VOLUME,
-        payload: boundedVolume(newVolume),
-      });
+      const bv = boundedVolume(newVolume);
+
+      if (audioElm.current) {
+        audioElm.current.volume = bv;
+      }
+
+      return audioElm.current ? audioElm.current.volume : bv;
     },
     [boundedVolume],
   );
 
   const toggleMute = useCallback(() => {
-    dispatch({
-      type: PlayerActionTypes.PLAYER_TOGGLE_MUTED,
-    });
+    if (audioElm.current) audioElm.current.muted = !audioElm.current.muted;
+    return !!audioElm.current?.muted;
   }, []);
 
   const isQueued = useCallback(
@@ -643,15 +651,6 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
       startPlaying();
     }
   }, [pauseAudio, playing, startPlaying]);
-
-  useEffect(() => {
-    if (audioElm.current) audioElm.current.muted = muted;
-  }, [muted]);
-
-  useEffect(() => {
-    if (audioElm.current)
-      audioElm.current.volume = volume || audioElm.current.volume;
-  }, [volume]);
 
   useEffect(() => {
     loadAudio(url, playing);

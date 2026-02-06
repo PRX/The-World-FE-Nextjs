@@ -23,6 +23,9 @@ export const playerProgressStateReducer = (
   const headPosition = scrubPosition || played;
 
   switch (action.type) {
+    case ActionTypes.PLAYER_HYDRATE:
+      return { ...(action.payload as IPlayerProgressState) };
+      
     case ActionTypes.PLAYER_UPDATE_PROGRESS:
       return {
         ...state,

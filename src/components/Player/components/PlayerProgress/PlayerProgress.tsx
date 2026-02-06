@@ -177,7 +177,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
 
   useEffect(() => {
     if (standalone) return;
-    
+
     const playerStateJson = localStorage?.getItem("playerProgressState");
 
     if (playerStateJson) {
@@ -233,8 +233,6 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
       refElm?.removeEventListener("pointerup", handlePointerUp);
     };
   }, [handlePointerDown, handlePointerUp]);
-
-  if (!audioElm) return null;
 
   return (
     <div

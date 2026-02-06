@@ -14,8 +14,6 @@ import { clamp } from "lodash";
 export const playerInitialState: IPlayerState = {
   playing: false,
   autoplay: true,
-  muted: false,
-  volume: 0.8,
   currentTrackIndex: 0,
   tracks: [],
 };
@@ -30,7 +28,6 @@ export const playerStateReducer = (
     playing,
     currentTrackIndex = 0,
     tracks = [],
-    muted,
   } = state;
   let audioTrackIndex: number;
   let isInTracks: boolean;
@@ -191,18 +188,6 @@ export const playerStateReducer = (
         ...state,
         currentTrackIndex: Math.max(currentTrackIndex - 1, 0),
       };
-
-    case ActionTypes.PLAYER_MUTE:
-      return { ...state, muted: true };
-
-    case ActionTypes.PLAYER_UNMUTE:
-      return { ...state, muted: false };
-
-    case ActionTypes.PLAYER_TOGGLE_MUTED:
-      return { ...state, muted: !muted };
-
-    case ActionTypes.PLAYER_UPDATE_VOLUME:
-      return { ...state, volume: action.payload as number };
 
     default:
       return state;

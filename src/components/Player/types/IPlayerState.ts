@@ -30,14 +30,4 @@ export interface IPlayerState {
    * Holds all the audio data that can be played.
    */
   tracks: PlayerAudio[];
-
-  /**
-   * Current volume of the player as a value between 0 and 1.
-   */
-  volume: number;
-
-  /**
-   * Boolean to mute player.
-   */
-  muted: boolean;
 }

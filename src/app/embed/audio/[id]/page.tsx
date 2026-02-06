@@ -1,4 +1,4 @@
-import { PlayButton, Player, PlayerProgress, TrackInfo } from "@/components/Player";
+import { PlayButton, Player, PlayerProgress, TrackInfo, VolumeControls } from "@/components/Player";
 import { Button } from "@/components/ui/button";
 import {
   fetchGqlAudio,
@@ -8,6 +8,7 @@ import {
   fetchTwApi,
 } from "@/lib/fetch";
 import { parseAudioData } from "@/lib/parse/audio";
+import { cn } from "@/lib/utils";
 import { encode } from "base-64";
 import { DownloadIcon } from "lucide-react";
 import { unstable_cache } from "next/cache";
@@ -93,22 +94,30 @@ export default async function AudioEmbed({
   return (
     audio && (
       <Player tracks={[audio]} autoplay={false} standalone>
-        <div className="grid grid-cols-[min-content_1fr_min-content] grid-rows-[1fr_min-content] gap-x-2 h-12.5 bg-navy-blue rounded-sm leading-0 overflow-clip">
-          <div className="grid place-items-center p-1 z-1">
+        <div className="grid grid-cols-[min-content_1fr_min-content] grid-rows-[1fr_min-content] items-around gap-x-2 h-12.5 bg-navy-blue bg-linear-to-r to-green rounded-sm leading-0 overflow-clip">
+          <div className="row-span-2 grid place-items-stretch aspect-square p-0 z-1 overflow-clip">
             <PlayButton
               size="icon-sm"
-              className="size-9.5 m-0 p-0 [&_svg]:size-6"
+              className="size-auto m-0 p-0 [&_svg]:size-6 rounded-none before:rounded-none after:rounded-none"
               disableTooltip
             />
           </div>
-          <TrackInfo
-            className="grow content-center gap-y-0 leading-none mask-r-from-[calc(100%-1rem)] mask-l-from-[calc(100%-1rem)] [&>div]:px-2 [&>div]:text-xs -mx-3"
-            linkProps={{ target: "_blank" }}
-          />
-          <div className="grid items-center p-1 z-1">
+          <div className="grow flex justify-between items-center">
+            <TrackInfo
+              className="grow content-center gap-y-0 leading-none mask-r-from-[calc(100%-1rem)] mask-l-from-[calc(100%-1rem)] [&>div]:px-2 -mx-3"
+              linkProps={{ target: "_blank" }}
+            />
+            <VolumeControls className={cn(
+              "p-0 grid-cols-[min-content] hover:grid-cols-[minmax(100px,1fr)_min-content] hover:bg-transparent focus-within:bg-transparent",
+              "*:data-[slot=slider]:hidden hover:*:data-[slot=slider]:grid",
+              "**:data-[slot=slider-range]:bg-white",
+              "[&>button]:size-8 [&>button>svg]:size-6"
+            )} muteButtonProps={{ disableTooltip: true }} />
+          </div>
+          <div className="row-span-2 grid place-items-stretch aspect-square p-0 z-1">
             <Button
               size="icon-sm"
-              className="size-9.5 rounded-full m-0 p-0 [&_svg]:size-6"
+              className="size-auto rounded-none m-0 p-0 [&_svg]:size-6"
               variant="ghost"
               asChild
             >
@@ -120,7 +129,9 @@ export default async function AudioEmbed({
               </a>
             </Button>
           </div>
-          <PlayerProgress className="row-start-2 col-span-full z-2" />
+          <div className="row-start-2 col-start-2 z-2 pb-1">
+            <PlayerProgress className="rounded-full bg-current/10" />
+          </div>
         </div>
       </Player>
     )

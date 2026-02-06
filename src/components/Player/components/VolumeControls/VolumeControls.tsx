@@ -6,7 +6,7 @@
  */
 
 import type React from "react";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PlayerContext } from "../../contexts";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,9 @@ import { Slider } from "@/components/ui/slider";
 import { Kbd } from "@/components/ui/kbd";
 
 export type VolumeControlsProps = React.ComponentProps<"div"> & {
-  muteButtonProps?: React.ComponentProps<typeof Button>;
+  muteButtonProps?: React.ComponentProps<typeof Button> & {
+    disableTooltip?: boolean
+  };
 };
 
 export const VolumeControls: React.FC<VolumeControlsProps> = ({
@@ -28,8 +30,11 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
   muteButtonProps,
   ...other
 }: VolumeControlsProps) => {
-  const { audioElm, state, setVolume, toggleMute } = useContext(PlayerContext);
-  const { volume, muted } = state;
+  const { audioElm, setVolume, toggleMute } = useContext(PlayerContext);
+  const { volume = 0.8 } = audioElm || {};
+  const [vol, setVol] = useState(volume);
+  const [muted, setMuted] = useState(!!audioElm?.muted);
+  const { disableTooltip, ...otherMuteButtonProps } = muteButtonProps || {}
   let VolumeIcon = Volume2Icon;
 
   if (volume === 0) {
@@ -44,11 +49,11 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
   const updateVolume = useCallback(
     (newVolume?: number) => {
       const { volume: v } = audioElm || {};
-      const updatedVolume = newVolume || newVolume === 0 ? newVolume : v;
+      const updatedVolume = newVolume || newVolume === 0 ? newVolume : v || 0.8;
 
-      setVolume(updatedVolume || volume);
+      setVol(setVolume(updatedVolume));
     },
-    [audioElm, setVolume, volume],
+    [setVolume],
   );
 
   /**
@@ -59,10 +64,37 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
   };
 
   const handleMuteClick = () => {
-    toggleMute();
+    setMuted(toggleMute());
   };
 
-  if (!audioElm) return null;
+  useEffect(() => {
+    const handleVolumeChange = () => {
+      
+      if (audioElm && audioElm.muted !== muted) {
+        setMuted(audioElm.muted);
+      }
+
+      setVol(audioElm?.volume || vol);
+    }
+
+    audioElm?.addEventListener("volumechange", handleVolumeChange);
+
+    return () => {
+      audioElm?.removeEventListener("volumechange", handleVolumeChange);
+    }
+  }, [audioElm, vol, muted]);
+
+  const renderMuteButton = () => (
+    <Button
+      className="rounded-full cursor-pointer"
+      size="icon"
+      variant="ghost"
+      {...otherMuteButtonProps}
+      onClick={handleMuteClick}
+    >
+      {muted ? <VolumeOffIcon /> : <VolumeIcon />}
+    </Button>
+  )
 
   return (
     <div
@@ -82,27 +114,21 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
         )}
         max={1}
         step={0.01}
-        value={[volume]}
+        value={[vol]}
         onValueChange={handleSliderChange}
         aria-label="Volume Slider"
       />
 
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            className="rounded-full cursor-pointer"
-            size="icon"
-            variant="ghost"
-            {...muteButtonProps}
-            onClick={handleMuteClick}
-          >
-            {muted ? <VolumeOffIcon /> : <VolumeIcon />}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent className="z-(--z-ui)">
-          {muted ? "Unmute" : "Mute"} <Kbd>M</Kbd>
-        </TooltipContent>
-      </Tooltip>
+      {disableTooltip ? renderMuteButton() : (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {renderMuteButton()}
+          </TooltipTrigger>
+          <TooltipContent className="z-(--z-ui)">
+            {muted ? "Unmute" : "Mute"} <Kbd>M</Kbd>
+          </TooltipContent>
+        </Tooltip>
+      )}
     </div>
   );
 };
