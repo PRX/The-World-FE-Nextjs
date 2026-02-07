@@ -1,11 +1,12 @@
 "use client";
 
 import type { AppMenus, Settings } from "@/interfaces";
-import { HeartHandshakeIcon, MenuIcon } from "lucide-react";
+import { ChevronUpIcon, HeartHandshakeIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React, {
   type CSSProperties,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -30,6 +31,8 @@ import {
   ForwardButton,
   NextButton,
   PlayButton,
+  PlayerContext,
+  Playlist,
   PlayerMenu,
   PlayerProgress,
   PreviousButton,
@@ -38,6 +41,18 @@ import {
   TrackInfo,
   VolumeControls,
 } from "@/components/Player";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 export default function MainUI({
   children,
@@ -62,9 +77,13 @@ export default function MainUI({
   const topNavRef = useRef<HTMLDivElement>(null);
   const uiBottomRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const trackInfoRef = useRef<HTMLDivElement>(null);
+  const { state: playerState } = useContext(PlayerContext);
+  const { tracks } = playerState;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [isPlaylistOpen, setIsPlaylistOpen] = useState(true);
   const [hasBrowser, setHasBrowser] = useState(false);
   const [drawerWidth, setDrawerWidth] = useState(62);
   const [gutters, setGutters] = useState({
@@ -73,13 +92,19 @@ export default function MainUI({
     bottom: 0,
     left: 0,
   });
-  const styles = {
-    "--gutter-top": `calc(var(--spacing)*${gutters.top})`,
-    "--gutter-right": `calc(var(--spacing)*${gutters.right})`,
-    "--gutter-bottom": `calc(var(--spacing)*${gutters.bottom})`,
-    "--gutter-left": `calc(var(--spacing)*${gutters.left})`,
-    "--ui-drawer--width": `calc(var(--spacing)*${drawerWidth})`,
-  } as CSSProperties;
+  const styles = `
+    :root {
+      --gutter-top: calc(var(--spacing)*${gutters.top});
+      --gutter-right: calc(var(--spacing)*${gutters.right});
+      --gutter-bottom: calc(var(--spacing)*${gutters.bottom});
+      --gutter-left: calc(var(--spacing)*${gutters.left});
+      --ui-drawer--width: calc(var(--spacing)*${drawerWidth});
+    }
+    body {
+      transition-property: --gutter-top, --gutter-bottom, --gutter-left, --gutter-right, --ui-drawer--width;
+      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+      transition-duration: var(--tw-duration, var(--default-transition-duration));
+    }`;
 
   const updateGutters = useCallback(() => {
     // This can be called by descendent components after they change their local state.
@@ -112,6 +137,16 @@ export default function MainUI({
     setIsMenuOpen((isOpen) => !isOpen);
     updateGutters();
   }
+
+  function handlePlaylistToggle() {
+    setIsPlaylistOpen((c) => !c);
+  }
+
+  useEffect(() => {
+    if (tracks?.length <= 1) {
+      setIsPlaylistOpen(false);
+    }
+  }, [tracks?.length]);
 
   useEffect(() => {
     if (hasBrowser) {
@@ -175,10 +210,10 @@ export default function MainUI({
         settings,
       }}
     >
+      <style>{styles}</style>
       <Toaster />
       <div
-        className="group/ui flex flex-col min-h-dvh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
-        style={styles}
+        className="group/ui flex flex-col min-h-dvh transition-[--gutter-left,--gutter-right]"
         {...(isMenuOpen && { "data-menu-open": true })}
         {...(isPlayerOpen && { "data-player-open": true })}
       >
@@ -340,7 +375,7 @@ export default function MainUI({
           )}
           inert={!isPlayerOpen}
         >
-          <div className="relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md">
+          <div className="relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md pointer-events-auto">
             <div className="absolute inset-0 bottom-auto">
               <PlayerProgress />
             </div>
@@ -353,7 +388,52 @@ export default function MainUI({
             <TimeInfo className="text-sm" />
             {/* Track Info */}
             <div className="grow flex justify-start items-center gap-x-4">
-              <TrackInfo />
+              <div className="relative flex items-center gap-x-2">
+                <TrackInfo ref={trackInfoRef} className="w-fit" />
+                {tracks.length > 1 && (
+                  <Drawer open={isPlaylistOpen} handleOnly>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="rounded-full cursor-pointer"
+                          size="icon"
+                          variant="ghost"
+                          onClick={handlePlaylistToggle}
+                        >
+                          <ChevronUpIcon
+                            className={cn("transition-transform", {
+                              "rotate-180": isPlaylistOpen,
+                            })}
+                          />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="z-(--z-ui)">
+                        {isPlaylistOpen ? "Hide" : "Show"} Playlist
+                      </TooltipContent>
+                    </Tooltip>
+                    <DrawerContent
+                      handle={false}
+                      style={
+                        {
+                          "--padding-left": `${trackInfoRef.current?.getBoundingClientRect().left}px`,
+                        } as CSSProperties
+                      }
+                      className={cn(
+                        "h-full flex justify-end",
+                        "bottom-(--gutter-bottom)! pl-(--padding-left) mask-t-from-[calc(100%-10rem)]",
+                        "bg-transparent border-none",
+                        "bg-linear-to-tr from-green/60 to-blue/40",
+                      )}
+                    >
+                      <DrawerTitle className="sr-only">Playlist</DrawerTitle>
+                      <DrawerDescription className="sr-only">
+                        Your currently queued episodes.
+                      </DrawerDescription>
+                      <Playlist className="pt-28 pr-12 pb-4 -ml-13" />
+                    </DrawerContent>
+                  </Drawer>
+                )}
+              </div>
               <PlayerMenu contentProps={{ className: "z-(--z-ui)" }} />
               {/* Track Selection Controls */}
               <div className={cn("flex items-center gap-1 empty:hidden")}>

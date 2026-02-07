@@ -21,6 +21,7 @@ import { PlayerContext } from "../../contexts";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -111,6 +112,11 @@ export function PlayerMenu({
         >
           <DrawerHeader>
             <DrawerTitle>Embed Audio</DrawerTitle>
+            <DrawerDescription>
+              <p>
+                Adding this player to your site's content is a copy-paste away.
+              </p>
+            </DrawerDescription>
           </DrawerHeader>
           <EmbedModalContent />
         </DrawerContent>

@@ -3,7 +3,6 @@
  * Defines reducer for handling player state actions.
  */
 
-import { wrap } from "motion/react";
 import type { IPlayerState, PlayerAudio } from "../types";
 import {
   PlayerActionTypes as ActionTypes,
@@ -139,33 +138,21 @@ export const playerStateReducer = (
       };
 
     case ActionTypes.PLAYER_COMPLETE_CURRENT_TRACK:
-      console.log({
-        ...state,
-        tracks: standalone ? tracks : [
-          ...tracks.slice(0, currentTrackIndex),
-          ...tracks.slice(currentTrackIndex + 1),
-        ],
-        currentTrackIndex: standalone ?
-          clamp(currentTrackIndex + 1, 0, tracks.length - 1) :
-          clamp(currentTrackIndex, 0, tracks.length - 2),
-        playing:
-          // Not last track...
-          tracks.length - 1 !== (standalone ? currentTrackIndex + 1 : currentTrackIndex) &&
-          // ...and we are auto playing.
-          autoplay,
-      })
       return {
         ...state,
-        tracks: standalone ? tracks : [
-          ...tracks.slice(0, currentTrackIndex),
-          ...tracks.slice(currentTrackIndex + 1),
-        ],
-        currentTrackIndex: standalone ?
-          clamp(currentTrackIndex + 1, 0, tracks.length - 1) :
-          clamp(currentTrackIndex, 0, tracks.length - 2),
+        tracks: standalone
+          ? tracks
+          : [
+              ...tracks.slice(0, currentTrackIndex),
+              ...tracks.slice(currentTrackIndex + 1),
+            ],
+        currentTrackIndex: standalone
+          ? clamp(currentTrackIndex + 1, 0, tracks.length - 1)
+          : clamp(currentTrackIndex, 0, tracks.length - 2),
         playing:
           // Not last track...
-          tracks.length - 1 !== (standalone ? currentTrackIndex + 1 : currentTrackIndex) &&
+          tracks.length - 1 !==
+            (standalone ? currentTrackIndex + 1 : currentTrackIndex) &&
           // ...and we are auto playing.
           autoplay,
       };
