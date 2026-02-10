@@ -1,4 +1,10 @@
-import { PlayButton, Player, PlayerProgress, TrackInfo, VolumeControls } from "@/components/Player";
+import {
+  PlayButton,
+  Player,
+  PlayerProgress,
+  TrackInfo,
+  VolumeControls,
+} from "@/components/Player";
 import { Button } from "@/components/ui/button";
 import {
   fetchGqlAudio,
@@ -107,12 +113,14 @@ export default async function AudioEmbed({
               className="grow content-center gap-y-0 leading-none mask-r-from-[calc(100%-1rem)] mask-l-from-[calc(100%-1rem)] [&>div]:px-2 -mx-3"
               linkProps={{ target: "_blank" }}
             />
-            <VolumeControls className={cn(
-              "p-0 grid-cols-[min-content] hover:grid-cols-[minmax(100px,1fr)_min-content] hover:bg-transparent focus-within:bg-transparent",
-              "*:data-[slot=slider]:hidden hover:*:data-[slot=slider]:grid",
-              "**:data-[slot=slider-range]:bg-white",
-              "[&>button]:size-8 [&>button>svg]:size-6"
-            )} muteButtonProps={{ disableTooltip: true }} />
+            <VolumeControls
+              className={cn(
+                "p-0 hover:bg-transparent focus-within:bg-transparent",
+                "**:data-[slot=slider-range]:bg-white",
+                "[&>button]:size-8 [&>button>svg]:size-6",
+              )}
+              muteButtonProps={{ disableTooltip: true }}
+            />
           </div>
           <div className="row-span-2 grid place-items-stretch aspect-square p-0 z-1">
             <Button

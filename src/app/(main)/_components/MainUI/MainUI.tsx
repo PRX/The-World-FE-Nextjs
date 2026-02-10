@@ -375,7 +375,12 @@ export default function MainUI({
           )}
           inert={!isPlayerOpen}
         >
-          <div className="relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md pointer-events-auto">
+          <div
+            className={cn(
+              "relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md pointer-events-auto",
+              "max-sm:justify-between max-sm:gap-x-1 max-sm:px-1",
+            )}
+          >
             <div className="absolute inset-0 bottom-auto">
               <PlayerProgress />
             </div>
@@ -387,9 +392,11 @@ export default function MainUI({
             </div>
             <TimeInfo className="text-sm" />
             {/* Track Info */}
-            <div className="grow flex justify-start items-center gap-x-4">
-              <div className="relative flex items-center gap-x-2">
-                <TrackInfo ref={trackInfoRef} className="w-fit" />
+            <div className="grow flex justify-start items-center gap-x-4 max-sm:justify-between max-md:gap-x-1">
+              <div className="flex items-center gap-x-2">
+                <div className="max-md:hidden">
+                  <TrackInfo ref={trackInfoRef} />
+                </div>
                 {tracks.length > 1 && (
                   <Drawer open={isPlaylistOpen} handleOnly>
                     <Tooltip>
@@ -429,22 +436,29 @@ export default function MainUI({
                       <DrawerDescription className="sr-only">
                         Your currently queued episodes.
                       </DrawerDescription>
-                      <Playlist className="pt-28 pr-12 pb-4 -ml-13" />
+                      <Playlist className="pt-28 pb-4 lg:-ml-13" />
                     </DrawerContent>
                   </Drawer>
                 )}
               </div>
-              <PlayerMenu contentProps={{ className: "z-(--z-ui)" }} />
+              <PlayerMenu
+                triggerProps={{ className: "max-sm:hidden" }}
+                contentProps={{ className: "z-(--z-ui)" }}
+              />
               {/* Track Selection Controls */}
-              <div className={cn("flex items-center gap-1 empty:hidden")}>
+              <div
+                className={cn(
+                  "flex justify-start items-center gap-1 empty:hidden",
+                )}
+              >
                 <PreviousButton />
                 <NextButton />
               </div>
             </div>
             {/* Player Settings */}
-            <div className="flex justify-end items-center gap-x-4">
-              <VolumeControls />
-              <AutoplayButton />
+            <div className="flex justify-end items-center gap-x-4 max-sm:hidden">
+              <VolumeControls className="hidden md:media-hover:flex lg:flex" />
+              <AutoplayButton className="" />
             </div>
           </div>
         </div>

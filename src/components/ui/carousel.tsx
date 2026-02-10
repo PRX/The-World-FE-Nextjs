@@ -191,7 +191,7 @@ function CarouselPrevious({
       variant={variant}
       size={size}
       className={cn(
-        "absolute inset-0 z-1 grid items-center p-2 transition-opacity opacity-0 cursor-pointer",
+        "absolute inset-0 z-1 grid items-center p-2 transition-opacity media-hover:opacity-0 cursor-pointer",
         "[&>svg]:size-18",
         orientation === "horizontal"
           ? "right-auto w-37 bg-linear-to-r from-50% from-navy-blue/70"
@@ -226,7 +226,7 @@ function CarouselNext({
       variant={variant}
       size={size}
       className={cn(
-        "absolute inset-0 z-1 grid items-center justify-end p-2 transition-opacity opacity-0 cursor-pointer",
+        "absolute inset-0 z-1 grid items-center justify-end p-2 transition-opacity media-hover:opacity-0 cursor-pointer",
         "[&>svg]:size-18",
         orientation === "horizontal"
           ? "left-auto w-37 bg-linear-to-l from-50% from-navy-blue/70"

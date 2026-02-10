@@ -31,6 +31,7 @@ import {
   PlayAudioButton,
   type PlayerAudio,
 } from "@/components/Player";
+import type { CSSProperties } from "react";
 
 export const getCachedHomepage = unstable_cache(
   async () => fetchGqlHomepage(),
@@ -81,17 +82,25 @@ export default async function Home() {
   });
 
   return (
-    <div className="grid gap-y-8 mt-12">
+    <div
+      style={
+        {
+          "--_menu-width": "max(var(--gutter-left), var(--spacing)*28)",
+          "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 4))",
+        } as CSSProperties
+      }
+      className="grid gap-y-8 mt-12"
+    >
       {/* Quick Links Menu */}
-      <div className="sticky top-(--gutter-top) z-2 overflow-hidden">
+      <div className="md:sticky top-(--gutter-top) z-2 overflow-hidden">
         <CardCarousel>
-          <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*4)] [&>svg]:size-8" />
+          <CarouselPrevious className="w-auto opacity-100 md:pl-(--_gutter-left) [&>svg]:size-8" />
           <CarouselContent>
             {quickLinksMenu.map(({ key, label, url }) => (
               <CarouselItem
                 className={cn(
                   "basis-auto",
-                  "md:nth-of-type-[1]:ml-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*4)]",
+                  "md:nth-of-type-[1]:ml-(--_gutter-left)",
                 )}
                 key={key}
               >
@@ -120,11 +129,14 @@ export default async function Home() {
               ...(pn.filter(({ id }) => !fpn.find((p) => p?.id === id)) || []),
             ]
               // Cap the number of slides for consistency.
-              // May remove this since its affect amy not be noticeable.
+              // May remove this since its affect may not be noticeable.
               .slice(0, 20);
             return (
               <div
-                className="grid grid-cols-[max(var(--gutter-left),var(--spacing)*28)_1fr] justify-start gap-y-2 -mb-1"
+                className={cn(
+                  "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
+                  "max-sm:snap-always max-sm:snap-center",
+                )}
                 key={key}
               >
                 <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
@@ -136,10 +148,13 @@ export default async function Home() {
                       align: "start",
                       slidesToScroll: 1,
                       skipSnaps: true,
+                      breakpoints: {
+                        "(max-width: 768px)": { align: "center" },
+                      },
                     }}
                     className=""
                   >
-                    <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28))]" />
+                    <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) max-md:hidden" />
                     <CarouselContent className="">
                       {slides.map((post, index) => {
                         if (!post) return null;
@@ -176,7 +191,7 @@ export default async function Home() {
                             className={cn(
                               "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
                               "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
-                              "md:nth-of-type-[1]:ml-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*2)]",
+                              "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
                             )}
                             key={id}
                           >
@@ -265,13 +280,18 @@ export default async function Home() {
 
         {/* Team Carousel */}
         {!!team?.length && (
-          <div className="grid grid-cols-[max(var(--gutter-left),var(--spacing)*28)_1fr] justify-start gap-y-2 -mb-1">
+          <div
+            className={cn(
+              "grid grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
+              "max-sm:snap-always max-sm:snap-end",
+            )}
+          >
             <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
               <Link href="/programs/the-world/team">Meet th Team</Link>
             </h2>
             <div className="row-start-2 col-span-2 overflow-hidden">
               <CardCarousel>
-                <CarouselPrevious className="w-auto opacity-100 pl-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*4)]" />
+                <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left)" />
                 <CarouselContent>
                   {team
                     ?.filter((v) => !!v)

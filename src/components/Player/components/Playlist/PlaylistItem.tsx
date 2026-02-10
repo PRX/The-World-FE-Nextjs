@@ -63,7 +63,7 @@ export const PlaylistItem = ({
       )}
     >
       <div className="grid place-items-center p-2 cursor-grab">
-        <GripHorizontalIcon className="opacity-0 group-hover/playlistItem:opacity-100 transition-opacity" />
+        <GripHorizontalIcon className="media-hover:opacity-0 group-hover/playlistItem:opacity-100 transition-opacity" />
       </div>
       <div
         className={cn("relative p-3 rounded-sm", {
