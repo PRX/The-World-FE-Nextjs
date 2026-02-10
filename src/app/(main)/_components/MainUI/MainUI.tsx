@@ -436,7 +436,7 @@ export default function MainUI({
                       <DrawerDescription className="sr-only">
                         Your currently queued episodes.
                       </DrawerDescription>
-                      <Playlist className="pt-28 pb-4 lg:-ml-13" />
+                      <Playlist className="pt-28 pb-4 md:-ml-13" />
                     </DrawerContent>
                   </Drawer>
                 )}
