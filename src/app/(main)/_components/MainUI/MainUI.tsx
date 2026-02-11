@@ -1,11 +1,12 @@
 "use client";
 
 import type { AppMenus, Settings } from "@/interfaces";
-import { HeartHandshakeIcon, MenuIcon, XIcon } from "lucide-react";
+import { ChevronUpIcon, HeartHandshakeIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React, {
   type CSSProperties,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -25,6 +26,33 @@ import MainUIFooterLogoGroup from "./MainUIFooterLogoGroup";
 import { Toaster } from "@/components/ui/sonner";
 import MainUIMenu from "./MainUIMenu";
 import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
+import {
+  AutoplayButton,
+  ForwardButton,
+  NextButton,
+  PlayButton,
+  PlayerContext,
+  Playlist,
+  PlayerMenu,
+  PlayerProgress,
+  PreviousButton,
+  ReplayButton,
+  TimeInfo,
+  TrackInfo,
+  VolumeControls,
+} from "@/components/Player";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 export default function MainUI({
   children,
@@ -49,9 +77,13 @@ export default function MainUI({
   const topNavRef = useRef<HTMLDivElement>(null);
   const uiBottomRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const trackInfoRef = useRef<HTMLDivElement>(null);
+  const { state: playerState } = useContext(PlayerContext);
+  const { tracks } = playerState;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [isPlaylistOpen, setIsPlaylistOpen] = useState(true);
   const [hasBrowser, setHasBrowser] = useState(false);
   const [drawerWidth, setDrawerWidth] = useState(62);
   const [gutters, setGutters] = useState({
@@ -60,13 +92,19 @@ export default function MainUI({
     bottom: 0,
     left: 0,
   });
-  const styles = {
-    "--gutter-top": `calc(var(--spacing)*${gutters.top})`,
-    "--gutter-right": `calc(var(--spacing)*${gutters.right})`,
-    "--gutter-bottom": `calc(var(--spacing)*${gutters.bottom})`,
-    "--gutter-left": `calc(var(--spacing)*${gutters.left})`,
-    "--ui-drawer--width": `calc(var(--spacing)*${drawerWidth})`,
-  } as CSSProperties;
+  const styles = `
+    :root {
+      --gutter-top: calc(var(--spacing)*${gutters.top});
+      --gutter-right: calc(var(--spacing)*${gutters.right});
+      --gutter-bottom: calc(var(--spacing)*${gutters.bottom});
+      --gutter-left: calc(var(--spacing)*${gutters.left});
+      --ui-drawer--width: calc(var(--spacing)*${drawerWidth});
+    }
+    body {
+      transition-property: --gutter-top, --gutter-bottom, --gutter-left, --gutter-right, --ui-drawer--width;
+      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+      transition-duration: var(--tw-duration, var(--default-transition-duration));
+    }`;
 
   const updateGutters = useCallback(() => {
     // This can be called by descendent components after they change their local state.
@@ -99,6 +137,16 @@ export default function MainUI({
     setIsMenuOpen((isOpen) => !isOpen);
     updateGutters();
   }
+
+  function handlePlaylistToggle() {
+    setIsPlaylistOpen((c) => !c);
+  }
+
+  useEffect(() => {
+    if (tracks?.length <= 1) {
+      setIsPlaylistOpen(false);
+    }
+  }, [tracks?.length]);
 
   useEffect(() => {
     if (hasBrowser) {
@@ -162,10 +210,10 @@ export default function MainUI({
         settings,
       }}
     >
+      <style>{styles}</style>
       <Toaster />
       <div
-        className="group/ui flex flex-col min-h-svh transition-[--gutter-top,--gutter-bottom,--gutter-left,--gutter-right,--ui-drawer--width]"
-        style={styles}
+        className="group/ui flex flex-col min-h-dvh transition-[--gutter-left,--gutter-right]"
         {...(isMenuOpen && { "data-menu-open": true })}
         {...(isPlayerOpen && { "data-player-open": true })}
       >
@@ -209,7 +257,7 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo animated duration="30s" />
+                <Logo className="w-[40vw] max-h-10" animated duration="30s" />
               </Link>
             </h1>
             <span>
@@ -222,6 +270,7 @@ export default function MainUI({
             </span>
           </div>
         </div>
+
         <div
           id="main-menu"
           role="menu"
@@ -234,7 +283,7 @@ export default function MainUI({
           inert={!isMenuOpen}
         >
           {/* Header */}
-          <div className="col-span-full p-3 md:hidden">
+          <div className="top-0 p-3 md:hidden">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -317,6 +366,7 @@ export default function MainUI({
             </div>
           </div>
         </div>
+
         <div
           ref={uiBottomRef}
           className={cn(
@@ -325,18 +375,91 @@ export default function MainUI({
           )}
           inert={!isPlayerOpen}
         >
-          <div className="grid place-items-center h-20 bg-foreground/30 text-navy-blue">
-            PLAYER
-            <button
-              type="button"
-              onClick={() => {
-                setIsPlayerOpen(false);
-                updateGutters();
-              }}
-              className="absolute top-2 right-2"
-            >
-              <XIcon />
-            </button>
+          <div
+            className={cn(
+              "relative flex items-center gap-x-6 pt-4 px-4 pb-3 bg-navy-blue/80 bg-linear-to-l from-purple/60 backdrop-blur-md pointer-events-auto",
+              "max-sm:justify-between max-sm:gap-x-1 max-sm:px-1",
+            )}
+          >
+            <div className="absolute inset-0 bottom-auto">
+              <PlayerProgress />
+            </div>
+            {/* Playback Controls */}
+            <div className={cn("flex items-center gap-1")}>
+              <ReplayButton />
+              <PlayButton />
+              <ForwardButton />
+            </div>
+            <TimeInfo className="text-sm" />
+            {/* Track Info */}
+            <div className="grow flex justify-start items-center gap-x-4 max-sm:justify-between max-md:gap-x-1">
+              <div className="flex items-center gap-x-2">
+                <div className="max-md:hidden">
+                  <TrackInfo ref={trackInfoRef} />
+                </div>
+                {tracks.length > 1 && (
+                  <Drawer open={isPlaylistOpen} handleOnly>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className="rounded-full cursor-pointer"
+                          size="icon"
+                          variant="ghost"
+                          onClick={handlePlaylistToggle}
+                        >
+                          <ChevronUpIcon
+                            className={cn("transition-transform", {
+                              "rotate-180": isPlaylistOpen,
+                            })}
+                          />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="z-(--z-ui)">
+                        {isPlaylistOpen ? "Hide" : "Show"} Playlist
+                      </TooltipContent>
+                    </Tooltip>
+                    <DrawerContent
+                      handle={false}
+                      style={
+                        {
+                          "--padding-left": `${trackInfoRef.current?.getBoundingClientRect().left}px`,
+                        } as CSSProperties
+                      }
+                      className={cn(
+                        "h-full flex justify-end",
+                        "bottom-(--gutter-bottom)! pl-(--padding-left) mask-t-from-[calc(100%-10rem)]",
+                        "bg-transparent border-none",
+                        "bg-linear-to-tr from-green/60 to-blue/40",
+                      )}
+                    >
+                      <DrawerTitle className="sr-only">Playlist</DrawerTitle>
+                      <DrawerDescription className="sr-only">
+                        Your currently queued episodes.
+                      </DrawerDescription>
+                      <Playlist className="pt-28 pb-4 md:-ml-13" />
+                    </DrawerContent>
+                  </Drawer>
+                )}
+              </div>
+              <PlayerMenu
+                triggerProps={{ className: "max-sm:hidden" }}
+                contentProps={{ className: "z-(--z-ui)" }}
+              />
+              {/* Track Selection Controls */}
+              <div
+                className={cn(
+                  "flex justify-start items-center gap-1 empty:hidden",
+                )}
+              >
+                <PreviousButton />
+                <NextButton />
+              </div>
+            </div>
+            {/* Player Settings */}
+            <div className="flex justify-end items-center gap-x-4 max-sm:hidden">
+              <VolumeControls className="hidden md:media-hover:flex lg:flex" />
+              <AutoplayButton className="" />
+            </div>
           </div>
         </div>
 
@@ -360,7 +483,7 @@ export default function MainUI({
 
           <MainUIFooterLogoGroup heading="Major Funders">
             <CcnLogo
-              className="!h-18"
+              className="h-18!"
               aria-label="Carnegie Corporation of New York"
             />
           </MainUIFooterLogoGroup>

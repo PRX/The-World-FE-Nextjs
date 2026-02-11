@@ -7,6 +7,7 @@ import type { Episode, EpisodeIdType, Maybe } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
 import {
   AUDIO_PARENT_PROPS,
+  AUDIO_PROPS,
   IMAGE_PROPS,
   POST_SEO_PROPS,
 } from "@/lib/fetch/api/graphql";
@@ -54,7 +55,7 @@ export const GET_EPISODE = gql`
       }
       episodeAudio {
         audio {
-          id
+          ...AudioProps
           audioFields {
             segmentsList {
               ... on Segment {
@@ -100,6 +101,7 @@ export const GET_EPISODE = gql`
   }
   ${CONTRIBUTOR_PROPS}
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
   ${POST_SEO_PROPS}
   ${AUDIO_PARENT_PROPS}
 `;

@@ -1,4 +1,5 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
+import { AUDIO_PROPS } from "./audio.fragment";
 
 export const EPISODE_CARD_PROPS = gql`
   fragment EpisodeCardProps on Episode {
@@ -20,28 +21,21 @@ export const EPISODE_CARD_PROPS = gql`
     }
     episodeAudio {
       audio {
-        id
+        ...AudioProps
         audioFields {
           segmentsList {
             ... on Segment {
               id
               link
               title
+              featuredImage {
+                node {
+                  ...ImageProps
+                }
+              }
               segmentContent {
                 audio {
-                  id
-                  parent {
-                    node {
-                      id
-                      link
-                      ... on Post {
-                        title
-                      }
-                      ... on Segment {
-                        title
-                      }
-                    }
-                  }
+                  ...AudioProps
                 }
               }
             }
@@ -57,4 +51,5 @@ export const EPISODE_CARD_PROPS = gql`
       }
     }
   }
+  ${AUDIO_PROPS}
 `;

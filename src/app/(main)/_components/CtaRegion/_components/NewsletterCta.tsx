@@ -126,15 +126,13 @@ export default function NewsletterCta({
     onClose?.();
   };
 
-  console.log(errors);
-
   return (
     <aside className="grid gap-y-4">
       <form
         ref={formRef}
         inert={submitted}
         onSubmit={handleSubmit(onSubmit, () => {
-          console.log("error");
+          // console.log("error");
         })}
       >
         <FieldGroup>

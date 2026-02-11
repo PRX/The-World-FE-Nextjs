@@ -1,4 +1,5 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
+import { AUDIO_PROPS } from "./audio.fragment";
 
 export const POST_CARD_PROPS = gql`
   fragment PostCardProps on Post {
@@ -22,11 +23,12 @@ export const POST_CARD_PROPS = gql`
     }
     additionalMedia {
       audio {
-        id
+        ...AudioProps
       }
     }
     presentation {
       format
     }
   }
+  ${AUDIO_PROPS}
 `;

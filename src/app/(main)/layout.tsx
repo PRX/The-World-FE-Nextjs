@@ -7,6 +7,7 @@ import "@/css/globals.css";
 import LogoDefs from "./_components/Logo/LogoDefs";
 import LogoGlobe from "./_components/Logo/LogoGlobe";
 import { fetchGqlApp } from "@/lib/fetch";
+import { Player } from "@/components/Player";
 
 export const getCachedAppData = unstable_cache(
   async () => fetchGqlApp(),
@@ -45,14 +46,17 @@ export default async function MainLayout({
   };
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className="antialiased overflow-clip overflow-y-auto max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
+    >
       <head>
         <script
           async
           src="https://giving.classy.org/embedded/api/sdk/js/72482"
         />
       </head>
-      <body className="antialiased overflow-clip overflow-y-auto max-md:has-data-menu-open:overflow-y-clip">
+      <body>
         <div className="fixed inset-0 z-[-1] bg-linear-to-r/oklch from-blue to-green overflow-clip">
           <LogoGlobe
             animated
@@ -65,7 +69,9 @@ export default async function MainLayout({
           selfHosted
           trackOutboundLinks
         >
-          <MainUI {...mainUiProps}>{children}</MainUI>
+          <Player>
+            <MainUI {...mainUiProps}>{children}</MainUI>
+          </Player>
         </PlausibleProvider>
         <LogoDefs />
       </body>

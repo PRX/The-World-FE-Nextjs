@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const IMAGE_PROPS = gql`
   fragment ImageProps on MediaItem {

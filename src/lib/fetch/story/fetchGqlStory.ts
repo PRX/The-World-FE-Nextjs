@@ -5,7 +5,11 @@
 import { PostIdType, type Maybe, type PostStory } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { getClient } from "@/lib/fetch/api";
-import { IMAGE_PROPS, POST_SEO_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+  POST_SEO_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 export const STORY_CARD_PROPS = gql`
   fragment StoryCardProps on Post {
@@ -25,14 +29,12 @@ export const STORY_CARD_PROPS = gql`
     }
     additionalMedia {
       audio {
-        id
-        audioFields {
-          audioTitle
-        }
+        ...AudioProps
       }
     }
   }
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export const GET_STORY_POST = gql`
@@ -56,9 +58,7 @@ export const GET_STORY_POST = gql`
       }
       additionalMedia {
         audio {
-          id
-          sourceUrl
-          mediaItemUrl
+          ...AudioProps
         }
         video
       }

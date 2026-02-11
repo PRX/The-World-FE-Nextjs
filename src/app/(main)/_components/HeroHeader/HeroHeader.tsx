@@ -30,8 +30,8 @@ export default function HeroHeader({
   return (
     <div
       className={cn(
-        "relative grid content-end",
-        "pt-[calc(var(--gutter-top)+var(--spacing)*4)] pl-(--gutter-left) pr-(--gutter-right)",
+        "relative grid grid-cols-[1fr] justify-stretch content-end",
+        "pt-[calc(var(--gutter-top)+40dvh)] pl-(--gutter-left) pr-(--gutter-right)",
         {
           "min-h-screen md:min-h-[calc(90vh+var(--gutter-top))] pb-[25svh] -mb-[25svh]":
             !!image,
@@ -43,7 +43,8 @@ export default function HeroHeader({
       {image && <HeroImageBackground data={image} />}
       <div
         className={cn(
-          "group/hero-content grid gap-4 content-end p-4 md:px-8",
+          "@container/hero-content",
+          "group/hero-content grid gap-4 content-end w-full p-4 md:px-8",
           {
             "max-w-250 mx-auto": !fullWidth,
           },

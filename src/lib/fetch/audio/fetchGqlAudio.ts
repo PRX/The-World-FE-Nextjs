@@ -7,43 +7,20 @@
 import type { Maybe, MediaItem } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { AUDIO_PARENT_PROPS, IMAGE_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PARENT_PROPS,
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_AUDIO = gql`
   query getAudio($id: ID!) {
     mediaItem(id: $id) {
-      id
-      title
-      date
-      sourceUrl
-      mediaItemUrl
-      contributors {
-        nodes {
-          id
-          name
-          link
-        }
-      }
-      audioFields {
-        audioTitle
-        broadcastDate
-        program {
-          id
-          link
-          name
-          taxonomyImages {
-            logo {
-              ...ImageProps
-            }
-          }
-        }
-      }
-      parent {
-        ...AudioParentProps
-      }
+      ...AudioProps
     }
   }
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
   ${AUDIO_PARENT_PROPS}
 `;
 

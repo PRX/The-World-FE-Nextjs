@@ -98,7 +98,8 @@ function NavigationMenuItemSeparator({
 
 const navigationMenuTriggerStyle = cva([
   "group flex items-center justify-center rounded-sm bg-transparent px-4 py-2 disabled:pointer-events-none disabled:opacity-50 outline-none transition-[color,box-shadow]",
-  "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125 focus:backdrop-blur-sm focus:backdrop-brightness-125 focus-visible:bg-primary focus-visible:text-primary-foreground",
+  "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125",
+  "focus-visible:bg-background/10 focus-visible:text-background-foreground focus-visible:backdrop-blur-sm focus-visible:backdrop-brightness-125",
   // Size: Normal.
   "group-data-[size=normal]:data-[state=open]:hover:bg-accent group-data-[size=normal]:data-[state=open]:text-accent-foreground group-data-[size=normal]:data-[state=open]:focus:bg-accent group-data-[size=normal]:data-[state=open]:bg-accent/50 group-data-[size=normal]:focus-visible:ring-ring/50 group-data-[size=normal]:focus-visible:ring-[3px] group-data-[size=normal]:focus-visible:outline-1",
 ]);
@@ -120,7 +121,7 @@ function NavigationMenuTrigger({
       {children}{" "}
       {indicator && (
         <ChevronDownIcon
-          className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+          className="relative top-px ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
           aria-hidden="true"
         />
       )}
@@ -151,9 +152,9 @@ function NavigationMenuContent({
         "group-data-[orientation=vertical]:data-[motion=from-end]:slide-in-from-bottom-12 group-data-[orientation=vertical]:data-[motion=from-start]:slide-in-from-top-12 group-data-[orientation=vertical]:data-[motion=to-end]:slide-out-to-bottom-12 group-data-[orientation=vertical]:data-[motion=to-start]:slide-out-to-top-12",
 
         // Link hover overrides.
-        "**:data-[slot=navigation-menu-link]:hover:bg-secondary/30 **:data-[slot=navigation-menu-link]:hover:text-primary-foreground",
+        "**:data-[slot=navigation-menu-link]:hover:bg-background/30 **:data-[slot=navigation-menu-link]:hover:text-primary-foreground",
         // Link focus overrides.
-        "**:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
+        "**:data-[slot=navigation-menu-link]:focus-visible:bg-background/30 **:data-[slot=navigation-menu-link]:focus-visible:text-primary-foreground **:data-[slot=navigation-menu-link]:-visible:ring-0 **:data-[slot=navigation-menu-link]:focus-visible:outline-none",
 
         // Viewport: False.
         "group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:top-0 group-data-[viewport=false]/navigation-menu:left-full group-data-[viewport=false]/navigation-menu:mt-0 group-data-[viewport=false]/navigation-menu:overflow-visible group-data-[viewport=false]/navigation-menu:isolate",
@@ -197,7 +198,7 @@ function NavigationMenuViewport({
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-visible rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full overflow-visible rounded-md border shadow md:w-(--radix-navigation-menu-viewport-width)",
           className,
         )}
         {...props}
@@ -215,11 +216,12 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "flex gap-2 items-center rounded-sm p-2 transition-all outline-none text-base font-bold whitespace-nowrap",
-        "group-data-[collapsed=true]/navigation-menu:w-10",
-        "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125 focus:backdrop-blur-sm focus:backdrop-brightness-125 focus:bg-background/10 focus:text-background-foreground focus-visible:ring-ring/50 focus-visible:inset-ring-1 xfocus-visible:outline-1",
+        "md:media-hover:group-data-[collapsed=true]/navigation-menu:w-10",
+        "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125",
+        "focus-visible:bg-background/10 focus-visible:text-background-foreground focus-visible:backdrop-blur-sm focus-visible:backdrop-brightness-125",
         "[&_svg:not([class*='text-'])]:text-current [&_svg:not([class*='size-'])]:size-6",
         "group-data-[size=compact]:rounded-l-none group-data-[size=compact]:pl-(--blur-lg)",
-        "data-[active=true]:focus:bg-ring/50 data-[active=true]:hover:bg-secondary/30 data-[active=true]:bg-secondary/20 data-[active=true]:backdrop-blur-sm data-[active=true]:backdrop-brightness-125 data-[active=true]:text-background-foreground",
+        "data-[active=true]:focus-visible:bg-secondary/30 data-[active=true]:hover:bg-secondary/30 data-[active=true]:bg-secondary/20 data-[active=true]:backdrop-blur-sm data-[active=true]:backdrop-brightness-125 data-[active=true]:text-background-foreground",
         className,
       )}
       {...props}
@@ -255,7 +257,7 @@ function NavigationMenuIndicator({
     <NavigationMenuPrimitive.Indicator
       data-slot="navigation-menu-indicator"
       className={cn(
-        "data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden",
+        "data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-1 flex h-1.5 items-end justify-center overflow-hidden",
         className,
       )}
       {...props}
@@ -276,7 +278,7 @@ function NavigationMenuLabel({
   return (
     <span
       className={cn(
-        "group-data-[collapsed=true]/navigation-menu:sr-only transition-opacity",
+        "md:media-hover:group-data-[collapsed=true]/navigation-menu:sr-only transition-opacity",
         className,
       )}
       {...rest}
