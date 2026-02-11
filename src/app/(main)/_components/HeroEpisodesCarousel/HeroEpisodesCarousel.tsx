@@ -1,7 +1,7 @@
 "use client";
 
 import type { Post, ProgramToEpisodeConnection } from "@/interfaces";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import WheelGestures from "embla-carousel-wheel-gestures";
@@ -32,9 +32,9 @@ import {
 import {
   AddAudioButton,
   PlayAudioButton,
-  PlayerContext,
   type PlayerAudio,
 } from "@/components/Player";
+import AudioBar from "../AudioBar";
 
 export type HeroEpisodesCarouselProps = React.ComponentProps<
   React.ForwardRefExoticComponent<
@@ -49,7 +49,6 @@ export default function HeroEpisodesCarousel({
   episodes,
   ...rest
 }: HeroEpisodesCarouselProps) {
-  const { isQueued, isCurrentTrack, isPlaying } = useContext(PlayerContext);
   const { nodes } = episodes;
   const scrollWrapper = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,7 +71,7 @@ export default function HeroEpisodesCarousel({
   const imageSrc = sourceUrl || mediaItemUrl;
   const { teaser } = teaserFields || {};
   const { audio } = episodeAudio || {};
-  const { audioFields, duration } = audio || {};
+  const { audioFields } = audio || {};
   const { segmentsList } = audioFields || {};
   const linkHref = generateContentLinkHref(link);
   const hasExcerpt = !!excerpt?.trim();
@@ -160,37 +159,14 @@ export default function HeroEpisodesCarousel({
                 />
               ) : (
                 hasExcerpt && (
-                  <HtmlContent html={excerpt} className="text-xl/snug" />
+                  <HtmlContent
+                    html={excerpt}
+                    className="text-xl/snug max-sm:hidden"
+                  />
                 )
               )}
               {hasAudio && (
-                <div
-                  className={cn(
-                    "flex justify-between items-center p-2 bg-navy-blue/80 bg-linear-to-r from-navy-blue/80 to-navy-blue/80 backdrop-blur-sm border border-transparent rounded-sm leading-1",
-                    "transition-[--tw-gradient-from,--tw-gradient-to,border-color]",
-                    {
-                      "to-purple border-purple": isQueued(audio.id),
-                      "from-cyan/50": isCurrentTrack(audio.id),
-                      "from-red": isPlaying(audio.id),
-                    },
-                  )}
-                >
-                  <span className="flex items-center gap-x-2">
-                    <PlayAudioButton
-                      className={cn("text-cyan")}
-                      variant="ghost"
-                      audio={audio}
-                      fallbackProps={audioProps}
-                    />
-                    {duration && <span>{formatDuration(duration)}</span>}
-                  </span>
-                  <AddAudioButton
-                    className={cn("text-cyan")}
-                    variant="ghost"
-                    audio={audio}
-                    fallbackProps={audioProps}
-                  />
-                </div>
+                <AudioBar audio={audio} fallbackProps={audioProps} />
               )}
             </motion.div>
           </AnimatePresence>

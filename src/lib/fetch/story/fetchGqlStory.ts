@@ -58,9 +58,7 @@ export const GET_STORY_POST = gql`
       }
       additionalMedia {
         audio {
-          id
-          sourceUrl
-          mediaItemUrl
+          ...AudioProps
         }
         video
       }

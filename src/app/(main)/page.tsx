@@ -38,7 +38,7 @@ export const getCachedHomepage = unstable_cache(
   ["homepage"],
   {
     tags: ["homepage", "content"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 
@@ -287,7 +287,7 @@ export default async function Home() {
             )}
           >
             <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
-              <Link href="/programs/the-world/team">Meet th Team</Link>
+              <Link href="/programs/the-world/team">Meet the Team</Link>
             </h2>
             <div className="row-start-2 col-span-2 overflow-hidden">
               <CardCarousel>

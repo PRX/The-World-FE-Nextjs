@@ -23,6 +23,17 @@ const socialShareTransformers = new Map<
   (url: string, text?: Maybe<string>) => ISocialLink
 >();
 
+socialShareTransformers.set("bluesky", (url) => {
+  const shareLinkUrl = new URL("https://bsky.app/intent/compose");
+
+  shareLinkUrl.searchParams.set(
+    "text",
+    `Check out what's on TheWorld.org: ${url}`,
+  );
+
+  return generateShareLink("bluesky", shareLinkUrl.toString());
+});
+
 socialShareTransformers.set("twitter", (url, text) => {
   const shareLinkUrl = new URL("http://twitter.com/share");
 
@@ -87,7 +98,8 @@ socialShareTransformers.set("email", (url, text) => {
     `Check out what's on TheWorld.org: ${url}`,
   );
 
-  if (text) shareLinkUrl.searchParams.set("subject", text);
+  if (text)
+    shareLinkUrl.searchParams.set("subject", `Read "${text}" from The World`);
 
   return generateShareLink("email", shareLinkUrl.toString());
 });

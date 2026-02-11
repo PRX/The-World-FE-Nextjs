@@ -216,7 +216,7 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "flex gap-2 items-center rounded-sm p-2 transition-all outline-none text-base font-bold whitespace-nowrap",
-        "group-data-[collapsed=true]/navigation-menu:w-10",
+        "md:media-hover:group-data-[collapsed=true]/navigation-menu:w-10",
         "hover:bg-background/10 hover:text-background-foreground hover:backdrop-blur-sm hover:backdrop-brightness-125",
         "focus-visible:bg-background/10 focus-visible:text-background-foreground focus-visible:backdrop-blur-sm focus-visible:backdrop-brightness-125",
         "[&_svg:not([class*='text-'])]:text-current [&_svg:not([class*='size-'])]:size-6",
@@ -278,7 +278,7 @@ function NavigationMenuLabel({
   return (
     <span
       className={cn(
-        "group-data-[collapsed=true]/navigation-menu:sr-only transition-opacity",
+        "md:media-hover:group-data-[collapsed=true]/navigation-menu:sr-only transition-opacity",
         className,
       )}
       {...rest}
