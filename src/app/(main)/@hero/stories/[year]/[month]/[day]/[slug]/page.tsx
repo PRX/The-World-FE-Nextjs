@@ -101,7 +101,10 @@ export default async function StoryHero({
               const { image } = contributorDetails || {};
               const { sourceUrl, mediaItemUrl, altText } = image || {};
               const imageUrl = sourceUrl || mediaItemUrl;
-              const initials = name?.matchAll(/\b\w/g).toArray().join("");
+              const initials = name
+                ?.match(/\b(\w)/g)
+                ?.join("")
+                .toUpperCase();
               const href = generateContentLinkHref(link) || "";
 
               return (
@@ -109,11 +112,11 @@ export default async function StoryHero({
                   className={cn(
                     "rounded-full ps-0",
                     "**:data-[slot=avatar-fallback]:text-white",
-                    "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-blue",
-                    "nth-of-type-[5n+2]:**:data-[slot=avatar-fallback]:bg-green",
-                    "nth-of-type-[5n+3]:**:data-[slot=avatar-fallback]:bg-purple",
-                    "nth-of-type-[5n+4]:**:data-[slot=avatar-fallback]:bg-brown",
-                    "nth-of-type-[5n+5]:**:data-[slot=avatar-fallback]:bg-burnt-orange",
+                    "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-green",
+                    "nth-of-type-[5n+2]:**:data-[slot=avatar-fallback]:bg-purple",
+                    "nth-of-type-[5n+3]:**:data-[slot=avatar-fallback]:bg-brown",
+                    "nth-of-type-[5n+4]:**:data-[slot=avatar-fallback]:bg-burnt-orange",
+                    "nth-of-type-[5n+5]:**:data-[slot=avatar-fallback]:bg-blue",
                   )}
                   variant="ghost"
                   size="lg"
