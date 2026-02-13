@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * @file DateTime.tsx
  * Component for rendering dates.

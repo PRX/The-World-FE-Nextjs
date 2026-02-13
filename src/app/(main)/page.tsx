@@ -165,11 +165,9 @@ export default async function Home() {
                           date,
                           link,
                           featuredImage,
-                          additionalDates,
                           additionalMedia,
                           primaryCategory,
                         } = post;
-                        const { broadcastDate } = additionalDates || {};
                         const { audio } = additionalMedia || {};
                         const { duration } = audio || {};
                         const { name: pcName, link: pcLink } =
@@ -230,7 +228,7 @@ export default async function Home() {
                                 )}
                                 <CardTitle>{title}</CardTitle>
                                 <DateTime
-                                  date={broadcastDate || date}
+                                  date={date}
                                   options={{
                                     year: "numeric",
                                     month: "short",
