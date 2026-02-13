@@ -52,7 +52,7 @@ export const replaceImageBlock = replaceElement(
       ((figcaptionElement as Element).childNodes as DOMNode[]) || null;
     const imgWidths = (isFloated && [
       ["max-width: 768px", "100vw"],
-      [null, "250px"],
+      [null, "900px"],
     ]) ||
       (isAlignFull && [[null, "100vw"]]) ||
       (isAlignWide && [
@@ -60,7 +60,7 @@ export const replaceImageBlock = replaceElement(
         [null, "70vw"],
       ]) || [
         ["max-width: 768px", "100vw"],
-        [null, "740px"],
+        [null, "900px"],
       ];
     const imgProps = {
       className: cn("w-full rounded-md"),
