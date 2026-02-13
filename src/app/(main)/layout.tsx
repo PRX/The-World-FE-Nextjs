@@ -48,7 +48,7 @@ export default async function MainLayout({
   return (
     <html
       lang="en"
-      className="antialiased overflow-clip overflow-y-auto max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
+      className="antialiased max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
     >
       <head>
         <script

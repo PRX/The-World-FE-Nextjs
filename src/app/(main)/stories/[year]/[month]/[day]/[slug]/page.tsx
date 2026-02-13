@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { HtmlContent } from "@/components/HtmlContent";
+import ContentBody from "@/app/(main)/_components/ContentBody";
 import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 import { PostIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
@@ -105,15 +105,13 @@ export default async function StoryPage({ params }: Props) {
     <div className="group/content">
       <Plausible events={plausibleEvents} key={id} />
       <div className="relative ps-(--gutter-left)">
-        <div className="max-w-185 mx-auto my-12 px-4">
-          <HtmlContent html={content} />
-        </div>
-
-        {shownContentEndMessage && (
-          <div className="px-4">
-            <CtaRegion cta={shownContentEndMessage} />
-          </div>
-        )}
+        <ContentBody html={content}>
+          {shownContentEndMessage && (
+            <div className="px-4">
+              <CtaRegion cta={shownContentEndMessage} />
+            </div>
+          )}
+        </ContentBody>
       </div>
     </div>
   );

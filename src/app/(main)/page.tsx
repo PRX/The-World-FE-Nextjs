@@ -38,7 +38,7 @@ export const getCachedHomepage = unstable_cache(
   ["homepage"],
   {
     tags: ["homepage", "content"],
-    revalidate: 3600,
+    revalidate: 60,
   },
 );
 

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant light (&:is(.light *));
-@custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *, [data-scheme=light] *));
+@custom-variant dark (&:is(.dark *, [data-scheme=dark] *));
 @custom-variant media-hover (@media (hover: hover));
 
 @theme inline {
@@ -39,6 +39,9 @@
   --color-background: var(--background);
   --color-background-end: var(--background-end);
   --color-foreground: var(--foreground);
+  --color-body: var(--body);
+  --color-body-foreground: var(--body-foreground);
+  --color-body-primary: var(--body-primary);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -78,6 +81,9 @@
   --background: var(--color-blue);
   --background-end: var(--color-green);
   --foreground: var(--color-white);
+  --body: transparent;
+  --body-foreground: var(--color-white);
+  --body-primary: var(--color-cyan);
   --card: var(--color-navy-blue);
   --card-foreground: var(--color-white);
   --popover: var(--color-navy-blue);
@@ -109,9 +115,13 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-.light {
+.light,
+[data-scheme="light"] {
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
+  --body: var(--color-white);
+  --body-foreground: hsl(200 30% 17%);
+  --body-primary: var(--color-purple);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
@@ -143,8 +153,12 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
-/* .dark {
-  --background: oklch(0.129 0.042 264.695);
+.dark,
+[data-scheme="dark"] {
+  --body: var(--color-navy-blue);
+  --body-foreground: var(--color-white);
+  --body-primary: var(--color-cyan);
+  /* --background: oklch(0.129 0.042 264.695);
   --foreground: var(--color-white);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: var(--color-white);
@@ -174,8 +188,8 @@
   --sidebar-accent: oklch(0.279 0.041 260.031);
   --sidebar-accent-foreground: var(--color-white);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-} */
+  --sidebar-ring: oklch(0.551 0.027 264.364); */
+}
 
 @layer base {
   * {
@@ -188,6 +202,17 @@
   body {
     overscroll-behavior-y: none;
     scrollbar-gutter: stable;
+  }
+  img {
+    position: relative;
+    place-items: center;
+
+    @apply text-sm;
+
+    &::before {
+      content: "\2639" " " attr(alt);
+      @apply absolute inset-0 grid place-items-center bg-muted;
+    }
   }
 }
 
