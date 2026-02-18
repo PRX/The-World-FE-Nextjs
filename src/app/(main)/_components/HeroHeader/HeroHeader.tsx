@@ -1,6 +1,6 @@
 import type { Maybe, MediaItem } from "@/interfaces";
 import Link from "next/link";
-import { ImageIcon } from "lucide-react";
+import ImageViewer from "@/app/(main)/_components/ImageViewer";
 import { cn } from "@/lib/utils";
 import { HtmlContent } from "@/components/HtmlContent";
 import HeroImageBackground from "../HeroImageBackground";
@@ -21,8 +21,11 @@ export default function HeroHeader({
   classes?: Partial<Record<"content", string>>;
   fullWidth?: boolean;
 }) {
-  const { caption, imageFields } = image || {};
+  const { caption, imageFields, sourceUrl, mediaItemUrl, mediaDetails } =
+    image || {};
   const { mediaCredit, mediaCreditUrl } = imageFields || {};
+  const imageUrl = sourceUrl || mediaItemUrl;
+  const { width, height } = mediaDetails || {};
   const hasCaption = !!caption?.length;
   const hasCredit = !!mediaCredit?.length;
   const hasImageInfo = hasCaption || hasCredit;
@@ -53,9 +56,16 @@ export default function HeroHeader({
         )}
       >
         {children}
-        {hasImageInfo && (
+        {image && hasImageInfo && (
           <div className="grid grid-cols-[max-content_1fr] gap-4 justify-between items-start">
-            <ImageIcon className="w-6 my-0.75" />
+            {imageUrl && (
+              <ImageViewer
+                imageUrl={imageUrl}
+                altText={image.altText || ""}
+                width={width}
+                height={height}
+              />
+            )}
             <div className="flex flex-wrap justify-between items-center gap-2 min-h-7.5">
               {hasCaption && (
                 <span className="font-light text-xs/tight text-pretty">

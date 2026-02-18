@@ -27,6 +27,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
     ],
     deviceSizes: [370, 600, 960, 1280, 1920, 2048, 3840],
     imageSizes: [50, 86, 100, 172, 200, 300, 400, 568, 808],
+    qualities: [75, 100],
   },
   turbopack: {
     rules: {

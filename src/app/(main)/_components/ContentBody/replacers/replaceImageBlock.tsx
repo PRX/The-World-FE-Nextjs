@@ -10,7 +10,7 @@ import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { cn } from "@/lib/utils";
 import { replaceElement } from "./replaceElement";
 import { replaceImage } from "./replaceImage";
-import { ImageIcon } from "lucide-react";
+import ImageViewer from "@/app/(main)/_components/ImageViewer";
 
 export const replaceImageBlock = replaceElement(
   ["figure", "div"],
@@ -21,7 +21,7 @@ export const replaceImageBlock = replaceElement(
     const imgAspectRatio =
       typeof width === "string" && typeof height === "string"
         ? parseInt(width, 10) / parseInt(height, 10)
-        : 1;
+        : 3 / 4;
     const classes = (attribs.class || "").split(" ");
     const isImageBlock = classes.some((c) =>
       [
@@ -139,7 +139,12 @@ export const replaceImageBlock = replaceElement(
                 "grid grid-cols-[max-content_1fr] gap-4 justify-between items-start px-2",
               )}
             >
-              <ImageIcon className="w-6 my-0.75" />
+              <ImageViewer
+                imageUrl={(imgElement as Element).attribs.src}
+                altText={(imgElement as Element).attribs.alt}
+                width={(imgElement as Element).attribs.width}
+                height={(imgElement as Element).attribs.height}
+              />
               <div
                 className={cn(
                   "flex flex-wrap justify-between items-center gap-2 min-h-7.5",

@@ -370,7 +370,7 @@ export default function MainUI({
         <div
           ref={uiBottomRef}
           className={cn(
-            "fixed inset-0 top-auto transition-transform z-(--z-ui)",
+            "fixed inset-0 top-auto transition-transform z-[calc(var(--z-ui)+1)]",
             isPlayerOpen ? "translate-y-0" : "translate-y-full",
           )}
           inert={!isPlayerOpen}

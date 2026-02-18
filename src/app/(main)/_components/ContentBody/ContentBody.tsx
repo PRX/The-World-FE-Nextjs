@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { HtmlContent } from "@/components/HtmlContent";
 import { cn } from "@/lib/utils";
-import { replaceImage, replaceImageBlock } from "./replacers";
+import { replaceImage, replaceImageBlock, replaceQABlock } from "./replacers";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
 
@@ -13,7 +13,11 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
   // TODO: Layout markup and styling.
 
   // TODO: Add replacers for rich content blocks.
-  const replacers: ReplaceCallback[] = [replaceImageBlock, replaceImage()];
+  const replacers: ReplaceCallback[] = [
+    replaceImageBlock,
+    replaceImage(),
+    replaceQABlock,
+  ];
 
   return (
     <div className={cn("mt-8 px-4 md:px-8")} data-scheme="default">

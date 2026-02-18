@@ -105,7 +105,7 @@ export const HtmlContent = ({
     <div
       className={cn(
         // Block spacing.
-        "[&>*+*:not([class*=m-],[class*=my-],[class*=mt-])]:mt-[1.2em]",
+        "[&>*+*:not([class*=my-],[class*=mt-])]:mt-[1.2em]",
         // Anchor links.
         "[&_a]:underline [&_a]:underline-offset-4",
         // Lists.
