@@ -36,28 +36,41 @@ export default function ImageViewer({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="cursor-pointer">
+        <Button variant="ghost" size="icon" className="cursor-pointer -m-1">
           <ImageIcon />
+          <span className="sr-only">View Image: {filename}</span>
         </Button>
       </DialogTrigger>
       <DialogContent
         style={
           {
             "--aspect-ratio": imgAspectRatio,
-            "--_m": 8,
-            "--content-m": "calc(var(--spacing) * var(--_m))",
-            "--max-w":
-              "calc(min(var(--max-h) * var(--aspect-ratio), 100dvw - var(--content-m))",
-            "--max-h": "calc(100dvh - var(--content-m))",
+            "--_m": 4,
+            "--content-m": "calc(var(--spacing) * var(--_m) * 2)",
+            ...(imgAspectRatio !== "none" && imgAspectRatio > 1
+              ? {
+                  "--max-w":
+                    "min(var(--max-h) * var(--aspect-ratio), 100dvw - var(--content-m))",
+                  "--max-h":
+                    "min((100dvw - var(--content-m)) / var(--aspect-ratio), 100dvh - var(--content-m))",
+                }
+              : {
+                  "--max-w":
+                    "min((100dvh - var(--content-m)) * var(--aspect-ratio), 100dvw - var(--content-m))",
+                  "--max-h":
+                    "min(var(--max-w) / var(--aspect-ratio), 100dvh - var(--content-m)",
+                }),
           } as CSSProperties
         }
         className={cn(
           "overflow-clip border-none bg-black",
-          "h-full max-w-(--max-w) max-h-(--max-h) sm:[--_m:40]! sm:aspect-(--aspect-ratio) sm:max-w-(--max-w)",
+          "h-full max-w-(--max-w) max-h-(--max-h) sm:[--_m:20]! sm:aspect-(--aspect-ratio) sm:max-w-(--max-w)",
         )}
       >
         <DialogHeader className="absolute inset-0 bottom-auto z-1 flex justify-items-end">
-          <DialogTitle className="sr-only">View Image: {filename}</DialogTitle>
+          <DialogTitle className="sr-only">
+            Viewing Image: {filename}
+          </DialogTitle>
         </DialogHeader>
         <div className="grid">
           <Image
