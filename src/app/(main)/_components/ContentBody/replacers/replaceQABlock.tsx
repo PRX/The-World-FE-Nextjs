@@ -43,7 +43,10 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
           },
         )}
       >
-        <div data-slot="qa-question" className="leading-snug text-pretty">
+        <div
+          data-slot="qa-question"
+          className="leading-snug text-pretty font-bold"
+        >
           {domToReact((questionEl as Element).children as DOMNode[], options)}
         </div>
         <div data-slot="qa-answer" className="leading-snug text-pretty">
