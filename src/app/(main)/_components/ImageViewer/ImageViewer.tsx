@@ -41,16 +41,19 @@ export default function ImageViewer({
         </Button>
       </DialogTrigger>
       <DialogContent
-        style={{ "--aspect-ratio": imgAspectRatio } as CSSProperties}
+        style={
+          {
+            "--aspect-ratio": imgAspectRatio,
+            "--_m": 8,
+            "--content-m": "calc(var(--spacing) * var(--_m))",
+            "--max-w":
+              "calc(min(var(--max-h) * var(--aspect-ratio), 100dvw - var(--content-m))",
+            "--max-h": "calc(100dvh - var(--content-m))",
+          } as CSSProperties
+        }
         className={cn(
           "overflow-clip border-none bg-black",
-          "sm:max-w-[calc(100dvw-220px)] sm:aspect-(--aspect-ratio)",
-          {
-            "w-auto h-full max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-220px)]":
-              imgAspectRatio !== "none" && imgAspectRatio > 1,
-            "h-full max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-220px)]":
-              imgAspectRatio === "none",
-          },
+          "h-full max-w-(--max-w) max-h-(--max-h) sm:[--_m:40]! sm:aspect-(--aspect-ratio) sm:max-w-(--max-w)",
         )}
       >
         <DialogHeader className="absolute inset-0 bottom-auto z-1 flex justify-items-end">
