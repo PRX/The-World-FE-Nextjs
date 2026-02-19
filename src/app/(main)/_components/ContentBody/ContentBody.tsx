@@ -4,6 +4,7 @@ import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { HtmlContent } from "@/components/HtmlContent";
 import { cn } from "@/lib/utils";
 import { replaceImage, replaceImageBlock, replaceQABlock } from "./replacers";
+import { replaceTweetEmbed } from "./replacers/replaceTweetEmbed";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
 
@@ -16,6 +17,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
   const replacers: ReplaceCallback[] = [
     replaceImageBlock,
     replaceImage(),
+    replaceTweetEmbed,
     replaceQABlock,
   ];
 
@@ -65,7 +67,9 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
           }}
         />
       </div>
-      <div className="bg-linear-to-b from-body to-body/0">{children}</div>
+      <div className="bg-linear-to-b from-body to-body/0 from-10% to-90%">
+        {children}
+      </div>
     </div>
   );
 }

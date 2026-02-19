@@ -36,7 +36,7 @@ export const replaceImageBlock = replaceElement(
 
     const imgElement = findDescendant(
       el,
-      (node) => node.type === ElementType.Tag && node.name === "img" && node,
+      (node) => node.name === "img" && node,
     );
 
     if (!imgElement) return;
@@ -45,11 +45,10 @@ export const replaceImageBlock = replaceElement(
       getElementAlignment(el);
     const figcaptionElement = findDescendant(
       el,
-      (node) =>
-        node.type === ElementType.Tag && node.name === "figcaption" && node,
+      (node) => node.name === "figcaption" && node,
     );
     let figCaptionChildren =
-      ((figcaptionElement as Element).childNodes as DOMNode[]) || null;
+      (figcaptionElement?.childNodes as DOMNode[]) || null;
     const imgWidths = (isFloated && [
       ["max-width: 768px", "100vw"],
       [null, "900px"],
@@ -104,7 +103,7 @@ export const replaceImageBlock = replaceElement(
         (caption as Element).children.push(credit as Element);
       }
 
-      figCaptionChildren = (caption as Element).children as DOMNode[];
+      figCaptionChildren = (caption?.children as DOMNode[]) || null;
     }
 
     delete figureProps.className;

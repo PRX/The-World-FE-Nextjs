@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -67,12 +67,10 @@ export default function ImageViewer({
           "h-full max-w-(--max-w) max-h-(--max-h) sm:[--_m:20]! sm:aspect-(--aspect-ratio) sm:max-w-(--max-w)",
         )}
       >
-        <DialogHeader className="absolute inset-0 bottom-auto z-1 flex justify-items-end">
-          <DialogTitle className="sr-only">
-            Viewing Image: {filename}
-          </DialogTitle>
-        </DialogHeader>
-        <div className="grid">
+        <DialogTitle className="sr-only absolute">
+          Viewing Image: {filename}
+        </DialogTitle>
+        <DialogDescription className="grid">
           <Image
             src={imageUrl}
             alt={altText}
@@ -80,7 +78,7 @@ export default function ImageViewer({
             quality={100}
             className="object-center object-contain"
           />
-        </div>
+        </DialogDescription>
       </DialogContent>
     </Dialog>
   );

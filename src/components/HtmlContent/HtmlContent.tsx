@@ -63,9 +63,9 @@ export const HtmlContent = ({
 
         removeUnsupportedElementTypes,
 
-        // Transform to remove inline styles.
+        // Remove inline styles.
         // Keep an eye out for WP blocks potentially breaking.
-        // Some block types may use inline styles to some options.
+        // Some block types may use inline styles for some options.
         (n: DOMNode) => {
           if (n.type === ElementType.Tag) {
             // eslint-disable-next-line no-param-reassign

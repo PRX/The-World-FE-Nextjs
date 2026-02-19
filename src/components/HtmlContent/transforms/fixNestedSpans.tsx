@@ -1,31 +1,20 @@
-/**
- * @file fixNestedSpans.tsx
- *
- * Unwrap nested spans.
- */
-import { Element } from "html-react-parser";
+import { type DOMNode, domToReact } from "html-react-parser";
 import type { ReplaceCallback } from "../types";
-import { findDescendant } from "@/lib/dom";
+import { replaceElement } from "@/app/(main)/_components/ContentBody/replacers";
 
-export const fixNestedSpans: ReplaceCallback = (node) => {
-  const isSpan = node.type === "tag" && node.name === "span";
+/**
+ * Unwrap nested spans without attributes.
+ */
+export const fixNestedSpans: ReplaceCallback = replaceElement(
+  "span",
+  (el, _index, options) => {
+    const { children, attribs } = el;
+    const hasAttributes = !!Object.keys(attribs).length;
 
-  if (isSpan) {
-    const validDescendant = findDescendant(node, (n) => {
-      if (
-        (n instanceof Element &&
-          (n.children?.length > 1 || Object.keys(n.attribs || {}).length)) ||
-        n.type === "text"
-      ) {
-        return n;
-      }
-      return false;
-    });
-
-    if (validDescendant) {
-      return validDescendant;
+    if (!hasAttributes) {
+      return domToReact(children as DOMNode[], options);
     }
-  }
 
-  return undefined;
-};
+    return;
+  },
+);

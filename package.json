@@ -42,6 +42,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.67.0",
+    "react-social-media-embed": "^2.5.18",
     "rxjs": "^7.8.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",

@@ -1,6 +1,5 @@
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
-import { type DOMNode, domToReact, type Element } from "html-react-parser";
-import { ElementType } from "htmlparser2";
+import { type DOMNode, domToReact } from "html-react-parser";
 import { findDescendant } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
 import { cn } from "@/lib/utils";
@@ -14,17 +13,11 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
 
     const questionEl = findDescendant(
       el,
-      (dn) =>
-        dn.type === ElementType.Tag &&
-        !!dn.attribs.class?.includes("qa-question") &&
-        dn,
+      (node) => !!node.attribs.class?.includes("qa-question") && node,
     );
     const answerEl = findDescendant(
       el,
-      (dn) =>
-        dn.type === ElementType.Tag &&
-        !!dn.attribs.class?.includes("qa-answer") &&
-        dn,
+      (node) => !!node.attribs.class?.includes("qa-answer") && node,
     );
 
     if (!questionEl || !answerEl) return;
@@ -47,10 +40,10 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
           data-slot="qa-question"
           className="leading-snug text-pretty font-bold"
         >
-          {domToReact((questionEl as Element).children as DOMNode[], options)}
+          {domToReact(questionEl.children as DOMNode[], options)}
         </div>
         <div data-slot="qa-answer" className="leading-snug text-pretty">
-          {domToReact((answerEl as Element).children as DOMNode[], options)}
+          {domToReact(answerEl.children as DOMNode[], options)}
         </div>
       </div>
     );

@@ -16,21 +16,22 @@ import { type DOMNode, Element } from "html-react-parser";
  */
 export const findDescendant = (
   node: DOMNode,
-  func: (N: DOMNode) => false | DOMNode,
-): false | DOMNode => {
-  if (!(node instanceof Element)) return false;
+  func: (N: Element) => Element | false | undefined,
+): Element | undefined => {
+  if (!(node instanceof Element)) return undefined;
 
   const { children } = node;
   let found = func(node);
 
   if (!found && node.children?.length) {
     found = children.reduce(
-      (acc: false | DOMNode, n) => acc || findDescendant(n as DOMNode, func),
-      false,
+      (acc: undefined | Element, n) =>
+        acc || findDescendant(n as DOMNode, func),
+      undefined,
     );
   }
 
-  return found;
+  return found || undefined;
 };
 
 /**
