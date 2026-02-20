@@ -22,6 +22,7 @@ import {
   fixNestedSpans,
   //   instagramEmbed,
   removeUnsupportedElementTypes,
+  unwrapLegacyWrappers,
   //   tiktokEmbed,
   //   twitterEmbed,
   //   videoSourceDescendant,
@@ -62,6 +63,7 @@ export const HtmlContent = ({
         /* GLOBAL FIXES */
 
         removeUnsupportedElementTypes,
+        unwrapLegacyWrappers,
 
         // Remove inline styles.
         // Keep an eye out for WP blocks potentially breaking.
@@ -105,7 +107,7 @@ export const HtmlContent = ({
     <div
       className={cn(
         // Block spacing.
-        "[&>*+*:not([class*=my-],[class*=mt-])]:mt-[1.2em]",
+        "[&>:where(*+:not([class*=my-],[class*=mt-]))]:mt-[1.2em]",
         // Anchor links.
         "[&_a]:underline [&_a]:underline-offset-4",
         // Lists.

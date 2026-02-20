@@ -5,11 +5,11 @@ import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
 
-const twitterEmbedUrlPattern =
-  /(?:twitter|x)\.com\/[^/]+\/(?:status(?:es)?)\/(\w+)/;
+const facebookEmbedUrlPattern =
+  /(?:facebook)\.com\/([^/]+)\/(posts|videos)\/(\w+)/;
 
-export const replaceTweetEmbed: ReplaceCallback = replaceElement(
-  ["div", "blockquote", "figure"],
+export const replaceFacebookEmbed: ReplaceCallback = replaceElement(
+  ["div", "figure"],
   (el, _index, options) => {
     const { name, attribs } = el;
     const embedProps = {
@@ -21,11 +21,11 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
     if (
       name === "div" &&
       "data-oembed-url" in attribs &&
-      twitterEmbedUrlPattern.test(attribs["data-oembed-url"])
+      facebookEmbedUrlPattern.test(attribs["data-oembed-url"])
     ) {
       return (
         <ContentEmbed
-          provider="twitter"
+          provider="facebook"
           embedProps={{ ...embedProps, url: attribs["data-oembed-url"] }}
           data-align="default"
           style={{ "--max-w": "calc(var(--spacing)*135)" } as CSSProperties}
@@ -33,13 +33,17 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
       );
     }
 
-    // Handle standard Tweet HTML.
-    if (name === "blockquote" && attribs.class?.includes("twitter-tweet")) {
+    // Handle standard embed HTML.
+    if (
+      name === "div" &&
+      attribs.class &&
+      attribs.class.match(/\bfb-(post|video)\b/gi)
+    ) {
       const link = findDescendant(el, (n) => {
         if (
           n.name === "a" &&
           "href" in n.attribs &&
-          twitterEmbedUrlPattern.test(n.attribs.href)
+          facebookEmbedUrlPattern.test(n.attribs.href)
         ) {
           return n;
         }
@@ -49,7 +53,7 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
       return (
         link && (
           <ContentEmbed
-            provider="twitter"
+            provider="facebook"
             embedProps={{ ...embedProps, url: link.attribs.href }}
             data-align="default"
             style={{ "--max-w": "calc(var(--spacing)*135)" } as CSSProperties}
@@ -61,7 +65,7 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
     // Handle WordPress embed wrapper.
     if (
       name === "figure" &&
-      attribs.class?.includes("wp-block-embed-twitter")
+      attribs.class?.includes("wp-block-embed-facebook")
     ) {
       const { alignment, isFloated } = getElementAlignment(el);
       const link = findDescendant(
@@ -69,7 +73,7 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
         (n) =>
           n.name === "a" &&
           "href" in n.attribs &&
-          twitterEmbedUrlPattern.test(n.attribs.href) &&
+          facebookEmbedUrlPattern.test(n.attribs.href) &&
           n,
       );
       const captionEl = findDescendant(el, (n) => n.name === "figcaption" && n);
@@ -83,7 +87,7 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
       return (
         link && (
           <ContentEmbed
-            provider="twitter"
+            provider="facebook"
             embedProps={{ ...embedProps, url: link.attribs.href }}
             captionProps={captionProps}
             {...(!isFloated && { "data-align": alignment })}

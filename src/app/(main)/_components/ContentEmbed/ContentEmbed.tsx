@@ -1,12 +1,30 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  FacebookEmbed,
-  type FacebookEmbedProps,
-  XEmbed,
-  type XEmbedProps,
+import type {
+  FacebookEmbedProps,
+  InstagramEmbedProps,
+  XEmbedProps,
+  YouTubeEmbedProps,
 } from "react-social-media-embed";
+import dynamic from "next/dynamic";
+
+const XEmbed = dynamic(
+  () => import("react-social-media-embed").then((mod) => mod.XEmbed),
+  { ssr: false },
+);
+const FacebookEmbed = dynamic(
+  () => import("react-social-media-embed").then((mod) => mod.FacebookEmbed),
+  { ssr: false },
+);
+const InstagramEmbed = dynamic(
+  () => import("react-social-media-embed").then((mod) => mod.InstagramEmbed),
+  { ssr: false },
+);
+const YouTubeEmbed = dynamic(
+  () => import("react-social-media-embed").then((mod) => mod.YouTubeEmbed),
+  { ssr: false },
+);
 
 export type ContentEmbedProps = React.ComponentProps<"div"> & {
   captionProps?: React.ComponentProps<"figcaption">;
@@ -18,6 +36,14 @@ export type ContentEmbedProps = React.ComponentProps<"div"> & {
     | {
         provider: "facebook";
         embedProps: FacebookEmbedProps;
+      }
+    | {
+        provider: "instagram";
+        embedProps: InstagramEmbedProps;
+      }
+    | {
+        provider: "youtube";
+        embedProps: YouTubeEmbedProps;
       }
   );
 
@@ -32,6 +58,8 @@ export default function ContentEmbed({
   const EmbedComp = new Map([
     ["twitter", XEmbed],
     ["facebook", FacebookEmbed],
+    ["instagram", InstagramEmbed],
+    ["youtube", YouTubeEmbed],
   ]).get(provider);
 
   if (!EmbedComp) return null;
@@ -61,7 +89,7 @@ export default function ContentEmbed({
       />
       <div
         data-slot="embed-content"
-        className="col-[content] row-[content] drop-shadow-lg"
+        className="col-[content] row-[content] drop-shadow-lg aspect-(--aspect-ratio)"
       >
         <EmbedComp {...embedProps} />
       </div>

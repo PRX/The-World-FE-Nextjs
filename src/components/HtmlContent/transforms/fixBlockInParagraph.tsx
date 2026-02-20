@@ -11,7 +11,15 @@ import { ElementType } from "htmlparser2";
 
 export const fixBlockInParagraph: ReplaceCallback = (node, _index, options) => {
   const isParagraph = node.type === "tag" && node.name === "p";
-  const blockTags = ["blockquote", "div", "figure", "table", "ul", "ol"];
+  const blockTags = [
+    "blockquote",
+    "div",
+    "figure",
+    "table",
+    "ul",
+    "ol",
+    "iframe",
+  ];
   const blockDescendant = findDescendant(node, (n: DOMNode) => {
     if (n.type === "tag" && blockTags.includes(n.name)) {
       return n;

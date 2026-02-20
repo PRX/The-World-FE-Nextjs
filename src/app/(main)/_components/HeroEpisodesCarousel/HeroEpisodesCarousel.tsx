@@ -102,7 +102,7 @@ export default function HeroEpisodesCarousel({
           ref={scrollWrapper}
           className={cn(
             "grid grid-cols-[min-content_1fr] items-end gap-8 p-4 pr-0",
-            "md:pl-(--_gutter-left) md:mask-[linear-gradient(90deg,transparent_calc(var(--_menu-width)/1.5),black_var(--_gutter-left))]",
+            "md:pl-(--_gutter-left) md:mask-[linear-gradient(90deg,transparent_calc(var(--_menu-width)/1.5),black_var(--_gutter-left))] lg:mask-none",
             "max-lg:overflow-hidden max-lg:overflow-x-auto max-lg:gap-4 max-lg:snap-mandatory max-lg:snap-x max-lg:scroll-pl-(--_gutter-left) max-sm:scroll-pl-4 no-scrollbar",
           )}
         >
@@ -123,7 +123,7 @@ export default function HeroEpisodesCarousel({
               exit="hidden"
               className={cn(
                 "relative grid content-end gap-y-3 w-[clamp(300px,40vw,560px)] max-w-[min(var(--spacing)*140,80vw)]",
-                "before:absolute before:inset-0 before:-z-1 before:bg-background/40 before:mask-t-from-0 before:rounded-sm before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
+                "before:absolute before:inset-0 before:-z-1 before:bg-cyan/40 before:mask-t-from-0 before:rounded-sm before:opacity-0 before:backdrop-blur-lg before:backdrop-brightness-125",
                 "hover:before:opacity-100 hover:before:scale-[104%] hover:before:transition-all",
                 "focus-within:before:opacity-100 focus-within:before:scale-[104%] focus-within:before:transition-all",
                 "max-lg:snap-always max-lg:snap-start",

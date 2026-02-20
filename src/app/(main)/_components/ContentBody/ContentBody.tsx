@@ -3,8 +3,15 @@ import type { CSSProperties } from "react";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { HtmlContent } from "@/components/HtmlContent";
 import { cn } from "@/lib/utils";
-import { replaceImage, replaceImageBlock, replaceQABlock } from "./replacers";
-import { replaceTweetEmbed } from "./replacers/replaceTweetEmbed";
+import {
+  replaceImage,
+  replaceImageBlock,
+  replaceTweetEmbed,
+  replaceQABlock,
+  replaceFacebookEmbed,
+  replaceInstagramEmbed,
+  replaceYouTubeEmbed,
+} from "./replacers";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
 
@@ -17,7 +24,10 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
   const replacers: ReplaceCallback[] = [
     replaceImageBlock,
     replaceImage(),
+    replaceInstagramEmbed,
+    replaceFacebookEmbed,
     replaceTweetEmbed,
+    replaceYouTubeEmbed,
     replaceQABlock,
   ];
 
@@ -46,7 +56,16 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
             } as CSSProperties
           }
           className={cn(
-            "max-w-185 mx-auto",
+            "max-w-185 mx-auto text-pretty",
+
+            /* BASE */
+            // Headings
+            "[&_:where(h2,h3,h4,h5,h6)]:font-bold [&>h2]:text-3xl [&>h3]:text-2xl",
+
+            // IFrames
+            "[&>iframe]:mx-auto [&>iframe]:my-16",
+
+            /* ALIGNMENT */
             "lg:*:data-[align=default]:-mx-(--body-gutter)",
             // Floated Blocks
             "md:*:data-floated:grid",
