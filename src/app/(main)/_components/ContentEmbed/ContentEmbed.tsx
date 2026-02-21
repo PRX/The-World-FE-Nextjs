@@ -1,13 +1,14 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import type {
   FacebookEmbedProps,
   InstagramEmbedProps,
   XEmbedProps,
   YouTubeEmbedProps,
 } from "react-social-media-embed";
+import type { VimeoEmbedProps } from "@/components/VimeoEmbed/VimeoEmbed";
 import dynamic from "next/dynamic";
+import { cn } from "@/lib/utils";
 
 const XEmbed = dynamic(
   () => import("react-social-media-embed").then((mod) => mod.XEmbed),
@@ -23,6 +24,11 @@ const InstagramEmbed = dynamic(
 );
 const YouTubeEmbed = dynamic(
   () => import("react-social-media-embed").then((mod) => mod.YouTubeEmbed),
+  { ssr: false },
+);
+const VimeoEmbed = dynamic(
+  () =>
+    import("@/components/VimeoEmbed/VimeoEmbed").then((mod) => mod.VimeoEmbed),
   { ssr: false },
 );
 
@@ -45,6 +51,10 @@ export type ContentEmbedProps = React.ComponentProps<"div"> & {
         provider: "youtube";
         embedProps: YouTubeEmbedProps;
       }
+    | {
+        provider: "vimeo";
+        embedProps: VimeoEmbedProps;
+      }
   );
 
 export default function ContentEmbed({
@@ -60,6 +70,7 @@ export default function ContentEmbed({
     ["facebook", FacebookEmbed],
     ["instagram", InstagramEmbed],
     ["youtube", YouTubeEmbed],
+    ["vimeo", VimeoEmbed],
   ]).get(provider);
 
   if (!EmbedComp) return null;

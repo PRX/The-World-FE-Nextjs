@@ -12,6 +12,7 @@ import parse, {
 import { cn } from "@/lib/utils";
 import {
   anchorToLink,
+  fbRootRemove,
   //   audioDescendant,
   //   datawrapperEmbed,
   //   datavizEmbed,
@@ -27,7 +28,7 @@ import {
   //   twitterEmbed,
   //   videoSourceDescendant,
   //   youtubeIframe,
-} from "./transforms";
+} from "./replacers";
 import { ElementType } from "htmlparser2";
 
 export type HtmlContentProps = React.ComponentProps<"div"> & {
@@ -63,6 +64,7 @@ export const HtmlContent = ({
         /* GLOBAL FIXES */
 
         removeUnsupportedElementTypes,
+        fbRootRemove,
         unwrapLegacyWrappers,
 
         // Remove inline styles.
@@ -70,7 +72,6 @@ export const HtmlContent = ({
         // Some block types may use inline styles for some options.
         (n: DOMNode) => {
           if (n.type === ElementType.Tag) {
-            // eslint-disable-next-line no-param-reassign
             delete n.attribs.style;
           }
         },
@@ -89,7 +90,6 @@ export const HtmlContent = ({
         //     datavizEmbed,
         //     facebookPost,
         //     facebookVideo,
-        //     fbRootRemove,
         //     instagramEmbed,
         //     twitterEmbed,
         //     tiktokEmbed,

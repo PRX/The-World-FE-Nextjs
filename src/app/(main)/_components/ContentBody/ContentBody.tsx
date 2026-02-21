@@ -11,6 +11,8 @@ import {
   replaceFacebookEmbed,
   replaceInstagramEmbed,
   replaceYouTubeEmbed,
+  replacePullquote,
+  replaceVimeoEmbed,
 } from "./replacers";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
@@ -28,6 +30,8 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
     replaceFacebookEmbed,
     replaceTweetEmbed,
     replaceYouTubeEmbed,
+    replaceVimeoEmbed,
+    replacePullquote,
     replaceQABlock,
   ];
 
@@ -52,7 +56,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
             {
               "--floated-w":
                 "max(400px, ((100cqw - 740px - (var(--body-gutter) * 2)) / 2) + (var(--body-gutter) * 2))",
-              "--floated-max-h": "40vh",
+              "--floated-max-h": "60vh",
             } as CSSProperties
           }
           className={cn(

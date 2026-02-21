@@ -1,39 +1,53 @@
 import type { CSSProperties } from "react";
-import type { YouTubeEmbedProps } from "react-social-media-embed";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
+import type { VimeoEmbedProps } from "@/components/VimeoEmbed/VimeoEmbed";
 import { attributesToProps, type DOMNode, domToReact } from "html-react-parser";
 import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
 
-const youTubeEmbedUrlPattern = /youtube(?:-nocookie)?\.com|youtu.be/;
+const vimeoEmbedUrlPattern = /vimeo\.com/;
 
-export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
-  ["div", "iframe", "figure"],
+export const replaceVimeoEmbed: ReplaceCallback = replaceElement(
+  ["figure", "div", "iframe", "video", "source"],
   (el, _index, options) => {
-    const { name, attribs } = el;
-    const embedProps: Partial<YouTubeEmbedProps> = {
-      width: "100%",
-      height: "100%",
-      className: "relative aspect-(--aspect-ratio) rounded-lg! overflow-clip",
-      youTubeProps: {
-        className: "absolute inset-0",
-        opts: {
-          host: "https://www.youtube-nocookie.com",
-          playerVars: {
-            rel: 0,
-          },
-        },
-      },
+    const embedProps: Partial<VimeoEmbedProps> = {
+      className: "rounded-lg overflow-clip",
     };
+    const srcElement = findDescendant(el, (n) => {
+      if (
+        "data-oembed-url" in n.attribs &&
+        vimeoEmbedUrlPattern.test(n.attribs["data-oembed-url"])
+      ) {
+        return n;
+      }
+      if (
+        n.name === "figure" &&
+        n.attribs.class?.includes("wp-block-embed-vimeo")
+      ) {
+        return n;
+      }
+      if ("src" in n.attribs && vimeoEmbedUrlPattern.test(n.attribs.src)) {
+        return n;
+      }
+      return false;
+    });
+
+    if (!srcElement) return;
+
+    const { name, attribs } = srcElement;
 
     // Handle legacy oEmbed divs.
     if (
       "data-oembed-url" in attribs &&
-      youTubeEmbedUrlPattern.test(attribs["data-oembed-url"])
+      vimeoEmbedUrlPattern.test(attribs["data-oembed-url"])
     ) {
       const { attribs: iframeAttribs } =
         findDescendant(el, (n) => n.name === "iframe" && n) || {};
+
+      delete iframeAttribs?.key;
+
+      const iframeProps = attributesToProps(iframeAttribs);
       const { width, height } = iframeAttribs || {};
       const aspectRatio =
         width && height
@@ -42,9 +56,10 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
 
       return (
         <ContentEmbed
-          provider="youtube"
+          provider="vimeo"
           embedProps={{
             ...embedProps,
+            iframeProps,
             url: attribs["data-oembed-url"],
           }}
           data-align="default"
@@ -58,9 +73,10 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
       );
     }
 
-    // Handle standard Tweet HTML.
-    if (name === "iframe" && youTubeEmbedUrlPattern.test(attribs.src)) {
+    // Handle standard embed HTML.
+    if (name === "iframe") {
       const { width, height, src } = attribs || {};
+      const iframeProps = attributesToProps(attribs);
       const aspectRatio =
         width && height
           ? parseInt(`${width}`, 10) / parseInt(`${height}`, 10)
@@ -70,7 +86,7 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
         src && (
           <ContentEmbed
             provider="vimeo"
-            embedProps={{ ...embedProps, url: src }}
+            embedProps={{ ...embedProps, iframeProps, url: src }}
             data-align="default"
             style={
               {
@@ -84,19 +100,20 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
     }
 
     // Handle WordPress embed wrapper.
-    if (
-      name === "figure" &&
-      attribs.class?.includes("wp-block-embed-youtube")
-    ) {
-      const { alignment, isFloated } = getElementAlignment(el);
+    if (attribs.class?.includes("wp-block-embed-vimeo")) {
+      const { alignment, isFloated } = getElementAlignment(srcElement);
       const { attribs: iframeAttribs } =
-        findDescendant(el, (n) => n.name === "iframe" && n) || {};
+        findDescendant(srcElement, (n) => n.name === "iframe" && n) || {};
       const { width, height, src } = iframeAttribs || {};
       const aspectRatio =
         width && height
           ? parseInt(`${width}`, 10) / parseInt(`${height}`, 10)
           : 16 / 9;
-      const captionEl = findDescendant(el, (n) => n.name === "figcaption" && n);
+      const iframeProps = attributesToProps(iframeAttribs);
+      const captionEl = findDescendant(
+        srcElement,
+        (n) => n.name === "figcaption" && n,
+      );
       const captionProps = captionEl && {
         ...attributesToProps(captionEl.attribs),
         ...(captionEl.children && {
@@ -107,8 +124,8 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
       return (
         src && (
           <ContentEmbed
-            provider="youtube"
-            embedProps={{ ...embedProps, url: src }}
+            provider="vimeo"
+            embedProps={{ ...embedProps, iframeProps, url: src }}
             captionProps={captionProps}
             {...(!isFloated && { "data-align": alignment })}
             {...(isFloated && { "data-floated": alignment })}

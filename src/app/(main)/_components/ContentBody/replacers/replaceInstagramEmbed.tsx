@@ -14,7 +14,8 @@ export const replaceInstagramEmbed: ReplaceCallback = replaceElement(
     const embedProps = {
       width: "100%",
       style: { maxWidth: "calc(var(--spacing)*135)" },
-      className: "[&_iframe]:m-0!",
+      className:
+        "[&_iframe]:m-0! [&_iframe]:border-none! [&_iframe]:rounded-md!",
     };
 
     // Handle legacy oEmbed divs.

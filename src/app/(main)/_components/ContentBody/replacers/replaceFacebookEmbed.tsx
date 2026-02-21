@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { FacebookEmbedProps } from "react-social-media-embed";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { attributesToProps, type DOMNode, domToReact } from "html-react-parser";
 import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
@@ -12,9 +13,9 @@ export const replaceFacebookEmbed: ReplaceCallback = replaceElement(
   ["div", "figure"],
   (el, _index, options) => {
     const { name, attribs } = el;
-    const embedProps = {
+    const embedProps: Partial<FacebookEmbedProps> = {
       width: "100%",
-      style: { maxWidth: "calc(var(--spacing)*135)" },
+      className: "bg-white [&_iframe]:scale-[1.012] rounded-md!",
     };
 
     // Handle legacy oEmbed divs.

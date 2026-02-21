@@ -29,11 +29,20 @@ export const replaceImage = (
     props.height = props.height || "300";
 
     return (
-      <Image
-        src={srcString}
-        alt={altString}
-        className={cn("rounded-md object-cover", className)}
-        {...props}
-      />
+      <span
+        className={cn(
+          "relative inline-block overflow-clip rounded-md",
+          "bg-navy-blue/30 backdrop-blur-lg dark:bg-blue/30 light:bg-blue",
+          "before:absolute before:inset-0 before:z-0 before:bg-linear-to-tl before:from-purple before:to-purple/0",
+          "after:absolute after:inset-0 after:z-0 after:bg-linear-to-tr after:from-green after:to-green/0 after:to-40%",
+        )}
+      >
+        <Image
+          src={srcString}
+          alt={altString}
+          className={cn("relative z-1 object-cover", className)}
+          {...props}
+        />
+      </span>
     );
   });
