@@ -57,8 +57,8 @@ export const replacePullquote: ReplaceCallback = replaceElement(
         <figure
           data-slot="pullquote"
           className={cn(
-            "before:block before:w-full before:h-1 before:rounded-full before:bg-linear-to-r before:from-purple before:to-burnt-orange",
-            "after:block after:w-full after:h-1 after:rounded-full after:bg-linear-to-r after:from-burnt-orange after:to-red",
+            "before:block before:w-full before:h-1 before:rounded-full before:bg-linear-[to_bottom_right,var(--gradient-body-divider-bg)] before:bg-fixed",
+            "after:block after:w-full after:h-1 after:rounded-full after:bg-linear-[to_bottom_right,var(--gradient-body-divider-bg)] after:bg-fixed",
             {
               "my-12": !isFloated,
               "w-full": isFloated,

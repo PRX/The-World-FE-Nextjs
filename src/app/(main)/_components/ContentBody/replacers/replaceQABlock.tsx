@@ -29,7 +29,7 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
         data-slot="qa-root"
         className={cn(
           "group/qa relative flex flex-col gap-y-3 ps-7 -ms-7 my-8",
-          "before:absolute before:inset-0 before:left-2 before:right-auto before:w-1 before:bg-linear-to-b before:from-dark-purple before:to-purple before:rounded-full",
+          "before:absolute before:inset-0 before:left-2 before:right-auto before:w-1 before:bg-linear-(--gradient-body-divider-bg) before:bg-fixed before:rounded-full",
           {
             "border border-current/20 rounded-sm py-2 pe-2 before:top-2 before:bottom-2":
               hasBorder,
