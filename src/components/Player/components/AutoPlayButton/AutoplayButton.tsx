@@ -46,7 +46,9 @@ export const AutoplayButton = ({
           <PlayIcon className="fill-current stroke-0" />
         </Switch>
       </TooltipTrigger>
-      <TooltipContent className="z-(--z-ui)">{tooltipText}</TooltipContent>
+      <TooltipContent className="z-(--z-ui-player)">
+        {tooltipText}
+      </TooltipContent>
     </Tooltip>
   );
 };

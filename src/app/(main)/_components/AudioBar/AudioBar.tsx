@@ -46,7 +46,9 @@ export default function AudioBar({
           audio={audio}
           fallbackProps={fallbackProps}
         />
-        {duration && <span>{formatDuration(duration)}</span>}
+        {!!duration && (
+          <span className="leading-none">{formatDuration(duration)}</span>
+        )}
       </span>
       <AddAudioButton
         className={cn("text-cyan")}

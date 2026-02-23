@@ -52,7 +52,7 @@ export const ReplayButton = ({
           <StepBackIcon />
         </Button>
       </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
         Step Back 5 Seconds{" "}
         <KbdGroup>
           <Kbd>J</Kbd>

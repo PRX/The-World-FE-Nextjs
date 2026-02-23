@@ -47,8 +47,8 @@ export const PlayButton = ({
         "relative size-10 m-1 rounded-full cursor-pointer",
         "[&_svg]:size-7",
         "before:absolute before:-inset-1 before:-z-2 before:rounded-full before:bg-background",
-        "after:absolute after:-inset-1 after:-z-1 after:rounded-full after:bg-[linear-gradient(180deg,#ffd295,#05968f_20%,#cc392f_40%,#ff9300_60%,#8cd2f4_80%,#984fa0)] after:opacity-0 after:transition-opacity",
-        { "after:opacity-100": playing },
+        "after:absolute after:-inset-1 after:-z-1 after:rounded-full after:bg-[conic-gradient(from_30deg,#ffd295,#05968f,#cc392f,#ff9300,#8cd2f4,#984fa0,#ffd295)] after:opacity-0 after:transition-opacity",
+        { "after:opacity-100 after:animate-spin": playing },
         className,
       )}
       size="icon-lg"
@@ -68,7 +68,7 @@ export const PlayButton = ({
   return (
     <Tooltip>
       <TooltipTrigger asChild>{renderButton()}</TooltipTrigger>
-      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
         {tooltipText}{" "}
         <KbdGroup>
           <Kbd>Space</Kbd> or <Kbd>K</Kbd>

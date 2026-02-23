@@ -122,7 +122,7 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
             aria-label="Volume Slider"
           />
         </TooltipTrigger>
-        <TooltipContent className="flex gap-x-2 items-center z-(--z-ui)">
+        <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
           Volume{" "}
           <KbdGroup>
             <Kbd>-</Kbd>,<Kbd>=</Kbd>
@@ -135,7 +135,7 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
       ) : (
         <Tooltip>
           <TooltipTrigger asChild>{renderMuteButton()}</TooltipTrigger>
-          <TooltipContent className="flex gap-x-2 items-center z-(--z-ui)">
+          <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
             {muted ? "Unmute" : "Mute"} <Kbd>M</Kbd>
           </TooltipContent>
         </Tooltip>

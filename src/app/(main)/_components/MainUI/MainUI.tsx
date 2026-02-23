@@ -370,7 +370,7 @@ export default function MainUI({
         <div
           ref={uiBottomRef}
           className={cn(
-            "fixed inset-0 top-auto transition-transform z-[calc(var(--z-ui)+1)]",
+            "fixed inset-0 top-auto transition-transform z-(--z-ui-player)",
             isPlayerOpen ? "translate-y-0" : "translate-y-full",
           )}
           inert={!isPlayerOpen}
@@ -414,7 +414,7 @@ export default function MainUI({
                           />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent className="z-(--z-ui)">
+                      <TooltipContent className="z-(--z-ui-player)">
                         {isPlaylistOpen ? "Hide" : "Show"} Playlist
                       </TooltipContent>
                     </Tooltip>
@@ -443,7 +443,7 @@ export default function MainUI({
               </div>
               <PlayerMenu
                 triggerProps={{ className: "max-sm:hidden" }}
-                contentProps={{ className: "z-(--z-ui)" }}
+                contentProps={{ className: "z-(--z-ui-player)" }}
               />
               {/* Track Selection Controls */}
               <div

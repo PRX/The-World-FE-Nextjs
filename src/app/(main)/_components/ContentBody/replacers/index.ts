@@ -1,3 +1,4 @@
+export * from "./replaceAudioEmbed";
 export * from "./replaceElement";
 export * from "./replaceFacebookEmbed";
 export * from "./replaceImage";

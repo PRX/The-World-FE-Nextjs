@@ -52,7 +52,7 @@ export const ForwardButton = ({
           <StepForwardIcon />
         </Button>
       </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
         Step Forward 30 Seconds{" "}
         <KbdGroup>
           <Kbd>L</Kbd>

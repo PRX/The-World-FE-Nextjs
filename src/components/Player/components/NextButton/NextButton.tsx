@@ -55,7 +55,7 @@ export const NextButton = ({
             <SkipForwardIcon />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+        <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
           Next{" "}
           <KbdGroup>
             <Kbd>]</Kbd>

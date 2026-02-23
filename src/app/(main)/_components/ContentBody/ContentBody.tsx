@@ -14,6 +14,7 @@ import {
   replacePullquote,
   replaceVimeoEmbed,
   replaceTikTokEmbed,
+  replaceAudioEmbed,
 } from "./replacers";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
@@ -35,6 +36,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
     replaceTikTokEmbed,
     replacePullquote,
     replaceQABlock,
+    replaceAudioEmbed,
   ];
 
   return (
