@@ -1,8 +1,9 @@
 import { type DOMNode, domToReact } from "html-react-parser";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import AudioPlayer from "@/app/(main)/_components/AudioPlayer";
-import { findDescendant } from "@/lib/dom";
+import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
+import { cn } from "@/lib/utils";
 
 export const replaceAudioEmbed: ReplaceCallback = replaceElement(
   ["audio", "figure"],
@@ -24,6 +25,7 @@ export const replaceAudioEmbed: ReplaceCallback = replaceElement(
       return <></>;
     }
 
+    const { alignment, isFloated } = getElementAlignment(el);
     const figcaptionElement = findDescendant(
       el,
       (node) => node.name === "figcaption" && node,
@@ -32,10 +34,20 @@ export const replaceAudioEmbed: ReplaceCallback = replaceElement(
       (figcaptionElement?.childNodes as DOMNode[]) || null;
 
     return (
-      <figure data-slot="audio">
+      <figure
+        data-slot="audio"
+        className={cn("flex flex-col content-center gap-4", {
+          "md:max-w-(--floated-max-w)": isFloated,
+        })}
+        {...(!isFloated && { "data-align": alignment })}
+        {...(isFloated && { "data-floated": alignment })}
+      >
         <AudioPlayer src={src} />
         {!!figCaptionChildren?.length && (
-          <figcaption data-slot="audio-caption">
+          <figcaption
+            data-slot="audio-caption"
+            className="px-2 font-light text-sm/tight"
+          >
             {domToReact(figCaptionChildren, options)}
           </figcaption>
         )}
