@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { XEmbedProps } from "react-social-media-embed";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { attributesToProps, type DOMNode, domToReact } from "html-react-parser";
 import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
@@ -12,7 +13,7 @@ export const replaceTweetEmbed: ReplaceCallback = replaceElement(
   ["div", "blockquote", "figure"],
   (el, _index, options) => {
     const { name, attribs } = el;
-    const embedProps = {
+    const embedProps: Partial<XEmbedProps> = {
       width: "100%",
       style: { maxWidth: "calc(var(--spacing)*135)" },
     };

@@ -148,7 +148,7 @@ export const replaceImageBlock = replaceElement(
                 className={cn(
                   "flex flex-wrap justify-between items-center gap-2 min-h-7.5",
                   "font-light text-sm/tight",
-                  "[&_.media-credit]:whitespace-nowrap",
+                  "[&_.media-credit]:w-fit",
                 )}
               >
                 {domToReact(figCaptionChildren, options)}

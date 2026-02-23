@@ -7,6 +7,7 @@ import type {
   YouTubeEmbedProps,
 } from "react-social-media-embed";
 import type { VimeoEmbedProps } from "@/components/VimeoEmbed/VimeoEmbed";
+import type { TikTokEmbedProps } from "@/components/TikTokEmbed";
 import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 
@@ -27,8 +28,11 @@ const YouTubeEmbed = dynamic(
   { ssr: false },
 );
 const VimeoEmbed = dynamic(
-  () =>
-    import("@/components/VimeoEmbed/VimeoEmbed").then((mod) => mod.VimeoEmbed),
+  () => import("@/components/VimeoEmbed").then((mod) => mod.VimeoEmbed),
+  { ssr: false },
+);
+const TikTokEmbed = dynamic(
+  () => import("@/components/TikTokEmbed").then((mod) => mod.TikTokEmbed),
   { ssr: false },
 );
 
@@ -55,6 +59,10 @@ export type ContentEmbedProps = React.ComponentProps<"div"> & {
         provider: "vimeo";
         embedProps: VimeoEmbedProps;
       }
+    | {
+        provider: "tiktok";
+        embedProps: TikTokEmbedProps;
+      }
   );
 
 export default function ContentEmbed({
@@ -65,12 +73,14 @@ export default function ContentEmbed({
   ...props
 }: ContentEmbedProps) {
   const { className: captionClassName } = captionProps || {};
-  const EmbedComp = new Map([
+  // biome-ignore lint/suspicious/noExplicitAny: May create a union type if needed.
+  const EmbedComp = new Map<string, any>([
     ["twitter", XEmbed],
     ["facebook", FacebookEmbed],
     ["instagram", InstagramEmbed],
     ["youtube", YouTubeEmbed],
     ["vimeo", VimeoEmbed],
+    ["tiktok", TikTokEmbed],
   ]).get(provider);
 
   if (!EmbedComp) return null;
@@ -78,7 +88,9 @@ export default function ContentEmbed({
   return (
     <figure
       data-slot="embed"
+      {...props}
       className={cn(
+        "@container/embed group/embed",
         "relative isolate grid my-16",
         "grid-cols-[[full-start]_1fr_[content-start]_var(--max-w,max-content)_[content-end]_1fr_[full-end]]",
         {
@@ -87,7 +99,6 @@ export default function ContentEmbed({
         },
         className,
       )}
-      {...props}
     >
       <div
         data-slot="embed-backdrop"
