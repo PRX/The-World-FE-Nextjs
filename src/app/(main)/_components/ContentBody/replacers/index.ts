@@ -1,4 +1,6 @@
 export * from "./replaceAudioEmbed";
+export * from "./replaceDatavizEmbed";
+export * from "./replaceDataWrapperEmbed";
 export * from "./replaceElement";
 export * from "./replaceFacebookEmbed";
 export * from "./replaceImage";

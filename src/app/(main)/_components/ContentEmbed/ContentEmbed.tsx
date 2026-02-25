@@ -91,7 +91,7 @@ export default function ContentEmbed({
       {...props}
       className={cn(
         "@container/embed group/embed",
-        "relative isolate grid my-16",
+        "relative isolate grid gap-y-4 my-16",
         "grid-cols-[[full-start]_1fr_[content-start]_var(--max-w,max-content)_[content-end]_1fr_[full-end]]",
         {
           "grid-rows-[[content-start]_1fr_[content-end_caption-start]_min-content_[caption-end]]":
@@ -115,10 +115,13 @@ export default function ContentEmbed({
       >
         <EmbedComp {...embedProps} />
       </div>
-      {captionProps && (
+      {captionProps?.children && (
         <figcaption
           data-slot="embed-caption"
-          className={cn("col-[full] row-[caption]", captionClassName)}
+          className={cn(
+            "col-[full] row-[caption] font-light text-sm/tight",
+            captionClassName,
+          )}
           {...captionProps}
         />
       )}

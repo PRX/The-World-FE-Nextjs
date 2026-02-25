@@ -1,7 +1,7 @@
 import type { Element } from "html-react-parser";
 
 export function getElementAlignment(el: Element) {
-  const classes = el.attribs.class.split(" ");
+  const classes = el.attribs.class?.split(" ") || [];
   const isAlignFull = classes.some((c) => ["alignfull"].includes(c));
   const isAlignWide = classes.some((c) => ["alignwide"].includes(c));
   const isAlignCenter = classes.some((c) => ["aligncenter"].includes(c));

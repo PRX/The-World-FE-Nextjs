@@ -53,7 +53,7 @@ export default async function StoryHero({
       <h1 className="capitalize text-3xl md:text-4xl font-bold text-balance">
         {title}
       </h1>
-      <div className="flex @max-md/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
+      <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
         <div className="grow flex flex-col gap-y-4">
           {excerpt && <HtmlContent html={excerpt} className="text-xl/snug" />}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-lg">
@@ -95,7 +95,7 @@ export default async function StoryHero({
           </div>
         </div>
         {!!contributors?.nodes.length && (
-          <div className="flex flex-wrap md:flex-col gap-2">
+          <div className="flex @max-xl/hero-content:flex-wrap @xl/hero-content:flex-col gap-2">
             {contributors.nodes.map((contributor: Contributor) => {
               const { id: key, name, link, contributorDetails } = contributor;
               const { image } = contributorDetails || {};
@@ -110,7 +110,7 @@ export default async function StoryHero({
               return (
                 <Button
                   className={cn(
-                    "rounded-full ps-0",
+                    "justify-start rounded-full ps-0",
                     "**:data-[slot=avatar-fallback]:text-white",
                     "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-green",
                     "nth-of-type-[5n+2]:**:data-[slot=avatar-fallback]:bg-purple",

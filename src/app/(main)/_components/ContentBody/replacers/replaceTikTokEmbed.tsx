@@ -1,10 +1,10 @@
+import type { CSSProperties } from "react";
 import type { TikTokEmbedProps } from "@/components/TikTokEmbed";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { attributesToProps, type DOMNode, domToReact } from "html-react-parser";
 import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
-import { CSSProperties } from "react";
 
 const tikTokEmbedUrlPattern = /tiktok\.com/;
 

@@ -28,7 +28,7 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
       <div
         data-slot="qa-root"
         className={cn(
-          "group/qa relative flex flex-col gap-y-3 ps-7 -ms-7 my-8",
+          "group/qa relative ps-7 -ms-7 my-8",
           "before:absolute before:inset-0 before:left-2 before:right-auto before:w-1 before:bg-linear-(--gradient-body-divider-bg) before:bg-fixed before:rounded-full",
           {
             "border border-current/20 rounded-sm py-2 pe-2 before:top-2 before:bottom-2":
@@ -42,7 +42,7 @@ export const replaceQABlock: ReplaceCallback = replaceElement(
         >
           {domToReact(questionEl.children as DOMNode[], options)}
         </div>
-        <div data-slot="qa-answer" className="leading-snug text-pretty">
+        <div data-slot="qa-answer" className="leading-snug text-pretty mt-3">
           {domToReact(answerEl.children as DOMNode[], options)}
         </div>
       </div>

@@ -15,6 +15,8 @@ import {
   replaceVimeoEmbed,
   replaceTikTokEmbed,
   replaceAudioEmbed,
+  replaceDatavizEmbed,
+  replaceDataWrapperEmbed,
 } from "./replacers";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
@@ -37,6 +39,8 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
     replacePullquote,
     replaceQABlock,
     replaceAudioEmbed,
+    replaceDatavizEmbed,
+    replaceDataWrapperEmbed,
   ];
 
   return (
@@ -76,7 +80,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
             /* ALIGNMENT */
             "lg:*:data-[align=default]:-mx-(--body-gutter)",
             // Floated Blocks
-            "md:*:data-floated:grid",
+            "md:*:data-floated:relative md:*:data-floated:grid md:*:data-floated:z-1",
             "md:*:data-floated:w-[max(var(--body-gutter)*4,var(--floated-w)-(100cqw-740px-var(--body-gutter)*2)/2)]  md:*:data-floated:max-w-(--floated-w) md:*:data-floated:m-8",
             "md:*:data-floated:*:data-[slot=figure-wrapper]:w-(--floated-w)",
             "md:*:data-[floated=left]:justify-end md:*:data-[floated=left]:float-start md:*:data-[floated=left]:-ms-(--body-gutter)!",

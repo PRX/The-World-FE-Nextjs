@@ -10,12 +10,17 @@ export const replaceAudioEmbed: ReplaceCallback = replaceElement(
   (el, _index, options) => {
     const { name, attribs } = el;
     let src: string | undefined;
+    const isAudioElement = name === "audio";
+    const isAudioBlock =
+      name === "figure" && !!attribs.class?.includes("wp-block-audio");
 
-    if (name === "audio") {
+    if (!isAudioElement && !isAudioBlock) return;
+
+    if (isAudioElement) {
       src = attribs.src;
     }
 
-    if (name === "figure" && !!attribs.class?.includes("wp-block-audio")) {
+    if (isAudioBlock) {
       const audioElement = findDescendant(el, (n) => n.name === "audio" && n);
       src = audioElement?.attribs.src;
     }
