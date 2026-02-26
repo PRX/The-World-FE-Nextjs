@@ -57,7 +57,11 @@ export const PlayButton = ({
       {...rest}
       data-playing={playing || undefined}
     >
-      {!playing ? <PlayIcon /> : <PauseIcon />}
+      {!playing ? (
+        <PlayIcon aria-label="Play" />
+      ) : (
+        <PauseIcon aria-label="Pause" />
+      )}
     </Button>
   );
 

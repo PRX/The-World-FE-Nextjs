@@ -91,7 +91,11 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
       {...otherMuteButtonProps}
       onClick={handleMuteClick}
     >
-      {muted ? <VolumeOffIcon /> : <VolumeIcon />}
+      {muted ? (
+        <VolumeOffIcon aria-label="Unmute volume" />
+      ) : (
+        <VolumeIcon aria-label="Mute volume" />
+      )}
     </Button>
   );
 
@@ -119,7 +123,11 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
             step={0.01}
             value={[vol]}
             onValueChange={handleSliderChange}
-            aria-label="Volume Slider"
+            aria-label="Volume"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={vol * 100}
+            aria-valuetext={`${vol * 100}%`}
           />
         </TooltipTrigger>
         <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">

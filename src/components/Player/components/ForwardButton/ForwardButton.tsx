@@ -49,7 +49,7 @@ export const ForwardButton = ({
           disabled={!hasCurrentTrack}
           {...rest}
         >
-          <StepForwardIcon />
+          <StepForwardIcon aria-label="Step forward thirty seconds" />
         </Button>
       </TooltipTrigger>
       <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">

@@ -77,7 +77,11 @@ export const PlayAudioButton = ({
           {...rest}
           data-playing={audioIsPlaying || undefined}
         >
-          {!audioIsPlaying ? <PlayIcon /> : <PauseIcon />}
+          {!audioIsPlaying ? (
+            <PlayIcon aria-label="Play" />
+          ) : (
+            <PauseIcon aria-label="Pause" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltipText}</TooltipContent>

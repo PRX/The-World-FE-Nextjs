@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant light (&:is(.light *, [data-scheme=light] *));
-@custom-variant dark (&:is(.dark *, [data-scheme=dark] *));
+@custom-variant default (&:is([data-color-scheme=default] *));
+@custom-variant light (&:is(.light *, [data-color-scheme=light] *));
+@custom-variant dark (&:is(.dark *, [data-color-scheme=dark] *));
 @custom-variant media-hover (@media (hover: hover));
 
 @theme inline {
@@ -120,7 +121,7 @@
 }
 
 .light,
-[data-scheme="light"] {
+[data-color-scheme="light"] {
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --body: var(--color-white);
@@ -158,7 +159,7 @@
 }
 
 .dark,
-[data-scheme="dark"] {
+[data-color-scheme="dark"] {
   --body: var(--color-navy-blue);
   --body-foreground: var(--color-white);
   --body-primary: var(--color-cyan);

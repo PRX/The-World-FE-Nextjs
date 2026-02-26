@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { generateContentLinkHref } from "@/lib/routing/content";
 import { cn } from "@/lib/utils";
 import ShareButton from "@/app/(main)/_components/ShareButton";
+import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
 
 export default async function StoryHero({
   params,
@@ -112,9 +113,9 @@ export default async function StoryHero({
                   className={cn(
                     "justify-start rounded-full ps-0",
                     "**:data-[slot=avatar-fallback]:text-white",
-                    "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-green",
+                    "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-dark-green",
                     "nth-of-type-[5n+2]:**:data-[slot=avatar-fallback]:bg-purple",
-                    "nth-of-type-[5n+3]:**:data-[slot=avatar-fallback]:bg-brown",
+                    "nth-of-type-[5n+3]:**:data-[slot=avatar-fallback]:bg-red",
                     "nth-of-type-[5n+4]:**:data-[slot=avatar-fallback]:bg-burnt-orange",
                     "nth-of-type-[5n+5]:**:data-[slot=avatar-fallback]:bg-blue",
                   )}
@@ -148,6 +149,7 @@ export default async function StoryHero({
           buttonProps={{ className: cn({ "h-auto": !!audio }) }}
           menuContentProps={{ align: "start" }}
         />
+        <ColorSchemeSwitcher />
       </div>
     </HeroHeader>
   );

@@ -1,6 +1,9 @@
+"use client";
+
 import type React from "react";
 import type { CSSProperties } from "react";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
+import type { Preferences } from "@/interfaces";
 import { HtmlContent } from "@/components/HtmlContent";
 import { cn } from "@/lib/utils";
 import {
@@ -18,15 +21,14 @@ import {
   replaceDatavizEmbed,
   replaceDataWrapperEmbed,
 } from "./replacers";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
 
 export default function ContentBody({ children, ...props }: ContentBodyProps) {
-  // TODO: Get color scheme from preferences/localstorage.
+  const [preferences] = useLocalStorage<Preferences>("preferences");
+  const { colorScheme } = preferences || {};
 
-  // TODO: Layout markup and styling.
-
-  // TODO: Add replacers for rich content blocks.
   const replacers: ReplaceCallback[] = [
     replaceImageBlock,
     replaceImage(),
@@ -44,7 +46,11 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
   ];
 
   return (
-    <div className={cn("mt-8 px-4 md:px-8")} data-scheme="default">
+    <section
+      className={cn("mt-8 px-4 md:px-8")}
+      data-color-scheme={colorScheme || "default"}
+      aria-label="Content body"
+    >
       <div
         style={
           {
@@ -56,7 +62,8 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
           "@container/body",
           "pt-9 pb-18 px-(--body-gutter) [--_gutter:8] md:[--_gutter:16]",
           "bg-body text-body-foreground rounded-t-lg",
-          "[&_a]:text-body-primary [&_a]:hover:text-body-primary/60 [&_a]:visited:text-body-primary",
+          "[&_a]:text-body-primary [&_a]:hover:opacity-60 [&_a]:visited:text-body-primary",
+          "default:[&_a]:text-body-foreground default:[&_a]:decoration-body-primary",
         )}
       >
         <HtmlContent
@@ -101,6 +108,6 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
       <div className="bg-linear-to-b from-body to-body/0 from-10% to-90%">
         {children}
       </div>
-    </div>
+    </section>
   );
 }

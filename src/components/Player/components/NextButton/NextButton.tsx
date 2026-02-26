@@ -52,7 +52,7 @@ export const NextButton = ({
             disabled={!hasNextTrack}
             {...rest}
           >
-            <SkipForwardIcon />
+            <SkipForwardIcon aria-label="Next" />
           </Button>
         </TooltipTrigger>
         <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">

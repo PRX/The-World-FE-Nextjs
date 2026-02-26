@@ -49,7 +49,7 @@ export const ReplayButton = ({
           disabled={!hasCurrentTrack}
           {...rest}
         >
-          <StepBackIcon />
+          <StepBackIcon aria-label="Step back five seconds" />
         </Button>
       </TooltipTrigger>
       <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">

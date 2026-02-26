@@ -84,7 +84,11 @@ export const AddAudioButton = ({
             (isQueued && (isCurrentTrack ? "current" : true)) || undefined
           }
         >
-          {!isQueued ? <ListPlusIcon /> : <ListMinusIcon />}
+          {!isQueued ? (
+            <ListPlusIcon aria-label="Add to playlist" />
+          ) : (
+            <ListMinusIcon aria-label="ARemove from playlist" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltipText}</TooltipContent>

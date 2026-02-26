@@ -43,7 +43,10 @@ export const AutoplayButton = ({
           checked={autoplay}
           onCheckedChange={handleClick}
         >
-          <PlayIcon className="fill-current stroke-0" />
+          <PlayIcon
+            className="fill-current stroke-0"
+            aria-label={tooltipText}
+          />
         </Switch>
       </TooltipTrigger>
       <TooltipContent className="z-(--z-ui-player)">

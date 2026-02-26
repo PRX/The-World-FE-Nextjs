@@ -458,7 +458,7 @@ export default function MainUI({
             {/* Player Settings */}
             <div className="flex justify-end items-center gap-x-4 max-sm:hidden">
               <VolumeControls className="hidden md:media-hover:flex lg:flex" />
-              <AutoplayButton className="" />
+              <AutoplayButton />
             </div>
           </div>
         </div>

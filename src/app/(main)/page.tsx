@@ -219,7 +219,7 @@ export default async function Home() {
                                   <Link
                                     href={pcLinkHref}
                                     className={cn(
-                                      "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md [&>svg]:text-cyan",
+                                      "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md/tight text-balance [&>svg]:text-cyan",
                                       "hover:bg-cyan/10 hover:backdrop-blur-md hover:backdrop-brightness-125",
                                     )}
                                   >

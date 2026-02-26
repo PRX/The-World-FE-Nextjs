@@ -48,7 +48,7 @@ export const replacePullquote: ReplaceCallback = replaceElement(
       if (citeElement) {
         citeElement.attribs["data-slot"] = "pullquote-cite";
         citeElement.attribs.class = cn(
-          "text-md text-current/70",
+          "text-md text-current/80",
           "before:content-['-_']",
         );
       }
