@@ -17,7 +17,7 @@ export function ColorSchemeSwitcher(props: RefAttributes<HTMLDivElement>) {
   const { colorScheme } = preferences || {};
 
   function handleValueChange(newColorScheme: string) {
-    const newPreferences = structuredClone(preferences);
+    const newPreferences = structuredClone(preferences) || {};
 
     switch (newColorScheme) {
       case "dark":
