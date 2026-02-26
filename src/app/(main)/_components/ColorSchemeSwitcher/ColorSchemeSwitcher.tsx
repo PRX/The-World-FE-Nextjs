@@ -41,7 +41,7 @@ export function ColorSchemeSwitcher(props: RefAttributes<HTMLDivElement>) {
       size="icon"
       spacing={2}
       defaultValue="default"
-      value={colorScheme}
+      value={colorScheme || "default"}
       onValueChange={handleValueChange}
       aria-label="Color scheme switcher"
       aria-description="Changes the color scheme of the content body."
