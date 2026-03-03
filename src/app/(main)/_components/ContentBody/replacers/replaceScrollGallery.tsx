@@ -123,7 +123,12 @@ export const replaceScrollGallery: ReplaceCallback = replaceElement(
             )}
             {...imgPropsRest}
           />
-          <div className={cn("row-start-2 relative")}>
+          <div
+            className={cn(
+              "row-start-2 relative",
+              "not-[:has(~_figcaption)]:hidden",
+            )}
+          >
             <div
               className={cn(
                 "sticky top-0 h-(--_screen-h) bg-linear-to-t from-blue/60 to-blue/0 to-30%",
