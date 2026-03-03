@@ -7,6 +7,7 @@ export * from "./replaceImage";
 export * from "./replaceImageBlock";
 export * from "./replaceInstagramEmbed";
 export * from "./replacePullquote";
+export * from "./replaceScrollGallery";
 export * from "./replaceTikTokEmbed";
 export * from "./replaceTweetEmbed";
 export * from "./replaceQABlock";

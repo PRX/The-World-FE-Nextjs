@@ -257,7 +257,7 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo className="w-[40vw] max-h-10" animated duration="30s" />
+                <Logo className="max-h-10" animated duration="30s" />
               </Link>
             </h1>
             <span>

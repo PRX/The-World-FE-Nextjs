@@ -78,8 +78,15 @@
     var(--color-purple) 20%, var(--color-orange), var(--color-red) 90%;
 
   /* Animations */
-
-  /* ...ADD ANIMATIONS HERE... */
+  --animate-scroll-fade: scroll-fade linear forwards;
+  @keyframes scroll-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 :root {
@@ -196,6 +203,24 @@
   --sidebar-ring: oklch(0.551 0.027 264.364); */
 }
 
+@property --body {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --body-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@property --body-primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -218,6 +243,9 @@
       content: "\2639" " " attr(alt);
       @apply absolute inset-0 grid place-items-center bg-muted;
     }
+  }
+  [data-color-scheme] {
+    @apply transition-[--body,--body-foreground,--body-primary];
   }
 }
 

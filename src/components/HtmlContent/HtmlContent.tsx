@@ -76,6 +76,28 @@ export const HtmlContent = ({
           }
         },
 
+        // Replace alignment classes.
+        (n: DOMNode) => {
+          if (n.type !== ElementType.Tag || !n.attribs.class) return;
+
+          const cs = new Set(n.attribs.class.split(" "));
+          const cm = new Map([
+            // [class-to-replace, classes-to-replace-with]
+            ["has-text-align-left", "text-start"],
+            ["has-text-align-center", "text-center"],
+            ["has-text-align-right", "text-end"],
+          ]);
+
+          cm.forEach((rc, c) => {
+            if (cs.has(c)) {
+              cs.delete(c);
+              cs.add(rc);
+            }
+          });
+
+          n.attribs.class = [...cs].join(" ");
+        },
+
         fixNestedSpans,
         fixBlockInParagraph,
 

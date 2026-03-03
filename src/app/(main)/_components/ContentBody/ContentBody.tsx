@@ -20,6 +20,7 @@ import {
   replaceAudioEmbed,
   replaceDatavizEmbed,
   replaceDataWrapperEmbed,
+  replaceScrollGallery,
 } from "./replacers";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
@@ -30,6 +31,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
   const { colorScheme } = preferences || {};
 
   const replacers: ReplaceCallback[] = [
+    replaceScrollGallery,
     replaceImageBlock,
     replaceImage(),
     replaceInstagramEmbed,
@@ -47,7 +49,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
 
   return (
     <section
-      className={cn("mt-8 px-4 md:px-8")}
+      className={cn("@container/body-root", "mt-8")}
       data-color-scheme={colorScheme || "default"}
       aria-label="Content body"
     >
@@ -55,12 +57,14 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
         style={
           {
             "--_gutter": 8,
+            "--_margin": 4,
             "--body-gutter": "calc(var(--spacing)*var(--_gutter,4))",
+            "--body-margin": "calc(var(--spacing)*var(--_gutter,4))",
           } as CSSProperties
         }
         className={cn(
           "@container/body",
-          "pt-9 pb-18 px-(--body-gutter) [--_gutter:8] md:[--_gutter:16]",
+          "pt-9 pb-18 px-(--body-gutter) mx-(--body-margin) md:[--_gutter:16] md:[--_margin:8]",
           "bg-body text-body-foreground rounded-t-lg",
           "[&_a]:text-body-primary [&_a]:hover:opacity-60 [&_a]:visited:text-body-primary",
           "default:[&_a]:text-body-foreground default:[&_a]:decoration-body-primary",
