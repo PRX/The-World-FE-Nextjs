@@ -8,6 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import MainUIContext from "@/app/(main)/_contexts/MainUIContext";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -51,6 +52,7 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  const { isMenuExpanded, isMenuOpen } = React.useContext(MainUIContext);
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -103,6 +105,14 @@ function Carousel({
       api?.off("select", onSelect);
     };
   }, [api, onSelect]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Need to react to UI changes.
+  React.useEffect(() => {
+    if (!api) return;
+    setTimeout(() => {
+      api.reInit();
+    }, 800);
+  }, [api, isMenuExpanded, isMenuOpen]);
 
   return (
     <CarouselContext.Provider
@@ -194,8 +204,8 @@ function CarouselPrevious({
         "absolute inset-0 z-1 grid items-center p-2 transition-opacity media-hover:opacity-0 cursor-pointer",
         "[&>svg]:size-18",
         orientation === "horizontal"
-          ? "right-auto w-37 bg-linear-to-r from-50% from-navy-blue/70"
-          : "bottom-auto h-37 [&>svg]:rotate-90",
+          ? "right-auto min-w-37 bg-linear-to-r from-50% from-navy-blue/70"
+          : "bottom-auto min-h-37 [&>svg]:rotate-90",
         "hover:from-green/70",
         "focus-visible:opacity-100 focus-visible:outline-none focus-visible:from-cyan/70",
         "group-hover/carousel:not-disabled:opacity-100",

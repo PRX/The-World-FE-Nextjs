@@ -12,7 +12,7 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
         "group-nth-of-type-[7n+2]/carousel-item:[--card:var(--color-brown)]",
         "group-nth-of-type-[7n+3]/carousel-item:[--card:var(--color-burnt-orange)]",
         "group-nth-of-type-[7n+4]/carousel-item:[--card:var(--color-light-blue)]",
-        "group-nth-of-type-[7n+5]/carousel-item:[--card:var(--color-green)]",
+        "group-nth-of-type-[7n+5]/carousel-item:[--card:var(--color-dark-green)]",
         "group-nth-of-type-[7n+6]/carousel-item:[--card:var(--color-purple)]",
         "group-nth-of-type-[7n+7]/carousel-item:[--card:var(--color-red)]",
         "relative isolate text-card-foreground flex flex-col justify-end items-stretch gap-4 rounded-sm py-3 shadow-sm",

@@ -1,10 +1,12 @@
+import { unstable_cache } from "next/cache";
+import { notFound } from "next/navigation";
+import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
+import ContentBody from "@/app/(main)/_components/ContentBody";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { HtmlContent } from "@/components/HtmlContent";
 import { SegmentIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlSegment } from "@/lib/fetch";
-import { unstable_cache } from "next/cache";
-import { notFound } from "next/navigation";
+import { parseDateParts } from "@/lib/parse/date";
 
 export const getCachedSegment = unstable_cache(
   async (slug) => fetchGqlSegment(slug, SegmentIdType.Slug),
@@ -27,7 +29,34 @@ export default async function SegmentPage({
     return notFound();
   }
 
-  const { id, content } = data;
+  const { id, date, title, content, resourceDevelopmentTags, segmentDates } =
+    data;
+  const { broadcastDate } = segmentDates || {};
+  const props = {
+    Title: title,
+    ...(!!resourceDevelopmentTags?.nodes.length && {
+      "Resource Development": resourceDevelopmentTags.nodes[0].name,
+    }),
+    ...(broadcastDate &&
+      (() => {
+        const dt = parseDateParts(broadcastDate);
+        return {
+          "Broadcast Year": dt[0],
+          "Broadcast Month": dt.slice(0, 2).join("-"),
+          "Broadcast Date": dt.join("-"),
+        };
+      })()),
+    ...(date &&
+      (() => {
+        const dt = parseDateParts(date);
+        return {
+          "Published Year": dt[0],
+          "Published Month": dt.slice(0, 2).join("-"),
+          "Published Date": dt.join("-"),
+        };
+      })()),
+  };
+  const plausibleEvents = [["Segment", { props }] as PlausibleEventArgs];
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "content-inline-end",
@@ -37,17 +66,16 @@ export default async function SegmentPage({
   ).then((messages) => getShownMessage(messages));
 
   return (
-    <div className="group/episode">
+    <div className="group/segment">
+      <Plausible events={plausibleEvents} key={id} />
       <div className="relative ps-(--gutter-left)">
-        <div className="max-w-185 mx-auto my-12 px-4">
-          <HtmlContent html={content} />
-        </div>
-
-        {shownContentEndMessage && (
-          <div className="px-4">
-            <CtaRegion cta={shownContentEndMessage} />
-          </div>
-        )}
+        <ContentBody html={content}>
+          {shownContentEndMessage && (
+            <div className="px-4">
+              <CtaRegion cta={shownContentEndMessage} />
+            </div>
+          )}
+        </ContentBody>
       </div>
     </div>
   );

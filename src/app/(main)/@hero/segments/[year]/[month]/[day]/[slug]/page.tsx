@@ -1,6 +1,7 @@
 import { getCachedSegment } from "@/app/(main)/segments/[year]/[month]/[day]/[slug]/page";
 import { DateTime } from "@/components/DateTime";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import AudioBar from "@/app/(main)/_components/AudioBar";
 
 export default async function SegmentHero({
   params,
@@ -14,7 +15,8 @@ export default async function SegmentHero({
     return null;
   }
 
-  const { date, segmentDates, featuredImage, title } = data;
+  const { date, segmentContent, segmentDates, featuredImage, title } = data;
+  const { audio } = segmentContent || {};
   const { broadcastDate } = segmentDates || {};
 
   return (
@@ -33,6 +35,7 @@ export default async function SegmentHero({
           }}
         />
       </div>
+      {audio && <AudioBar audio={audio} />}
     </HeroHeader>
   );
 }

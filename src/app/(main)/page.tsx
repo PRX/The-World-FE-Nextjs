@@ -335,7 +335,7 @@ export default async function Home() {
                       );
                     })}
                 </CarouselContent>
-                <CarouselNext />
+                <CarouselNext className="max-md:hidden" />
               </CardCarousel>
             </div>
           </div>

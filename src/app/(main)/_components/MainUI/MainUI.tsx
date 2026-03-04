@@ -278,6 +278,7 @@ export default function MainUI({
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
             "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none md:delay-(--default-transition-duration)",
+            "md:before:absolute md:before:inset-0 md:before:-right-8 md:before:-z-1 md:before:pointer-events-none md:before:bg-navy-blue/30 md:before:backdrop-blur-lg md:before:mask-r-from-70%",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}
           inert={!isMenuOpen}
@@ -304,7 +305,7 @@ export default function MainUI({
           </div>
 
           {/* Tag Line */}
-          <div className="p-4 pt-0 text-base/5 max-w-62">
+          <div className="p-4 text-base/5 max-w-62">
             <p>Public radio’s longest-running daily global news program.</p>
           </div>
 
@@ -314,7 +315,7 @@ export default function MainUI({
           <div
             ref={drawerRef}
             className={cn(
-              "grow grid grid-cols-1 gap-x-2 overflow-hidden",
+              "grow relative grid grid-cols-1 gap-x-2 overflow-hidden",
               "md:w-(--ui-drawer--width)",
               {
                 "max-md:*:nth-[n+2]:hidden": hasBrowser,

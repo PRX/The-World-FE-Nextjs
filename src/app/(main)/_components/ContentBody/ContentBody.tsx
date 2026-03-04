@@ -49,19 +49,19 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
 
   return (
     <section
-      className={cn("@container/body-root", "mt-8")}
+      style={
+        {
+          "--_gutter": 8,
+          "--_margin": 4,
+          "--body-gutter": "calc(var(--spacing)*var(--_gutter,4))",
+          "--body-margin": "calc(var(--spacing)*var(--_gutter,4))",
+        } as CSSProperties
+      }
+      className={cn("@container/body-root group/body", "mt-8")}
       data-color-scheme={colorScheme || "default"}
       aria-label="Content body"
     >
       <div
-        style={
-          {
-            "--_gutter": 8,
-            "--_margin": 4,
-            "--body-gutter": "calc(var(--spacing)*var(--_gutter,4))",
-            "--body-margin": "calc(var(--spacing)*var(--_gutter,4))",
-          } as CSSProperties
-        }
         className={cn(
           "@container/body",
           "pt-9 pb-18 px-(--body-gutter) mx-(--body-margin) md:[--_gutter:16] md:[--_margin:8]",
@@ -109,7 +109,13 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
           }}
         />
       </div>
-      <div className="bg-linear-to-b from-body to-body/0 from-10% to-90%">
+      <div
+        className={cn(
+          "flex flex-col gap-y-18",
+          "px-(--body-gutter) mx-(--body-margin) md:[--_gutter:16] md:[--_margin:8]",
+          "bg-linear-to-b from-body to-body/0 from-10% to-[min(90%,10%+var(--spacing)*100)]",
+        )}
+      >
         {children}
       </div>
     </section>

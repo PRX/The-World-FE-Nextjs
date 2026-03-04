@@ -1,6 +1,11 @@
+import type { PlayerAudio } from "@/components/Player";
 import { getCachedEpisode } from "@/app/(main)/episodes/[year]/[month]/[day]/[slug]/page";
 import { DateTime } from "@/components/DateTime";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import AudioBar from "@/app/(main)/_components/AudioBar";
+import ShareButton from "@/app/(main)/_components/ShareButton";
+import { cn } from "@/lib/utils";
+import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
 
 export default async function EpisodeHero({
   params,
@@ -14,7 +19,15 @@ export default async function EpisodeHero({
     return null;
   }
 
-  const { date, episodeDates, featuredImage, title } = data;
+  const { link, date, episodeAudio, episodeDates, featuredImage, title } = data;
+  const image = featuredImage?.node;
+  const { audio } = episodeAudio || {};
+  const audioProps = {
+    title,
+    queuedFrom: "Page Header Controls",
+    ...(image?.sourceUrl && { imageUrl: image.sourceUrl }),
+    linkResource: data,
+  } as Partial<PlayerAudio>;
   const { broadcastDate } = episodeDates || {};
 
   return (
@@ -33,6 +46,18 @@ export default async function EpisodeHero({
             day: "numeric",
           }}
         />
+      </div>
+      <div className="flex justify-between items-stretch gap-x-4">
+        {audio && (
+          <AudioBar className="grow" audio={audio} fallbackProps={audioProps} />
+        )}
+        <ShareButton
+          title={title || undefined}
+          url={link}
+          buttonProps={{ className: cn({ "h-auto": !!audio }) }}
+          menuContentProps={{ align: "start" }}
+        />
+        <ColorSchemeSwitcher />
       </div>
     </HeroHeader>
   );
