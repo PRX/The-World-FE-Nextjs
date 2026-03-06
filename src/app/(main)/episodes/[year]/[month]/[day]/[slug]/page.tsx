@@ -160,7 +160,7 @@ export default async function EpisodePage({ params }: Props) {
                   )}
                 >
                   <CarouselPrevious className="pl-(--gutter-left) from-[calc(var(--gutter-left))] max-md:hidden" />
-                  <CarouselContent className="pl-[calc(var(--gutter-left)+(var(--body-gutter)*2))]">
+                  <CarouselContent className="px-[calc(var(--gutter-left)+(var(--body-gutter)*2))] justify-between">
                     {segmentsList.map((segment) => {
                       if (!segment) return null;
 
