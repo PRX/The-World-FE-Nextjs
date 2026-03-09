@@ -73,6 +73,7 @@ export default function EpisodeBrowserUI({
   const selectedEpisodes = episodes?.get(selected?.toDateString());
   const CalendarProps = {
     mode: "single",
+    showOutsideDays: false,
     captionLayout: "dropdown",
     startMonth: new Date(2010, 0),
     month: selectedMonth,
@@ -108,13 +109,10 @@ export default function EpisodeBrowserUI({
       <Calendar
         className={cn(
           "px-2 py-0 bg-current/0 [--cell-size:--spacing(7)] text-md",
+          {
+            "**:data-day:animate-pulse": isLoading,
+          },
         )}
-        classNames={{
-          week: "mt-2 flex gap-x-1 w-full",
-          day: cn(defaultClassNames.day, {
-            "animate-pulse": isLoading,
-          }),
-        }}
         {...CalendarProps}
       />
       <Separator className="bg-transparent bg-linear-to-r from-cyan/50 to-green/0" />
