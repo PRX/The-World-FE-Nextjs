@@ -104,8 +104,8 @@
   --primary-foreground: var(--color-white);
   --secondary: var(--color-cyan);
   --secondary-foreground: var(--color-navy-blue);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
+  --muted: hsl(from var(--color-white) h s l / 10%);
+  --muted-foreground: var(--color-white);
   --accent: hsl(from var(--color-white) h s l / 20%);
   --accent-foreground: var(--color-white);
   --destructive: oklch(0.704 0.191 22.216);

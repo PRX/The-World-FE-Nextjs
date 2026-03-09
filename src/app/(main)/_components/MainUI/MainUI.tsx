@@ -277,7 +277,7 @@ export default function MainUI({
           aria-labelledby="main-menu-button"
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
-            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none md:delay-(--default-transition-duration)",
+            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:z-(--z-ui) md:bg-none md:delay-(--default-transition-duration)",
             "md:before:absolute md:before:inset-0 md:before:-right-8 md:before:-z-1 md:before:pointer-events-none md:before:bg-navy-blue/30 md:before:backdrop-blur-lg md:before:mask-r-from-70%",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}

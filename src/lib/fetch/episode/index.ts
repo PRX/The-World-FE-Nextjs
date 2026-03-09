@@ -1,1 +1,2 @@
-export * from './fetchGqlEpisode';
+export * from "./fetchGqlEpisode";
+export * from "./fetchGqlEpisodesInMonth";
