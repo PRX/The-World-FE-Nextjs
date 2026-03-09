@@ -15,5 +15,7 @@ export default async function EpisodeBrowser({
 
   const selected = new Date(`${year}/${month}/${day}`);
 
+  selected.setHours(12);
+
   return <EpisodeBrowserUI selected={selected} currentEpisode={data} />;
 }
