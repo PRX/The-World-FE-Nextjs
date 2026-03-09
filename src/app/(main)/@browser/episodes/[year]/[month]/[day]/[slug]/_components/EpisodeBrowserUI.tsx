@@ -74,7 +74,7 @@ export default function EpisodeBrowserUI({
   const CalendarProps = {
     mode: "single",
     captionLayout: "dropdown",
-    startMonth: new Date(2020, 0),
+    startMonth: new Date(2010, 0),
     month: selectedMonth,
     endMonth: today,
     disabled: (d: Date) => !episodes?.has(d.toDateString()),
