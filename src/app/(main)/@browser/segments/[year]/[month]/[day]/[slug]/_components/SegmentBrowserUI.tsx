@@ -4,7 +4,7 @@ import { type MouseEventHandler, useCallback, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import useSWR from "swr";
-import type { Episode, RootQueryToContentNodeConnection } from "@/interfaces";
+import type { Segment, RootQueryToContentNodeConnection } from "@/interfaces";
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -23,42 +23,42 @@ function useContentInMonth(date: Date) {
     before: `${beforeDate.getFullYear()}/${beforeDate.getMonth() + 1}/1`,
   });
   const { data, error, isLoading } = useSWR(
-    `/api/episodes?${apiUrlParams.toString()}`,
+    `/api/segments?${apiUrlParams.toString()}`,
     (url) =>
       fetch(url)
         .then((res) => res.json())
         .then(
-          (data: RootQueryToContentNodeConnection) => data.nodes as Episode[],
+          (data: RootQueryToContentNodeConnection) => data.nodes as Segment[],
         ),
   );
-  const episodesMap = new Map<string, Episode[]>();
+  const segmentsMap = new Map<string, Segment[]>();
 
   data?.forEach((e) => {
     if (!e.date) return;
 
     const d = new Date(e.date);
-    const dateEpisodes = episodesMap.get(d.toDateString()) || [];
+    const dateSegments = segmentsMap.get(d.toDateString()) || [];
 
-    dateEpisodes.push(e);
-    episodesMap.set(d.toDateString(), dateEpisodes);
+    dateSegments.push(e);
+    segmentsMap.set(d.toDateString(), dateSegments);
   });
 
   return {
-    episodes: episodesMap,
+    segments: segmentsMap,
     isError: error,
     isLoading,
   };
 }
 
-export type EpisodeBrowserProps = {
+export type SegmentBrowserProps = {
   selected: Date;
-  currentEpisode: Episode;
+  currentSegment: Segment;
 };
 
-export default function EpisodeBrowserUI({
+export default function SegmentBrowserUI({
   selected: initialSelected,
-  currentEpisode,
-}: EpisodeBrowserProps) {
+  currentSegment,
+}: SegmentBrowserProps) {
   const router = useRouter();
   const pathname = usePathname();
   const today = new Date();
@@ -69,8 +69,8 @@ export default function EpisodeBrowserUI({
   const [selectedMonth, setSelectedMonth] = useState(
     new Date(`${selected.getFullYear()}/${selected.getMonth() + 1}/1`),
   );
-  const { episodes, isLoading } = useContentInMonth(selectedMonth);
-  const selectedEpisodes = episodes?.get(selected?.toDateString());
+  const { segments, isLoading } = useContentInMonth(selectedMonth);
+  const selectedSegments = segments?.get(selected?.toDateString());
   const CalendarProps = {
     mode: "single",
     showOutsideDays: false,
@@ -78,7 +78,7 @@ export default function EpisodeBrowserUI({
     startMonth: new Date(2010, 0),
     month: selectedMonth,
     endMonth: today,
-    disabled: (d: Date) => !episodes?.has(d.toDateString()),
+    disabled: (d: Date) => !segments?.has(d.toDateString()),
     onSelect: (d) =>
       setSelected((cd) => {
         setIsInit(false);
@@ -86,10 +86,10 @@ export default function EpisodeBrowserUI({
       }),
     onMonthChange: setSelectedMonth,
     modifiers: {
-      hasEpisodes: (d: Date) => episodes?.has(d.toDateString()),
+      hasSegments: (d: Date) => segments?.has(d.toDateString()),
     },
     modifiersClassNames: {
-      hasEpisodes: "bg-current/10 rounded-md",
+      hasSegments: "bg-current/10 rounded-md",
     },
     ...(selected && { selected }),
   } as React.ComponentProps<typeof Calendar>;
@@ -120,7 +120,7 @@ export default function EpisodeBrowserUI({
         {...CalendarProps}
       />
       <Separator className="bg-transparent bg-linear-to-r from-cyan/50 to-green/0" />
-      <div className="flex flex-col gap-y-2 p-4 overflow-y-auto no-scrollbar">
+      <div className="flex flex-col gap-y-2 py-4 overflow-y-auto no-scrollbar">
         <AnimatePresence mode="popLayout">
           {isLoading && (
             <motion.div
@@ -129,12 +129,12 @@ export default function EpisodeBrowserUI({
               className="flex justify-center items-center gap-2 text-sm p-2 rounded-md bg-current/10 animate-pulse"
             >
               <CalendarSearchIcon className="size-[1.25em]" /> Looking Up
-              Episodes...
+              Segments...
             </motion.div>
           )}
-          {selectedEpisodes?.map((e, index, all) => {
-            const { id, date, link, title, episodeAudio } = e;
-            const { duration } = episodeAudio?.audio || {};
+          {selectedSegments?.map((e, index, all) => {
+            const { id, date, link, title, segmentContent } = e;
+            const { duration } = segmentContent?.audio || {};
             const linkHref = generateContentLinkHref(link);
 
             return (
@@ -169,7 +169,7 @@ export default function EpisodeBrowserUI({
                     "bg-current/0 hover:bg-current/10 backdrop-blur-lg backdrop-brightness-125 bg-linear-to-r from-cyan/0 to-cyan/0",
                     "data-[active=true]:from-cyan/30 data-[active=true]:to-green/20",
                   )}
-                  data-active={id === currentEpisode?.id}
+                  data-active={id === currentSegment?.id}
                   key={id}
                 >
                   <strong className="text-md/tight text-pretty">{title}</strong>

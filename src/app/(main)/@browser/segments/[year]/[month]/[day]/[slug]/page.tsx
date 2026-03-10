@@ -1,15 +1,21 @@
-import cn from "@/lib/util/css/cn";
+import { getCachedSegment } from "@/app/(main)/segments/[year]/[month]/[day]/[slug]/page";
+import SegmentBrowserUI from "./_components/SegmentBrowserUI";
 
-export default function SegmentBrowser() {
-  return (
-    <div
-      className={cn(
-        "overflow-y-auto grid justify-stretch content-start gap-4 py-2",
-      )}
-    >
-      <div className="grid place-items-center aspect-[8/9] p-3 rounded-md bg-background/10 backdrop-blur-sm backdrop-brightness-90">
-        Calendar Input
-      </div>
-    </div>
-  );
+export default async function SegmentBrowser({
+  params,
+}: {
+  params: Promise<Record<"year" | "month" | "day" | "slug", string>>;
+}) {
+  const { slug, year, month, day } = await params;
+  const data = await getCachedSegment(slug);
+
+  if (!data) {
+    return null;
+  }
+
+  const selected = new Date(`${year}/${month}/${day}`);
+
+  selected.setHours(12);
+
+  return <SegmentBrowserUI selected={selected} currentSegment={data} />;
 }
