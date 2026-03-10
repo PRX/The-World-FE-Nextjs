@@ -128,8 +128,8 @@ export default function EpisodeBrowserUI({
               exit={{ opacity: 0 }}
               className="flex justify-center items-center gap-2 text-sm p-2 rounded-md bg-current/10 animate-pulse"
             >
-              <CalendarSearchIcon className="size-[1.25em]" /> Looking Up
-              Episodes...
+              <CalendarSearchIcon className="size-[1.25em]" />
+              <span>Looking Up Episodes...</span>
             </motion.div>
           )}
           {selectedEpisodes?.map((e, index, all) => {

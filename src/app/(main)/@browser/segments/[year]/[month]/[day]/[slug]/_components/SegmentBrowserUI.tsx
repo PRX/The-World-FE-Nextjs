@@ -75,7 +75,7 @@ export default function SegmentBrowserUI({
     mode: "single",
     showOutsideDays: false,
     captionLayout: "dropdown",
-    startMonth: new Date(2010, 0),
+    startMonth: new Date(2024, 4), // Do not allow browsing before May 1, 2024. See issue: https://github.com/PRX/The-World-CMS-Wordpress/issues/54
     month: selectedMonth,
     endMonth: today,
     disabled: (d: Date) => !segments?.has(d.toDateString()),
@@ -128,8 +128,8 @@ export default function SegmentBrowserUI({
               exit={{ opacity: 0 }}
               className="flex justify-center items-center gap-2 text-sm p-2 rounded-md bg-current/10 animate-pulse"
             >
-              <CalendarSearchIcon className="size-[1.25em]" /> Looking Up
-              Segments...
+              <CalendarSearchIcon className="size-[1.25em]" />
+              <span>Looking Up Episodes...</span>
             </motion.div>
           )}
           {selectedSegments?.map((e, index, all) => {
