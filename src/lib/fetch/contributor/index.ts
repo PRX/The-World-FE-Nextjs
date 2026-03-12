@@ -1,3 +1,4 @@
-export * from './fetchGqlContributor';
-export * from './fetchGqlContributorPosts';
-export * from './fetchGqlContributorSegments';
+export * from "./fetchGqlContributor";
+export * from "./fetchGqlContributorPosts";
+export * from "./fetchGqlContributorSegments";
+export * from "./fetchGqlContributors";

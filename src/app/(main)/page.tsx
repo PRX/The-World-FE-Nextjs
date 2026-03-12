@@ -132,7 +132,7 @@ export default async function Home() {
               // May remove this since its affect may not be noticeable.
               .slice(0, 20);
             return (
-              <div
+              <section
                 className={cn(
                   "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
                   "max-sm:snap-always max-sm:snap-center",
@@ -271,7 +271,7 @@ export default async function Home() {
                     <CarouselNext />
                   </CardCarousel>
                 </div>
-              </div>
+              </section>
             );
           },
         )}

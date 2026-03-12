@@ -34,9 +34,8 @@ function AvatarImage({
   return (
     <Image
       data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
-      width={40}
-      height={40}
+      className={cn("aspect-square size-full object-cover", className)}
+      fill
       alt={alt}
       {...props}
     />

@@ -23,7 +23,7 @@ export type ContentQueryOptions = {
   where?: RootQueryToContentNodeConnectionWhereArgs;
 };
 
-export const GET_EPISODES = gql`
+export const GET_CONTENT_NODES = gql`
   query getContent($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToContentNodeConnectionWhereArgs) {
     contentNodes(
       first: $first,
@@ -80,7 +80,7 @@ export async function fetchContent(
   const response = await gqlClient.query<{
     contentNodes: RootQueryToContentNodeConnection;
   }>({
-    query: GET_EPISODES,
+    query: GET_CONTENT_NODES,
     variables: query,
   });
   const results = response?.data?.contentNodes;
