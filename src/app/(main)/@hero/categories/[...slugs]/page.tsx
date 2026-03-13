@@ -1,5 +1,5 @@
 import type { Category } from "@/interfaces";
-import { getCachedCategory } from "@/app/(main)/categories/[[...slugs]]/page";
+import { getCachedCategory } from "@/app/(main)/categories/[...slugs]/page";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { HtmlContent } from "@/components/HtmlContent";
 import { BookmarkIcon } from "lucide-react";

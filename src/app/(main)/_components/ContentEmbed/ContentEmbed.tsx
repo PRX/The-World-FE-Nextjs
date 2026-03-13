@@ -91,9 +91,10 @@ export default function ContentEmbed({
       {...props}
       className={cn(
         "@container/embed group/embed",
-        "relative isolate grid gap-y-4 my-16",
+        "relative isolate grid gap-y-4 my-8 md:my-16",
         "grid-cols-[[full-start]_1fr_[content-start]_var(--max-w,max-content)_[content-end]_1fr_[full-end]]",
         {
+          "grid-rows-[[content-start]_1fr_[content-end]]": !captionProps,
           "grid-rows-[[content-start]_1fr_[content-end_caption-start]_min-content_[caption-end]]":
             captionProps,
         },

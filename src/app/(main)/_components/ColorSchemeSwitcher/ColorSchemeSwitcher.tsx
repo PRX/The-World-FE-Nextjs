@@ -39,7 +39,8 @@ export function ColorSchemeSwitcher(props: RefAttributes<HTMLDivElement>) {
       type="single"
       variant="default"
       size="icon"
-      spacing={2}
+      spacing={1}
+      className="gap-1 md:gap-2"
       defaultValue="default"
       value={colorScheme || "default"}
       onValueChange={handleValueChange}
@@ -56,7 +57,7 @@ export function ColorSchemeSwitcher(props: RefAttributes<HTMLDivElement>) {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <ToggleGroupItem value="default">
+          <ToggleGroupItem value="default" className="max-sm:hidden">
             <SunIcon aria-label="Default" />
           </ToggleGroupItem>
         </TooltipTrigger>

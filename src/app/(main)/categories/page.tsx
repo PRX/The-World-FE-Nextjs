@@ -1,14 +1,11 @@
 import type { CSSProperties } from "react";
-import type { Contributor, Episode, Post, Segment } from "@/interfaces";
+import type { Category, Episode, Post, Segment } from "@/interfaces";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { isArray } from "lodash";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
-import {
-  type ContributorQueryOptions,
-  fetchGqlContributors,
-} from "@/lib/fetch";
+import { type CategoriesQueryOptions, fetchGqlCategories } from "@/lib/fetch";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -37,16 +34,16 @@ import Link from "next/link";
 import { DateTime } from "@/components/DateTime";
 import { formatDuration } from "@/lib/parse/time";
 
-export const getCachedContributors = unstable_cache(
-  async (query: ContributorQueryOptions) => fetchGqlContributors(query),
-  ["contributors"],
+export const getCachedCategories = unstable_cache(
+  async (query: CategoriesQueryOptions) => fetchGqlCategories(query),
+  ["categories"],
   {
-    tags: ["contributors", "taxonomy"],
+    tags: ["categories", "taxonomy"],
     revalidate: 60,
   },
 );
 
-export default async function ContributorsPage({
+export default async function CategoriesPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[]>>;
@@ -54,10 +51,12 @@ export default async function ContributorsPage({
   const resolvedSearchParams = await searchParams;
   const { search: searchParam } = resolvedSearchParams;
   const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const data = await getCachedContributors({
+  const data = await getCachedCategories({
     first: 50,
     where: {
       search,
+      parent: 0,
+      exclude: ["1"],
     },
   });
 
@@ -80,29 +79,16 @@ export default async function ContributorsPage({
       {nodes
         // Filter out GlobalPost contributors.
         // TODO: Remove once GP content is removed.
-        ?.filter((c: Contributor) => {
-          const { program } = c.contributorDetails || {};
-          const isGlobalPost = !!program?.find(
-            (p) => p && p.name === "GlobalPost",
-          );
-          return !isGlobalPost;
-        })
-        .map((contributor: Contributor, carouselIndex) => {
-          const { id, name, link, count, contributorDetails, contentNodes } =
+        ?.map((contributor: Category, carouselIndex) => {
+          const { id, name, link, count, contentNodes, taxonomyImages } =
             contributor;
-          const { position, image, program } = contributorDetails || {};
           const countString = count?.toLocaleString(undefined);
           const info = [
-            position,
-            ...(program || []).filter((v) => !!v).map(({ name }) => name),
-            count && (count > 1 ? `${countString} Items` : "1 Item"),
+            count && (count > 1 ? `${countString} posts` : "1 post"),
           ].filter((v) => !!v);
-          const { sourceUrl, mediaItemUrl, altText } = image || {};
+          const { sourceUrl, mediaItemUrl, altText } =
+            taxonomyImages?.logo || {};
           const imageSrc = sourceUrl || mediaItemUrl;
-          const initials = name
-            ?.match(/\b(\w)/g)
-            ?.join("")
-            .toUpperCase();
           const href = generateContentLinkHref(link) || "";
           const slides = contentNodes?.nodes || [];
 
@@ -138,8 +124,8 @@ export default async function ContributorsPage({
                         alt={altText || name || ""}
                       />
                     )}
-                    <AvatarFallback className="text-3xl font-bold">
-                      {initials}
+                    <AvatarFallback>
+                      <BookmarkIcon className="size-10" />
                     </AvatarFallback>
                   </Avatar>
                 </div>

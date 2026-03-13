@@ -54,7 +54,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
           "--_gutter": 8,
           "--_margin": 4,
           "--body-gutter": "calc(var(--spacing)*var(--_gutter,4))",
-          "--body-margin": "calc(var(--spacing)*var(--_gutter,4))",
+          "--body-margin": "calc(var(--spacing)*var(--_margin,4))",
         } as CSSProperties
       }
       className={cn("@container/body-root group/body", "mt-8")}
@@ -89,7 +89,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
             "[&>iframe]:mx-auto [&>iframe]:my-16",
 
             /* ALIGNMENT */
-            "lg:*:data-[align=default]:-mx-(--body-gutter)",
+            "*:data-[align=default]:-mx-[calc(var(--body-gutter)/2)] lg:*:data-[align=default]:-mx-(--body-gutter)",
             // Floated Blocks
             "md:*:data-floated:relative md:*:data-floated:grid md:*:data-floated:z-1",
             "md:*:data-floated:w-[max(var(--body-gutter)*4,var(--floated-w)-(100cqw-740px-var(--body-gutter)*2)/2)]  md:*:data-floated:max-w-(--floated-w) md:*:data-floated:m-8",

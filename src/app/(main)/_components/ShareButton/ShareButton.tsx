@@ -51,12 +51,15 @@ export default function ShareButton({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className={cn("cursor-pointer", buttonClassName)}
+          className={cn("cursor-pointer max-sm:aspect-square", buttonClassName)}
           variant="action"
           size="lg"
           {...buttonRest}
         >
-          <Share2Icon /> Share
+          <Share2Icon aria-label="Share" />
+          <span className="max-sm:hidden" aria-hidden>
+            Share
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

@@ -8,6 +8,7 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlStory } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
 import { unstable_cache } from "next/cache";
+import { Tags } from "@/app/(main)/_components/Tags";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -64,8 +65,29 @@ export default async function StoryPage({ params }: Props) {
     additionalDates,
     resourceDevelopmentTags,
     storyFormats,
+    categories,
+    tags,
+    cities,
+    continents,
+    countries,
+    provincesOrStates,
+    regions,
+    people,
+    socialTags,
   } = data;
   const { broadcastDate } = additionalDates || {};
+  const hasCategories = !!categories?.nodes?.length;
+  const allTags = [
+    ...(tags?.nodes || []),
+    ...(cities?.nodes || []),
+    ...(continents?.nodes || []),
+    ...(countries?.nodes || []),
+    ...(provincesOrStates?.nodes || []),
+    ...(regions?.nodes || []),
+    ...(people?.nodes || []),
+    ...(socialTags?.nodes || []),
+  ];
+  const hasTags = !!allTags.length;
   const storyFormat = storyFormats?.nodes[0]?.name;
   const props = {
     Title: title,
@@ -101,14 +123,29 @@ export default async function StoryPage({ params }: Props) {
     },
   ).then((messages) => getShownMessage(messages));
 
+  const showFooter = !!(hasCategories || hasTags || shownContentEndMessage);
+
   return (
     <div className="group/content">
       <Plausible events={plausibleEvents} key={id} />
       <div className="relative ps-(--gutter-left)">
         <ContentBody html={content}>
-          {shownContentEndMessage && (
-            <div className="px-4">
-              <CtaRegion cta={shownContentEndMessage} />
+          {showFooter && (
+            <div className="flex flex-col gap-y-18 w-full max-w-185 mx-auto">
+              {(hasCategories || hasTags) && (
+                <div className="flex flex-col gap-y-2 text-body-foreground">
+                  {hasCategories && (
+                    <Tags data={categories.nodes} label="Categories" />
+                  )}
+                  {hasTags && <Tags data={allTags} label="Tags" />}
+                </div>
+              )}
+              {shownContentEndMessage && (
+                <CtaRegion
+                  className="-mx-[calc(var(--body-gutter)/2)] lg:-mx-(--body-gutter)"
+                  cta={shownContentEndMessage}
+                />
+              )}
             </div>
           )}
         </ContentBody>

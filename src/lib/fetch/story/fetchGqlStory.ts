@@ -89,7 +89,7 @@ export const GET_STORY_POST = gql`
           link
         }
       }
-      categories {
+      categories(where: { exclude: ["1"] }) {
         nodes {
           id
           name

@@ -16,7 +16,7 @@ export default async function ContributorsHero() {
     >
       <div className="grid gap-y-4 max-w-3xl text-pretty">
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          <UsersIcon className="size-9" /> Content By Contributor
+          <UsersIcon className="size-9" /> Content By Category
         </h1>
       </div>
     </HeroHeader>

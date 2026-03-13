@@ -58,7 +58,7 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
       );
     }
 
-    // Handle standard Tweet HTML.
+    // Handle standard embed HTML.
     if (name === "iframe" && youTubeEmbedUrlPattern.test(attribs.src)) {
       const { width, height, src } = attribs || {};
       const aspectRatio =
@@ -69,7 +69,7 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
       return (
         src && (
           <ContentEmbed
-            provider="vimeo"
+            provider="youtube"
             embedProps={{ ...embedProps, url: src }}
             data-align="default"
             style={

@@ -128,6 +128,8 @@ export default async function EpisodePage({ params }: Props) {
     },
   ).then((messages) => getShownMessage(messages));
 
+  const showFooter = !!shownContentEndMessage;
+
   return (
     <div className="group/episode">
       <Plausible events={plausibleEvents} key={id} />
@@ -263,9 +265,14 @@ export default async function EpisodePage({ params }: Props) {
             </div>
           )}
 
-          {shownContentEndMessage && (
-            <div className="px-4">
-              <CtaRegion cta={shownContentEndMessage} />
+          {showFooter && (
+            <div className="flex flex-col gap-y-18 w-full max-w-185 mx-auto">
+              {shownContentEndMessage && (
+                <CtaRegion
+                  className="-mx-[calc(var(--body-gutter)/2)] lg:-mx-(--body-gutter)"
+                  cta={shownContentEndMessage}
+                />
+              )}
             </div>
           )}
         </ContentBody>
