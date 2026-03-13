@@ -71,8 +71,8 @@ export default async function ContributorsPage({
     <main
       style={
         {
-          "--_menu-width": "max(var(--gutter-left), var(--spacing)*20)",
-          "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 4))",
+          "--_menu-width": "max(var(--gutter-left), var(--spacing) * 20)",
+          "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 10))",
         } as CSSProperties
       }
       className="grid gap-y-10 mt-10"
@@ -91,11 +91,13 @@ export default async function ContributorsPage({
           const { id, name, link, count, contributorDetails, contentNodes } =
             contributor;
           const { position, image, program } = contributorDetails || {};
-          const countString = count?.toLocaleString(undefined);
+          const countString = count?.toLocaleString(undefined, {
+            notation: "compact",
+          });
           const info = [
             position,
             ...(program || []).filter((v) => !!v).map(({ name }) => name),
-            count && (count > 1 ? `${countString} Items` : "1 Item"),
+            count && (count > 1 ? `${countString} posts` : "1 post"),
           ].filter((v) => !!v);
           const { sourceUrl, mediaItemUrl, altText } = image || {};
           const imageSrc = sourceUrl || mediaItemUrl;
@@ -110,7 +112,7 @@ export default async function ContributorsPage({
             <section
               className={cn(
                 "group/contributor",
-                "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start -mb-1",
+                "grid grid-cols-[0_1fr] md:grid-cols-[var(--_gutter-left)_1fr] justify-start -mb-1",
                 "max-sm:snap-always max-sm:snap-center",
                 "nth-of-type-[5n+1]:**:data-[slot=avatar]:bg-dark-green",
                 "nth-of-type-[5n+2]:**:data-[slot=avatar]:bg-purple",
@@ -221,7 +223,7 @@ export default async function ContributorsPage({
                           className={cn(
                             "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
                             "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
-                            "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
+                            "md:nth-of-type-[1]:ml-[calc(var(--_gutter-left)+var(--spacing)*2)]",
                           )}
                           key={id}
                         >

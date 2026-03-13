@@ -9,6 +9,7 @@ import { fetchGqlStory } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
 import { unstable_cache } from "next/cache";
 import { Tags } from "@/app/(main)/_components/Tags";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -131,14 +132,17 @@ export default async function StoryPage({ params }: Props) {
       <div className="relative ps-(--gutter-left)">
         <ContentBody html={content}>
           {showFooter && (
-            <div className="flex flex-col gap-y-18 w-full max-w-185 mx-auto">
+            <div className="flex flex-col gap-y-10 w-full max-w-185 mx-auto">
               {(hasCategories || hasTags) && (
-                <div className="flex flex-col gap-y-2 text-body-foreground">
-                  {hasCategories && (
-                    <Tags data={categories.nodes} label="Categories" />
-                  )}
-                  {hasTags && <Tags data={allTags} label="Tags" />}
-                </div>
+                <>
+                  <Separator />
+                  <div className="flex flex-col gap-y-2 text-body-foreground">
+                    {hasCategories && (
+                      <Tags data={categories.nodes} label="Categories" />
+                    )}
+                    {hasTags && <Tags data={allTags} label="Tags" />}
+                  </div>
+                </>
               )}
               {shownContentEndMessage && (
                 <CtaRegion

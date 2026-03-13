@@ -33,7 +33,7 @@ export default function HeroHeader({
   return (
     <div
       className={cn(
-        "relative grid grid-cols-[1fr] justify-stretch content-end",
+        "relative grid justify-stretch content-end",
         "pl-(--gutter-left) pr-(--gutter-right)",
         {
           "pt-[calc(var(--gutter-top)+4rem)]": !image,
