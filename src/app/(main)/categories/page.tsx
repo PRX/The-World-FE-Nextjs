@@ -54,9 +54,8 @@ export default async function CategoriesPage({
   const data = await getCachedCategories({
     first: 50,
     where: {
-      search,
-      parent: 0,
-      exclude: ["1"],
+      ...(search && { search }),
+      ...(!search && { parent: 0, exclude: ["1"] }),
     },
   });
 
