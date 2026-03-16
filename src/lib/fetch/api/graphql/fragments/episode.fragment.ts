@@ -53,3 +53,37 @@ export const EPISODE_CARD_PROPS = gql`
   }
   ${AUDIO_PROPS}
 `;
+
+export const EPISODE_CARD_PROPS_WITHOUT_SEGMENTS = gql`
+  fragment EpisodeCardPropsWithoutSegments on Episode {
+    id
+    link
+    date
+    title
+    excerpt
+    featuredImage {
+      node {
+        ...ImageProps
+      }
+    }
+    episodeDates {
+      broadcastDate
+    }
+    teaserFields {
+      teaser
+    }
+    episodeAudio {
+      audio {
+        ...AudioProps
+      }
+    }
+    programs(first: 1) {
+      nodes {
+        id
+        link
+        name
+      }
+    }
+  }
+  ${AUDIO_PROPS}
+`;

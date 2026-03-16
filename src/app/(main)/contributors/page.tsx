@@ -55,7 +55,7 @@ export default async function ContributorsPage({
   const { search: searchParam } = resolvedSearchParams;
   const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
   const data = await getCachedContributors({
-    first: 50,
+    first: 20,
     where: {
       search,
     },
@@ -184,6 +184,7 @@ export default async function ContributorsPage({
                       const isParentOfSegmentAudioAStory =
                         !!segmentContent &&
                         parent?.node.contentTypeName === "post";
+                      const isEpisode = !!episodeAudio;
 
                       const isParentPostInSlides =
                         isParentOfSegmentAudioAStory &&
@@ -261,14 +262,21 @@ export default async function ContributorsPage({
                                 </Link>
                               )}
                               <CardTitle>{title}</CardTitle>
-                              <DateTime
-                                date={date}
-                                options={{
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                }}
-                              />
+                              <div className="flex items-center text-md [&>*+*]:before:content-['\2022'] [&>*+*]:before:mx-2">
+                                {isEpisode && (
+                                  <span className="text-cyan font-bold font-serif uppercase italic">
+                                    Full Episode
+                                  </span>
+                                )}
+                                <DateTime
+                                  date={date}
+                                  options={{
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }}
+                                />
+                              </div>
                             </CardHeader>
                             {audio && (
                               <CardFooter>
@@ -310,7 +318,7 @@ export default async function ContributorsPage({
         })}
 
       {shownContentEndMessage && (
-        <div className="px-4 mt-20">
+        <div className="px-4 mt-20 ml-(--_gutter-left)">
           <CtaRegion cta={shownContentEndMessage} />
         </div>
       )}

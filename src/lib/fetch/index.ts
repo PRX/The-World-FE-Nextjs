@@ -3,6 +3,7 @@ export * from "./app";
 export * from "./audio";
 export * from "./category";
 export * from "./contributor";
+export * from "./country";
 export * from "./cta";
 export * from "./episode";
 export * from "./homepage";

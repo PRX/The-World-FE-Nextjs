@@ -1,7 +1,7 @@
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { BookmarkIcon } from "lucide-react";
 import { HtmlContent } from "@/components/HtmlContent";
-import { getCachedTag } from "@/app/(main)/tags/[...slugs]/page";
+import { getCachedTag } from "@/app/(main)/tags/[slug]/page";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 
 export default async function TagHero({
@@ -14,7 +14,7 @@ export default async function TagHero({
   let data: Awaited<ReturnType<typeof getCachedTag>>;
 
   if (slug && !isTaxonomySlug) {
-    data = await getCachedTag(slug, "tag");
+    data = await getCachedTag(slug);
   }
 
   if (!data) {

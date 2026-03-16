@@ -7,9 +7,8 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 
-export const getCachedTag = unstable_cache(
-  async (slug, taxonomySingleName) =>
-    fetchGqlTag(slug, TagIdType.Slug, taxonomySingleName),
+export const getCachedCountry = unstable_cache(
+  async (slug) => fetchGqlTag(slug, TagIdType.Slug),
   ["tag"],
   {
     tags: ["tag", "taxonomy"],
@@ -17,33 +16,34 @@ export const getCachedTag = unstable_cache(
   },
 );
 
-export default async function TagPage({
+export default async function CountryPage({
   params,
   searchParams,
 }: {
-  params: Promise<Record<"slugs", string[]>>;
+  params: Promise<Record<"slug", string>>;
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
-  const { slugs } = await params;
-  const [taxonomy, slug] = slugs;
-  const taxonomySingleName = taxonomySlugToSingularName.get(taxonomy) || "tag";
+  const { slug } = await params;
   const resolvedSearchParams = await searchParams;
-  let data: Awaited<ReturnType<typeof getCachedTag>>;
+  const isTaxonomySlug = taxonomySlugToSingularName.has(slug);
+  let data: Awaited<ReturnType<typeof getCachedCountry>>;
 
-  if (slug) {
-    data = await getCachedTag(slug, taxonomySingleName);
+  if (slug && !isTaxonomySlug) {
+    data = await getCachedCountry(slug);
 
     if (!data) return notFound();
   }
 
   const { name } = data || {};
   const explorerProps = {
-    [taxonomySingleName]: !name?.trim()
-      ? slug
-      : {
-          value: slug,
-          displayValue: name,
-        },
+    ...(data && {
+      tag: !name?.trim()
+        ? slug
+        : {
+            value: slug,
+            displayValue: name,
+          },
+    }),
     searchParams: resolvedSearchParams,
   };
 

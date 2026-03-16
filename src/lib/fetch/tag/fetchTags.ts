@@ -1,8 +1,8 @@
 import {
   OrderEnum,
-  type RootQueryToCategoryConnection,
-  type RootQueryToCategoryConnectionWhereArgs,
+  type RootQueryToTagConnectionWhereArgs,
   TermObjectsConnectionOrderbyEnum,
+  type RootQueryToTagConnection,
 } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
@@ -13,17 +13,17 @@ import {
   SEGMENT_CARD_PROPS,
 } from "@/lib/fetch/api/graphql";
 
-export type CategoriesQueryOptions = {
+export type TagsQueryOptions = {
   first?: number;
   last?: number;
   after?: string;
   before?: string;
-  where?: RootQueryToCategoryConnectionWhereArgs;
+  where?: RootQueryToTagConnectionWhereArgs;
 };
 
-const GET_CATEGORIES = gql`
-  query getCategories($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToCategoryConnectionWhereArgs) {
-    categories(
+const GET_TAGS = gql`
+  query getTags($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToTagConnectionWhereArgs) {
+    tags (
       first: $first,
       last: $last,
       after: $after,
@@ -37,19 +37,16 @@ const GET_CATEGORIES = gql`
         hasNextPage
       }
       nodes {
-        ...CategoryCardProps
+        ...TermCardProps
       }
     }
   }
-  fragment CategoryCardProps on Category {
+  fragment TermCardProps on Tag {
     id
     link
     name
     count
     taxonomyImages {
-      logo {
-        ...ImageProps
-      }
       imageBanner {
         ...ImageProps
       }
@@ -74,26 +71,26 @@ const GET_CATEGORIES = gql`
   ${IMAGE_PROPS}
 `;
 
-export async function fetchGqlCategories(query: CategoriesQueryOptions) {
+export async function fetchGqlTags(query: TagsQueryOptions) {
   const response = await gqlClient.query<{
-    categories: RootQueryToCategoryConnection;
+    tags: RootQueryToTagConnection;
   }>({
-    query: GET_CATEGORIES,
+    query: GET_TAGS,
     variables: {
       ...query,
       where: {
-        orderby: TermObjectsConnectionOrderbyEnum.Slug,
-        order: OrderEnum.Asc,
+        orderby: TermObjectsConnectionOrderbyEnum.Count,
+        order: OrderEnum.Desc,
         hideEmpty: true,
         ...query?.where,
       },
     },
   });
-  const data = response?.data?.categories;
+  const data = response?.data?.tags;
 
   if (!data) return undefined;
 
   return data;
 }
 
-export default fetchGqlCategories;
+export default fetchGqlTags;

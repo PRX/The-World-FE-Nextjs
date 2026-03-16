@@ -227,14 +227,16 @@ export default async function Home() {
                                   </Link>
                                 )}
                                 <CardTitle>{title}</CardTitle>
-                                <DateTime
-                                  date={date}
-                                  options={{
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  }}
-                                />
+                                <div className="flex items-center text-md [&>*+*]:before:content-['\2022'] [&>*+*]:before:mx-2">
+                                  <DateTime
+                                    date={date}
+                                    options={{
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                    }}
+                                  />
+                                </div>
                               </CardHeader>
                               {audio && (
                                 <CardFooter>

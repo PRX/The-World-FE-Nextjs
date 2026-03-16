@@ -9,7 +9,7 @@ import type {
 } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
 import {
-  EPISODE_CARD_PROPS,
+  EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
   SEGMENT_CARD_PROPS,
@@ -38,23 +38,9 @@ export const GET_CONTENT_NODES = gql`
         hasPreviousPage
         hasNextPage
       }
-      edges {
-        cursor
-        node {
-          ... on Episode {
-            ...EpisodeCardProps
-          }
-          ... on Post {
-            ...PostCardProps
-          }
-          ... on Segment {
-            ...SegmentCardProps
-          }
-        }
-      }
       nodes {
         ... on Episode {
-          ...EpisodeCardProps
+          ...EpisodeCardPropsWithoutSegments
         }
         ... on Post {
           ...PostCardProps
@@ -65,7 +51,7 @@ export const GET_CONTENT_NODES = gql`
       }
     }
   }
-  ${EPISODE_CARD_PROPS}
+  ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}
   ${POST_CARD_PROPS}
   ${SEGMENT_CARD_PROPS}
   ${IMAGE_PROPS}

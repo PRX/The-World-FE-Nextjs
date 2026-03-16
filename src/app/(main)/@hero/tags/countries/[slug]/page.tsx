@@ -1,21 +1,20 @@
-import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { BookmarkIcon } from "lucide-react";
 import { HtmlContent } from "@/components/HtmlContent";
-import { getCachedTag } from "@/app/(main)/tags/[...slugs]/page";
+import { getCachedCountry } from "@/app/(main)/tags/countries/[slug]/page";
+import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 
 export default async function TagHero({
   params,
 }: {
-  params: Promise<Record<"slugs", string[]>>;
+  params: Promise<Record<"slug", string>>;
 }) {
-  const { slugs } = await params;
-  const [taxonomy, slug] = slugs;
-  const taxonomySingleName = taxonomySlugToSingularName.get(taxonomy) || "tag";
-  let data: Awaited<ReturnType<typeof getCachedTag>>;
+  const { slug } = await params;
+  const isTaxonomySlug = taxonomySlugToSingularName.has(slug);
+  let data: Awaited<ReturnType<typeof getCachedCountry>>;
 
-  if (slug) {
-    data = await getCachedTag(slug, taxonomySingleName);
+  if (slug && !isTaxonomySlug) {
+    data = await getCachedCountry(slug);
   }
 
   if (!data) {

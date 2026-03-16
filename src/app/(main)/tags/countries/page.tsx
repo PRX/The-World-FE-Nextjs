@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
-import type { Category, Episode, Post, Segment } from "@/interfaces";
+import type { Country, Episode, Post, Segment } from "@/interfaces";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { isArray } from "lodash";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
-import { type CategoriesQueryOptions, fetchGqlCategories } from "@/lib/fetch";
+import { fetchGqlCountries, type CountriesQueryOptions } from "@/lib/fetch";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { generateContentLinkHref } from "@/lib/routing/content";
-import { BookmarkIcon } from "lucide-react";
-import CardCarousel from "../_components/CardCarousel";
+import { BookmarkIcon, Globe2Icon } from "lucide-react";
+import CardCarousel from "@/app/(main)/_components/CardCarousel";
 import {
   CarouselContent,
   CarouselItem,
@@ -34,16 +34,16 @@ import Link from "next/link";
 import { DateTime } from "@/components/DateTime";
 import { formatDuration } from "@/lib/parse/time";
 
-export const getCachedCategories = unstable_cache(
-  async (query: CategoriesQueryOptions) => fetchGqlCategories(query),
-  ["categories"],
+export const getCachedCountries = unstable_cache(
+  async (query: CountriesQueryOptions) => fetchGqlCountries(query),
+  ["countries"],
   {
-    tags: ["categories", "taxonomy"],
+    tags: ["countries", "taxonomy"],
     revalidate: 60,
   },
 );
 
-export default async function CategoriesPage({
+export default async function CountriesPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[]>>;
@@ -51,11 +51,10 @@ export default async function CategoriesPage({
   const resolvedSearchParams = await searchParams;
   const { search: searchParam } = resolvedSearchParams;
   const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const data = await getCachedCategories({
+  const data = await getCachedCountries({
     first: 20,
     where: {
-      ...(search && { search }),
-      ...(!search && { parent: 0, exclude: ["1"] }),
+      search,
     },
   });
 
@@ -75,9 +74,8 @@ export default async function CategoriesPage({
       }
       className="grid gap-y-10 mt-10"
     >
-      {nodes?.map((category: Category, carouselIndex) => {
-        const { id, name, link, count, contentNodes, taxonomyImages } =
-          category;
+      {nodes?.map((country: Country, carouselIndex) => {
+        const { id, name, link, count, contentNodes, taxonomyImages } = country;
         const countString = count?.toLocaleString(undefined, {
           notation: "compact",
         });
@@ -122,7 +120,7 @@ export default async function CategoriesPage({
                     />
                   )}
                   <AvatarFallback>
-                    <BookmarkIcon className="size-10" />
+                    <Globe2Icon className="size-10" />
                   </AvatarFallback>
                 </Avatar>
               </div>

@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 
 export const getCachedTag = unstable_cache(
-  async (slug) => fetchGqlTag(slug, TagIdType.Slug, "tag"),
+  async (slug) => fetchGqlTag(slug, TagIdType.Slug),
   ["tag"],
   {
     tags: ["tag", "taxonomy"],

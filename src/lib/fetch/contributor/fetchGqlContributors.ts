@@ -1,9 +1,3 @@
-/**
- * Fetch Contributor data from CMS API.
- *
- * @param id Contributor identifier.
- */
-
 import {
   OrderEnum,
   TermObjectsConnectionOrderbyEnum,
@@ -13,7 +7,7 @@ import {
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
-  EPISODE_CARD_PROPS,
+  EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
   SEGMENT_CARD_PROPS,
@@ -72,7 +66,7 @@ const GET_CONTRIBUTORS = gql`
     contentNodes (first: 20, where: { contentTypes: [POST, SEGMENT] orderby: { field: DATE, order: DESC } }) {
       nodes {
         ... on Episode {
-          ...EpisodeCardProps
+          ...EpisodeCardPropsWithoutSegments
         }
         ... on Post {
           ...PostCardProps
@@ -83,7 +77,7 @@ const GET_CONTRIBUTORS = gql`
       }
     }
   }
-  ${EPISODE_CARD_PROPS}
+  ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}
   ${POST_CARD_PROPS}
   ${SEGMENT_CARD_PROPS}
   ${IMAGE_PROPS}
