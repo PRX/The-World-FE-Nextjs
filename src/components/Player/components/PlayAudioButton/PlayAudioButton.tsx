@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { PauseIcon, PlayIcon } from "lucide-react";
 
 export type PlayAudioButtonProps = React.ComponentProps<typeof Button> & {

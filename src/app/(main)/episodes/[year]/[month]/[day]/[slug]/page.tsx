@@ -9,7 +9,7 @@ import { EpisodeIdType, type Post } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlEpisode } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import CardCarousel from "@/app/(main)/_components/CardCarousel";
 import {
   CarouselContent,
@@ -156,13 +156,13 @@ export default async function EpisodePage({ params }: Props) {
                     },
                   }}
                   className={cn(
-                    "relative w-dvw -translate-x-[calc(var(--gutter-left)+(var(--body-gutter)*2))]",
+                    "relative w-lvw -translate-x-[calc(var(--gutter-left)+var(--body-gutter)+var(--body-margin))]",
                     "group-data-[color-scheme=dark]/body:[--card:hsl(from_var(--color-navy-blue)_h_s_calc(l*1.5))]",
                     // "group-data-menu-open/ui:mask-[linear-gradient(to_right,transparent_calc(var(--gutter-left)-var(--body-gutter)),black_calc(var(--gutter-left)+var(--body-gutter)))]",
                   )}
                 >
                   <CarouselPrevious className="pl-(--gutter-left) from-[calc(var(--gutter-left))] max-md:hidden" />
-                  <CarouselContent className="px-[calc(var(--gutter-left)+(var(--body-gutter)*2))] justify-between">
+                  <CarouselContent className="pl-[calc(var(--gutter-left)+var(--body-gutter))] justify-between">
                     {segmentsList.map((segment) => {
                       if (!segment) return null;
 

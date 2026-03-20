@@ -7,7 +7,7 @@ import Link from "next/link";
 import WheelGestures from "embla-carousel-wheel-gestures";
 import { AnimatePresence, motion, stagger } from "motion/react";
 import HeroImageBackground from "@/app/(main)/_components/HeroImageBackground";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Badge } from "@/components/ui/badge";
 import { HtmlContent } from "@/components/HtmlContent";
 import { DateTime } from "@/components/DateTime";

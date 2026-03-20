@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import MainUIContext from "@/app/(main)/_contexts/MainUIContext";
 import { Button } from "@/components/ui/button";
 import { setCtaCookie } from "@/lib/cta";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import DonationCta from "./_components/DonationCta";
 import InfoCta from "./_components/InfoCta";
 import NewsletterCta from "./_components/NewsletterCta";

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package search_filters;
+
+message ContentSearchFilters {
+  optional SFContentTypeEnum contentType = 1;
+  optional SFContentSortEnum sort = 2;
+  optional int32 year = 3;
+  optional int32 month = 4;
+  optional int32 day = 5;
+}
+
+enum SFContentTypeEnum {
+  POST = 0;
+  SEGMENT = 1;
+  EPISODE = 2;
+}
+
+enum SFContentSortEnum {
+  NEWEST = 0;
+  OLDEST = 1;
+  TITLE_AZ = 2;
+  TITLE_ZA = 3;
+}

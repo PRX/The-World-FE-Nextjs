@@ -28,11 +28,13 @@ export default async function MainLayout({
   children,
   browser,
   hero,
+  search,
   siteBanner,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
   hero: React.ReactNode;
+  search: React.ReactNode;
   siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
@@ -40,6 +42,7 @@ export default async function MainLayout({
   const mainUiProps = {
     browser,
     hero,
+    search,
     siteBanner,
     menus,
     settings,

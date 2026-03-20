@@ -10,7 +10,7 @@ import { HtmlContent } from "@/components/HtmlContent";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { generateContentLinkHref } from "@/lib/routing/content";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import ShareButton from "@/app/(main)/_components/ShareButton";
 import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
 

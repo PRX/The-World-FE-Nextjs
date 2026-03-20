@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Volume1Icon, Volume2Icon, VolumeOffIcon } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";

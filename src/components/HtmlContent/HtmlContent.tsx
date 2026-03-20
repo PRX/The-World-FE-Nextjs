@@ -9,7 +9,7 @@ import parse, {
   type HTMLReactParserOptions,
   type DOMNode,
 } from "html-react-parser";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import {
   anchorToLink,
   fbRootRemove,

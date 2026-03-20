@@ -5,7 +5,7 @@ import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import AudioBar from "@/app/(main)/_components/AudioBar";
 import ShareButton from "@/app/(main)/_components/ShareButton";
 import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export default async function SegmentHero({
   params,

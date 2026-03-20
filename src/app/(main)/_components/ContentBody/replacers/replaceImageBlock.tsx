@@ -7,7 +7,7 @@ import {
 } from "html-react-parser";
 import { ElementType } from "htmlparser2";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { replaceElement } from "./replaceElement";
 import { replaceImage } from "./replaceImage";
 import ImageViewer from "@/app/(main)/_components/ImageViewer";

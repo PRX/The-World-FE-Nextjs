@@ -2,7 +2,7 @@ import { attributesToProps } from "html-react-parser";
 import { replaceElement } from "./replaceElement";
 import Image from "next/image";
 import { sanitizeUrl } from "@/lib/parse/url";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export const replaceImage = (
   overrideProps?: Partial<React.ComponentProps<typeof Image>>,

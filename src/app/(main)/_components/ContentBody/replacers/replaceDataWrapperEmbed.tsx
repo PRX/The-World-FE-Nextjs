@@ -3,7 +3,7 @@ import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
 import { DataWrapperEmbed } from "../../DataWrapperEmbed";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 const dataWrapperEmbedUrlPattern = /\bdatawrapper\b/;
 

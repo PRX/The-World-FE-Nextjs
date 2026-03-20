@@ -9,7 +9,7 @@ import type {
 import type { VimeoEmbedProps } from "@/components/VimeoEmbed/VimeoEmbed";
 import type { TikTokEmbedProps } from "@/components/TikTokEmbed";
 import dynamic from "next/dynamic";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 const XEmbed = dynamic(
   () => import("react-social-media-embed").then((mod) => mod.XEmbed),

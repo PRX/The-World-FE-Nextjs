@@ -1,6 +1,6 @@
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { replaceElement } from "./replaceElement";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { attributesToProps } from "html-react-parser";
 import Image from "next/image";
 

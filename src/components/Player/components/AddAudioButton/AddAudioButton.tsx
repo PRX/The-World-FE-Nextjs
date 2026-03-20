@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { ListMinusIcon, ListPlusIcon } from "lucide-react";
 
 export type AddAudioButtonProps = React.ComponentProps<typeof Button> & {

@@ -6,7 +6,7 @@
 import { Button } from "@/components/ui/button";
 import type { TermNode } from "@/interfaces";
 import { generateContentLinkHref } from "@/lib/routing/content";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import Link from "next/link";
 
 export type TagsProps = React.ComponentProps<"div"> & {

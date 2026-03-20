@@ -7,7 +7,7 @@ import useSWR from "swr";
 import type { Segment, RootQueryToContentNodeConnection } from "@/interfaces";
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { generateContentLinkHref } from "@/lib/routing";
 import { DateTime } from "@/components/DateTime";
 import { convertSecondsToDuration } from "@/lib/parse/time";

@@ -57,11 +57,13 @@ export const GET_CONTENT_NODES = gql`
   ${IMAGE_PROPS}
 `;
 
-export async function fetchContent(
+export async function fetchGqlContent(
   query?: ContentQueryOptions,
   authToken?: string,
 ) {
   const gqlClient = getClient(authToken);
+
+  console.log(query);
 
   const response = await gqlClient.query<{
     contentNodes: RootQueryToContentNodeConnection;
@@ -76,4 +78,4 @@ export async function fetchContent(
   return results;
 }
 
-export default fetchContent;
+export default fetchGqlContent;

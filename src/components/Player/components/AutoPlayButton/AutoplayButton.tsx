@@ -12,7 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { PlayIcon } from "lucide-react";
 
 export type AutoplayButtonProps = React.ComponentProps<typeof Switch>;

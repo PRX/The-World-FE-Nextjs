@@ -22,7 +22,7 @@ import {
   playerProgressInitialState,
   playerProgressStateReducer,
 } from "../../state";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import {
   Tooltip,
   TooltipContent,

@@ -9,7 +9,7 @@ import {
   type ContributorQueryOptions,
   fetchGqlContributors,
 } from "@/lib/fetch";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import {
   Card,
   CardFooter,

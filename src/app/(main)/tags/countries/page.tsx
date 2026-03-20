@@ -6,7 +6,7 @@ import { isArray } from "lodash";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlCountries, type CountriesQueryOptions } from "@/lib/fetch";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import {
   Card,
   CardFooter,

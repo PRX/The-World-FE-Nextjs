@@ -10,7 +10,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { convertSecondsToDuration } from "@/lib/parse/time";
 import { PlayerContext } from "@/components/Player";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type TimeInfoProps = React.ComponentProps<"div">;
 

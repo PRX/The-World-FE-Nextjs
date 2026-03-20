@@ -11,7 +11,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 import Logo from "../Logo/Logo";
 import "./MainUI.css";
 import { useBreakpoint } from "@react-awesome/use-breakpoint";
@@ -58,6 +58,7 @@ export default function MainUI({
   children,
   browser,
   hero,
+  search,
   siteBanner,
   menus,
   settings,
@@ -65,6 +66,7 @@ export default function MainUI({
   children: React.ReactNode;
   browser: React.ReactNode;
   hero: React.ReactNode;
+  search: React.ReactNode;
   siteBanner: React.ReactNode;
   menus: AppMenus;
   settings?: Settings;
@@ -257,9 +259,14 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo className="max-h-10" animated duration="30s" />
+                <Logo
+                  className="max-h-10 max-w-[40vw]"
+                  animated
+                  duration="10s"
+                />
               </Link>
             </h1>
+            <span>{search}</span>
             <span>
               <DonateModalLink campaign="731684" size="lg" variant="action">
                 <HeartHandshakeIcon aria-label="Donate" />
@@ -278,7 +285,7 @@ export default function MainUI({
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
             "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:z-(--z-ui) md:bg-none md:delay-(--default-transition-duration)",
-            "md:before:absolute md:before:inset-0 md:before:-right-8 md:before:-z-1 md:before:pointer-events-none md:before:bg-navy-blue/30 md:before:backdrop-blur-lg md:before:mask-r-from-70%",
+            "md:before:absolute md:before:inset-0 md:before:-z-1 md:before:pointer-events-none md:before:bg-navy-blue/30 md:before:backdrop-blur-lg md:before:mask-r-from-70%",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}
           inert={!isMenuOpen}
@@ -299,7 +306,7 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo animated duration="30s" />
+                <Logo animated duration="10s" />
               </Link>
             </div>
           </div>

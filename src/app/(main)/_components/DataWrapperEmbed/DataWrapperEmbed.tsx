@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { useEffect, useState } from "react";
 
 export type DataWrapperEmbedProps = React.ComponentProps<"div"> & {

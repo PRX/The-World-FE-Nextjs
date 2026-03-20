@@ -3,7 +3,7 @@ import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import AudioPlayer from "@/app/(main)/_components/AudioPlayer";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export const replaceAudioEmbed: ReplaceCallback = replaceElement(
   ["audio", "figure"],

@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { PauseIcon, PlayIcon } from "lucide-react";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 

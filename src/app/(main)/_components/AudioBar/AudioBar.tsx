@@ -7,7 +7,7 @@ import {
   PlayerContext,
   type PlayerAudio,
 } from "@/components/Player";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { useContext } from "react";
 import { formatDuration } from "@/lib/parse/time";
 

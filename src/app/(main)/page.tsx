@@ -1,4 +1,4 @@
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { fetchGqlHomepage } from "@/lib/fetch";

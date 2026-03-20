@@ -25,7 +25,7 @@ export const DateTime = ({
 }: DateTimeProps) => {
   const usedDateValue =
     typeof date === "string"
-      ? sanitizeIso8601Date(date, timeZone || undefined)
+      ? sanitizeIso8601Date(date, timeZone || "America/New_York")
       : date;
 
   if (!usedDateValue) return null;
@@ -36,7 +36,7 @@ export const DateTime = ({
   if (renderDate.toString() === "Invalid Date") return null;
 
   const formattedDate = renderDate.toLocaleDateString(locale || "en-US", {
-    ...(timeZone && { timeZone }),
+    timeZone: timeZone || "America/New_York",
     ...options,
   });
 

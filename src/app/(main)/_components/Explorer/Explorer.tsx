@@ -1,4 +1,6 @@
-import type { ContentTypeEnum, TaxonomyEnum } from "@/interfaces";
+"use client";
+
+import type { ContentTypeEnum, PageInfo, TaxonomyEnum } from "@/interfaces";
 import { uniqueId } from "lodash";
 import {
   BookmarkIcon,
@@ -13,7 +15,7 @@ import {
 } from "lucide-react";
 import { decode } from "base-64";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import ExplorerClearFilterButton from "./ExplorerClearFilterButton";
 
 type FilterValueConfig = { value: string; displayValue: string };
@@ -40,9 +42,10 @@ export type FilterOptions = Record<
   >;
 };
 
-export type ExplorerParams = Partial<FilterOptions> & {
-  className?: string;
+export type ExplorerParams = React.ComponentProps<"div"> & {
+  options?: Partial<FilterOptions>;
   searchParams?: Partial<Record<"search" | "sf", string | string[]>>;
+  pageInfo?: PageInfo;
 };
 
 export type FilterConfig = {
@@ -222,8 +225,8 @@ const filterConfigMap = new Map<string, Partial<FilterConfig>>([
   ],
 ]);
 
-export default async function Explorer(params: Partial<ExplorerParams>) {
-  const { className, searchParams, ...hiddenFilters } = params;
+export default function Explorer(params: ExplorerParams) {
+  const { className, searchParams, children, options = {}, ...props } = params;
   const { search, sf } = searchParams || {};
   const searchText = Array.isArray(search) ? search.join(" ") : search?.trim();
   const searchFilters = {
@@ -238,7 +241,7 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
     // These params come from the component and should not be mutable.
     // Landing page routes will use this to constrain filter options to what is
     // provided in the route params.
-    ...Object.entries(hiddenFilters)
+    ...Object.entries(options)
       .map(([k, value]) => {
         const config = filterConfigMap.get(k);
         if (!config) return null;
@@ -260,7 +263,7 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
     // There values should be mutable by filter options inputs.
     ...Object.entries(searchFilters)
       // Remove any search filters that should be hidden.
-      .filter(([k]) => !Object.hasOwn(hiddenFilters, k))
+      .filter(([k]) => !Object.hasOwn(options, k))
       .map(([k, value]) => {
         const config = filterConfigMap.get(k);
         if (!config) return null;
@@ -286,7 +289,7 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
   // TODO: Query content and taxonomy params' info.
 
   return (
-    <div className={cn("grid gap-3 px-8", className)}>
+    <div className={cn("grid gap-3", className)} {...props}>
       {hasMutableFilters && (
         <div className="flex flex-wrap items-center gap-2">
           {mutableFilters.map((config) => {
@@ -331,10 +334,21 @@ export default async function Explorer(params: Partial<ExplorerParams>) {
           })}
         </div>
       )}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(var(--spacing)*100,100%),1fr))] gap-4">
-        {new Array(30).fill(null).map(() => (
+      <div
+        className={cn(
+          "grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4",
+          "*:data-[slot=card]:nth-of-type-[7n+2]:[--card:var(--color-brown)]",
+          "*:data-[slot=card]:nth-of-type-[7n+3]:[--card:var(--color-burnt-orange)]",
+          "*:data-[slot=card]:nth-of-type-[7n+4]:[--card:var(--color-light-blue)]",
+          "*:data-[slot=card]:nth-of-type-[7n+5]:[--card:var(--color-dark-green)]",
+          "*:data-[slot=card]:nth-of-type-[7n+6]:[--card:var(--color-purple)]",
+          "*:data-[slot=card]:nth-of-type-[7n+7]:[--card:var(--color-red)]",
+        )}
+      >
+        {children}
+        {new Array(60).fill(null).map(() => (
           <div
-            className="grid aspect-[4/5] bg-white/10 rounded-md"
+            className="grid aspect-2/3 bg-white/10 rounded-md"
             key={uniqueId()}
           ></div>
         ))}

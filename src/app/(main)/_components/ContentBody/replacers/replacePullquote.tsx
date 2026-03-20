@@ -1,7 +1,7 @@
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { domToReact } from "html-react-parser";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { replaceElement } from "./replaceElement";
 
 export const replacePullquote: ReplaceCallback = replaceElement(

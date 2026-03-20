@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import LogoGlobe from "@/app/(main)/_components/Logo/LogoGlobe";
 import Link from "next/link";
 

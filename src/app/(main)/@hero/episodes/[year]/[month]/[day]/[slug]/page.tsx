@@ -4,7 +4,7 @@ import { DateTime } from "@/components/DateTime";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import AudioBar from "@/app/(main)/_components/AudioBar";
 import ShareButton from "@/app/(main)/_components/ShareButton";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
 
 export default async function EpisodeHero({

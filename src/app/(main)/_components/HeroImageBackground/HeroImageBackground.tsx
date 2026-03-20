@@ -1,7 +1,7 @@
 "use client";
 
 import type { MediaItem } from "@/interfaces";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 

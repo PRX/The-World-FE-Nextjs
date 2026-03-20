@@ -1,4 +1,4 @@
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 import LogoGlobe from "./LogoGlobe";
 
 export default function Logo({

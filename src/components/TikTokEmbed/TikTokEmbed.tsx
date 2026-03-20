@@ -5,7 +5,7 @@
 
 import { type CSSProperties, useEffect, useState } from "react";
 import type { DivPropsWithoutRef } from "react-html-props";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type TikTokEmbedProps = DivPropsWithoutRef & {
   url: string;

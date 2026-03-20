@@ -3,9 +3,9 @@ import {
   OrderEnum,
   PostObjectsConnectionOrderbyEnum,
 } from "@/interfaces";
-import fetchContent, {
+import fetchGqlContent, {
   type ContentQueryOptions,
-} from "@/lib/fetch/content/fetchContent";
+} from "@/lib/fetch/content/fetchGqlContent";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
         ],
       },
     };
-    const data = await fetchContent(queryOptions);
+    const data = await fetchGqlContent(queryOptions);
 
     if (!data) {
       return NextResponse.json(

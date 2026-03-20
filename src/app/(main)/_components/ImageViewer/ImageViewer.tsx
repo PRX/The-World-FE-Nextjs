@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 

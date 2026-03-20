@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export type ExplorerFilterBadgeProps = React.ComponentProps<typeof Button> & {

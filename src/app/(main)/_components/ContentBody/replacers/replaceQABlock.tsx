@@ -2,7 +2,7 @@ import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import { type DOMNode, domToReact } from "html-react-parser";
 import { findDescendant } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export const replaceQABlock: ReplaceCallback = replaceElement(
   "div",

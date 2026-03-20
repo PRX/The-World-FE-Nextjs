@@ -15,7 +15,7 @@ import TwitterXIcon from "@/assets/svg/icons/brands/twitter.svg";
 import LinkedInIcon from "@/assets/svg/icons/brands/linkedin.svg";
 import FlipboardIcon from "@/assets/svg/icons/brands/flipboard.svg";
 import WhatsAppIcon from "@/assets/svg/icons/brands/whatsapp.svg";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 const iconMap = new Map([
   ["facebook", FacebookIcon],

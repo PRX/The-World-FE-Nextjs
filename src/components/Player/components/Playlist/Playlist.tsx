@@ -13,7 +13,7 @@ import { AnimatePresence, Reorder } from "framer-motion";
 import debounce from "lodash/debounce";
 import { PlayerContext } from "../../contexts";
 import { PlaylistItem } from "./PlaylistItem";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type PlaylistProps = React.ComponentProps<"div">;
 

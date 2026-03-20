@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import type { Preferences } from "@/interfaces";
 import { HtmlContent } from "@/components/HtmlContent";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import {
   replaceImage,
   replaceImageBlock,

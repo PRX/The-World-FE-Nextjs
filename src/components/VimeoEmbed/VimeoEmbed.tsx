@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import type { DivPropsWithoutRef } from "react-html-props";
 import { makeVimeoEmbedUrl } from "@/lib/parse/url";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type VimeoEmbedProps = DivPropsWithoutRef & {
   url: string;

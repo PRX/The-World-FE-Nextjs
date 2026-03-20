@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 
 export default function LogoGlobe({
   animated,
   className,
+  duration,
 }: Readonly<{
   animated?: boolean;
   className?: string;
@@ -12,6 +13,7 @@ export default function LogoGlobe({
   const classNames = cn(className, {});
   const styles = {
     ...(!animated && { "--tw-logo-globe--animation-duration": 0 }),
+    ...(duration && { "--tw-logo-globe--animation-duration": duration }),
   } as CSSProperties;
 
   return (

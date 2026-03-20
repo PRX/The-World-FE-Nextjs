@@ -1,7 +1,7 @@
 import type { Maybe, MediaItem } from "@/interfaces";
 import Link from "next/link";
 import ImageViewer from "@/app/(main)/_components/ImageViewer";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { HtmlContent } from "@/components/HtmlContent";
 import HeroImageBackground from "../HeroImageBackground";
 
