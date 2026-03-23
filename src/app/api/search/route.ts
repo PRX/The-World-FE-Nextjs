@@ -8,7 +8,7 @@ const GET_SEARCH_RESULTS = gql`
   query getSearchResults($search: String) {
     contentNodes (first: 10, where: { search: $search }) {
       nodes {
-        __typename
+        contentTypeName
         id
         date
         link

@@ -22,7 +22,20 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { ChevronRightIcon, SearchIcon, XIcon } from "lucide-react";
+import {
+  BookmarkIcon,
+  BookOpenIcon,
+  BoomBoxIcon,
+  CassetteTapeIcon,
+  ChevronRightIcon,
+  Globe2Icon,
+  HashIcon,
+  LinkIcon,
+  ScrollTextIcon,
+  SearchIcon,
+  UserIcon,
+  XIcon,
+} from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/util/css";
 import {
@@ -47,7 +60,10 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
   const [forceLoad, setForceLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<{
-    contentNodes?: (ContentNode & NodeWithTitle & NodeWithFeaturedImage)[];
+    contentNodes?: (Node &
+      ContentNode &
+      NodeWithTitle &
+      NodeWithFeaturedImage)[];
     terms?: (TermNode & Contributor)[];
   }>({});
   const searchParams = useSearchParams();
@@ -213,8 +229,15 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
           {!!data.contentNodes?.length && (
             <CommandGroup>
               {data.contentNodes.map((n) => {
-                const { id, title, link, featuredImage } = n;
+                const { contentTypeName, id, title, link, featuredImage } = n;
                 const linkHref = generateContentLinkHref(link);
+                const Icon =
+                  new Map([
+                    ["post", BookOpenIcon],
+                    ["episode", BoomBoxIcon],
+                    ["segment", CassetteTapeIcon],
+                    ["page", ScrollTextIcon],
+                  ]).get(contentTypeName) || LinkIcon;
                 const imgSrc =
                   featuredImage?.node.sourceUrl ||
                   featuredImage?.node.mediaItemUrl;
@@ -224,8 +247,11 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
                   !!linkHref && (
                     <Item className="p-3" asChild key={id}>
                       <Link href={linkHref}>
-                        {imgSrc && (
-                          <ItemMedia variant="image">
+                        <ItemMedia
+                          variant={imgSrc ? "image" : "icon"}
+                          className="size-10"
+                        >
+                          {imgSrc ? (
                             <Image
                               src={imgSrc}
                               alt={altText}
@@ -234,8 +260,10 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
                               height={32}
                               className="object-cover"
                             />
-                          </ItemMedia>
-                        )}
+                          ) : (
+                            <Icon className="size-6" />
+                          )}
+                        </ItemMedia>
                         <ItemContent>
                           <ItemTitle className="line-clamp-2">
                             {title}
@@ -254,7 +282,15 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
           {!!data.terms?.length && (
             <CommandGroup heading="Contributors and Taxonomies">
               {data.terms.map((n) => {
-                const { link, count, name, contributorDetails } = n;
+                const { taxonomyName, link, count, name, contributorDetails } =
+                  n;
+                const Icon =
+                  new Map([
+                    ["contributor", UserIcon],
+                    ["country", Globe2Icon],
+                    ["person", UserIcon],
+                    ["social_tags", HashIcon],
+                  ]).get(taxonomyName || "") || BookmarkIcon;
                 const linkHref = generateContentLinkHref(link);
                 const { image } = contributorDetails || {};
                 const imgSrc = image?.sourceUrl || image?.mediaItemUrl;
@@ -269,8 +305,11 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
                   !!linkHref && (
                     <Item className="p-3" asChild key={n.id}>
                       <Link href={linkHref}>
-                        {imgSrc && (
-                          <ItemMedia>
+                        <ItemMedia
+                          variant={!imgSrc ? "icon" : undefined}
+                          className="size-10"
+                        >
+                          {imgSrc ? (
                             <Avatar className="size-10">
                               <AvatarImage
                                 src={imgSrc}
@@ -278,8 +317,10 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
                                 sizes="120px"
                               />
                             </Avatar>
-                          </ItemMedia>
-                        )}
+                          ) : (
+                            <Icon className="size-6" />
+                          )}
+                        </ItemMedia>
                         <ItemContent>
                           <ItemTitle>{name}</ItemTitle>
                           {!!info.length && (
@@ -290,6 +331,9 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
                             </ItemDescription>
                           )}
                         </ItemContent>
+                        <ItemActions>
+                          <ChevronRightIcon className="size-5 text-accent" />
+                        </ItemActions>
                       </Link>
                     </Item>
                   )
