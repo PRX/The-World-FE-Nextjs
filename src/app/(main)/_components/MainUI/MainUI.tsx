@@ -243,7 +243,7 @@ export default function MainUI({
           </div>
           <div
             ref={topNavRef}
-            className="isolate sticky top-0 z-(--z-ui) flex justify-between w-screen p-3"
+            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-10 w-screen p-3"
           >
             <div className="absolute md:hidden inset-0 -z-1 bg-navy-blue/30 backdrop-blur-lg mask-b-from-60%"></div>
             <h1 className="flex items-center gap-2">
@@ -266,7 +266,7 @@ export default function MainUI({
                 />
               </Link>
             </h1>
-            <span>{search}</span>
+            <span className="basis-xl">{search}</span>
             <span>
               <DonateModalLink campaign="731684" size="lg" variant="action">
                 <HeartHandshakeIcon aria-label="Donate" />

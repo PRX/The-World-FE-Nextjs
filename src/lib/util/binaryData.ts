@@ -11,7 +11,7 @@ export function encodeContentSearchFiltersParam(
 ) {
   const whereArgs = create(ContentSearchFiltersSchema, data);
   const binaryData = toBinary(ContentSearchFiltersSchema, whereArgs);
-  const urlSafeBase64 = binaryData.toBase64({
+  const urlSafeBase64 = binaryData.toBase64?.({
     alphabet: "base64url",
     omitPadding: true,
   });

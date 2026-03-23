@@ -42,11 +42,12 @@ export type FilterOptions = Record<
   >;
 };
 
-export type ExplorerParams = React.ComponentProps<"div"> & {
-  options?: Partial<FilterOptions>;
-  searchParams?: Partial<Record<"search" | "sf", string | string[]>>;
-  pageInfo?: PageInfo;
-};
+export type ExplorerParams = React.ComponentProps<"div"> &
+  Partial<FilterOptions> & {
+    options?: Partial<FilterOptions>;
+    searchParams?: Partial<Record<"search" | "sf", string | string[]>>;
+    pageInfo?: PageInfo;
+  };
 
 export type FilterConfig = {
   priority: number;

@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
+import SearchInput from "../_components/SearchInput";
 
 export default async function SiteSearch() {
-  return <Input placeholder="Search..." />;
+  return <SearchInput />;
 }

@@ -25,13 +25,21 @@ export const replaceImage = (
       ...overrideProps,
     };
 
-    props.width = props.width || "400";
-    props.height = props.height || "300";
+    props.width = props.width || 400;
+    props.height = props.height || 300;
+
+    if (`${props.width}`.endsWith("%")) {
+      props.width = 400;
+    }
+
+    if (`${props.height}`.endsWith("%")) {
+      props.height = 300;
+    }
 
     return (
       <span
         className={cn(
-          "relative inline-block overflow-clip rounded-md",
+          "relative block overflow-clip rounded-md",
           "bg-navy-blue/30 backdrop-blur-lg dark:bg-blue/30 light:bg-blue",
           "before:absolute before:inset-0 before:z-0 before:bg-linear-to-tl before:from-purple before:to-purple/0",
           "after:absolute after:inset-0 after:z-0 after:bg-linear-to-tr after:from-green after:to-green/0 after:to-40%",
@@ -40,7 +48,8 @@ export const replaceImage = (
         <Image
           src={srcString}
           alt={altString}
-          className={cn("relative z-1 object-cover", className)}
+          className={cn("relative z-1 object-cover w-full", className)}
+          sizes="1480px"
           {...props}
         />
       </span>
