@@ -22,9 +22,10 @@ export default async function SegmentsByDayPage({
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="segment"
-        date={date}
-        searchParams={resolvedSearchParams}
+        options={{
+          type: "segment",
+          date,
+        }}
       />
     </div>
   );

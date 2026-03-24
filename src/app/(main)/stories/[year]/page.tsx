@@ -15,7 +15,12 @@ export default async function StoriesByYearPage({
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer type="post" year={year} searchParams={resolvedSearchParams} />
+      <Explorer
+        options={{
+          type: "post",
+          year,
+        }}
+      />
     </div>
   );
 }

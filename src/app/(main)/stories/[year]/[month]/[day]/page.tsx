@@ -21,7 +21,12 @@ export default async function StoriesByDayPage({
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer type="post" date={date} searchParams={resolvedSearchParams} />
+      <Explorer
+        options={{
+          type: "post",
+          date,
+        }}
+      />
     </div>
   );
 }

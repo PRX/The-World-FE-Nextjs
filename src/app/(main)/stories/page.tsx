@@ -9,7 +9,11 @@ export default async function AllStoriesPage({
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer type="post" searchParams={resolvedSearchParams} />
+      <Explorer
+        options={{
+          type: "post",
+        }}
+      />
     </div>
   );
 }

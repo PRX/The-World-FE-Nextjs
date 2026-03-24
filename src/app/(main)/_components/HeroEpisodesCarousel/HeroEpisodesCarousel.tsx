@@ -97,7 +97,7 @@ export default function HeroEpisodesCarousel({
       {...rest}
     >
       {image && <HeroImageBackground data={image} />}
-      <div className="relative grid gap-y-4 content-end">
+      <div className="relative grid gap-y-2 content-end">
         <div
           ref={scrollWrapper}
           className={cn(

@@ -1,7 +1,15 @@
 "use client";
 
-import type { ContentTypeEnum, PageInfo, TaxonomyEnum } from "@/interfaces";
-import { uniqueId } from "lodash";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import type {
+  ContentNode,
+  ContentTypeEnum,
+  PageInfo,
+  RootQueryToContentNodeConnection,
+  TaxonomyEnum,
+} from "@/interfaces";
 import {
   BookmarkIcon,
   BookOpenIcon,
@@ -13,10 +21,12 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { decode } from "base-64";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/util/css";
 import ExplorerClearFilterButton from "./ExplorerClearFilterButton";
+import { ExplorerCard } from "./ExplorerCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import { uniqueId } from "lodash";
 
 type FilterValueConfig = { value: string; displayValue: string };
 type FilterValue = string | FilterValueConfig | Date;
@@ -34,20 +44,18 @@ export type FilterOptions = Record<
   >,
   FilterValue
 > & {
-  year: string;
-  month: string;
+  year: string | number;
+  month: string | number;
   date: FilterValue;
   type: Lowercase<
     keyof Pick<typeof ContentTypeEnum, "Post" | "Episode" | "Segment">
   >;
 };
 
-export type ExplorerParams = React.ComponentProps<"div"> &
-  Partial<FilterOptions> & {
-    options?: Partial<FilterOptions>;
-    searchParams?: Partial<Record<"search" | "sf", string | string[]>>;
-    pageInfo?: PageInfo;
-  };
+export type ExplorerParams = React.ComponentProps<"div"> & {
+  options?: Partial<FilterOptions>;
+  pageInfo?: PageInfo;
+};
 
 export type FilterConfig = {
   priority: number;
@@ -226,15 +234,21 @@ const filterConfigMap = new Map<string, Partial<FilterConfig>>([
   ],
 ]);
 
-export default function Explorer(params: ExplorerParams) {
-  const { className, searchParams, children, options = {}, ...props } = params;
-  const { search, sf } = searchParams || {};
-  const searchText = Array.isArray(search) ? search.join(" ") : search?.trim();
+export default function Explorer({
+  className,
+  children,
+  options = {},
+  pageInfo: initialPageInfo,
+  ...props
+}: ExplorerParams) {
+  const [pageInfo, setPageInfo] = useState(initialPageInfo);
+  const { hasNextPage, endCursor } = pageInfo || {};
+  const [contentNodes, setContentNodes] = useState<ContentNode[]>();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || undefined;
+  const sf = searchParams.get("sf") || undefined;
   const searchFilters = {
-    ...(searchText && { searchText }),
-    ...((sf &&
-      (JSON.parse(decode(Array.isArray(sf) ? sf[0] : sf)) as FilterOptions)) ||
-      {}),
+    ...(search && { searchText: search }),
   };
   // TODO: Fetch term data for taxonomy filters so term names can be shown instead of slugs.
   const filters: FilterConfig[] = [
@@ -287,7 +301,40 @@ export default function Explorer(params: ExplorerParams) {
   const mutableFilters = filters.filter(({ hidden }) => !hidden);
   const hasMutableFilters = !!mutableFilters.length;
 
-  // TODO: Query content and taxonomy params' info.
+  const fetchData = useCallback(async () => {
+    const fetchParams = new URLSearchParams();
+
+    if (endCursor) {
+      fetchParams.set("after", endCursor);
+    }
+
+    if (search) {
+      fetchParams.set("search", search);
+    }
+
+    if (sf) {
+      fetchParams.set("sf", sf);
+    }
+
+    const data: RootQueryToContentNodeConnection = await fetch(
+      `/api/explore?${fetchParams.toString()}`,
+    ).then((res) => res.ok && res.json());
+
+    if (data) {
+      setPageInfo(data.pageInfo);
+      setContentNodes((cns) => [...(cns || []), ...(data.nodes || [])]);
+    }
+  }, [endCursor, search, sf]);
+
+  const cardGridClassName = cn(
+    "grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4",
+    "*:data-[slot=card]:nth-of-type-[7n+2]:[--card:var(--color-brown)]",
+    "*:data-[slot=card]:nth-of-type-[7n+3]:[--card:var(--color-burnt-orange)]",
+    "*:data-[slot=card]:nth-of-type-[7n+4]:[--card:var(--color-light-blue)]",
+    "*:data-[slot=card]:nth-of-type-[7n+5]:[--card:var(--color-dark-green)]",
+    "*:data-[slot=card]:nth-of-type-[7n+6]:[--card:var(--color-purple)]",
+    "*:data-[slot=card]:nth-of-type-[7n+7]:[--card:var(--color-red)]",
+  );
 
   return (
     <div className={cn("grid gap-3", className)} {...props}>
@@ -335,24 +382,32 @@ export default function Explorer(params: ExplorerParams) {
           })}
         </div>
       )}
-      <div
-        className={cn(
-          "grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4",
-          "*:data-[slot=card]:nth-of-type-[7n+2]:[--card:var(--color-brown)]",
-          "*:data-[slot=card]:nth-of-type-[7n+3]:[--card:var(--color-burnt-orange)]",
-          "*:data-[slot=card]:nth-of-type-[7n+4]:[--card:var(--color-light-blue)]",
-          "*:data-[slot=card]:nth-of-type-[7n+5]:[--card:var(--color-dark-green)]",
-          "*:data-[slot=card]:nth-of-type-[7n+6]:[--card:var(--color-purple)]",
-          "*:data-[slot=card]:nth-of-type-[7n+7]:[--card:var(--color-red)]",
-        )}
-      >
-        {children}
-        {new Array(60).fill(null).map(() => (
-          <div
-            className="grid aspect-2/3 bg-white/10 rounded-md"
-            key={uniqueId()}
-          ></div>
-        ))}
+      <div className="flex flex-col gap-4">
+        <div className={cardGridClassName}>{children}</div>
+        <InfiniteScroll
+          className={cardGridClassName}
+          dataLength={contentNodes?.length || 0}
+          next={fetchData}
+          hasMore={!!hasNextPage}
+          loader={
+            <div className="col-span-full grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4 h-200 overflow-hidden mask-b-from-100">
+              {new Array(8).fill(null).map(() => (
+                <Skeleton className="aspect-2/3 h-auto" key={uniqueId()} />
+              ))}
+            </div>
+          }
+        >
+          {contentNodes
+            ?.filter((n) => !!n)
+            .map((node) => {
+              return (
+                <ExplorerCard
+                  data={node as ContentNode}
+                  key={uniqueId(node.id)}
+                />
+              );
+            })}
+        </InfiniteScroll>
       </div>
     </div>
   );

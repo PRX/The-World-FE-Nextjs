@@ -35,14 +35,15 @@ export default async function TaxonomyPage({
 
   const { id, name } = data || {};
   const explorerProps = {
-    ...(slug &&
-      name && {
-        category: {
-          value: slug,
-          displayValue: name,
-        },
-      }),
-    searchParams: resolvedSearchParams,
+    options: {
+      ...(slug &&
+        name && {
+          category: {
+            value: slug,
+            displayValue: name,
+          },
+        }),
+    },
   };
 
   const shownContentEndMessage = await getCtaRegionMessages(

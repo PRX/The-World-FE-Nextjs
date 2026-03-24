@@ -36,15 +36,16 @@ export default async function TagPage({
 
   const { name } = data || {};
   const explorerProps = {
-    ...(data && {
-      tag: !name?.trim()
-        ? slug
-        : {
-            value: slug,
-            displayValue: name,
-          },
-    }),
-    searchParams: resolvedSearchParams,
+    options: {
+      ...(data && {
+        tag: !name?.trim()
+          ? slug
+          : {
+              value: slug,
+              displayValue: name,
+            },
+      }),
+    },
   };
 
   const shownContentEndMessage = await getCtaRegionMessages(

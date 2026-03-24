@@ -9,7 +9,11 @@ export default async function AllSegmentsPage({
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer type="segment" searchParams={resolvedSearchParams} />
+      <Explorer
+        options={{
+          type: "segment",
+        }}
+      />
     </div>
   );
 }

@@ -16,10 +16,11 @@ export default async function StoriesByMonthPage({
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="post"
-        year={year}
-        month={month}
-        searchParams={resolvedSearchParams}
+        options={{
+          type: "post",
+          year,
+          month,
+        }}
       />
     </div>
   );

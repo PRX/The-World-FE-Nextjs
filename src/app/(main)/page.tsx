@@ -89,7 +89,7 @@ export default async function Home() {
           "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 4))",
         } as CSSProperties
       }
-      className="grid gap-y-8 mt-12"
+      className="grid gap-y-8 mt-10"
     >
       {/* Quick Links Menu */}
       <div className="md:sticky top-(--gutter-top) z-2 overflow-hidden">

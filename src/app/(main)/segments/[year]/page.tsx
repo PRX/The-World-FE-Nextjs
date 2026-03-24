@@ -16,9 +16,10 @@ export default async function SegmentsByYearPage({
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="segment"
-        year={year}
-        searchParams={resolvedSearchParams}
+        options={{
+          type: "segment",
+          year,
+        }}
       />
     </div>
   );

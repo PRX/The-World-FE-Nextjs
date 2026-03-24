@@ -36,15 +36,15 @@ export default async function CountryPage({
 
   const { name } = data || {};
   const explorerProps = {
-    ...(data && {
-      tag: !name?.trim()
-        ? slug
-        : {
+    options: {
+      ...(slug &&
+        name && {
+          country: {
             value: slug,
             displayValue: name,
           },
-    }),
-    searchParams: resolvedSearchParams,
+        }),
+    },
   };
 
   const shownContentEndMessage = await getCtaRegionMessages(

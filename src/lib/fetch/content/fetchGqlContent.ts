@@ -63,8 +63,6 @@ export async function fetchGqlContent(
 ) {
   const gqlClient = getClient(authToken);
 
-  console.log(query);
-
   const response = await gqlClient.query<{
     contentNodes: RootQueryToContentNodeConnection;
   }>({

@@ -38,15 +38,15 @@ export default async function ContributorPage({
   const content = bio || description;
   const hasContent = !!content?.trim();
   const explorerProps = {
-    ...(data && {
-      tag: !name?.trim()
-        ? slug
-        : {
+    options: {
+      ...(slug &&
+        name && {
+          contributor: {
             value: slug,
             displayValue: name,
           },
-    }),
-    searchParams: resolvedSearchParams,
+        }),
+    },
   };
 
   const shownContentEndMessage = await getCtaRegionMessages(

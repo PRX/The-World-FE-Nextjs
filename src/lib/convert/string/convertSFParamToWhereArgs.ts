@@ -1,4 +1,8 @@
-import { SFContentSortEnum, SFContentTypeEnum } from "@/gen/search_filters_pb";
+import {
+  type ContentSearchFilters,
+  SFContentSortEnum,
+  SFContentTypeEnum,
+} from "@/gen/search_filters_pb";
 import {
   ContentTypeEnum,
   OrderEnum,
@@ -8,13 +12,9 @@ import {
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { isArray, isUndefined } from "lodash";
 
-export function convertSFParamToWhereArgs(sfParam?: string | string[]) {
-  const sf = isArray(sfParam) ? sfParam.join(", ") : sfParam;
-
-  if (!sf) return undefined;
-
-  const options = decodeContentSearchFiltersParam(sf);
-
+export function convertSearchFiltersToWhereArgs(
+  searchFilters?: ContentSearchFilters,
+) {
   let whereArgs = {} as RootQueryToContentNodeConnectionWhereArgs;
   const contentTypeEnumMap = new Map([
     [SFContentTypeEnum.POST, ContentTypeEnum.Post],
@@ -22,30 +22,30 @@ export function convertSFParamToWhereArgs(sfParam?: string | string[]) {
     [SFContentTypeEnum.EPISODE, ContentTypeEnum.Episode],
   ]);
   const whereContentType =
-    !isUndefined(options?.contentType) &&
-    contentTypeEnumMap.get(options.contentType);
+    !isUndefined(searchFilters?.contentType) &&
+    contentTypeEnumMap.get(searchFilters.contentType);
   if (whereContentType) {
     whereArgs.contentTypes = [whereContentType];
   }
 
-  if (options?.year) {
+  if (searchFilters?.year) {
     whereArgs.dateQuery = {
       ...whereArgs.dateQuery,
-      year: options.year,
+      year: searchFilters.year,
     };
   }
 
-  if (options?.month) {
+  if (searchFilters?.month) {
     whereArgs.dateQuery = {
       ...whereArgs.dateQuery,
-      month: options.month,
+      month: searchFilters.month,
     };
   }
 
-  if (options?.day) {
+  if (searchFilters?.day) {
     whereArgs.dateQuery = {
       ...whereArgs.dateQuery,
-      day: options.day,
+      day: searchFilters.day,
     };
   }
 
@@ -98,7 +98,7 @@ export function convertSFParamToWhereArgs(sfParam?: string | string[]) {
       },
     ],
   ]);
-  const whereSortArgs = options?.sort && sortMap.get(options.sort);
+  const whereSortArgs = searchFilters?.sort && sortMap.get(searchFilters.sort);
   if (whereSortArgs) {
     whereArgs = {
       ...whereArgs,
@@ -107,6 +107,16 @@ export function convertSFParamToWhereArgs(sfParam?: string | string[]) {
   }
 
   return whereArgs;
+}
+
+export function convertSFParamToWhereArgs(sfParam?: string | string[]) {
+  const sf = isArray(sfParam) ? sfParam.join(", ") : sfParam;
+
+  if (!sf) return undefined;
+
+  const searchFilters = decodeContentSearchFiltersParam(sf);
+
+  return convertSearchFiltersToWhereArgs(searchFilters);
 }
 
 export default convertSFParamToWhereArgs;

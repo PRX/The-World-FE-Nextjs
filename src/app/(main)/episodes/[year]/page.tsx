@@ -1,5 +1,20 @@
+import type { ContentNode } from "@/interfaces";
+import { unstable_cache } from "next/cache";
+import { isArray } from "lodash";
+import Explorer, { ExplorerCard } from "@/app/(main)/_components/Explorer";
 import { redirectToValidDatedRoute } from "@/lib/routing/redirectToValidDatedRoute";
-import Explorer from "@/app/(main)/_components/Explorer";
+import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
+import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
+import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+
+export const getCachedEpisodeByYearContent = unstable_cache(
+  async (query: ContentQueryOptions) => fetchGqlContent(query),
+  ["content"],
+  {
+    tags: ["content"],
+    revalidate: 60,
+  },
+);
 
 export default async function EpisodesByYearPage({
   params,
@@ -8,18 +23,49 @@ export default async function EpisodesByYearPage({
   params: Promise<Record<"year", string>>;
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
-  const { year } = await params;
+  const { year: yearParam } = await params;
   const resolvedSearchParams = await searchParams;
 
-  redirectToValidDatedRoute("/episodes", { year }, resolvedSearchParams);
+  redirectToValidDatedRoute(
+    "/episodes",
+    { year: yearParam },
+    resolvedSearchParams,
+  );
+
+  const year = parseInt(yearParam, 10);
+  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
+  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
+  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const searchFilters = {
+    ...decodeContentSearchFiltersParam(sf),
+    year,
+  };
+  const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
+
+  const data = await getCachedEpisodeByYearContent({
+    first: 60,
+    where: {
+      search,
+      ...whereArgs,
+    },
+  });
+  const { pageInfo, nodes } = data || {};
 
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="episode"
-        year={year}
-        searchParams={resolvedSearchParams}
-      />
+        options={{
+          type: "episode",
+          year,
+        }}
+        pageInfo={pageInfo}
+      >
+        {nodes
+          ?.filter((n) => !!n)
+          .map((node) => {
+            return <ExplorerCard data={node as ContentNode} key={node.id} />;
+          })}
+      </Explorer>
     </div>
   );
 }

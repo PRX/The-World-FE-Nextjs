@@ -16,10 +16,11 @@ export default async function EpisodesByMonthPage({
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="episode"
-        year={year}
-        month={month}
-        searchParams={resolvedSearchParams}
+        options={{
+          type: "episode",
+          year,
+          month,
+        }}
       />
     </div>
   );

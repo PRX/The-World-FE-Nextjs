@@ -26,9 +26,10 @@ import Link from "next/link";
 import { BookmarkIcon } from "lucide-react";
 import { DateTime } from "@/components/DateTime";
 import { formatDuration } from "@/lib/parse/time";
+import { sanitizeUrl } from "@/lib/parse/url";
 
 export type ExplorerCardProps = React.ComponentProps<"div"> & {
-  data: ContentNode | Post | Segment | Episode;
+  data: ContentNode;
 };
 
 export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
@@ -67,7 +68,7 @@ export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
       {imageSrc && !isPlaceholderImage && (
         <CardImage data-image-id={imageId}>
           <Image
-            src={imageSrc}
+            src={sanitizeUrl(imageSrc)}
             alt={altText || ""}
             fill
             sizes={`(min-width: 768px) 800px, 200vw`}

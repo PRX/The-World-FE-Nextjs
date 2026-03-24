@@ -22,9 +22,10 @@ export default async function EpisodesByDayPage({
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
       <Explorer
-        type="episode"
-        date={date}
-        searchParams={resolvedSearchParams}
+        options={{
+          type: "episode",
+          date,
+        }}
       />
     </div>
   );
