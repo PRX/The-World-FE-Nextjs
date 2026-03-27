@@ -12,15 +12,18 @@ import { generateContentLinkHref } from "@/lib/routing";
 import { DateTime } from "@/components/DateTime";
 import { convertSecondsToDuration } from "@/lib/parse/time";
 import { CalendarSearchIcon } from "lucide-react";
+import { encodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 
 function useContentInMonth(date: Date) {
-  const beforeDate = new Date(date);
-
-  beforeDate.setMonth(beforeDate.getMonth() + 1);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const sf = encodeContentSearchFiltersParam({
+    year,
+    month,
+  });
 
   const apiUrlParams = new URLSearchParams({
-    after: `${date.getFullYear()}/${date.getMonth() + 1}/1`,
-    before: `${beforeDate.getFullYear()}/${beforeDate.getMonth() + 1}/1`,
+    sf,
   });
   const { data, error, isLoading } = useSWR(
     `/api/episodes?${apiUrlParams.toString()}`,

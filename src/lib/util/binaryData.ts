@@ -19,8 +19,8 @@ export function encodeContentSearchFiltersParam(
   return urlSafeBase64;
 }
 
-export function decodeContentSearchFiltersParam(urlSafeBase64: string) {
-  const binaryData = Uint8Array.fromBase64(urlSafeBase64, {
+export function decodeContentSearchFiltersParam(urlSafeBase64?: string) {
+  const binaryData = Uint8Array.fromBase64(urlSafeBase64 || "", {
     alphabet: "base64url",
   });
 

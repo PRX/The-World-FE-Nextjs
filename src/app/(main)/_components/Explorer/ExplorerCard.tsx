@@ -34,8 +34,8 @@ export type ExplorerCardProps = React.ComponentProps<"div"> & {
 
 export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
   const { additionalMedia, primaryCategory } = data as Post;
-  const { episodeAudio } = data as Episode;
-  const { segmentContent } = data as Segment;
+  const { episodeAudio, episodeDates } = data as Episode;
+  const { segmentContent, segmentDates } = data as Segment;
 
   const { audio } = additionalMedia || episodeAudio || segmentContent || {};
   const { duration } = audio || {};
@@ -43,6 +43,8 @@ export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
 
   const { title, date, link, featuredImage } =
     (data as ContentNode & NodeWithFeaturedImage & NodeWithTitle) || {};
+  const displayDate =
+    episodeDates?.broadcastDate || segmentDates?.broadcastDate || date;
 
   const { name: pcName, link: pcLink } = primaryCategory || {};
   const {
@@ -98,7 +100,7 @@ export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
             </span>
           )}
           <DateTime
-            date={date}
+            date={displayDate}
             options={{
               year: "numeric",
               month: "short",

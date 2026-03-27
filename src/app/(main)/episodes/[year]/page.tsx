@@ -3,15 +3,17 @@ import { unstable_cache } from "next/cache";
 import { isArray } from "lodash";
 import Explorer, { ExplorerCard } from "@/app/(main)/_components/Explorer";
 import { redirectToValidDatedRoute } from "@/lib/routing/redirectToValidDatedRoute";
-import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
+import { type ContentQueryOptions, fetchGqlEpisodes } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
+import CtaRegion from "@/app/(main)/_components/CtaRegion";
 
-export const getCachedEpisodeByYearContent = unstable_cache(
-  async (query: ContentQueryOptions) => fetchGqlContent(query),
-  ["content"],
+export const getCachedEpisodesByYear = unstable_cache(
+  async (query: ContentQueryOptions) => fetchGqlEpisodes(query),
+  ["content", "episodes", "year"],
   {
-    tags: ["content"],
+    tags: ["content", "episodes"],
     revalidate: 60,
   },
 );
@@ -42,7 +44,7 @@ export default async function EpisodesByYearPage({
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
 
-  const data = await getCachedEpisodeByYearContent({
+  const data = await getCachedEpisodesByYear({
     first: 60,
     where: {
       search,
@@ -51,21 +53,25 @@ export default async function EpisodesByYearPage({
   });
   const { pageInfo, nodes } = data || {};
 
+  const shownContentEndMessage = await getCtaRegionMessages(
+    "landing-inline-bottom",
+  ).then((messages) => getShownMessage(messages));
+
   return (
     <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer
-        options={{
-          type: "episode",
-          year,
-        }}
-        pageInfo={pageInfo}
-      >
+      <Explorer fetchEndpoint="episodes" pageInfo={pageInfo}>
         {nodes
           ?.filter((n) => !!n)
           .map((node) => {
             return <ExplorerCard data={node as ContentNode} key={node.id} />;
           })}
       </Explorer>
+
+      {shownContentEndMessage && (
+        <div className="px-4 mt-20 ml-(--_gutter-left)">
+          <CtaRegion cta={shownContentEndMessage} />
+        </div>
+      )}
     </div>
   );
 }

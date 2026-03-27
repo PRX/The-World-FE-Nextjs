@@ -7,6 +7,7 @@ import {
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
+  AUDIO_PROPS,
   EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
@@ -71,6 +72,7 @@ const GET_CATEGORIES = gql`
   ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}
   ${POST_CARD_PROPS}
   ${SEGMENT_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;
 

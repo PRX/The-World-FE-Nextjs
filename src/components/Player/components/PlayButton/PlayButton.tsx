@@ -28,7 +28,7 @@ export const PlayButton = ({
   ...rest
 }: PlayButtonProps) => {
   const { state: playerState, togglePlayPause } = useContext(PlayerContext);
-  const { playing } = playerState;
+  const { playing } = playerState || {};
   const tooltipText = playing ? "Pause" : "Play";
 
   const handlePlayClick: MouseEventHandler<HTMLButtonElement> = (e) => {

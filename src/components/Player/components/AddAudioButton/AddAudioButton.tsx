@@ -37,7 +37,7 @@ export const AddAudioButton = ({
     addTrack,
     removeTrack,
   } = useContext(PlayerContext);
-  const { tracks = [], currentTrackIndex } = playerState;
+  const { tracks = [], currentTrackIndex } = playerState || {};
   const [isCurrentTrack, setIsCurrentTrack] = useState(false);
   const [isQueued, setIsQueued] = useState(false);
   const tooltipText = isQueued ? "Remove From Playlist" : "Add To Playlist";

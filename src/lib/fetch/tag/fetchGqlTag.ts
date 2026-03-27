@@ -8,6 +8,7 @@ import type { Tag } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
+  AUDIO_PROPS,
   EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
@@ -63,6 +64,7 @@ const GET_TAG = gql`
     }
   }
   ${POST_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
   ${TAXONOMY_SEO_PROPS}
   ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}

@@ -25,7 +25,7 @@ export const NextButton = ({
   ...rest
 }: NextButtonProps) => {
   const { state: playerState, nextTrack } = useContext(PlayerContext);
-  const { currentTrackIndex, tracks } = playerState;
+  const { currentTrackIndex, tracks } = playerState || {};
   const hasMultipleTracks = !!tracks && tracks?.length > 1;
   const hasCurrentTrack = !!currentTrackIndex || currentTrackIndex === 0;
   const hasNextTrack = hasCurrentTrack && !!tracks?.[currentTrackIndex + 1];

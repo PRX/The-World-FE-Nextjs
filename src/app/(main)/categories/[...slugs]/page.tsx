@@ -34,17 +34,7 @@ export default async function TaxonomyPage({
   }
 
   const { id, name } = data || {};
-  const explorerProps = {
-    options: {
-      ...(slug &&
-        name && {
-          category: {
-            value: slug,
-            displayValue: name,
-          },
-        }),
-    },
-  };
+  const explorerProps = {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",

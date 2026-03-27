@@ -26,6 +26,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
           "hover:bg-cyan/20 hover:backdrop-blur-sm hover:backdrop-brightness-125",
+        frosted: "bg-accent backdrop-blur-xl hover:backdrop-brightness-125",
         link: "p-0 text-current underline-offset-4 hover:underline",
         unstyled: "",
       },

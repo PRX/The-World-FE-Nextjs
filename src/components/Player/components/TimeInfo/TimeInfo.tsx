@@ -19,7 +19,7 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   ...other
 }: TimeInfoProps) => {
   const { audioElm, state: playerState } = useContext(PlayerContext);
-  const { currentTrackIndex = 0, tracks } = playerState;
+  const { currentTrackIndex = 0, tracks } = playerState || {};
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: audioDuration } = currentTrack || {};
   const [currentTime, setCurrentTime] = useState(0);

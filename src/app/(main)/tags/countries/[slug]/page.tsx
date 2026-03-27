@@ -35,17 +35,7 @@ export default async function CountryPage({
   }
 
   const { name } = data || {};
-  const explorerProps = {
-    options: {
-      ...(slug &&
-        name && {
-          country: {
-            value: slug,
-            displayValue: name,
-          },
-        }),
-    },
-  };
+  const explorerProps = {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",

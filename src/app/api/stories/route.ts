@@ -1,8 +1,5 @@
-import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
-import fetchGqlContent, {
-  type ContentQueryOptions,
-} from "@/lib/fetch/content/fetchGqlContent";
+import { fetchGqlStories } from "@/lib/fetch";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -12,21 +9,16 @@ export async function GET(req: NextRequest) {
     const sf = req.nextUrl.searchParams.get("sf") || undefined;
     const whereArgs = convertSFParamToWhereArgs(sf);
 
-    const queryOptions: ContentQueryOptions = {
+    delete whereArgs?.contentTypes;
+
+    const data = await fetchGqlStories({
       first: 60,
-      after: after,
+      after,
       where: {
         search,
-        orderby: [
-          {
-            field: PostObjectsConnectionOrderbyEnum.Date,
-            order: OrderEnum.Desc,
-          },
-        ],
         ...whereArgs,
       },
-    };
-    const data = await fetchGqlContent(queryOptions);
+    });
 
     if (!data) {
       return NextResponse.json(

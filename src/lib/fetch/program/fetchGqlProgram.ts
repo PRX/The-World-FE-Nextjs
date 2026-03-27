@@ -8,6 +8,7 @@ import type { Maybe, Program } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
+  AUDIO_PROPS,
   EPISODE_CARD_PROPS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
@@ -86,6 +87,7 @@ const GET_PROGRAM = gql`
     }
   }
   ${POST_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
   ${TAXONOMY_SEO_PROPS}
   ${EPISODE_CARD_PROPS}

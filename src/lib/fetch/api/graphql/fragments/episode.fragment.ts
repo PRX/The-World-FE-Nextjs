@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { AUDIO_PROPS } from "./audio.fragment";
 
 export const EPISODE_CARD_PROPS = gql`
   fragment EpisodeCardProps on Episode {
@@ -51,7 +50,6 @@ export const EPISODE_CARD_PROPS = gql`
       }
     }
   }
-  ${AUDIO_PROPS}
 `;
 
 export const EPISODE_CARD_PROPS_WITHOUT_SEGMENTS = gql`
@@ -85,5 +83,4 @@ export const EPISODE_CARD_PROPS_WITHOUT_SEGMENTS = gql`
       }
     }
   }
-  ${AUDIO_PROPS}
 `;

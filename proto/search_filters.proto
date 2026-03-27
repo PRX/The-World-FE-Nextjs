@@ -11,9 +11,10 @@ message ContentSearchFilters {
 }
 
 enum SFContentTypeEnum {
-  POST = 0;
-  SEGMENT = 1;
-  EPISODE = 2;
+  ALL = 0;
+  POST = 1;
+  SEGMENT = 2;
+  EPISODE = 3;
 }
 
 enum SFContentSortEnum {

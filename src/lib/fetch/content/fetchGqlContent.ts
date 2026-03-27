@@ -1,5 +1,5 @@
 /**
- * Fetch Episode data from WP GraphQL API.
+ * Fetch Content data from WP GraphQL API.
  */
 
 import { gql } from "@apollo/client";
@@ -9,6 +9,7 @@ import type {
 } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
 import {
+  AUDIO_PROPS,
   EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
@@ -54,6 +55,7 @@ export const GET_CONTENT_NODES = gql`
   ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}
   ${POST_CARD_PROPS}
   ${SEGMENT_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;
 

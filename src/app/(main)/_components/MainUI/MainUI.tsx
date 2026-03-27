@@ -81,7 +81,7 @@ export default function MainUI({
   const drawerRef = useRef<HTMLDivElement>(null);
   const trackInfoRef = useRef<HTMLDivElement>(null);
   const { state: playerState } = useContext(PlayerContext);
-  const { tracks } = playerState;
+  const { tracks } = playerState || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);

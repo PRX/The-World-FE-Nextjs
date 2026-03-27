@@ -1,52 +1,24 @@
-import {
-  ContentTypeEnum,
-  OrderEnum,
-  PostObjectsConnectionOrderbyEnum,
-} from "@/interfaces";
-import fetchGqlContent, {
-  type ContentQueryOptions,
-} from "@/lib/fetch/content/fetchGqlContent";
+import { convertSFParamToWhereArgs } from "@/lib/convert/string";
+import { fetchGqlEpisodes } from "@/lib/fetch";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const after = req.nextUrl.searchParams.get("after");
-    const before = req.nextUrl.searchParams.get("before");
+    const after = req.nextUrl.searchParams.get("after") || undefined;
+    const search = req.nextUrl.searchParams.get("search") || undefined;
+    const sf = req.nextUrl.searchParams.get("sf") || undefined;
+    const whereArgs = convertSFParamToWhereArgs(sf);
 
-    const afterDate = new Date(`${after}`);
-    const beforeDate = new Date(`${before}`);
+    delete whereArgs?.contentTypes;
 
-    const queryOptions: ContentQueryOptions = {
-      first: 100,
+    const data = await fetchGqlEpisodes({
+      first: 60,
+      after,
       where: {
-        contentTypes: [ContentTypeEnum.Episode],
-        ...((after || before) && {
-          dateQuery: {
-            ...(after && {
-              after: {
-                year: afterDate.getFullYear(),
-                month: afterDate.getMonth() + 1,
-                day: afterDate.getDate(),
-              },
-            }),
-            ...(before && {
-              before: {
-                year: beforeDate.getFullYear(),
-                month: beforeDate.getMonth() + 1,
-                day: beforeDate.getDate(),
-              },
-            }),
-          },
-        }),
-        orderby: [
-          {
-            field: PostObjectsConnectionOrderbyEnum.Date,
-            order: OrderEnum.Desc,
-          },
-        ],
+        search,
+        ...whereArgs,
       },
-    };
-    const data = await fetchGqlContent(queryOptions);
+    });
 
     if (!data) {
       return NextResponse.json(

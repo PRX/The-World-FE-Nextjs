@@ -37,17 +37,7 @@ export default async function ContributorPage({
   const { bio } = contributorDetails || {};
   const content = bio || description;
   const hasContent = !!content?.trim();
-  const explorerProps = {
-    options: {
-      ...(slug &&
-        name && {
-          contributor: {
-            value: slug,
-            displayValue: name,
-          },
-        }),
-    },
-  };
+  const explorerProps = {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",

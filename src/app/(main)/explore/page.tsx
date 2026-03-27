@@ -1,11 +1,21 @@
-import type { ContentNode } from "@/interfaces";
+import {
+  OrderEnum,
+  PostObjectsConnectionOrderbyEnum,
+  type ContentNode,
+} from "@/interfaces";
 import { unstable_cache } from "next/cache";
 import { isArray } from "lodash";
 import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import Explorer, { ExplorerCard } from "@/app/(main)/_components/Explorer";
+import Explorer, {
+  ExplorerCard,
+  ExplorerClearSearch,
+  ExplorerContentTypeFilter,
+} from "@/app/(main)/_components/Explorer";
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
+import ExplorerSortFilter from "../_components/Explorer/ExplorerSort";
+import { cn } from "@/lib/util/css";
 
 export const getCachedExploreContent = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -30,6 +40,9 @@ export default async function ExplorePage({
     first: 60,
     where: {
       search,
+      orderby: [
+        { field: PostObjectsConnectionOrderbyEnum.Date, order: OrderEnum.Desc },
+      ],
       ...whereArgs,
     },
   });
@@ -41,6 +54,20 @@ export default async function ExplorePage({
 
   return (
     <div className="mt-10 px-8 md:ml-(--gutter-left)">
+      <div
+        className={cn(
+          "sticky top-(--gutter-top) z-10",
+          "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
+        )}
+      >
+        <div className="flex items-center gap-2">
+          <ExplorerContentTypeFilter />
+          <ExplorerClearSearch />
+        </div>
+        <div className="flex items-center gap-2">
+          <ExplorerSortFilter />
+        </div>
+      </div>
       <Explorer
         className="w-full max-w-7xl mx-auto"
         pageInfo={pageInfo}

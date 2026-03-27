@@ -1,5 +1,6 @@
 import { CompassIcon } from "lucide-react";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { Separator } from "@/components/ui/separator";
 
 export default async function ContributorsHero() {
   return (
@@ -12,6 +13,7 @@ export default async function ContributorsHero() {
           <CompassIcon className="size-9" /> Explore The World
         </h1>
       </div>
+      <Separator />
     </HeroHeader>
   );
 }

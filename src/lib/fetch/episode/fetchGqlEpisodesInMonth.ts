@@ -5,12 +5,16 @@
 import { gql } from "@apollo/client";
 import type { Episode, RootQueryToEpisodeConnection } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
-import { EPISODE_CARD_PROPS, IMAGE_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  EPISODE_CARD_PROPS,
+  IMAGE_PROPS,
+} from "@/lib/fetch/api/graphql";
 
-export const GET_EPISODES = gql`
-  query getEpisodesInMonth($after: DateInput, $before: DateInput) {
+export const GET_EPISODES_IN_MONTH = gql`
+  query getEpisodesInMonth($year: Int, $month: Int) {
     episodes(
-      where: {dateQuery: {after: $after, before: $before}, orderby: {field: DATE, order: DESC}}
+      where: {dateQuery: { year: $year, month: $month }, orderby: {field: DATE, order: DESC}}
     ) {
       nodes {
         ...EpisodeCardProps
@@ -18,6 +22,7 @@ export const GET_EPISODES = gql`
     }
   }
   ${EPISODE_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;
 
@@ -27,26 +32,14 @@ export async function fetchGqlEpisodesInMonth(
   authToken?: string,
 ) {
   const gqlClient = getClient(authToken);
-  const afterDate = new Date(`${year}/${month}/1`);
-  const beforeDate = new Date(afterDate);
-
-  beforeDate.setMonth(beforeDate.getMonth() + 1);
 
   const response = await gqlClient.query<{
     episodes: RootQueryToEpisodeConnection;
   }>({
-    query: GET_EPISODES,
+    query: GET_EPISODES_IN_MONTH,
     variables: {
-      after: {
-        year: afterDate.getFullYear(),
-        month: afterDate.getMonth() + 1,
-        day: 1,
-      },
-      before: {
-        year: beforeDate.getFullYear(),
-        month: beforeDate.getMonth() + 1,
-        day: 1,
-      },
+      year: parseInt(`${year}`, 10),
+      month: parseInt(`${month}`, 10),
     },
   });
   const episodes = response?.data?.episodes.nodes;

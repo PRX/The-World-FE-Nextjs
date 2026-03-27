@@ -19,7 +19,7 @@ export type PlaylistProps = React.ComponentProps<"div">;
 
 export const Playlist = ({ className, ...other }: PlaylistProps) => {
   const { state: playerState, setTracks } = useContext(PlayerContext);
-  const { tracks } = playerState;
+  const { tracks } = playerState || {};
 
   const handleReorder = useMemo(
     () =>

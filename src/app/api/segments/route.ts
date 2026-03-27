@@ -1,52 +1,27 @@
-import {
-  ContentTypeEnum,
-  OrderEnum,
-  PostObjectsConnectionOrderbyEnum,
-} from "@/interfaces";
-import fetchGqlContent, {
-  type ContentQueryOptions,
-} from "@/lib/fetch/content/fetchGqlContent";
+import { convertSFParamToWhereArgs } from "@/lib/convert/string";
+import { fetchGqlSegments, type SegmentsQueryOptions } from "@/lib/fetch";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const after = req.nextUrl.searchParams.get("after");
-    const before = req.nextUrl.searchParams.get("before");
+    const getAllResults = !!(req.nextUrl.searchParams.get("all") || undefined);
+    const after = req.nextUrl.searchParams.get("after") || undefined;
+    const search = req.nextUrl.searchParams.get("search") || undefined;
+    const sf = req.nextUrl.searchParams.get("sf") || undefined;
+    const whereArgs = convertSFParamToWhereArgs(sf);
+    const doGetAllResults = getAllResults && !!whereArgs?.dateQuery?.month;
 
-    const afterDate = new Date(`${after}`);
-    const beforeDate = new Date(`${before}`);
+    delete whereArgs?.contentTypes;
 
-    const queryOptions: ContentQueryOptions = {
-      first: 100,
+    const queryOptions: SegmentsQueryOptions = {
+      first: doGetAllResults ? 100 : 60,
+      after,
       where: {
-        contentTypes: [ContentTypeEnum.Segment],
-        ...((after || before) && {
-          dateQuery: {
-            ...(after && {
-              after: {
-                year: afterDate.getFullYear(),
-                month: afterDate.getMonth() + 1,
-                day: afterDate.getDate(),
-              },
-            }),
-            ...(before && {
-              before: {
-                year: beforeDate.getFullYear(),
-                month: beforeDate.getMonth() + 1,
-                day: beforeDate.getDate(),
-              },
-            }),
-          },
-        }),
-        orderby: [
-          {
-            field: PostObjectsConnectionOrderbyEnum.Date,
-            order: OrderEnum.Desc,
-          },
-        ],
+        search,
+        ...whereArgs,
       },
     };
-    const data = await fetchGqlContent(queryOptions);
+    const data = await fetchGqlSegments(queryOptions);
 
     if (!data) {
       return NextResponse.json(
@@ -55,19 +30,20 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Query results from GraphQL API are capped at 100 items.
-    // Continue to fetch results until there isn't a next page of items.
-    while (data.pageInfo.hasNextPage) {
-      const { pageInfo, edges, nodes } =
-        (await fetchGqlContent({
-          ...queryOptions,
-          after: data.pageInfo.endCursor as string,
-        })) || {};
+    if (doGetAllResults) {
+      // Query results from GraphQL API are capped at 100 items.
+      // Continue to fetch results until there isn't a next page of items.
+      while (data.pageInfo.hasNextPage) {
+        const { pageInfo, nodes } =
+          (await fetchGqlSegments({
+            ...queryOptions,
+            after: data.pageInfo.endCursor as string,
+          })) || {};
 
-      data.pageInfo.hasNextPage = !!pageInfo?.hasNextPage;
-      data.pageInfo.endCursor = pageInfo?.endCursor;
-      data.edges = [...data.edges, ...(edges || [])];
-      data.nodes = [...data.nodes, ...(nodes || [])];
+        data.pageInfo.hasNextPage = !!pageInfo?.hasNextPage;
+        data.pageInfo.endCursor = pageInfo?.endCursor;
+        data.nodes = [...data.nodes, ...(nodes || [])];
+      }
     }
 
     return NextResponse.json(data, { status: 200 });

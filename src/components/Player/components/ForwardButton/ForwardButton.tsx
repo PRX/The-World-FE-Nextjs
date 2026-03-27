@@ -25,7 +25,7 @@ export const ForwardButton = ({
   ...rest
 }: ForwardButtonProps) => {
   const { state: playerState, forward } = useContext(PlayerContext);
-  const { currentTrackIndex } = playerState;
+  const { currentTrackIndex } = playerState || {};
   const hasCurrentTrack = !!currentTrackIndex || currentTrackIndex === 0;
 
   const handlePlayClick: MouseEventHandler<HTMLButtonElement> = (e) => {

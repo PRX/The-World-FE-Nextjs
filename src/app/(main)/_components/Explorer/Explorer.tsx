@@ -5,239 +5,23 @@ import { useCallback, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import type {
   ContentNode,
-  ContentTypeEnum,
   PageInfo,
   RootQueryToContentNodeConnection,
-  TaxonomyEnum,
 } from "@/interfaces";
-import {
-  BookmarkIcon,
-  BookOpenIcon,
-  BoomBoxIcon,
-  CalendarIcon,
-  CassetteTapeIcon,
-  EarthIcon,
-  TypeIcon,
-  UserIcon,
-  XIcon,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/util/css";
-import ExplorerClearFilterButton from "./ExplorerClearFilterButton";
 import { ExplorerCard } from "./ExplorerCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { uniqueId } from "lodash";
 
-type FilterValueConfig = { value: string; displayValue: string };
-type FilterValue = string | FilterValueConfig | Date;
-
-export type FilterOptions = Record<
-  Lowercase<
-    keyof Omit<
-      typeof TaxonomyEnum,
-      | "Ctaregiontype"
-      | "License"
-      | "Postformat"
-      | "Resourcedevelopmenttag"
-      | "Storyformat"
-    >
-  >,
-  FilterValue
-> & {
-  year: string | number;
-  month: string | number;
-  date: FilterValue;
-  type: Lowercase<
-    keyof Pick<typeof ContentTypeEnum, "Post" | "Episode" | "Segment">
-  >;
-};
-
 export type ExplorerParams = React.ComponentProps<"div"> & {
-  options?: Partial<FilterOptions>;
+  fetchEndpoint?: string;
   pageInfo?: PageInfo;
 };
-
-export type FilterConfig = {
-  priority: number;
-  param: string;
-  label: string;
-  value: FilterValue;
-  format?(v: FilterValue): string;
-  hidden?: boolean;
-  icon?: React.JSX.Element;
-  render?(v: string): React.JSX.Element | null;
-};
-
-const typeIconMap = new Map<string, React.JSX.Element>();
-typeIconMap.set("episode", <BoomBoxIcon />);
-typeIconMap.set("segment", <CassetteTapeIcon />);
-typeIconMap.set("post", <BookOpenIcon />);
-
-const filterConfigMap = new Map<string, Partial<FilterConfig>>([
-  [
-    "type",
-    {
-      priority: 0,
-      param: "type",
-      label: "Content Type",
-    },
-  ],
-  [
-    "searchText",
-    {
-      priority: 0.1,
-      param: "search",
-      label: "Search Text",
-      icon: <TypeIcon />,
-      render: (v) => <>"{v}"</>,
-    },
-  ],
-  [
-    "date",
-    {
-      priority: 1,
-      param: "date",
-      label: "Date",
-      icon: <CalendarIcon />,
-      format: (date: Date) => {
-        const d = typeof date === "string" ? new Date(date) : date;
-
-        return d.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-      },
-    },
-  ],
-  [
-    "year",
-    {
-      priority: 1.1,
-      param: "year",
-      label: "Year",
-      icon: <CalendarIcon />,
-      format: (year: string) => {
-        const d = new Date(`${year}/01`);
-
-        return d.toLocaleDateString("en-US", {
-          year: "numeric",
-        });
-      },
-    },
-  ],
-  [
-    "month",
-    {
-      priority: 1.2,
-      param: "month",
-      label: "Month",
-      icon: <CalendarIcon />,
-      format: (month: string) => {
-        const d = new Date(`2000/${month}`);
-
-        return d.toLocaleDateString("en-US", {
-          month: "long",
-        });
-      },
-    },
-  ],
-  [
-    "category",
-    {
-      priority: 2,
-      param: "category",
-      label: "Category",
-      icon: <BookmarkIcon />,
-    },
-  ],
-  [
-    "tag",
-    {
-      priority: 2.1,
-      param: "tag",
-      label: "Tag",
-      icon: <BookmarkIcon />,
-    },
-  ],
-  [
-    "socialtag",
-    {
-      priority: 2.2,
-      param: "socialtag",
-      label: "Social Tag",
-      icon: <BookmarkIcon />,
-    },
-  ],
-  [
-    "contributor",
-    {
-      priority: 3,
-      param: "contributor",
-      label: "Contributor",
-      icon: <UserIcon />,
-    },
-  ],
-  [
-    "continent",
-    {
-      priority: 4,
-      param: "continent",
-      label: "Continent",
-      icon: <EarthIcon />,
-    },
-  ],
-  [
-    "region",
-    {
-      priority: 4.1,
-      param: "region",
-      label: "Region",
-      icon: <EarthIcon />,
-    },
-  ],
-  [
-    "country",
-    {
-      priority: 4.2,
-      param: "country",
-      label: "Country",
-      icon: <EarthIcon />,
-    },
-  ],
-  [
-    "provinceorstate",
-    {
-      priority: 4.3,
-      param: "provinceorstate",
-      label: "Province/State",
-      icon: <EarthIcon />,
-    },
-  ],
-  [
-    "city",
-    {
-      priority: 4.4,
-      param: "city",
-      label: "City",
-      icon: <EarthIcon />,
-    },
-  ],
-  [
-    "person",
-    {
-      priority: 5,
-      param: "person",
-      label: "Person",
-      icon: <UserIcon />,
-    },
-  ],
-]);
 
 export default function Explorer({
   className,
   children,
-  options = {},
+  fetchEndpoint = "explore",
   pageInfo: initialPageInfo,
   ...props
 }: ExplorerParams) {
@@ -247,61 +31,10 @@ export default function Explorer({
   const searchParams = useSearchParams();
   const search = searchParams.get("search") || undefined;
   const sf = searchParams.get("sf") || undefined;
-  const searchFilters = {
-    ...(search && { searchText: search }),
-  };
-  // TODO: Fetch term data for taxonomy filters so term names can be shown instead of slugs.
-  const filters: FilterConfig[] = [
-    // Prepare hidden filter values.
-    // These params come from the component and should not be mutable.
-    // Landing page routes will use this to constrain filter options to what is
-    // provided in the route params.
-    ...Object.entries(options)
-      .map(([k, value]) => {
-        const config = filterConfigMap.get(k);
-        if (!config) return null;
-        const c = {
-          ...config,
-          value,
-          hidden: true,
-        } as FilterConfig;
-
-        filterConfigMap.set(k, c);
-
-        return c;
-      })
-      .filter((v) => !!v)
-      .sort((a, b) => a.priority - b.priority),
-
-    // Prepare search filter values.
-    // These params come from the URL query string.
-    // There values should be mutable by filter options inputs.
-    ...Object.entries(searchFilters)
-      // Remove any search filters that should be hidden.
-      .filter(([k]) => !Object.hasOwn(options, k))
-      .map(([k, value]) => {
-        const config = filterConfigMap.get(k);
-        if (!config) return null;
-        const c = {
-          ...config,
-          value,
-        } as FilterConfig;
-
-        if (k === "type") {
-          c.icon = typeIconMap.get(k);
-        }
-
-        filterConfigMap.set(k, c);
-
-        return c;
-      })
-      .filter((v) => !!v)
-      .sort((a, b) => a.priority - b.priority),
-  ];
-  const mutableFilters = filters.filter(({ hidden }) => !hidden);
-  const hasMutableFilters = !!mutableFilters.length;
 
   const fetchData = useCallback(async () => {
+    if (!fetchEndpoint) return;
+
     const fetchParams = new URLSearchParams();
 
     if (endCursor) {
@@ -317,17 +50,17 @@ export default function Explorer({
     }
 
     const data: RootQueryToContentNodeConnection = await fetch(
-      `/api/explore?${fetchParams.toString()}`,
+      `/api/${fetchEndpoint}?${fetchParams.toString()}`,
     ).then((res) => res.ok && res.json());
 
     if (data) {
       setPageInfo(data.pageInfo);
       setContentNodes((cns) => [...(cns || []), ...(data.nodes || [])]);
     }
-  }, [endCursor, search, sf]);
+  }, [endCursor, fetchEndpoint, search, sf]);
 
   const cardGridClassName = cn(
-    "grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4",
+    "grid grid-cols-[repeat(auto-fill,minmax(calc(var(--spacing)*65),1fr))] gap-4",
     "*:data-[slot=card]:nth-of-type-[7n+2]:[--card:var(--color-brown)]",
     "*:data-[slot=card]:nth-of-type-[7n+3]:[--card:var(--color-burnt-orange)]",
     "*:data-[slot=card]:nth-of-type-[7n+4]:[--card:var(--color-light-blue)]",
@@ -337,78 +70,32 @@ export default function Explorer({
   );
 
   return (
-    <div className={cn("grid gap-3", className)} {...props}>
-      {hasMutableFilters && (
-        <div className="flex flex-wrap items-center gap-2">
-          {mutableFilters.map((config) => {
-            const { param, icon, label, render, value, format } = config;
-            const v =
-              typeof value === "string" || value instanceof Date
-                ? value
-                : value.displayValue;
-            const displayValue = format
-              ? format(value)
-              : (typeof v === "string" && v) ||
-                v.toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                });
-
+    <div className={cn("flex flex-col gap-4", className)} {...props}>
+      <div className={cardGridClassName}>{children}</div>
+      <InfiniteScroll
+        className={cardGridClassName}
+        dataLength={contentNodes?.length || 0}
+        next={fetchData}
+        hasMore={!!hasNextPage}
+        loader={
+          <div className="col-span-full grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4 h-200 overflow-hidden mask-b-from-100">
+            {new Array(8).fill(null).map(() => (
+              <Skeleton className="aspect-2/3 h-auto" key={uniqueId()} />
+            ))}
+          </div>
+        }
+      >
+        {contentNodes
+          ?.filter((n) => !!n)
+          .map((node) => {
             return (
-              displayValue && (
-                <Badge
-                  className="relative pe-6"
-                  variant="secondary"
-                  aria-label={label}
-                  key={param}
-                >
-                  {icon}
-                  <span className="-mb-0.5">
-                    {render ? render(displayValue) : displayValue}
-                  </span>
-                  <ExplorerClearFilterButton
-                    param={param}
-                    className="absolute inset-0 left-auto p-0 w-5 h-auto rounded-full hover:bg-current/20 hover:text-current"
-                    variant="ghost"
-                    size="icon-sm"
-                    title={`Remove ${label} Filter`}
-                  >
-                    <XIcon className="size-3" />
-                  </ExplorerClearFilterButton>
-                </Badge>
-              )
+              <ExplorerCard
+                data={node as ContentNode}
+                key={uniqueId(node.id)}
+              />
             );
           })}
-        </div>
-      )}
-      <div className="flex flex-col gap-4">
-        <div className={cardGridClassName}>{children}</div>
-        <InfiniteScroll
-          className={cardGridClassName}
-          dataLength={contentNodes?.length || 0}
-          next={fetchData}
-          hasMore={!!hasNextPage}
-          loader={
-            <div className="col-span-full grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4 h-200 overflow-hidden mask-b-from-100">
-              {new Array(8).fill(null).map(() => (
-                <Skeleton className="aspect-2/3 h-auto" key={uniqueId()} />
-              ))}
-            </div>
-          }
-        >
-          {contentNodes
-            ?.filter((n) => !!n)
-            .map((node) => {
-              return (
-                <ExplorerCard
-                  data={node as ContentNode}
-                  key={uniqueId(node.id)}
-                />
-              );
-            })}
-        </InfiniteScroll>
-      </div>
+      </InfiniteScroll>
     </div>
   );
 }

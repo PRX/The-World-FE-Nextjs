@@ -35,18 +35,7 @@ export default async function TagPage({
   }
 
   const { name } = data || {};
-  const explorerProps = {
-    options: {
-      ...(data && {
-        tag: !name?.trim()
-          ? slug
-          : {
-              value: slug,
-              displayValue: name,
-            },
-      }),
-    },
-  };
+  const explorerProps = {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",

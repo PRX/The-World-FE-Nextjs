@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file search_filters.proto.
  */
 export const file_search_filters: GenFile = /*@__PURE__*/
-  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMi9gEKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgFSAKIAQESEgoFbW9udGgYBCABKAVIA4gBARIQCgNkYXkYBSABKAVIBIgBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXkqNwoRU0ZDb250ZW50VHlwZUVudW0SCAoEUE9TVBAAEgsKB1NFR01FTlQQARILCgdFUElTT0RFEAIqRwoRU0ZDb250ZW50U29ydEVudW0SCgoGTkVXRVNUEAASCgoGT0xERVNUEAESDAoIVElUTEVfQVoQAhIMCghUSVRMRV9aQRADYgZwcm90bzM");
+  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMi9gEKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgFSAKIAQESEgoFbW9udGgYBCABKAVIA4gBARIQCgNkYXkYBSABKAVIBIgBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXkqQAoRU0ZDb250ZW50VHlwZUVudW0SBwoDQUxMEAASCAoEUE9TVBABEgsKB1NFR01FTlQQAhILCgdFUElTT0RFEAMqRwoRU0ZDb250ZW50U29ydEVudW0SCgoGTkVXRVNUEAASCgoGT0xERVNUEAESDAoIVElUTEVfQVoQAhIMCghUSVRMRV9aQRADYgZwcm90bzM");
 
 /**
  * @generated from message search_filters.ContentSearchFilters
@@ -54,19 +54,24 @@ export const ContentSearchFiltersSchema: GenMessage<ContentSearchFilters> = /*@_
  */
 export enum SFContentTypeEnum {
   /**
-   * @generated from enum value: POST = 0;
+   * @generated from enum value: ALL = 0;
    */
-  POST = 0,
+  ALL = 0,
 
   /**
-   * @generated from enum value: SEGMENT = 1;
+   * @generated from enum value: POST = 1;
    */
-  SEGMENT = 1,
+  POST = 1,
 
   /**
-   * @generated from enum value: EPISODE = 2;
+   * @generated from enum value: SEGMENT = 2;
    */
-  EPISODE = 2,
+  SEGMENT = 2,
+
+  /**
+   * @generated from enum value: EPISODE = 3;
+   */
+  EPISODE = 3,
 }
 
 /**
