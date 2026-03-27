@@ -101,7 +101,7 @@ export function ExplorerSortFilter({
       <SelectTrigger data-slot="explorer-filter-control-sort">
         <SelectValue placeholder="Sort Order" />
       </SelectTrigger>
-      <SelectContent className={cn("", className)} align="start" {...props}>
+      <SelectContent className={cn("", className)} align="end" {...props}>
         <SelectGroup>
           {[...ctMap.values()].map((opt) => (
             <SelectItem key={opt.value} value={opt.value || ""}>

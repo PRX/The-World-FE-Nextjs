@@ -11,10 +11,11 @@ import Explorer, {
   ExplorerCard,
   ExplorerClearSearch,
   ExplorerContentTypeFilter,
+  ExplorerDateFilter,
+  ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
-import ExplorerSortFilter from "../_components/Explorer/ExplorerSort";
 import { cn } from "@/lib/util/css";
 
 export const getCachedExploreContent = unstable_cache(
@@ -62,6 +63,7 @@ export default async function ExplorePage({
       >
         <div className="flex items-center gap-2">
           <ExplorerContentTypeFilter />
+          <ExplorerDateFilter />
           <ExplorerClearSearch />
         </div>
         <div className="flex items-center gap-2">
