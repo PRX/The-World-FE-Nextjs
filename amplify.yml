@@ -1,18 +1,4 @@
 version: 1
-test:
-  phases:
-    preTest:
-      commands:
-        - mkdir .jest
-        - yarn install
-    test:
-      commands:
-        - yarn test --json --outputFile=.jest/jestReport.json
-  artifacts:
-    baseDirectory: .jest
-    configFilePath: 'jestReport.json'
-    files:
-      - '**/*'
 frontend:
   phases:
     preBuild:
