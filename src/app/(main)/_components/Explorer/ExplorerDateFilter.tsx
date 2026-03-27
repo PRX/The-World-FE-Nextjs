@@ -4,11 +4,16 @@ import type {
   MonthChangeEventHandler,
   OnSelectHandler,
 } from "react-day-picker";
-import { useCallback, useEffect, useState } from "react";
+import {
+  type MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/util/css";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, XIcon } from "lucide-react";
 import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group";
 import {
   Popover,
@@ -37,6 +42,7 @@ export function ExplorerDateFilter({
     decodeContentSearchFiltersParam(sf),
   );
   const { year, month, day } = searchFilters || {};
+  const today = new Date();
   const monthDate =
     !isUndefined(year) && !isUndefined(month)
       ? new Date(year, month - 1)
@@ -49,6 +55,7 @@ export function ExplorerDateFilter({
           return d;
         })()
       : undefined;
+  const hasDateFilter = !!monthDate;
   const label =
     (selectedDate && format(selectedDate, "PPP")) ||
     (monthDate && format(monthDate, "MMM yyyy"));
@@ -79,6 +86,21 @@ export function ExplorerDateFilter({
     [searchFilters],
   );
 
+  const handleClearDate: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      const newSearchFilters = structuredClone(searchFilters);
+
+      delete newSearchFilters.year;
+      delete newSearchFilters.month;
+      delete newSearchFilters.day;
+
+      setSearchFilters(newSearchFilters);
+    },
+    [searchFilters],
+  );
+
   useEffect(() => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
     const newSfParam = encodeContentSearchFiltersParam(searchFilters);
@@ -94,9 +116,19 @@ export function ExplorerDateFilter({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <ButtonGroup>
+        <ButtonGroup className={cn("", className)} {...props}>
           {label && <ButtonGroupText>{label}</ButtonGroupText>}
-          <Button variant="frosted" size="icon">
+          {hasDateFilter && (
+            <Button
+              className="cursor-pointer"
+              variant="frosted"
+              size="icon"
+              onClick={handleClearDate}
+            >
+              <XIcon />
+            </Button>
+          )}
+          <Button className="cursor-pointer" variant="frosted" size="icon">
             <CalendarIcon />
           </Button>
         </ButtonGroup>
@@ -107,6 +139,9 @@ export function ExplorerDateFilter({
           mode="single"
           captionLayout="dropdown"
           selected={selectedDate}
+          startMonth={new Date(2010, 0)}
+          month={monthDate}
+          endMonth={today}
           onMonthChange={handleMonthChange}
           onSelect={handleDateSelect}
         />
