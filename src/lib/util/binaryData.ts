@@ -1,3 +1,4 @@
+import "core-js/proposals/array-buffer-base64";
 import { ContentSearchFiltersSchema } from "@/gen/search_filters_pb";
 import {
   create,
