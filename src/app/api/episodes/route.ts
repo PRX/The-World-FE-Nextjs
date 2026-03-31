@@ -1,3 +1,4 @@
+import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
 import { fetchGqlEpisodes } from "@/lib/fetch";
 import { NextResponse, type NextRequest } from "next/server";
@@ -16,6 +17,12 @@ export async function GET(req: NextRequest) {
       after,
       where: {
         search,
+        orderby: [
+          {
+            field: PostObjectsConnectionOrderbyEnum.Date,
+            order: OrderEnum.Desc,
+          },
+        ],
         ...whereArgs,
       },
     });

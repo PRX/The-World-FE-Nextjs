@@ -11,7 +11,7 @@ import { getClient } from "@/lib/fetch/api";
 import {
   AUDIO_PROPS,
   IMAGE_PROPS,
-  SEGMENT_CARD_PROPS,
+  POST_CARD_PROPS,
 } from "@/lib/fetch/api/graphql";
 
 export type StoriesQueryOptions = {
@@ -38,11 +38,11 @@ export const GET_STORIES = gql`
         hasNextPage
       }
       nodes {
-        ...SegmentCardProps
+        ...PostCardProps
       }
     }
   }
-  ${SEGMENT_CARD_PROPS}
+  ${POST_CARD_PROPS}
   ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;

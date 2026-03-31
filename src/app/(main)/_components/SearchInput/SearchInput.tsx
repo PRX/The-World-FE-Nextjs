@@ -1,8 +1,10 @@
 "use client";
 
 import {
-  type FormEventHandler,
+  type FocusEventHandler,
+  type InputEventHandler,
   type KeyboardEventHandler,
+  type SubmitEventHandler,
   useCallback,
   useEffect,
   useRef,
@@ -15,7 +17,7 @@ import type {
   NodeWithTitle,
   TermNode,
 } from "@/interfaces";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   InputGroup,
   InputGroupAddon,
@@ -27,6 +29,7 @@ import {
   BookOpenIcon,
   BoomBoxIcon,
   CassetteTapeIcon,
+  ChevronDownIcon,
   ChevronRightIcon,
   Globe2Icon,
   HashIcon,
@@ -51,11 +54,43 @@ import { generateContentLinkHref } from "@/lib/routing";
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
 import Image from "next/image";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import type { ContentSearchFiltersSchema } from "@/gen/search_filters_pb";
+import type { MessageInitShape } from "@bufbuild/protobuf";
+import { encodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 
-export type SearchInputProps = React.ComponentProps<"form">;
+export type SearchContext = {
+  /**
+   * Label to use in the context switcher select input.
+   */
+  label: string;
+  /**
+   * API endpoint for autocomplete query.
+   * Endpoint should expect a `search` parameter and return an object with `contentNodes` and `terms` results.
+   * Results should be ordered by relevance, eg. just the `search` argument.
+   * See `/api/search/route.ts`
+   */
+  fetchEndpoint?: string;
+  fetchSearchFilters?: MessageInitShape<typeof ContentSearchFiltersSchema>;
+};
 
-export default function SearchInput({ className, ...props }: SearchInputProps) {
+export type SearchInputProps = React.ComponentProps<"form"> & {
+  searchContext?: SearchContext;
+};
+
+export default function SearchInput({
+  className,
+  searchContext,
+  ...props
+}: SearchInputProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const abortController = useRef<AbortController>(null);
   const [forceLoad, setForceLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,14 +104,29 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
   const searchParams = useSearchParams();
   const searchParam = searchParams.get("search");
   const [searchInput, setSearchInput] = useState(searchParam || undefined);
+  const [inContextSearch, setInContextSearch] = useState(!!searchContext);
+  const searchPathname = inContextSearch ? pathname : "/explore";
+  const fetchEndpoint =
+    (inContextSearch && searchContext?.fetchEndpoint) || "search";
 
   const hasData = !!(data.contentNodes?.length || data.terms?.length);
 
-  const handleInput: FormEventHandler<HTMLInputElement> = useCallback((e) => {
+  const updateRoute = useCallback(() => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    if (!searchInput) return;
+
+    newSearchParams.set("search", searchInput);
+    router.push(`${searchPathname}?${newSearchParams.toString()}`, {
+      scroll: true,
+    });
+  }, [searchPathname, router.push, searchInput, searchParams.toString]);
+
+  const handleInput: InputEventHandler<HTMLInputElement> = useCallback((e) => {
     setSearchInput(e.currentTarget.value);
   }, []);
 
-  const handleFocus: FormEventHandler<HTMLInputElement> = useCallback(() => {
+  const handleFocus: FocusEventHandler<HTMLInputElement> = useCallback(() => {
     if (!hasData && searchInput) {
       setForceLoad(true);
     }
@@ -90,13 +140,14 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
         e.currentTarget.blur();
         abortController.current?.abort();
         setIsLoading(false);
-        router.push(`/explore?search=${encodeURIComponent(searchInput)}`);
+
+        updateRoute();
       }
     },
-    [searchInput, router],
+    [searchInput, updateRoute],
   );
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
 
@@ -104,9 +155,10 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
 
       abortController.current?.abort();
       setIsLoading(false);
-      router.push(`/explore?search=${encodeURIComponent(searchInput)}`);
+
+      updateRoute();
     },
-    [searchInput, router],
+    [searchInput, updateRoute],
   );
 
   useEffect(() => {
@@ -115,6 +167,7 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
     }
 
     if (!searchInput) {
+      setIsLoading(false);
       setData({});
       return;
     }
@@ -132,9 +185,19 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
 
         searchParams.set("search", searchInput || "");
 
-        const data = await fetch(`/api/search?${searchParams.toString()}`, {
-          signal: abortController.current.signal,
-        }).then((res) => res.ok && res.json());
+        if (searchContext?.fetchSearchFilters) {
+          searchParams.set(
+            "sf",
+            encodeContentSearchFiltersParam(searchContext.fetchSearchFilters),
+          );
+        }
+
+        const data = await fetch(
+          `/api/${fetchEndpoint}?${searchParams.toString()}`,
+          {
+            signal: abortController.current.signal,
+          },
+        ).then((res) => res.ok && res.json());
         setData(data || {});
         setIsLoading(false);
       } catch (error) {
@@ -150,13 +213,13 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
       clearTimeout(timeoutId);
       abortController.current?.abort();
     };
-  }, [searchInput, forceLoad]);
+  }, [searchInput, forceLoad, fetchEndpoint, searchContext]);
 
   return (
     <form
       id="site-search"
       method="GET"
-      action="/explore"
+      action={searchPathname}
       onSubmit={handleSubmit}
       autoComplete="off"
       className={cn("max-sm:hidden", className)}
@@ -203,6 +266,36 @@ export default function SearchInput({ className, ...props }: SearchInputProps) {
               )}
             </InputGroupButton>
           </InputGroupAddon>
+          {searchContext && (
+            <InputGroupAddon align="inline-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <InputGroupButton className="rounded-full">
+                    {inContextSearch ? searchContext.label : "The World"}{" "}
+                    <ChevronDownIcon className="size-3" />
+                  </InputGroupButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="bg-input backdrop-blur-xl translate-x-1.25 z-10 rounded-t-none"
+                >
+                  <DropdownMenuRadioGroup
+                    value={inContextSearch ? "context" : "site"}
+                    onValueChange={(cxtName) => {
+                      setInContextSearch(cxtName === "context");
+                    }}
+                  >
+                    <DropdownMenuRadioItem value="site">
+                      The World
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="context">
+                      {searchContext.label}
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </InputGroupAddon>
+          )}
           <InputGroupAddon
             align="inline-end"
             className="p-0 has-[>button]:mr-0"

@@ -1,5 +1,5 @@
-import SearchInput from "../_components/SearchInput";
+import SearchInput from "@/app/(main)/_components/SearchInput";
 
-export default async function SiteSearch() {
+export default async function DefaultSearch() {
   return <SearchInput />;
 }

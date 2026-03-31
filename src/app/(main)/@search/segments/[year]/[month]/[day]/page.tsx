@@ -1,0 +1,23 @@
+import SearchInput from "@/app/(main)/_components/SearchInput";
+import { format } from "date-fns";
+
+export default async function SegmentsByDateSearch({
+  params,
+}: {
+  params: Promise<Record<"year" | "month" | "day", string>>;
+}) {
+  const { year: yearParam, month: monthParam, day: dayParam } = await params;
+
+  const year = parseInt(yearParam, 10);
+  const month = parseInt(monthParam, 10);
+  const day = parseInt(dayParam, 10);
+  return (
+    <SearchInput
+      searchContext={{
+        label: `Segments from ${format(new Date(year, month - 1, day), "PPP")}`,
+        fetchEndpoint: "segments/search",
+        fetchSearchFilters: { year, month, day },
+      }}
+    />
+  );
+}

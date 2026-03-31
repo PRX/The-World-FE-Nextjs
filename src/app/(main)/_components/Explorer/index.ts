@@ -6,4 +6,5 @@ export * from "./ExplorerCard";
 export * from "./ExplorerClearSearch";
 export * from "./ExplorerContentTypeFilter";
 export * from "./ExplorerDateFilter";
+export * from "./ExplorerHero";
 export * from "./ExplorerSort";

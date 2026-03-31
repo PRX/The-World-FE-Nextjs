@@ -87,7 +87,9 @@ export function ExplorerContentTypeFilter({
         newSearchParams.delete("sf");
       }
 
-      router.push(`${pathname}?${newSearchParams.toString()}`);
+      router.push(`${pathname}?${newSearchParams.toString()}`, {
+        scroll: true,
+      });
     },
     [searchFilters, pathname, router.push, searchParams.toString, ctMap.get],
   );

@@ -30,9 +30,15 @@ import { sanitizeUrl } from "@/lib/parse/url";
 
 export type ExplorerCardProps = React.ComponentProps<"div"> & {
   data: ContentNode;
+  index: number;
 };
 
-export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
+export function ExplorerCard({
+  data,
+  className,
+  index,
+  ...props
+}: ExplorerCardProps) {
   const { additionalMedia, primaryCategory } = data as Post;
   const { episodeAudio, episodeDates } = data as Episode;
   const { segmentContent, segmentDates } = data as Segment;
@@ -77,6 +83,7 @@ export function ExplorerCard({ data, className, ...props }: ExplorerCardProps) {
             style={{
               objectFit: "cover",
             }}
+            loading={index <= 12 ? "eager" : "lazy"}
           />
         </CardImage>
       )}

@@ -1,13 +1,18 @@
 import type { ContentNode } from "@/interfaces";
 import { unstable_cache } from "next/cache";
 import { isArray } from "lodash";
-import Explorer, { ExplorerCard } from "@/app/(main)/_components/Explorer";
+import Explorer, {
+  ExplorerCard,
+  ExplorerClearSearch,
+  ExplorerSortFilter,
+} from "@/app/(main)/_components/Explorer";
 import { redirectToValidDatedRoute } from "@/lib/routing/redirectToValidDatedRoute";
 import { type ContentQueryOptions, fetchGqlStories } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
+import { cn } from "@/lib/util/css";
 
 export const getCachedStoriesByYear = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlStories(query),
@@ -58,12 +63,35 @@ export default async function StoriesByYearPage({
   ).then((messages) => getShownMessage(messages));
 
   return (
-    <div className="mt-6 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer fetchEndpoint="stories" pageInfo={pageInfo}>
+    <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
+      <div
+        className={cn(
+          "sticky top-(--gutter-top) z-10",
+          "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
+        )}
+      >
+        <div className="flex items-center gap-2">
+          <ExplorerClearSearch />
+        </div>
+        <div className="flex items-center gap-2">
+          <ExplorerSortFilter />
+        </div>
+      </div>
+      <Explorer
+        fetchEndpoint="stories"
+        fetchSearchFilters={searchFilters}
+        pageInfo={pageInfo}
+      >
         {nodes
           ?.filter((n) => !!n)
-          .map((node) => {
-            return <ExplorerCard data={node as ContentNode} key={node.id} />;
+          .map((node, index) => {
+            return (
+              <ExplorerCard
+                data={node as ContentNode}
+                key={node.id}
+                index={index}
+              />
+            );
           })}
       </Explorer>
 

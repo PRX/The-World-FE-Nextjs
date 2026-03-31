@@ -1,12 +1,15 @@
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { BoomBoxIcon } from "lucide-react";
+import {
+  ExplorerHero,
+  ExplorerHeroHeading,
+} from "@/app/(main)/_components/Explorer";
 
 export default async function EpisodesHero() {
   return (
-    <HeroHeader fullWidth>
-      <h1 className="flex gap-2 items-center text-3xl font-black">
-        <BoomBoxIcon className="size-[1em]" /> Episodes
-      </h1>
-    </HeroHeader>
+    <ExplorerHero>
+      <ExplorerHeroHeading>
+        <BoomBoxIcon /> Episodes
+      </ExplorerHeroHeading>
+    </ExplorerHero>
   );
 }

@@ -54,7 +54,7 @@ export default async function ExplorePage({
   ).then((messages) => getShownMessage(messages));
 
   return (
-    <div className="mt-10 px-8 md:ml-(--gutter-left)">
+    <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
       <div
         className={cn(
           "sticky top-(--gutter-top) z-10",
@@ -70,15 +70,17 @@ export default async function ExplorePage({
           <ExplorerSortFilter />
         </div>
       </div>
-      <Explorer
-        className="w-full max-w-7xl mx-auto"
-        pageInfo={pageInfo}
-        key={`explore:${search}:${sf}`}
-      >
+      <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
         {nodes
           ?.filter((n) => !!n)
-          .map((node) => {
-            return <ExplorerCard data={node as ContentNode} key={node.id} />;
+          .map((node, index) => {
+            return (
+              <ExplorerCard
+                data={node as ContentNode}
+                key={node.id}
+                index={index}
+              />
+            );
           })}
       </Explorer>
 
