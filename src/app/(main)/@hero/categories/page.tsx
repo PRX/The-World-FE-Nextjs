@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { UsersIcon } from "lucide-react";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { ExplorerClearSearch } from "../../_components/Explorer";
 
 export default async function ContributorsHero() {
   return (
@@ -18,6 +19,12 @@ export default async function ContributorsHero() {
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
           <UsersIcon className="size-9" /> Content By Category
         </h1>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <ExplorerClearSearch />
+          </div>
+          <div className="flex items-center gap-2"></div>
+        </div>
       </div>
     </HeroHeader>
   );

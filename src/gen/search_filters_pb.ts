@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file search_filters.proto.
  */
 export const file_search_filters: GenFile = /*@__PURE__*/
-  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMi9gEKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgFSAKIAQESEgoFbW9udGgYBCABKAVIA4gBARIQCgNkYXkYBSABKAVIBIgBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXkqQAoRU0ZDb250ZW50VHlwZUVudW0SBwoDQUxMEAASCAoEUE9TVBABEgsKB1NFR01FTlQQAhILCgdFUElTT0RFEAMqRwoRU0ZDb250ZW50U29ydEVudW0SCgoGTkVXRVNUEAASCgoGT0xERVNUEAESDAoIVElUTEVfQVoQAhIMCghUSVRMRV9aQRADYgZwcm90bzM");
+  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMisQIKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgFSAKIAQESEgoFbW9udGgYBCABKAVIA4gBARIQCgNkYXkYBSABKAVIBIgBARIxCgNjdHgYBiABKAsyHy5zZWFyY2hfZmlsdGVycy5UYXhvbm9teUNvbnRleHRIBYgBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXlCBgoEX2N0eCJnCg9UYXhvbm9teUNvbnRleHQSMAoIdGF4b25vbXkYASABKA4yHi5zZWFyY2hfZmlsdGVycy5TRlRheG9ub215RW51bRIVCgh0ZXJtU2x1ZxgCIAEoCUgAiAEBQgsKCV90ZXJtU2x1ZypAChFTRkNvbnRlbnRUeXBlRW51bRIHCgNBTEwQABIICgRQT1NUEAESCwoHU0VHTUVOVBACEgsKB0VQSVNPREUQAypHChFTRkNvbnRlbnRTb3J0RW51bRIKCgZORVdFU1QQABIKCgZPTERFU1QQARIMCghUSVRMRV9BWhACEgwKCFRJVExFX1pBEAMqjAEKDlNGVGF4b25vbXlFbnVtEgsKB3Byb2dyYW0QABIMCghjYXRlZ29yeRABEgcKA3RhZxACEg8KC2NvbnRyaWJ1dG9yEAMSCAoEY2l0eRAEEg0KCWNvbnRpbmVudBAFEgsKB2NvdW50cnkQBhITCg9wcm92aW5jZU9yU3RhdGUQBxIKCgZyZWdpb24QCGIGcHJvdG8z");
 
 /**
  * @generated from message search_filters.ContentSearchFilters
@@ -40,6 +40,11 @@ export type ContentSearchFilters = Message<"search_filters.ContentSearchFilters"
    * @generated from field: optional int32 day = 5;
    */
   day?: number;
+
+  /**
+   * @generated from field: optional search_filters.TaxonomyContext ctx = 6;
+   */
+  ctx?: TaxonomyContext;
 };
 
 /**
@@ -48,6 +53,28 @@ export type ContentSearchFilters = Message<"search_filters.ContentSearchFilters"
  */
 export const ContentSearchFiltersSchema: GenMessage<ContentSearchFilters> = /*@__PURE__*/
   messageDesc(file_search_filters, 0);
+
+/**
+ * @generated from message search_filters.TaxonomyContext
+ */
+export type TaxonomyContext = Message<"search_filters.TaxonomyContext"> & {
+  /**
+   * @generated from field: search_filters.SFTaxonomyEnum taxonomy = 1;
+   */
+  taxonomy: SFTaxonomyEnum;
+
+  /**
+   * @generated from field: optional string termSlug = 2;
+   */
+  termSlug?: string;
+};
+
+/**
+ * Describes the message search_filters.TaxonomyContext.
+ * Use `create(TaxonomyContextSchema)` to create a new message.
+ */
+export const TaxonomyContextSchema: GenMessage<TaxonomyContext> = /*@__PURE__*/
+  messageDesc(file_search_filters, 1);
 
 /**
  * @generated from enum search_filters.SFContentTypeEnum
@@ -110,4 +137,60 @@ export enum SFContentSortEnum {
  */
 export const SFContentSortEnumSchema: GenEnum<SFContentSortEnum> = /*@__PURE__*/
   enumDesc(file_search_filters, 1);
+
+/**
+ * @generated from enum search_filters.SFTaxonomyEnum
+ */
+export enum SFTaxonomyEnum {
+  /**
+   * @generated from enum value: program = 0;
+   */
+  program = 0,
+
+  /**
+   * @generated from enum value: category = 1;
+   */
+  category = 1,
+
+  /**
+   * @generated from enum value: tag = 2;
+   */
+  tag = 2,
+
+  /**
+   * @generated from enum value: contributor = 3;
+   */
+  contributor = 3,
+
+  /**
+   * @generated from enum value: city = 4;
+   */
+  city = 4,
+
+  /**
+   * @generated from enum value: continent = 5;
+   */
+  continent = 5,
+
+  /**
+   * @generated from enum value: country = 6;
+   */
+  country = 6,
+
+  /**
+   * @generated from enum value: provinceOrState = 7;
+   */
+  provinceOrState = 7,
+
+  /**
+   * @generated from enum value: region = 8;
+   */
+  region = 8,
+}
+
+/**
+ * Describes the enum search_filters.SFTaxonomyEnum.
+ */
+export const SFTaxonomyEnumSchema: GenEnum<SFTaxonomyEnum> = /*@__PURE__*/
+  enumDesc(file_search_filters, 2);
 

@@ -12,8 +12,8 @@ export function ExplorerHeroHeading({
   return (
     <h1
       className={cn(
-        "flex gap-2 items-center text-3xl font-black",
-        "[&_svg:not([class*='size-'])]:size-9",
+        "grid has-[>svg]:grid-cols-[1em_1fr] gap-2 items-start text-3xl font-black text-balance",
+        "[&_svg:not([class*='size-'])]:size-[1em]",
         className,
       )}
       {...props}
@@ -28,11 +28,7 @@ export function ExplorerHero({
   ...props
 }: ExplorerHeroProps) {
   return (
-    <HeroHeader
-      className="px-8 md:ml-(--gutter-left)"
-      classes={{ content: "max-w-7xl px-0 md:px-0" }}
-      {...props}
-    >
+    <HeroHeader classes={{ content: "max-w-7xl" }} {...props}>
       <div className="grid gap-y-4 text-pretty">{children}</div>
       <Separator />
     </HeroHeader>

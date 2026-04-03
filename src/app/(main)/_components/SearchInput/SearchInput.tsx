@@ -185,7 +185,7 @@ export default function SearchInput({
 
         searchParams.set("search", searchInput || "");
 
-        if (searchContext?.fetchSearchFilters) {
+        if (inContextSearch && searchContext?.fetchSearchFilters) {
           searchParams.set(
             "sf",
             encodeContentSearchFiltersParam(searchContext.fetchSearchFilters),
@@ -213,7 +213,7 @@ export default function SearchInput({
       clearTimeout(timeoutId);
       abortController.current?.abort();
     };
-  }, [searchInput, forceLoad, fetchEndpoint, searchContext]);
+  }, [searchInput, forceLoad, fetchEndpoint, searchContext, inContextSearch]);
 
   return (
     <form
@@ -228,6 +228,7 @@ export default function SearchInput({
       <Command
         shouldFilter={false}
         className={cn(
+          "@container/search-input",
           "relative bg-transparent overflow-visible",
           "*:data-[slot=command-list]:hidden",
           "**:[[cmdk-group-heading]]:font-light",
@@ -270,8 +271,13 @@ export default function SearchInput({
             <InputGroupAddon align="inline-end">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <InputGroupButton className="rounded-full">
-                    {inContextSearch ? searchContext.label : "The World"}{" "}
+                  <InputGroupButton
+                    variant="outline"
+                    className="rounded-full w-min max-w-[45cqw]"
+                  >
+                    <span className="overflow-hidden text-ellipsis">
+                      {inContextSearch ? searchContext.label : "The World"}
+                    </span>
                     <ChevronDownIcon className="size-3" />
                   </InputGroupButton>
                 </DropdownMenuTrigger>
@@ -373,7 +379,13 @@ export default function SearchInput({
             </CommandGroup>
           )}
           {!!data.terms?.length && (
-            <CommandGroup heading="Contributors and Taxonomies">
+            <CommandGroup
+              heading={
+                data.contentNodes?.length
+                  ? "Contributors and Taxonomies"
+                  : undefined
+              }
+            >
               {data.terms.map((n) => {
                 const { taxonomyName, link, count, name, contributorDetails } =
                   n;

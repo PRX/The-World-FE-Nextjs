@@ -1,4 +1,5 @@
 import SearchInput from "@/app/(main)/_components/SearchInput";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export default async function SegmentsByYearSearch({
   params,
@@ -12,8 +13,7 @@ export default async function SegmentsByYearSearch({
     <SearchInput
       searchContext={{
         label: `Segments from ${year}`,
-        fetchEndpoint: "segments/search",
-        fetchSearchFilters: { year },
+        fetchSearchFilters: { contentType: SFContentTypeEnum.SEGMENT, year },
       }}
     />
   );

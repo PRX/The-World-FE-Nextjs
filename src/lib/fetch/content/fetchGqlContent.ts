@@ -4,8 +4,11 @@
 
 import { gql } from "@apollo/client";
 import type {
-  RootQueryToContentNodeConnection,
+  ContentNode,
+  ContentNodeConnectionPageInfo,
+  PageInfo,
   RootQueryToContentNodeConnectionWhereArgs,
+  WpPageInfo,
 } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
 import {
@@ -15,6 +18,7 @@ import {
   POST_CARD_PROPS,
   SEGMENT_CARD_PROPS,
 } from "@/lib/fetch/api/graphql";
+import { upperFirst } from "lodash";
 
 export type ContentQueryOptions = {
   first?: number;
@@ -24,30 +28,35 @@ export type ContentQueryOptions = {
   where?: RootQueryToContentNodeConnectionWhereArgs;
 };
 
-export const GET_CONTENT_NODES = gql`
-  query getContent($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToContentNodeConnectionWhereArgs) {
-    contentNodes(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
-      where: $where
-    ) {
-      pageInfo {
-        startCursor
-        endCursor
-        hasPreviousPage
-        hasNextPage
-      }
-      nodes {
-        ... on Episode {
-          ...EpisodeCardPropsWithoutSegments
+const GET_CONTENT_NODES = (
+  taxonomySingleName = "program",
+  termSlug = "the-world",
+) => gql`
+  query getContent($first: Int, $last: Int, $after: String, $before: String, $where: ${upperFirst(taxonomySingleName || "tag")}ToContentNodeConnectionWhereArgs) {
+    contentContext: ${taxonomySingleName} (id: "${termSlug}", idType: SLUG) {
+      contentNodes(
+        first: $first,
+        last: $last,
+        after: $after,
+        before: $before,
+        where: $where
+      ) {
+        pageInfo {
+          startCursor
+          endCursor
+          hasPreviousPage
+          hasNextPage
         }
-        ... on Post {
-          ...PostCardProps
-        }
-        ... on Segment {
-          ...SegmentCardProps
+        nodes {
+          ... on Episode {
+            ...EpisodeCardPropsWithoutSegments
+          }
+          ... on Post {
+            ...PostCardProps
+          }
+          ... on Segment {
+            ...SegmentCardProps
+          }
         }
       }
     }
@@ -61,17 +70,24 @@ export const GET_CONTENT_NODES = gql`
 
 export async function fetchGqlContent(
   query?: ContentQueryOptions,
+  taxonomySingleName?: string,
+  termSlug?: string,
   authToken?: string,
 ) {
   const gqlClient = getClient(authToken);
 
   const response = await gqlClient.query<{
-    contentNodes: RootQueryToContentNodeConnection;
+    contentContext: {
+      contentNodes: {
+        nodes: Array<ContentNode>;
+        pageInfo: ContentNodeConnectionPageInfo & PageInfo & WpPageInfo;
+      };
+    };
   }>({
-    query: GET_CONTENT_NODES,
     variables: query,
+    query: GET_CONTENT_NODES(taxonomySingleName, termSlug),
   });
-  const results = response?.data?.contentNodes;
+  const results = response?.data?.contentContext?.contentNodes;
 
   if (!results) return undefined;
 

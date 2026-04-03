@@ -7,15 +7,16 @@ import Explorer, {
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
 import { redirectToValidDatedRoute } from "@/lib/routing/redirectToValidDatedRoute";
-import { type ContentQueryOptions, fetchGqlEpisodes } from "@/lib/fetch";
+import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export const getCachedEpisodesByYear = unstable_cache(
-  async (query: ContentQueryOptions) => fetchGqlEpisodes(query),
+  async (query: ContentQueryOptions) => fetchGqlContent(query),
   ["content", "episodes", "year"],
   {
     tags: ["content", "episodes"],
@@ -45,6 +46,7 @@ export default async function EpisodesByYearPage({
   const sf = isArray(sfParam) ? sfParam[0] : sfParam;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
+    contentType: SFContentTypeEnum.EPISODE,
     year,
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
@@ -77,11 +79,7 @@ export default async function EpisodesByYearPage({
           <ExplorerSortFilter />
         </div>
       </div>
-      <Explorer
-        fetchEndpoint="episodes"
-        fetchSearchFilters={searchFilters}
-        pageInfo={pageInfo}
-      >
+      <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

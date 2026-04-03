@@ -8,6 +8,12 @@ message ContentSearchFilters {
   optional int32 year = 3;
   optional int32 month = 4;
   optional int32 day = 5;
+  optional TaxonomyContext ctx = 6;
+}
+
+message TaxonomyContext {
+  SFTaxonomyEnum taxonomy = 1;
+  optional string termSlug = 2;
 }
 
 enum SFContentTypeEnum {
@@ -22,4 +28,16 @@ enum SFContentSortEnum {
   OLDEST = 1;
   TITLE_AZ = 2;
   TITLE_ZA = 3;
+}
+
+enum SFTaxonomyEnum {
+  program = 0;
+  category = 1;
+  tag = 2;
+  contributor = 3;
+  city = 4;
+  continent = 5;
+  country = 6;
+  provinceOrState = 7;
+  region = 8;
 }

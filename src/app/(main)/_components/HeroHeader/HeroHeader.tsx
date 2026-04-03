@@ -75,9 +75,11 @@ export default function HeroHeader({
               {hasCredit && (
                 <span className="text-xs/tight font-light whitespace-nowrap">
                   {mediaCreditUrl ? (
-                    <Link href={mediaCreditUrl}>{mediaCredit}</Link>
+                    <Link href={mediaCreditUrl}>
+                      <HtmlContent html={mediaCredit} />
+                    </Link>
                   ) : (
-                    mediaCredit
+                    <HtmlContent html={mediaCredit} />
                   )}
                 </span>
               )}

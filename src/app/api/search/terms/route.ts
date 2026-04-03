@@ -1,30 +1,29 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { fetchGqlSearch } from "@/lib/fetch";
-import { convertSFParamToWhereArgs } from "@/lib/convert/string";
+import { fetchGqlSearchTerms } from "@/lib/fetch";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { isUndefined } from "lodash";
 import { SFTaxonomyEnum } from "@/gen/search_filters_pb";
+import { OrderEnum, TermObjectsConnectionOrderbyEnum } from "@/interfaces";
 
 export async function GET(req: NextRequest) {
   try {
     const search = req.nextUrl.searchParams.get("search") || undefined;
     const sf = req.nextUrl.searchParams.get("sf") || undefined;
     const { ctx } = decodeContentSearchFiltersParam(sf);
-    const { taxonomy, termSlug } = ctx || {};
+    const { taxonomy } = ctx || {};
     const taxonomySingleName = !isUndefined(taxonomy)
       ? SFTaxonomyEnum[taxonomy]
       : undefined;
-    const whereArgs = convertSFParamToWhereArgs(sf);
 
-    const data = await fetchGqlSearch(
+    const data = await fetchGqlSearchTerms(
       {
         where: {
           search,
-          ...whereArgs,
+          orderby: TermObjectsConnectionOrderbyEnum.Count,
+          order: OrderEnum.Desc,
         },
       },
       taxonomySingleName,
-      termSlug,
     );
 
     if (!data) {

@@ -7,15 +7,16 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
-import { type ContentQueryOptions, fetchGqlSegments } from "@/lib/fetch";
+import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export const getCachedSegments = unstable_cache(
-  async (query: ContentQueryOptions) => fetchGqlSegments(query),
+  async (query: ContentQueryOptions) => fetchGqlContent(query),
   ["content", "segments"],
   {
     tags: ["content", "segments"],
@@ -35,6 +36,7 @@ export default async function SegmentsPage({
   const sf = isArray(sfParam) ? sfParam[0] : sfParam;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
+    contentType: SFContentTypeEnum.SEGMENT,
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
 
@@ -67,7 +69,7 @@ export default async function SegmentsPage({
           <ExplorerSortFilter />
         </div>
       </div>
-      <Explorer fetchEndpoint="segments" pageInfo={pageInfo}>
+      <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

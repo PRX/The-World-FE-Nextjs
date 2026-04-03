@@ -1,4 +1,5 @@
 import SearchInput from "@/app/(main)/_components/SearchInput";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 import { format } from "date-fns";
 
 export default async function EpisodesByMonthSearch({
@@ -14,8 +15,11 @@ export default async function EpisodesByMonthSearch({
     <SearchInput
       searchContext={{
         label: `Episodes from ${format(new Date(year, month - 1), "MMM yyyy")}`,
-        fetchEndpoint: "episodes/search",
-        fetchSearchFilters: { year, month },
+        fetchSearchFilters: {
+          contentType: SFContentTypeEnum.EPISODE,
+          year,
+          month,
+        },
       }}
     />
   );

@@ -7,15 +7,16 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
-import { type ContentQueryOptions, fetchGqlStories } from "@/lib/fetch";
+import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export const getCachedStories = unstable_cache(
-  async (query: ContentQueryOptions) => fetchGqlStories(query),
+  async (query: ContentQueryOptions) => fetchGqlContent(query),
   ["content", "stories"],
   {
     tags: ["content", "stories"],
@@ -35,6 +36,7 @@ export default async function StoriesPage({
   const sf = isArray(sfParam) ? sfParam[0] : sfParam;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
+    contentType: SFContentTypeEnum.POST,
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
 
@@ -67,7 +69,7 @@ export default async function StoriesPage({
           <ExplorerSortFilter />
         </div>
       </div>
-      <Explorer fetchEndpoint="stories" pageInfo={pageInfo}>
+      <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

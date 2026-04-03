@@ -1,4 +1,5 @@
 import SearchInput from "@/app/(main)/_components/SearchInput";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export default async function EpisodesByYearSearch({
   params,
@@ -12,8 +13,7 @@ export default async function EpisodesByYearSearch({
     <SearchInput
       searchContext={{
         label: `Episodes from ${year}`,
-        fetchEndpoint: "episodes/search",
-        fetchSearchFilters: { year },
+        fetchSearchFilters: { contentType: SFContentTypeEnum.EPISODE, year },
       }}
     />
   );

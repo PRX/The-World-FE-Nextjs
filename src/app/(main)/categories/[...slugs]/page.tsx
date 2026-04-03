@@ -1,16 +1,45 @@
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { CategoryIdType } from "@/interfaces";
+import { CategoryIdType, type ContentNode } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
-import { fetchGqlCategory } from "@/lib/fetch";
-import Explorer from "@/app/(main)/_components/Explorer";
+import {
+  type ContentQueryOptions,
+  fetchGqlCategory,
+  fetchGqlContent,
+} from "@/lib/fetch";
+import Explorer, {
+  ExplorerCard,
+  ExplorerClearSearch,
+  ExplorerContentTypeFilter,
+  ExplorerDateFilter,
+  ExplorerSortFilter,
+} from "@/app/(main)/_components/Explorer";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
+import { isArray } from "lodash";
+import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
+import { SFTaxonomyEnum, TaxonomyContextSchema } from "@/gen/search_filters_pb";
+import { create } from "@bufbuild/protobuf";
+import { cn } from "@/lib/util/css";
 
 export const getCachedCategory = unstable_cache(
   async (slug) => fetchGqlCategory(slug, CategoryIdType.Slug),
   ["category"],
   {
     tags: ["category", "taxonomy"],
+    revalidate: 60,
+  },
+);
+
+export const getCachedCategoryContent = unstable_cache(
+  async (
+    query: ContentQueryOptions,
+    taxonomySingleName: string,
+    termSlug: string,
+  ) => fetchGqlContent(query, taxonomySingleName, termSlug),
+  ["content", "category"],
+  {
+    tags: ["content", "category", "taxonomy"],
     revalidate: 60,
   },
 );
@@ -23,7 +52,7 @@ export default async function TaxonomyPage({
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
   const { slugs } = await params;
-  const slug = slugs && (typeof slugs === "string" ? slugs : slugs.pop());
+  const slug = isArray(slugs) ? slugs.pop() || "" : slugs;
   const resolvedSearchParams = await searchParams;
   let data: Awaited<ReturnType<typeof getCachedCategory>>;
 
@@ -33,8 +62,30 @@ export default async function TaxonomyPage({
     if (!data) return notFound();
   }
 
-  const { id, name } = data || {};
-  const explorerProps = {};
+  const { id } = data || {};
+  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
+  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
+  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const searchFilters = {
+    ...decodeContentSearchFiltersParam(sf),
+    ctx: create(TaxonomyContextSchema, {
+      taxonomy: SFTaxonomyEnum.category,
+      termSlug: slug,
+    }),
+  };
+  const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
+  const contentData = await getCachedCategoryContent(
+    {
+      first: 60,
+      where: {
+        search,
+        ...whereArgs,
+      },
+    },
+    "category",
+    slug,
+  );
+  const { pageInfo, nodes } = contentData || {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",
@@ -44,8 +95,35 @@ export default async function TaxonomyPage({
   ).then((messages) => getShownMessage(messages));
 
   return (
-    <div className="mt-10 ml-(--gutter-left) mr-(--gutter-right)">
-      <Explorer {...explorerProps} />
+    <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
+      <div
+        className={cn(
+          "sticky top-(--gutter-top) z-10",
+          "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
+        )}
+      >
+        <div className="flex items-center gap-2">
+          <ExplorerContentTypeFilter />
+          <ExplorerDateFilter />
+          <ExplorerClearSearch />
+        </div>
+        <div className="flex items-center gap-2">
+          <ExplorerSortFilter />
+        </div>
+      </div>
+      <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
+        {nodes
+          ?.filter((n) => !!n)
+          .map((node, index) => {
+            return (
+              <ExplorerCard
+                data={node as ContentNode}
+                key={node.id}
+                index={index}
+              />
+            );
+          })}
+      </Explorer>
 
       {shownContentEndMessage && (
         <div className="px-4">

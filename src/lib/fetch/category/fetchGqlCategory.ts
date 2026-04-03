@@ -9,7 +9,6 @@ import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
   AUDIO_PROPS,
-  EPISODE_CARD_PROPS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
   TAXONOMY_SEO_PROPS,
@@ -89,25 +88,11 @@ const GET_CATEGORY = gql`
           hasNextPage
           endCursor
         }
-        edges {
-          cursor
-          node {
-            id
-            name
-            link
-          }
-        }
-      }
-      episodes(first: 10) {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        edges {
-          cursor
-          node {
-            ...EpisodeCardProps
-          }
+        nodes {
+          id
+          name
+          link
+          count
         }
       }
     }
@@ -116,7 +101,6 @@ const GET_CATEGORY = gql`
   ${AUDIO_PROPS}
   ${IMAGE_PROPS}
   ${TAXONOMY_SEO_PROPS}
-  ${EPISODE_CARD_PROPS}
 `;
 
 export async function fetchGqlCategory(id: string, idType?: string) {
@@ -134,7 +118,7 @@ export async function fetchGqlCategory(id: string, idType?: string) {
   if (!category?.children) return undefined;
 
   if (category.children.pageInfo) {
-    let childrenEdges = [...category.children.edges];
+    let childrenNodes = [...category.children.nodes];
     let { hasNextPage, endCursor } = category.children.pageInfo;
 
     while (hasNextPage && endCursor) {
@@ -152,7 +136,7 @@ export async function fetchGqlCategory(id: string, idType?: string) {
         .then((res) => res.data?.category?.children);
 
       if (moreChildren) {
-        childrenEdges = [...childrenEdges, ...moreChildren.edges];
+        childrenNodes = [...childrenNodes, ...moreChildren.nodes];
         category.children.pageInfo = { ...moreChildren.pageInfo };
       }
 
@@ -160,7 +144,7 @@ export async function fetchGqlCategory(id: string, idType?: string) {
       endCursor = moreChildren?.pageInfo.endCursor;
     }
 
-    category.children.edges = childrenEdges;
+    category.children.nodes = childrenNodes;
   }
 
   return category;

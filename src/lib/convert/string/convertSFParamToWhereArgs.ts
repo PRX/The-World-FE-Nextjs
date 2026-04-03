@@ -1,5 +1,6 @@
 import {
   type ContentSearchFilters,
+  ContentSearchFiltersSchema,
   SFContentSortEnum,
   SFContentTypeEnum,
 } from "@/gen/search_filters_pb";
@@ -10,10 +11,11 @@ import {
   type RootQueryToContentNodeConnectionWhereArgs,
 } from "@/interfaces";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { MessageInitShape } from "@bufbuild/protobuf";
 import { isArray, isUndefined } from "lodash";
 
 export function convertSearchFiltersToWhereArgs(
-  searchFilters?: ContentSearchFilters,
+  searchFilters?: MessageInitShape<typeof ContentSearchFiltersSchema>,
 ) {
   let whereArgs = {} as RootQueryToContentNodeConnectionWhereArgs;
   const contentTypeEnumMap = new Map([

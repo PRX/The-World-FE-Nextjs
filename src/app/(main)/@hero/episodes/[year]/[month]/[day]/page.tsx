@@ -12,7 +12,12 @@ export default async function EpisodesByDateHero({
 }) {
   const { year, month, day } = await params;
 
-  const date = new Date(`${year}/${month}/${day}`);
+  const date = new Date(
+    parseInt(year, 10),
+    parseInt(month, 10) - 1,
+    parseInt(day, 10),
+    12,
+  );
 
   return (
     <ExplorerHero>

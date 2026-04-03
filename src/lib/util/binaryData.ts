@@ -17,7 +17,7 @@ export function encodeContentSearchFiltersParam(
     omitPadding: true,
   });
 
-  return urlSafeBase64;
+  return urlSafeBase64 as string;
 }
 
 export function decodeContentSearchFiltersParam(urlSafeBase64?: string) {

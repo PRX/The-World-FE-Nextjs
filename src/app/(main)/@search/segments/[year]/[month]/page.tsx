@@ -1,4 +1,5 @@
 import SearchInput from "@/app/(main)/_components/SearchInput";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 import { format } from "date-fns";
 
 export default async function SegmentsByMonthSearch({
@@ -14,8 +15,11 @@ export default async function SegmentsByMonthSearch({
     <SearchInput
       searchContext={{
         label: `Segments from ${format(new Date(year, month - 1), "MMM yyyy")}`,
-        fetchEndpoint: "segments/search",
-        fetchSearchFilters: { year, month },
+        fetchSearchFilters: {
+          contentType: SFContentTypeEnum.SEGMENT,
+          year,
+          month,
+        },
       }}
     />
   );

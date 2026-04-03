@@ -7,15 +7,16 @@ import Explorer, {
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
 import { redirectToValidDatedRoute } from "@/lib/routing/redirectToValidDatedRoute";
-import { type ContentQueryOptions, fetchGqlSegments } from "@/lib/fetch";
+import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 export const getCachedSegmentsByYear = unstable_cache(
-  async (query: ContentQueryOptions) => fetchGqlSegments(query),
+  async (query: ContentQueryOptions) => fetchGqlContent(query),
   ["content", "segments", "year"],
   {
     tags: ["content", "segments"],
@@ -45,6 +46,7 @@ export default async function SegmentsByYearPage({
   const sf = isArray(sfParam) ? sfParam[0] : sfParam;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
+    contentType: SFContentTypeEnum.SEGMENT,
     year,
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
@@ -77,11 +79,7 @@ export default async function SegmentsByYearPage({
           <ExplorerSortFilter />
         </div>
       </div>
-      <Explorer
-        fetchEndpoint="segments"
-        fetchSearchFilters={searchFilters}
-        pageInfo={pageInfo}
-      >
+      <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

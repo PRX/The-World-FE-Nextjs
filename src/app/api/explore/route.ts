@@ -1,8 +1,11 @@
+import { SFTaxonomyEnum } from "@/gen/search_filters_pb";
 import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
 import fetchGqlContent, {
   type ContentQueryOptions,
 } from "@/lib/fetch/content/fetchGqlContent";
+import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { isUndefined } from "lodash";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -10,6 +13,11 @@ export async function GET(req: NextRequest) {
     const after = req.nextUrl.searchParams.get("after") || undefined;
     const search = req.nextUrl.searchParams.get("search") || undefined;
     const sf = req.nextUrl.searchParams.get("sf") || undefined;
+    const { ctx } = decodeContentSearchFiltersParam(sf);
+    const { taxonomy, termSlug } = ctx || {};
+    const taxonomySingleName = !isUndefined(taxonomy)
+      ? SFTaxonomyEnum[taxonomy]
+      : undefined;
     const whereArgs = convertSFParamToWhereArgs(sf);
 
     const queryOptions: ContentQueryOptions = {
@@ -26,7 +34,11 @@ export async function GET(req: NextRequest) {
         ...whereArgs,
       },
     };
-    const data = await fetchGqlContent(queryOptions);
+    const data = await fetchGqlContent(
+      queryOptions,
+      taxonomySingleName,
+      termSlug,
+    );
 
     if (!data) {
       return NextResponse.json(
