@@ -18,13 +18,15 @@ export default async function EpisodesByYearHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BoomBoxIcon />
-        Episodes for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-          }}
-        />
+        <span>
+          Episodes for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

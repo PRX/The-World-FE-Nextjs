@@ -8,7 +8,8 @@ export default async function ContributorsHero() {
   return (
     <ExplorerHero>
       <ExplorerHeroHeading>
-        <CompassIcon /> Explore The World
+        <CompassIcon />
+        <span>Explore The World</span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

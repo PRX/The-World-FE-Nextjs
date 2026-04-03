@@ -23,15 +23,17 @@ export default async function EpisodesByDateHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BoomBoxIcon />
-        Episodes for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }}
-        />
+        <span>
+          Episodes for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

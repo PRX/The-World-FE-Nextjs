@@ -18,14 +18,16 @@ export default async function StoriesByMonthHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BookOpenIcon />
-        Stories for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-          }}
-        />
+        <span>
+          Stories for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

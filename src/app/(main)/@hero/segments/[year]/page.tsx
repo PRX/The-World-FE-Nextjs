@@ -18,13 +18,15 @@ export default async function SegmentsByYearHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BoomBoxIcon />
-        Segments for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-          }}
-        />
+        <span>
+          Segments for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

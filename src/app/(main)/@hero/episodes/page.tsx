@@ -8,7 +8,8 @@ export default async function EpisodesHero() {
   return (
     <ExplorerHero>
       <ExplorerHeroHeading>
-        <BoomBoxIcon /> Episodes
+        <BoomBoxIcon />
+        <span>Episodes</span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

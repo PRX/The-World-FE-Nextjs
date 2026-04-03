@@ -18,14 +18,16 @@ export default async function SegmentsByMonthHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BoomBoxIcon />
-        Segments for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-          }}
-        />
+        <span>
+          Segments for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

@@ -53,7 +53,8 @@ export default async function CategoryHero({
     <ExplorerHero image={imageBanner}>
       <div className="grid gap-y-4 text-lg text-pretty">
         <ExplorerHeroHeading>
-          <BookmarkIcon /> {name}
+          <BookmarkIcon />
+          <span>{name}</span>
         </ExplorerHeroHeading>
         <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-4">
           <div className="grow flex flex-col gap-y-4">

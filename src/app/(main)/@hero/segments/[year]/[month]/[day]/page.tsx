@@ -23,15 +23,17 @@ export default async function SegmentsByDateHero({
     <ExplorerHero>
       <ExplorerHeroHeading>
         <BoomBoxIcon />
-        Segments for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }}
-        />
+        <span>
+          Segments for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }}
+          />
+        </span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );

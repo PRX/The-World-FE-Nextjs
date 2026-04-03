@@ -16,7 +16,8 @@ export default async function CountriesHero() {
     >
       <div className="grid gap-y-4 max-w-3xl text-pretty">
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          <Globe2Icon className="size-9" /> Content By Country
+          <Globe2Icon className="size-9" />
+          <span>Content By Country</span>
         </h1>
       </div>
     </HeroHeader>

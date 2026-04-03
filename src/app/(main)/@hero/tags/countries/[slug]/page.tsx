@@ -32,7 +32,8 @@ export default async function TagHero({
     >
       <div className="grid gap-y-4 max-w-3xl text-pretty">
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          <BookmarkIcon className="size-9" /> {name}
+          <BookmarkIcon className="size-9" />
+          <span>{name}</span>
         </h1>
         {hasDescription && <HtmlContent html={description} />}
       </div>

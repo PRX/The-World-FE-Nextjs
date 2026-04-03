@@ -32,7 +32,8 @@ export default async function ContributorHero({
     <HeroHeader image={imageBanner} classes={{ content: "max-w-5xl px-8" }}>
       <div className="grid gap-y-4 text-pretty">
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          <UserIcon className="size-9" /> {name}
+          <UserIcon className="size-9" />
+          <span>{name}</span>
         </h1>
         {hasTeaser && <p className="text-lg">{teaser}</p>}
         {hasDescription && hasBio && <HtmlContent html={description} />}

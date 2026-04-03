@@ -53,7 +53,7 @@ export default async function PagePage({
     >
       <div className="grid gap-y-4 text-pretty">
         <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          {title}
+          <span>{title}</span>
         </h1>
       </div>
     </HeroHeader>

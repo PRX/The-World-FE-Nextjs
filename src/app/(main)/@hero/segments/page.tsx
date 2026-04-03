@@ -8,7 +8,8 @@ export default async function SegmentsHero() {
   return (
     <ExplorerHero>
       <ExplorerHeroHeading>
-        <CassetteTapeIcon /> Segments
+        <CassetteTapeIcon />
+        <span>Segments</span>
       </ExplorerHeroHeading>
     </ExplorerHero>
   );
