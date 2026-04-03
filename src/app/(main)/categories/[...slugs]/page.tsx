@@ -18,7 +18,11 @@ import { notFound } from "next/navigation";
 import { isArray } from "lodash";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
-import { SFTaxonomyEnum, TaxonomyContextSchema } from "@/gen/search_filters_pb";
+import {
+  ExcludeIdsListSchema,
+  SFTaxonomyEnum,
+  TaxonomyContextSchema,
+} from "@/gen/search_filters_pb";
 import { create } from "@bufbuild/protobuf";
 import { cn } from "@/lib/util/css";
 
@@ -62,7 +66,9 @@ export default async function TaxonomyPage({
     if (!data) return notFound();
   }
 
-  const { id } = data || {};
+  const { id, landingPage } = data || {};
+  const { featuredPosts } = landingPage || {};
+  const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
   const { search: searchParam, sf: sfParam } = resolvedSearchParams;
   const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
   const sf = isArray(sfParam) ? sfParam[0] : sfParam;
@@ -71,6 +77,9 @@ export default async function TaxonomyPage({
     ctx: create(TaxonomyContextSchema, {
       taxonomy: SFTaxonomyEnum.category,
       termSlug: slug,
+    }),
+    ...(!!excludeIds?.length && {
+      exclude: create(ExcludeIdsListSchema, { ids: excludeIds }),
     }),
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
@@ -112,7 +121,7 @@ export default async function TaxonomyPage({
         </div>
       </div>
       <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
-        {nodes
+        {[...(featuredPosts || []), ...(nodes || [])]
           ?.filter((n) => !!n)
           .map((node, index) => {
             return (

@@ -64,7 +64,7 @@ const GET_CONTRIBUTORS = gql`
         ...ImageProps
       }
     }
-    contentNodes (first: 20, where: { contentTypes: [POST, SEGMENT] orderby: { field: DATE, order: DESC } }) {
+    contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {
       nodes {
         ... on Episode {
           ...EpisodeCardPropsWithoutSegments
@@ -95,8 +95,8 @@ export async function fetchGqlContributors(query: ContributorQueryOptions) {
       where: {
         orderby: TermObjectsConnectionOrderbyEnum.Count,
         order: OrderEnum.Desc,
-        hideEmpty: true,
         ...query?.where,
+        hideEmpty: true,
       },
     },
   });

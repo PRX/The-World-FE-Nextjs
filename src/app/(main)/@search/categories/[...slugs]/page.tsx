@@ -3,7 +3,7 @@ import SearchInput from "@/app/(main)/_components/SearchInput";
 import { getCachedCategory } from "@/app/(main)/categories/[...slugs]/page";
 import { SFTaxonomyEnum } from "@/gen/search_filters_pb";
 
-export default async function EpisodesByYearSearch({
+export default async function CategorySearch({
   params,
 }: {
   params: Promise<Record<"slugs", string | string[]>>;

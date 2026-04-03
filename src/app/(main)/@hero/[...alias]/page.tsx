@@ -4,7 +4,7 @@ import {
 } from "@/app/(main)/[...alias]/page";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
 
-export default async function PagePage({
+export default async function PageHero({
   params,
 }: {
   params: Promise<{ alias: string[] }>;

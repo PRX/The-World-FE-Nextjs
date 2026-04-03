@@ -54,6 +54,7 @@ const GET_PROGRAM = gql`
         }
         team {
           id
+          name
           contributorDetails {
             image {
               ...ImageProps

@@ -1,8 +1,8 @@
 import {
   OrderEnum,
-  type RootQueryToCountryConnection,
-  type RootQueryToCountryConnectionWhereArgs,
   TermObjectsConnectionOrderbyEnum,
+  type RootQueryToProgramConnection,
+  type RootQueryToProgramConnectionWhereArgs,
 } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
@@ -14,17 +14,17 @@ import {
   SEGMENT_CARD_PROPS,
 } from "@/lib/fetch/api/graphql";
 
-export type CountriesQueryOptions = {
+export type ProgramQueryOptions = {
   first?: number;
   last?: number;
   after?: string;
   before?: string;
-  where?: RootQueryToCountryConnectionWhereArgs;
+  where?: RootQueryToProgramConnectionWhereArgs;
 };
 
-const GET_COUNTRIES = gql`
-  query getCountries($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToCountryConnectionWhereArgs) {
-    countries(
+const GET_PROGRAMS = gql`
+  query getPrograms($first: Int, $last: Int, $after: String, $before: String, $where: RootQueryToProgramConnectionWhereArgs) {
+    programs(
       first: $first,
       last: $last,
       after: $after,
@@ -38,20 +38,20 @@ const GET_COUNTRIES = gql`
         hasNextPage
       }
       nodes {
-        ...CountryCardProps
+        ...ProgramCardProps
       }
     }
   }
-  fragment CountryCardProps on Country {
+  fragment ProgramCardProps on Program {
     id
     link
     name
     count
+    teaserFields {
+      teaser
+    }
     taxonomyImages {
       logo {
-        ...ImageProps
-      }
-      imageBanner {
         ...ImageProps
       }
     }
@@ -76,26 +76,27 @@ const GET_COUNTRIES = gql`
   ${IMAGE_PROPS}
 `;
 
-export async function fetchGqlCountries(query: CountriesQueryOptions) {
+export async function fetchGqlPrograms(query: ProgramQueryOptions) {
   const response = await gqlClient.query<{
-    countries: RootQueryToCountryConnection;
+    programs: RootQueryToProgramConnection;
   }>({
-    query: GET_COUNTRIES,
+    query: GET_PROGRAMS,
     variables: {
       ...query,
       where: {
         orderby: TermObjectsConnectionOrderbyEnum.Count,
         order: OrderEnum.Desc,
-        hideEmpty: true,
         ...query?.where,
+        hideEmpty: true,
+        exclude: ["dGVybToxMjMwNw=="],
       },
     },
   });
-  const data = response?.data?.countries;
+  const data = response?.data?.programs;
 
   if (!data) return undefined;
 
   return data;
 }
 
-export default fetchGqlCountries;
+export default fetchGqlPrograms;

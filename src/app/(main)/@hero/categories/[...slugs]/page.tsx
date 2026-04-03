@@ -1,6 +1,5 @@
 import type { Category, Contributor } from "@/interfaces";
 import { getCachedCategory } from "@/app/(main)/categories/[...slugs]/page";
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { HtmlContent } from "@/components/HtmlContent";
 import { BookmarkIcon } from "lucide-react";
 import {
@@ -72,10 +71,9 @@ export default async function CategoryHero({
                 >
                   {sponsorLinks.map((sl) => {
                     const { title, url } = sl || {};
-                    const linkHref = generateContentLinkHref(url);
 
-                    return linkHref ? (
-                      <Link href={linkHref} key={url}>
+                    return url ? (
+                      <Link href={url} target="_blank" key={url}>
                         {title}
                       </Link>
                     ) : (
@@ -127,7 +125,11 @@ export default async function CategoryHero({
                         <Link href={href}>
                           <Avatar size="lg">
                             {imageUrl && (
-                              <AvatarImage src={imageUrl} alt={altText || ""} />
+                              <AvatarImage
+                                sizes="120px"
+                                src={imageUrl}
+                                alt={altText || ""}
+                              />
                             )}
                             <AvatarFallback>{initials}</AvatarFallback>
                           </Avatar>

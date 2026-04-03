@@ -1,6 +1,6 @@
+import type { MessageInitShape } from "@bufbuild/protobuf";
 import {
-  type ContentSearchFilters,
-  ContentSearchFiltersSchema,
+  type ContentSearchFiltersSchema,
   SFContentSortEnum,
   SFContentTypeEnum,
 } from "@/gen/search_filters_pb";
@@ -11,7 +11,6 @@ import {
   type RootQueryToContentNodeConnectionWhereArgs,
 } from "@/interfaces";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
-import { MessageInitShape } from "@bufbuild/protobuf";
 import { isArray, isUndefined } from "lodash";
 
 export function convertSearchFiltersToWhereArgs(
@@ -106,6 +105,10 @@ export function convertSearchFiltersToWhereArgs(
       ...whereArgs,
       ...whereSortArgs,
     };
+  }
+
+  if (searchFilters?.exclude) {
+    whereArgs.notIn = searchFilters.exclude.ids;
   }
 
   return whereArgs;

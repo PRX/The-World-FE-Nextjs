@@ -55,6 +55,9 @@ const GET_CATEGORY = gql`
       }
       landingPage {
         featuredPosts {
+          ... on ContentNode {
+            databaseId
+          }
           ... on Post {
             ...PostCardProps
           }

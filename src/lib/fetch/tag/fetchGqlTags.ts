@@ -52,7 +52,7 @@ const GET_TAGS = gql`
         ...ImageProps
       }
     }
-    contentNodes (first: 20, where: { contentTypes: [POST, SEGMENT, EPISODE] orderby: { field: DATE, order: DESC } }) {
+    contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {
       nodes {
         ... on Episode {
           ...EpisodeCardPropsWithoutSegments

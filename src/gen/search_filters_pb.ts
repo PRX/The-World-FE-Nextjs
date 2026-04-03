@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file search_filters.proto.
  */
 export const file_search_filters: GenFile = /*@__PURE__*/
-  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMisQIKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgFSAKIAQESEgoFbW9udGgYBCABKAVIA4gBARIQCgNkYXkYBSABKAVIBIgBARIxCgNjdHgYBiABKAsyHy5zZWFyY2hfZmlsdGVycy5UYXhvbm9teUNvbnRleHRIBYgBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXlCBgoEX2N0eCJnCg9UYXhvbm9teUNvbnRleHQSMAoIdGF4b25vbXkYASABKA4yHi5zZWFyY2hfZmlsdGVycy5TRlRheG9ub215RW51bRIVCgh0ZXJtU2x1ZxgCIAEoCUgAiAEBQgsKCV90ZXJtU2x1ZypAChFTRkNvbnRlbnRUeXBlRW51bRIHCgNBTEwQABIICgRQT1NUEAESCwoHU0VHTUVOVBACEgsKB0VQSVNPREUQAypHChFTRkNvbnRlbnRTb3J0RW51bRIKCgZORVdFU1QQABIKCgZPTERFU1QQARIMCghUSVRMRV9BWhACEgwKCFRJVExFX1pBEAMqjAEKDlNGVGF4b25vbXlFbnVtEgsKB3Byb2dyYW0QABIMCghjYXRlZ29yeRABEgcKA3RhZxACEg8KC2NvbnRyaWJ1dG9yEAMSCAoEY2l0eRAEEg0KCWNvbnRpbmVudBAFEgsKB2NvdW50cnkQBhITCg9wcm92aW5jZU9yU3RhdGUQBxIKCgZyZWdpb24QCGIGcHJvdG8z");
+  fileDesc("ChRzZWFyY2hfZmlsdGVycy5wcm90bxIOc2VhcmNoX2ZpbHRlcnMi8wIKFENvbnRlbnRTZWFyY2hGaWx0ZXJzEjsKC2NvbnRlbnRUeXBlGAEgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50VHlwZUVudW1IAIgBARI0CgRzb3J0GAIgASgOMiEuc2VhcmNoX2ZpbHRlcnMuU0ZDb250ZW50U29ydEVudW1IAYgBARIRCgR5ZWFyGAMgASgNSAKIAQESEgoFbW9udGgYBCABKA1IA4gBARIQCgNkYXkYBSABKA1IBIgBARIxCgNjdHgYBiABKAsyHy5zZWFyY2hfZmlsdGVycy5UYXhvbm9teUNvbnRleHRIBYgBARI0CgdleGNsdWRlGAcgASgLMh4uc2VhcmNoX2ZpbHRlcnMuRXhjbHVkZUlkc0xpc3RIBogBAUIOCgxfY29udGVudFR5cGVCBwoFX3NvcnRCBwoFX3llYXJCCAoGX21vbnRoQgYKBF9kYXlCBgoEX2N0eEIKCghfZXhjbHVkZSJnCg9UYXhvbm9teUNvbnRleHQSMAoIdGF4b25vbXkYASABKA4yHi5zZWFyY2hfZmlsdGVycy5TRlRheG9ub215RW51bRIVCgh0ZXJtU2x1ZxgCIAEoCUgAiAEBQgsKCV90ZXJtU2x1ZyIdCg5FeGNsdWRlSWRzTGlzdBILCgNpZHMYASADKA0qQAoRU0ZDb250ZW50VHlwZUVudW0SBwoDQUxMEAASCAoEUE9TVBABEgsKB1NFR01FTlQQAhILCgdFUElTT0RFEAMqRwoRU0ZDb250ZW50U29ydEVudW0SCgoGTkVXRVNUEAASCgoGT0xERVNUEAESDAoIVElUTEVfQVoQAhIMCghUSVRMRV9aQRADKowBCg5TRlRheG9ub215RW51bRILCgdwcm9ncmFtEAASDAoIY2F0ZWdvcnkQARIHCgN0YWcQAhIPCgtjb250cmlidXRvchADEggKBGNpdHkQBBINCgljb250aW5lbnQQBRILCgdjb3VudHJ5EAYSEwoPcHJvdmluY2VPclN0YXRlEAcSCgoGcmVnaW9uEAhiBnByb3RvMw");
 
 /**
  * @generated from message search_filters.ContentSearchFilters
@@ -27,17 +27,17 @@ export type ContentSearchFilters = Message<"search_filters.ContentSearchFilters"
   sort?: SFContentSortEnum;
 
   /**
-   * @generated from field: optional int32 year = 3;
+   * @generated from field: optional uint32 year = 3;
    */
   year?: number;
 
   /**
-   * @generated from field: optional int32 month = 4;
+   * @generated from field: optional uint32 month = 4;
    */
   month?: number;
 
   /**
-   * @generated from field: optional int32 day = 5;
+   * @generated from field: optional uint32 day = 5;
    */
   day?: number;
 
@@ -45,6 +45,11 @@ export type ContentSearchFilters = Message<"search_filters.ContentSearchFilters"
    * @generated from field: optional search_filters.TaxonomyContext ctx = 6;
    */
   ctx?: TaxonomyContext;
+
+  /**
+   * @generated from field: optional search_filters.ExcludeIdsList exclude = 7;
+   */
+  exclude?: ExcludeIdsList;
 };
 
 /**
@@ -75,6 +80,23 @@ export type TaxonomyContext = Message<"search_filters.TaxonomyContext"> & {
  */
 export const TaxonomyContextSchema: GenMessage<TaxonomyContext> = /*@__PURE__*/
   messageDesc(file_search_filters, 1);
+
+/**
+ * @generated from message search_filters.ExcludeIdsList
+ */
+export type ExcludeIdsList = Message<"search_filters.ExcludeIdsList"> & {
+  /**
+   * @generated from field: repeated uint32 ids = 1;
+   */
+  ids: number[];
+};
+
+/**
+ * Describes the message search_filters.ExcludeIdsList.
+ * Use `create(ExcludeIdsListSchema)` to create a new message.
+ */
+export const ExcludeIdsListSchema: GenMessage<ExcludeIdsList> = /*@__PURE__*/
+  messageDesc(file_search_filters, 2);
 
 /**
  * @generated from enum search_filters.SFContentTypeEnum

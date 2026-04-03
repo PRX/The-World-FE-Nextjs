@@ -5,15 +5,20 @@ package search_filters;
 message ContentSearchFilters {
   optional SFContentTypeEnum contentType = 1;
   optional SFContentSortEnum sort = 2;
-  optional int32 year = 3;
-  optional int32 month = 4;
-  optional int32 day = 5;
+  optional uint32 year = 3;
+  optional uint32 month = 4;
+  optional uint32 day = 5;
   optional TaxonomyContext ctx = 6;
+  optional ExcludeIdsList exclude = 7;
 }
 
 message TaxonomyContext {
   SFTaxonomyEnum taxonomy = 1;
   optional string termSlug = 2;
+}
+
+message ExcludeIdsList {
+  repeated uint32 ids = 1;
 }
 
 enum SFContentTypeEnum {

@@ -276,7 +276,7 @@ export default function SearchInput({
                     className="rounded-full w-min max-w-[45cqw]"
                   >
                     <span className="overflow-hidden text-ellipsis">
-                      {inContextSearch ? searchContext.label : "The World"}
+                      {inContextSearch ? searchContext.label : "The Site"}
                     </span>
                     <ChevronDownIcon className="size-3" />
                   </InputGroupButton>
@@ -292,7 +292,7 @@ export default function SearchInput({
                     }}
                   >
                     <DropdownMenuRadioItem value="site">
-                      The World
+                      The Site
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="context">
                       {searchContext.label}
