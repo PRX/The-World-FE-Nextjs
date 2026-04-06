@@ -45,4 +45,6 @@ enum SFTaxonomyEnum {
   country = 6;
   provinceOrState = 7;
   region = 8;
+  socialTag = 9;
+  person = 10;
 }

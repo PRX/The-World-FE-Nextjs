@@ -12,7 +12,7 @@ export function ExplorerHeroHeading({
   return (
     <h1
       className={cn(
-        "grid has-[>svg]:grid-cols-[1em_1fr] gap-2 items-start text-3xl font-black text-balance",
+        "grid has-[>svg]:grid-cols-[1em_1fr] gap-2 items-start text-3xl font-black text-balance *:first-letter:capitalize",
         "[&_svg:not([class*='size-'])]:size-[1em]",
         className,
       )}

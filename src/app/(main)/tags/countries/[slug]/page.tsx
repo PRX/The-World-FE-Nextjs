@@ -29,9 +29,9 @@ import { cn } from "@/lib/util/css";
 
 export const getCachedCountry = unstable_cache(
   async (slug) => fetchGqlTag(slug, TagIdType.Slug),
-  ["tag"],
+  ["country"],
   {
-    tags: ["tag", "taxonomy"],
+    tags: ["country", "taxonomy"],
     revalidate: 60,
   },
 );

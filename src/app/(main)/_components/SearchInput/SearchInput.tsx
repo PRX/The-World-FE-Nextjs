@@ -28,6 +28,7 @@ import {
   BookmarkIcon,
   BookOpenIcon,
   BoomBoxIcon,
+  Building2Icon,
   CassetteTapeIcon,
   ChevronDownIcon,
   ChevronRightIcon,
@@ -391,8 +392,12 @@ export default function SearchInput({
                   n;
                 const Icon =
                   new Map([
+                    ["city", Building2Icon],
                     ["contributor", UserIcon],
+                    ["continent", Globe2Icon],
                     ["country", Globe2Icon],
+                    ["region", Globe2Icon],
+                    ["province_or_state", Globe2Icon],
                     ["person", UserIcon],
                     ["social_tags", HashIcon],
                   ]).get(taxonomyName || "") || BookmarkIcon;

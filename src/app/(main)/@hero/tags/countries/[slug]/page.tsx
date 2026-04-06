@@ -7,7 +7,7 @@ import {
   ExplorerHeroHeading,
 } from "@/app/(main)/_components/Explorer";
 
-export default async function TagHero({
+export default async function CountryHero({
   params,
 }: {
   params: Promise<Record<"slug", string>>;
