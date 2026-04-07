@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import type { CSSProperties } from "react";
+import { Children, type CSSProperties } from "react";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
 import type { Preferences } from "@/interfaces";
 import { HtmlContent } from "@/components/HtmlContent";
@@ -26,9 +26,14 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export type ContentBodyProps = React.ComponentProps<typeof HtmlContent>;
 
-export default function ContentBody({ children, ...props }: ContentBodyProps) {
+export default function ContentBody({
+  children,
+  className,
+  ...props
+}: ContentBodyProps) {
   const [preferences] = useLocalStorage<Preferences>("preferences");
   const { colorScheme } = preferences || {};
+  const hasChildren = !!Children.count(children);
 
   const replacers: ReplaceCallback[] = [
     replaceScrollGallery,
@@ -68,6 +73,9 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
           "bg-body text-body-foreground rounded-t-lg",
           "[&_a]:text-body-primary [&_a]:hover:opacity-60 [&_a]:visited:text-body-primary",
           "default:[&_a]:text-body-foreground default:[&_a]:decoration-body-primary",
+          {
+            "pb-9": !hasChildren,
+          },
         )}
       >
         <HtmlContent
@@ -102,6 +110,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
             "*:data-[align=full]:relative *:data-[align=full]:w-[100cqw] *:data-[align=full]:left-1/2 *:data-[align=full]:-translate-x-1/2",
             // Align Center
             "*:data-[align=center]:mx-(--body-gutter)",
+            className,
           )}
           {...{
             ...props,
@@ -111,7 +120,7 @@ export default function ContentBody({ children, ...props }: ContentBodyProps) {
       </div>
       <div
         className={cn(
-          "flex flex-col gap-y-18",
+          "flex flex-col gap-y-18 min-h-20",
           "px-(--body-gutter) mx-(--body-margin) md:[--_gutter:16] md:[--_margin:8]",
           "bg-linear-to-b from-body to-body/0 from-10% to-[min(90%,10%+var(--spacing)*100)]",
         )}
