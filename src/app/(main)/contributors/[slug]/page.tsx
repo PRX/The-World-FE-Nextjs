@@ -1,11 +1,24 @@
-import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { type ContentNode, ContributorIdType } from "@/interfaces";
-import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
+import { create } from "@bufbuild/protobuf";
+import {
+  ExcludeIdsListSchema,
+  SFTaxonomyEnum,
+  TaxonomyContextSchema,
+} from "@/gen/search_filters_pb";
+import { unstable_cache } from "next/cache";
+import { notFound } from "next/navigation";
+import { isArray } from "lodash";
 import {
   type ContentQueryOptions,
   fetchGqlContent,
   fetchGqlContributor,
 } from "@/lib/fetch";
+import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
+import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
+import { cn } from "@/lib/util/css";
+import CtaRegion from "@/app/(main)/_components/CtaRegion";
+import ContentBody from "@/app/(main)/_components/ContentBody";
 import Explorer, {
   ExplorerCard,
   ExplorerClearSearch,
@@ -13,20 +26,6 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
-import { unstable_cache } from "next/cache";
-import { notFound } from "next/navigation";
-import { HtmlContent } from "@/components/HtmlContent";
-import { isArray } from "lodash";
-import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
-import {
-  ExcludeIdsListSchema,
-  SFTaxonomyEnum,
-  TaxonomyContextSchema,
-} from "@/gen/search_filters_pb";
-import { create } from "@bufbuild/protobuf";
-import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
-import { cn } from "@/lib/util/css";
-import ContentBody from "../../_components/ContentBody";
 
 export const getCachedContributor = unstable_cache(
   async (slug) => fetchGqlContributor(slug, ContributorIdType.Slug),

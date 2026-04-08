@@ -326,7 +326,7 @@ export default function MainUI({
               "md:w-(--ui-drawer--width)",
               {
                 "max-md:*:nth-[n+2]:hidden": hasBrowser,
-                "md:grid-cols-[1fr_calc(var(--spacing)*62)]": hasBrowser,
+                "md:grid-cols-[1fr_--spacing(62)]": hasBrowser,
               },
             )}
             onPointerLeave={() => {
