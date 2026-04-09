@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { StepForwardIcon } from "lucide-react";
 
@@ -25,7 +25,7 @@ export const ForwardButton = ({
   ...rest
 }: ForwardButtonProps) => {
   const { state: playerState, forward } = useContext(PlayerContext);
-  const { currentTrackIndex } = playerState;
+  const { currentTrackIndex } = playerState || {};
   const hasCurrentTrack = !!currentTrackIndex || currentTrackIndex === 0;
 
   const handlePlayClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -49,10 +49,10 @@ export const ForwardButton = ({
           disabled={!hasCurrentTrack}
           {...rest}
         >
-          <StepForwardIcon />
+          <StepForwardIcon aria-label="Step forward thirty seconds" />
         </Button>
       </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
         Step Forward 30 Seconds{" "}
         <KbdGroup>
           <Kbd>L</Kbd>

@@ -12,7 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { PlayIcon } from "lucide-react";
 
 export type AutoplayButtonProps = React.ComponentProps<typeof Switch>;
@@ -43,10 +43,15 @@ export const AutoplayButton = ({
           checked={autoplay}
           onCheckedChange={handleClick}
         >
-          <PlayIcon className="fill-current stroke-0" />
+          <PlayIcon
+            className="fill-current stroke-0"
+            aria-label={tooltipText}
+          />
         </Switch>
       </TooltipTrigger>
-      <TooltipContent className="z-(--z-ui)">{tooltipText}</TooltipContent>
+      <TooltipContent className="z-(--z-ui-player)">
+        {tooltipText}
+      </TooltipContent>
     </Tooltip>
   );
 };

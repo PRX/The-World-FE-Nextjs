@@ -64,10 +64,7 @@ export const GET_EPISODE = gql`
                 title
                 segmentContent {
                   audio {
-                    id
-                    parent {
-                      ...AudioParentProps
-                    }
+                    ...AudioProps
                   }
                 }
               }

@@ -46,6 +46,7 @@ export const parseAudioData = (
   const {
     imageUrl: fallbackImageUrl,
     title: fallbackTitle,
+    info: fallbackInfo,
     linkResource,
     queuedFrom,
   } = fallbackProps || {};
@@ -92,6 +93,7 @@ export const parseAudioData = (
       ? audioAuthor.map(({ name }: Contributor) => name).filter((v) => !!v)
       : []),
     ...(date ? [new Date(date)] : []),
+    ...(fallbackInfo || []),
   ];
 
   return {

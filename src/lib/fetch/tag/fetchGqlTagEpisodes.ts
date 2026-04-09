@@ -9,7 +9,11 @@ import type { CollectionQueryOptions, Maybe, PostTag } from "@/interfaces";
 import { upperFirst } from "lodash";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { EPISODE_CARD_PROPS, IMAGE_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  EPISODE_CARD_PROPS,
+  IMAGE_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_TAG_EPISODES = (taxonomySingleName: Maybe<string>) => gql`
   query getTagEpisodes(
@@ -39,6 +43,7 @@ const GET_TAG_EPISODES = (taxonomySingleName: Maybe<string>) => gql`
     }
   }
   ${EPISODE_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;
 

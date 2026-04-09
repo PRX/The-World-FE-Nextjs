@@ -28,11 +28,13 @@ export default async function MainLayout({
   children,
   browser,
   hero,
+  search,
   siteBanner,
 }: Readonly<{
   children: React.ReactNode;
   browser: React.ReactNode;
   hero: React.ReactNode;
+  search: React.ReactNode;
   siteBanner: React.ReactNode;
 }>) {
   const appDomain = process.env.APP_DOMAIN || "";
@@ -40,6 +42,7 @@ export default async function MainLayout({
   const mainUiProps = {
     browser,
     hero,
+    search,
     siteBanner,
     menus,
     settings,
@@ -48,7 +51,7 @@ export default async function MainLayout({
   return (
     <html
       lang="en"
-      className="antialiased overflow-clip overflow-y-auto max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
+      className="antialiased max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
     >
       <head>
         <script

@@ -10,8 +10,9 @@ import { HtmlContent } from "@/components/HtmlContent";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { generateContentLinkHref } from "@/lib/routing/content";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import ShareButton from "@/app/(main)/_components/ShareButton";
+import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
 
 export default async function StoryHero({
   params,
@@ -53,7 +54,7 @@ export default async function StoryHero({
       <h1 className="capitalize text-3xl md:text-4xl font-bold text-balance">
         {title}
       </h1>
-      <div className="flex @max-md/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
+      <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
         <div className="grow flex flex-col gap-y-4">
           {excerpt && <HtmlContent html={excerpt} className="text-xl/snug" />}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-lg">
@@ -95,7 +96,7 @@ export default async function StoryHero({
           </div>
         </div>
         {!!contributors?.nodes.length && (
-          <div className="flex flex-wrap md:flex-col gap-2">
+          <div className="flex @max-xl/hero-content:flex-wrap @xl/hero-content:flex-col gap-2">
             {contributors.nodes.map((contributor: Contributor) => {
               const { id: key, name, link, contributorDetails } = contributor;
               const { image } = contributorDetails || {};
@@ -110,13 +111,13 @@ export default async function StoryHero({
               return (
                 <Button
                   className={cn(
-                    "rounded-full ps-0",
+                    "justify-start rounded-full ps-0",
                     "**:data-[slot=avatar-fallback]:text-white",
-                    "nth-of-type-[5n+1]:**:data-[slot=avatar-fallback]:bg-green",
-                    "nth-of-type-[5n+2]:**:data-[slot=avatar-fallback]:bg-purple",
-                    "nth-of-type-[5n+3]:**:data-[slot=avatar-fallback]:bg-brown",
-                    "nth-of-type-[5n+4]:**:data-[slot=avatar-fallback]:bg-burnt-orange",
-                    "nth-of-type-[5n+5]:**:data-[slot=avatar-fallback]:bg-blue",
+                    "nth-of-type-[5n+1]:**:data-[slot=avatar]:bg-dark-green",
+                    "nth-of-type-[5n+2]:**:data-[slot=avatar]:bg-purple",
+                    "nth-of-type-[5n+3]:**:data-[slot=avatar]:bg-red",
+                    "nth-of-type-[5n+4]:**:data-[slot=avatar]:bg-burnt-orange",
+                    "nth-of-type-[5n+5]:**:data-[slot=avatar]:bg-blue",
                   )}
                   variant="ghost"
                   size="lg"
@@ -148,6 +149,7 @@ export default async function StoryHero({
           buttonProps={{ className: cn({ "h-auto": !!audio }) }}
           menuContentProps={{ align: "start" }}
         />
+        <ColorSchemeSwitcher />
       </div>
     </HeroHeader>
   );

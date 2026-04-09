@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 
 export const getCachedTag = unstable_cache(
-  async (slug) => fetchGqlTag(slug, TagIdType.Slug, "tag"),
+  async (slug) => fetchGqlTag(slug, TagIdType.Slug),
   ["tag"],
   {
     tags: ["tag", "taxonomy"],
@@ -35,17 +35,7 @@ export default async function TagPage({
   }
 
   const { name } = data || {};
-  const explorerProps = {
-    ...(data && {
-      tag: !name?.trim()
-        ? slug
-        : {
-            value: slug,
-            displayValue: name,
-          },
-    }),
-    searchParams: resolvedSearchParams,
-  };
+  const explorerProps = {};
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",

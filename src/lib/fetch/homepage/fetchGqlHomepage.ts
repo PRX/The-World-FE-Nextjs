@@ -7,7 +7,11 @@
 import type { Homepage, Maybe, Menu, Program } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { MENU_PROPS, EPISODE_CARD_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  MENU_PROPS,
+  EPISODE_CARD_PROPS,
+  AUDIO_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_HOMEPAGE = gql`
   query getHomepage($id: ID!, $idType: ProgramIdType) {
@@ -63,6 +67,7 @@ const GET_HOMEPAGE = gql`
   }
   ${MENU_PROPS}
   ${EPISODE_CARD_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export async function fetchGqlHomepage() {

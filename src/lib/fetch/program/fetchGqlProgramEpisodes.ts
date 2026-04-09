@@ -8,7 +8,11 @@
 import type { CollectionQueryOptions, Program } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { EPISODE_CARD_PROPS, IMAGE_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  EPISODE_CARD_PROPS,
+  IMAGE_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_PROGRAM_EPISODES = gql`
   query getProgramEpisodes(
@@ -38,6 +42,7 @@ const GET_PROGRAM_EPISODES = gql`
     }
   }
   ${EPISODE_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
 `;
 

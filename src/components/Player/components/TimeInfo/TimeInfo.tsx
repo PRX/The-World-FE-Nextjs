@@ -10,7 +10,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { convertSecondsToDuration } from "@/lib/parse/time";
 import { PlayerContext } from "@/components/Player";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type TimeInfoProps = React.ComponentProps<"div">;
 
@@ -19,7 +19,7 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   ...other
 }: TimeInfoProps) => {
   const { audioElm, state: playerState } = useContext(PlayerContext);
-  const { currentTrackIndex = 0, tracks } = playerState;
+  const { currentTrackIndex = 0, tracks } = playerState || {};
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: audioDuration } = currentTrack || {};
   const [currentTime, setCurrentTime] = useState(0);

@@ -15,7 +15,7 @@ import TwitterXIcon from "@/assets/svg/icons/brands/twitter.svg";
 import LinkedInIcon from "@/assets/svg/icons/brands/linkedin.svg";
 import FlipboardIcon from "@/assets/svg/icons/brands/flipboard.svg";
 import WhatsAppIcon from "@/assets/svg/icons/brands/whatsapp.svg";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 const iconMap = new Map([
   ["facebook", FacebookIcon],
@@ -51,12 +51,15 @@ export default function ShareButton({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className={cn("cursor-pointer", buttonClassName)}
+          className={cn("cursor-pointer max-sm:aspect-square", buttonClassName)}
           variant="action"
           size="lg"
           {...buttonRest}
         >
-          <Share2Icon /> Share
+          <Share2Icon aria-label="Share" />
+          <span className="max-sm:hidden" aria-hidden>
+            Share
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

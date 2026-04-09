@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { StepBackIcon } from "lucide-react";
 
@@ -25,7 +25,7 @@ export const ReplayButton = ({
   ...rest
 }: ReplayButtonProps) => {
   const { state: playerState, replay } = useContext(PlayerContext);
-  const { currentTrackIndex } = playerState;
+  const { currentTrackIndex } = playerState || {};
   const hasCurrentTrack = !!currentTrackIndex || currentTrackIndex === 0;
 
   const handlePlayClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -49,10 +49,10 @@ export const ReplayButton = ({
           disabled={!hasCurrentTrack}
           {...rest}
         >
-          <StepBackIcon />
+          <StepBackIcon aria-label="Step back five seconds" />
         </Button>
       </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+      <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
         Step Back 5 Seconds{" "}
         <KbdGroup>
           <Kbd>J</Kbd>

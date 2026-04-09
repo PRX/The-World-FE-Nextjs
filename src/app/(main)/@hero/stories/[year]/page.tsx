@@ -1,4 +1,7 @@
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import {
+  ExplorerHero,
+  ExplorerHeroHeading,
+} from "@/app/(main)/_components/Explorer";
 import { DateTime } from "@/components/DateTime";
 import { BookOpenIcon } from "lucide-react";
 
@@ -9,20 +12,22 @@ export default async function StoriesByYearHero({
 }) {
   const { year } = await params;
 
-  const date = new Date(`${year}/01`);
+  const date = new Date(parseInt(year, 10), 1, 1, 12);
 
   return (
-    <HeroHeader fullWidth>
-      <h1 className="flex gap-2 items-center text-3xl font-black">
-        <BookOpenIcon className="size-[1em]" />
-        Stories for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-          }}
-        />
-      </h1>
-    </HeroHeader>
+    <ExplorerHero>
+      <ExplorerHeroHeading>
+        <BookOpenIcon />
+        <span>
+          Stories for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+            }}
+          />
+        </span>
+      </ExplorerHeroHeading>
+    </ExplorerHero>
   );
 }

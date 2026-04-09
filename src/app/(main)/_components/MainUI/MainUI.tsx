@@ -11,7 +11,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 import Logo from "../Logo/Logo";
 import "./MainUI.css";
 import { useBreakpoint } from "@react-awesome/use-breakpoint";
@@ -58,6 +58,7 @@ export default function MainUI({
   children,
   browser,
   hero,
+  search,
   siteBanner,
   menus,
   settings,
@@ -65,6 +66,7 @@ export default function MainUI({
   children: React.ReactNode;
   browser: React.ReactNode;
   hero: React.ReactNode;
+  search: React.ReactNode;
   siteBanner: React.ReactNode;
   menus: AppMenus;
   settings?: Settings;
@@ -79,7 +81,7 @@ export default function MainUI({
   const drawerRef = useRef<HTMLDivElement>(null);
   const trackInfoRef = useRef<HTMLDivElement>(null);
   const { state: playerState } = useContext(PlayerContext);
-  const { tracks } = playerState;
+  const { tracks } = playerState || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
@@ -241,7 +243,7 @@ export default function MainUI({
           </div>
           <div
             ref={topNavRef}
-            className="isolate sticky top-0 z-(--z-ui) flex justify-between w-screen p-3"
+            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-10 w-screen p-3"
           >
             <div className="absolute md:hidden inset-0 -z-1 bg-navy-blue/30 backdrop-blur-lg mask-b-from-60%"></div>
             <h1 className="flex items-center gap-2">
@@ -257,9 +259,14 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo className="w-[40vw] max-h-10" animated duration="30s" />
+                <Logo
+                  className="max-h-10 max-w-[40vw]"
+                  animated
+                  duration="10s"
+                />
               </Link>
             </h1>
+            <span className="basis-xl">{search}</span>
             <span>
               <DonateModalLink campaign="731684" size="lg" variant="action">
                 <HeartHandshakeIcon aria-label="Donate" />
@@ -277,7 +284,8 @@ export default function MainUI({
           aria-labelledby="main-menu-button"
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
-            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:bg-none md:delay-(--default-transition-duration)",
+            "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:z-(--z-ui) md:bg-none md:delay-(--default-transition-duration)",
+            "md:before:absolute md:before:inset-0 md:before:-z-1 md:before:pointer-events-none md:before:bg-navy-blue/30 md:before:backdrop-blur-lg md:before:mask-r-from-70%",
             isMenuOpen ? "translate-x-0" : "-translate-x-full",
           )}
           inert={!isMenuOpen}
@@ -298,13 +306,13 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo animated duration="30s" />
+                <Logo animated duration="10s" />
               </Link>
             </div>
           </div>
 
           {/* Tag Line */}
-          <div className="p-4 pt-0 text-base/5 max-w-62">
+          <div className="p-4 text-base/5 max-w-62">
             <p>Public radio’s longest-running daily global news program.</p>
           </div>
 
@@ -314,11 +322,11 @@ export default function MainUI({
           <div
             ref={drawerRef}
             className={cn(
-              "grow grid grid-cols-1 gap-x-2 overflow-hidden",
+              "grow relative grid grid-cols-1 gap-x-2 overflow-hidden",
               "md:w-(--ui-drawer--width)",
               {
                 "max-md:*:nth-[n+2]:hidden": hasBrowser,
-                "md:grid-cols-[1fr_calc(var(--spacing)*62)]": hasBrowser,
+                "md:grid-cols-[1fr_--spacing(62)]": hasBrowser,
               },
             )}
             onPointerLeave={() => {
@@ -370,7 +378,7 @@ export default function MainUI({
         <div
           ref={uiBottomRef}
           className={cn(
-            "fixed inset-0 top-auto transition-transform z-(--z-ui)",
+            "fixed inset-0 top-auto transition-transform z-(--z-ui-player)",
             isPlayerOpen ? "translate-y-0" : "translate-y-full",
           )}
           inert={!isPlayerOpen}
@@ -414,7 +422,7 @@ export default function MainUI({
                           />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent className="z-(--z-ui)">
+                      <TooltipContent className="z-(--z-ui-player)">
                         {isPlaylistOpen ? "Hide" : "Show"} Playlist
                       </TooltipContent>
                     </Tooltip>
@@ -443,7 +451,7 @@ export default function MainUI({
               </div>
               <PlayerMenu
                 triggerProps={{ className: "max-sm:hidden" }}
-                contentProps={{ className: "z-(--z-ui)" }}
+                contentProps={{ className: "z-(--z-ui-player)" }}
               />
               {/* Track Selection Controls */}
               <div
@@ -458,7 +466,7 @@ export default function MainUI({
             {/* Player Settings */}
             <div className="flex justify-end items-center gap-x-4 max-sm:hidden">
               <VolumeControls className="hidden md:media-hover:flex lg:flex" />
-              <AutoplayButton className="" />
+              <AutoplayButton />
             </div>
           </div>
         </div>

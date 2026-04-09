@@ -1,7 +1,7 @@
 import { getCachedHomepage } from "@/app/(main)/page";
 import HeroEpisodesCarousel from "../_components/HeroEpisodesCarousel";
 import MiniMenu from "../_components/MiniMenu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import type { CSSProperties } from "react";
 
 export default async function HomeHero() {

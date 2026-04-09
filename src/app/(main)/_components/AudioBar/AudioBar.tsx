@@ -7,7 +7,7 @@ import {
   PlayerContext,
   type PlayerAudio,
 } from "@/components/Player";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { useContext } from "react";
 import { formatDuration } from "@/lib/parse/time";
 
@@ -46,7 +46,9 @@ export default function AudioBar({
           audio={audio}
           fallbackProps={fallbackProps}
         />
-        {duration && <span>{formatDuration(duration)}</span>}
+        {!!duration && (
+          <span className="leading-none">{formatDuration(duration)}</span>
+        )}
       </span>
       <AddAudioButton
         className={cn("text-cyan")}

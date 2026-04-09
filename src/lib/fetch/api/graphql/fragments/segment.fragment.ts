@@ -19,8 +19,18 @@ export const SEGMENT_CARD_PROPS = gql`
     link
     title
     date
+    featuredImage {
+      node {
+        ...ImageProps
+      }
+    }
     segmentDates {
       broadcastDate
+    }
+    segmentContent {
+      audio {
+        ...AudioProps
+      }
     }
   }
 `;

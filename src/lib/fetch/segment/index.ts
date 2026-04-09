@@ -1,1 +1,2 @@
-export * from './fetchGqlSegment';
+export * from "./fetchGqlSegment";
+export * from "./fetchGqlSegments";

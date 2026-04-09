@@ -1,6 +1,9 @@
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import {
+  ExplorerHero,
+  ExplorerHeroHeading,
+} from "@/app/(main)/_components/Explorer";
 import { DateTime } from "@/components/DateTime";
-import { CassetteTapeIcon } from "lucide-react";
+import { BoomBoxIcon } from "lucide-react";
 
 export default async function SegmentsByMonthHero({
   params,
@@ -9,21 +12,23 @@ export default async function SegmentsByMonthHero({
 }) {
   const { year, month } = await params;
 
-  const date = new Date(`${year}/${month}`);
+  const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 1, 12);
 
   return (
-    <HeroHeader fullWidth>
-      <h1 className="flex gap-2 items-center text-3xl font-black">
-        <CassetteTapeIcon className="size-[1em]" />
-        Segments for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-          }}
-        />
-      </h1>
-    </HeroHeader>
+    <ExplorerHero>
+      <ExplorerHeroHeading>
+        <BoomBoxIcon />
+        <span>
+          Segments for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+            }}
+          />
+        </span>
+      </ExplorerHeroHeading>
+    </ExplorerHero>
   );
 }

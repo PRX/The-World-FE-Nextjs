@@ -1,4 +1,4 @@
-import cn from "@/lib/util/css/cn";
+import { cn } from "@/lib/util/css";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { fetchGqlHomepage } from "@/lib/fetch";
@@ -38,7 +38,7 @@ export const getCachedHomepage = unstable_cache(
   ["homepage"],
   {
     tags: ["homepage", "content"],
-    revalidate: 3600,
+    revalidate: 60,
   },
 );
 
@@ -89,7 +89,7 @@ export default async function Home() {
           "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 4))",
         } as CSSProperties
       }
-      className="grid gap-y-8 mt-12"
+      className="grid gap-y-8 mt-10"
     >
       {/* Quick Links Menu */}
       <div className="md:sticky top-(--gutter-top) z-2 overflow-hidden">
@@ -132,7 +132,7 @@ export default async function Home() {
               // May remove this since its affect may not be noticeable.
               .slice(0, 20);
             return (
-              <div
+              <section
                 className={cn(
                   "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
                   "max-sm:snap-always max-sm:snap-center",
@@ -165,11 +165,9 @@ export default async function Home() {
                           date,
                           link,
                           featuredImage,
-                          additionalDates,
                           additionalMedia,
                           primaryCategory,
                         } = post;
-                        const { broadcastDate } = additionalDates || {};
                         const { audio } = additionalMedia || {};
                         const { duration } = audio || {};
                         const { name: pcName, link: pcLink } =
@@ -221,7 +219,7 @@ export default async function Home() {
                                   <Link
                                     href={pcLinkHref}
                                     className={cn(
-                                      "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md [&>svg]:text-cyan",
+                                      "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md/tight text-balance [&>svg]:text-cyan",
                                       "hover:bg-cyan/10 hover:backdrop-blur-md hover:backdrop-brightness-125",
                                     )}
                                   >
@@ -229,14 +227,16 @@ export default async function Home() {
                                   </Link>
                                 )}
                                 <CardTitle>{title}</CardTitle>
-                                <DateTime
-                                  date={broadcastDate || date}
-                                  options={{
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  }}
-                                />
+                                <div className="flex items-center text-md [&>*+*]:before:content-['\2022'] [&>*+*]:before:mx-2">
+                                  <DateTime
+                                    date={date}
+                                    options={{
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                    }}
+                                  />
+                                </div>
                               </CardHeader>
                               {audio && (
                                 <CardFooter>
@@ -273,7 +273,7 @@ export default async function Home() {
                     <CarouselNext />
                   </CardCarousel>
                 </div>
-              </div>
+              </section>
             );
           },
         )}
@@ -337,7 +337,7 @@ export default async function Home() {
                       );
                     })}
                 </CarouselContent>
-                <CarouselNext />
+                <CarouselNext className="max-md:hidden" />
               </CardCarousel>
             </div>
           </div>

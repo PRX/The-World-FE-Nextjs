@@ -10,7 +10,7 @@ import { useContext, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { PlayerContext } from "@/components/Player";
 import { ClipboardCheckIcon, ClipboardXIcon, CopyIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import {

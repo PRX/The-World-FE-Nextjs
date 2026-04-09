@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { SkipBackIcon } from "lucide-react";
 
@@ -25,7 +25,7 @@ export const PreviousButton = ({
   ...rest
 }: PreviousButtonProps) => {
   const { state: playerState, previousTrack } = useContext(PlayerContext);
-  const { currentTrackIndex, tracks } = playerState;
+  const { currentTrackIndex, tracks } = playerState || {};
   const hasMultipleTracks = !!tracks && tracks?.length > 1;
   const hasCurrentTrack = !!currentTrackIndex || currentTrackIndex === 0;
   const hasPreviousTrack = hasCurrentTrack && !!tracks?.[currentTrackIndex - 1];
@@ -52,10 +52,10 @@ export const PreviousButton = ({
             disabled={!hasPreviousTrack}
             {...rest}
           >
-            <SkipBackIcon />
+            <SkipBackIcon aria-label="Previous" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="flex items-center gap-x-2 z-(--z-ui)">
+        <TooltipContent className="flex items-center gap-x-2 z-(--z-ui-player)">
           Previous{" "}
           <KbdGroup>
             <Kbd>[</Kbd>

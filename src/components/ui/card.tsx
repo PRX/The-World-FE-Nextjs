@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import LogoGlobe from "@/app/(main)/_components/Logo/LogoGlobe";
 import Link from "next/link";
 
@@ -12,13 +12,13 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
         "group-nth-of-type-[7n+2]/carousel-item:[--card:var(--color-brown)]",
         "group-nth-of-type-[7n+3]/carousel-item:[--card:var(--color-burnt-orange)]",
         "group-nth-of-type-[7n+4]/carousel-item:[--card:var(--color-light-blue)]",
-        "group-nth-of-type-[7n+5]/carousel-item:[--card:var(--color-green)]",
+        "group-nth-of-type-[7n+5]/carousel-item:[--card:var(--color-dark-green)]",
         "group-nth-of-type-[7n+6]/carousel-item:[--card:var(--color-purple)]",
         "group-nth-of-type-[7n+7]/carousel-item:[--card:var(--color-red)]",
         "relative isolate text-card-foreground flex flex-col justify-end items-stretch gap-4 rounded-sm py-3 shadow-sm",
         "after:absolute after:inset-0 after:-z-1 after:bg-navy-blue/90 after:bg-linear-to-r after:from-transparent after:to-transparent after:mask-t-from-12 after:mask-t-to-60% after:rounded-sm after:transition-[--tw-gradient-from,--tw-gradient-to]",
-        "before:absolute before:inset-0 before:-z-9 before:bg-cyan/10 before:rounded-lg before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
-        "hover:before:opacity-100 hover:before:-inset-2 hover:before:transition-all",
+        "before:absolute before:inset-0 before:-z-9 before:bg-cyan/30 before:rounded-lg before:opacity-0 before:backdrop-blur-sm before:backdrop-brightness-125",
+        "has-data-[slot=link]:hover:before:opacity-100 has-data-[slot=link]:hover:before:-inset-2 has-data-[slot=link]:hover:before:transition-all",
         "focus-within:before:opacity-100 focus-within:before:-inset-2 focus-within:before:transition-all",
         "has-[button[data-queued]]:after:to-purple/80",
         "has-[button[data-queued=current]]:after:from-cyan/50",
@@ -33,7 +33,7 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
         <LogoGlobe
           className={cn(
             "absolute aspect-square h-[85%] top-0 right-0 translate-x-[33.333%] -translate-y-[10%] transition-transform opacity-10",
-            "group-hover/card:scale-95 group-focus-within/card:scale-95",
+            "group-has-data-[slot=link]/card:group-hover/card:scale-95 group-has-data-[slot=link]/card:group-focus-within/card:scale-95",
           )}
         />
       </div>
@@ -45,6 +45,7 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
 function CardLink({ href }: React.ComponentProps<typeof Link>) {
   return (
     <Link
+      data-slot="link"
       href={href}
       className="absolute inset-0 focus-visible:outline-none"
     ></Link>

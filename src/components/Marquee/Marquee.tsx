@@ -8,7 +8,7 @@
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type MarqueeProps = React.ComponentProps<"div">;
 

@@ -4,22 +4,20 @@
  * @param id Tag identifier.
  */
 
-import { upperFirst } from "lodash";
-import type { Maybe, PostTag } from "@/interfaces";
+import type { Tag } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
-  EPISODE_CARD_PROPS,
+  AUDIO_PROPS,
+  EPISODE_CARD_PROPS_WITHOUT_SEGMENTS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
   TAXONOMY_SEO_PROPS,
 } from "@/lib/fetch/api/graphql";
 
-const GET_TAG = (taxonomySingleName?: Maybe<string>) => gql`
-  query getTag($id: ID!, $idType: ${upperFirst(
-    taxonomySingleName || "tag",
-  )}IdType) {
-    ${taxonomySingleName || "tag"}(id: $id, idType: $idType) {
+const GET_TAG = gql`
+  query getTag($id: ID!, $idType: TagIdType) {
+    tag (id: $id, idType: $idType) {
       taxonomy {
         node {
           id
@@ -59,34 +57,30 @@ const GET_TAG = (taxonomySingleName?: Maybe<string>) => gql`
         edges {
           cursor
           node {
-            ...EpisodeCardProps
+            ...EpisodeCardPropsWithoutSegments
           }
         }
       }
     }
   }
   ${POST_CARD_PROPS}
+  ${AUDIO_PROPS}
   ${IMAGE_PROPS}
   ${TAXONOMY_SEO_PROPS}
-  ${EPISODE_CARD_PROPS}
+  ${EPISODE_CARD_PROPS_WITHOUT_SEGMENTS}
 `;
 
-export async function fetchGqlTag(
-  id: string,
-  idType?: string,
-  taxonomySingleName?: Maybe<string>,
-) {
-  const dataPropKey = taxonomySingleName || "tag";
+export async function fetchGqlTag(id: string, idType?: string) {
   const response = await gqlClient.query<{
-    [k: string]: Maybe<PostTag>;
+    tag: Tag;
   }>({
-    query: GET_TAG(taxonomySingleName),
+    query: GET_TAG,
     variables: {
       id,
       idType,
     },
   });
-  const tag = response?.data?.[dataPropKey];
+  const tag = response?.data?.tag;
 
   if (!tag) return undefined;
 

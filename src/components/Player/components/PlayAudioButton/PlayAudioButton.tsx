@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { PauseIcon, PlayIcon } from "lucide-react";
 
 export type PlayAudioButtonProps = React.ComponentProps<typeof Button> & {
@@ -37,7 +37,7 @@ export const PlayAudioButton = ({
     playAudio,
     togglePlayPause,
   } = useContext(PlayerContext);
-  const { playing, currentTrackIndex = 0, tracks = [] } = playerState;
+  const { playing, currentTrackIndex = 0, tracks = [] } = playerState || {};
   const currentTrack = tracks[currentTrackIndex];
   const [audioIsPlaying, setAudioIsPlaying] = useState(
     playing && !!audioData && currentTrack?.id === audioData?.id,
@@ -77,7 +77,11 @@ export const PlayAudioButton = ({
           {...rest}
           data-playing={audioIsPlaying || undefined}
         >
-          {!audioIsPlaying ? <PlayIcon /> : <PauseIcon />}
+          {!audioIsPlaying ? (
+            <PlayIcon aria-label="Play" />
+          ) : (
+            <PauseIcon aria-label="Pause" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltipText}</TooltipContent>

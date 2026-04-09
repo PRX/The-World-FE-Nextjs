@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 import { ListMinusIcon, ListPlusIcon } from "lucide-react";
 
 export type AddAudioButtonProps = React.ComponentProps<typeof Button> & {
@@ -37,7 +37,7 @@ export const AddAudioButton = ({
     addTrack,
     removeTrack,
   } = useContext(PlayerContext);
-  const { tracks = [], currentTrackIndex } = playerState;
+  const { tracks = [], currentTrackIndex } = playerState || {};
   const [isCurrentTrack, setIsCurrentTrack] = useState(false);
   const [isQueued, setIsQueued] = useState(false);
   const tooltipText = isQueued ? "Remove From Playlist" : "Add To Playlist";
@@ -84,7 +84,11 @@ export const AddAudioButton = ({
             (isQueued && (isCurrentTrack ? "current" : true)) || undefined
           }
         >
-          {!isQueued ? <ListPlusIcon /> : <ListMinusIcon />}
+          {!isQueued ? (
+            <ListPlusIcon aria-label="Add to playlist" />
+          ) : (
+            <ListMinusIcon aria-label="ARemove from playlist" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltipText}</TooltipContent>

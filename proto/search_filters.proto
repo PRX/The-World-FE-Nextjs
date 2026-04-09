@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package search_filters;
+
+message ContentSearchFilters {
+  optional SFContentTypeEnum contentType = 1;
+  optional SFContentSortEnum sort = 2;
+  optional uint32 year = 3;
+  optional uint32 month = 4;
+  optional uint32 day = 5;
+  optional TaxonomyContext ctx = 6;
+  optional ExcludeIdsList exclude = 7;
+}
+
+message TaxonomyContext {
+  SFTaxonomyEnum taxonomy = 1;
+  optional string termSlug = 2;
+}
+
+message ExcludeIdsList {
+  repeated uint32 ids = 1;
+}
+
+enum SFContentTypeEnum {
+  ALL = 0;
+  POST = 1;
+  SEGMENT = 2;
+  EPISODE = 3;
+}
+
+enum SFContentSortEnum {
+  NEWEST = 0;
+  OLDEST = 1;
+  TITLE_AZ = 2;
+  TITLE_ZA = 3;
+}
+
+enum SFTaxonomyEnum {
+  program = 0;
+  category = 1;
+  tag = 2;
+  contributor = 3;
+  city = 4;
+  continent = 5;
+  country = 6;
+  provinceOrState = 7;
+  region = 8;
+  socialTag = 9;
+  person = 10;
+}

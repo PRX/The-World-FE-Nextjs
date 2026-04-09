@@ -14,7 +14,7 @@ import { Marquee } from "@/components/Marquee";
 import { PlayerContext } from "@/components/Player";
 import Link from "next/link";
 import { generateContentLinkHref } from "@/lib/routing";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/css";
 
 export type TrackInfoProps = React.ComponentProps<"div"> & {
   linkProps?: Partial<React.ComponentProps<typeof Link>>;

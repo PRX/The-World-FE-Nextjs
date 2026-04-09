@@ -1,4 +1,7 @@
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import {
+  ExplorerHero,
+  ExplorerHeroHeading,
+} from "@/app/(main)/_components/Explorer";
 import { DateTime } from "@/components/DateTime";
 import { BoomBoxIcon } from "lucide-react";
 
@@ -9,22 +12,29 @@ export default async function EpisodesByDateHero({
 }) {
   const { year, month, day } = await params;
 
-  const date = new Date(`${year}/${month}/${day}`);
+  const date = new Date(
+    parseInt(year, 10),
+    parseInt(month, 10) - 1,
+    parseInt(day, 10),
+    12,
+  );
 
   return (
-    <HeroHeader fullWidth>
-      <h1 className="flex gap-2 items-center text-3xl font-black">
-        <BoomBoxIcon className="size-[1em]" />
-        Episodes for{" "}
-        <DateTime
-          date={date}
-          options={{
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }}
-        />
-      </h1>
-    </HeroHeader>
+    <ExplorerHero>
+      <ExplorerHeroHeading>
+        <BoomBoxIcon />
+        <span>
+          Episodes for{" "}
+          <DateTime
+            date={date}
+            options={{
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }}
+          />
+        </span>
+      </ExplorerHeroHeading>
+    </ExplorerHero>
   );
 }
