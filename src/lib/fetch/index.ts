@@ -11,6 +11,7 @@ export * from "./newsletter";
 export * from "./page";
 export * from "./program";
 export * from "./query";
+export * from "./rss";
 export * from "./segment";
 export * from "./story";
 export * from "./tag";

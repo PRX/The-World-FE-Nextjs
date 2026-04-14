@@ -6,6 +6,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
   subdirectory: uid(6),
   scriptName: uid(),
 })({
+  output: "standalone",
   trailingSlash: false,
   env: {
     APP_DOMAIN: process.env.APP_DOMAIN,
@@ -18,6 +19,9 @@ const nextConfig: NextConfig = withPlausibleProxy({
     FB_ADMINS: process.env.FB_ADMINS,
     FB_APP_ID: process.env.FB_APP_ID,
     TWITTER_ACCOUNT_ID: process.env.TWITTER_ACCOUNT_ID,
+  },
+  experimental: {
+    turbopackFileSystemCacheForDev: false,
   },
   images: {
     remotePatterns: [

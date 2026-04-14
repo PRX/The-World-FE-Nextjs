@@ -1833,7 +1833,7 @@ export type CommentAuthor = Commenter & DatabaseIdentifier & Node & {
   avatar?: Maybe<Avatar>;
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int']['output'];
-  /** The email for the comment author */
+  /** The email for the comment author. */
   email?: Maybe<Scalars['String']['output']>;
   /** The globally unique identifier for the comment author object */
   id: Scalars['ID']['output'];
@@ -2007,7 +2007,7 @@ export type CommentToCommenterConnectionEdge = CommenterConnectionEdge & Edge & 
   __typename?: 'CommentToCommenterConnectionEdge';
   /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
   cursor?: Maybe<Scalars['String']['output']>;
-  /** The email address representing the author for this particular comment */
+  /** Email address representing the author for this particular comment */
   email?: Maybe<Scalars['String']['output']>;
   /** IP address of the author at the time of making this comment. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL. */
   ipAddress?: Maybe<Scalars['String']['output']>;
@@ -2818,6 +2818,8 @@ export enum ContentTypesOfContributorEnum {
   /** The Type of Content object */
   Attachment = 'ATTACHMENT',
   /** The Type of Content object */
+  Episode = 'EPISODE',
+  /** The Type of Content object */
   Post = 'POST',
   /** The Type of Content object */
   Segment = 'SEGMENT'
@@ -3505,7 +3507,7 @@ export type Continent_Taxonomyimages = AcfFieldGroup & {
 };
 
 /** Biographical details of folks that work on content. */
-export type Contributor = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type Contributor = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Contributor';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -3530,6 +3532,8 @@ export type Contributor = DatabaseIdentifier & Node & TermNode & UniformResource
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+  /** Connection between the Contributor type and the episode type */
+  episodes?: Maybe<ContributorToEpisodeConnection>;
   /** The globally unique ID for the object */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */
@@ -3601,6 +3605,16 @@ export type ContributorEnqueuedStylesheetsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Biographical details of folks that work on content. */
+export type ContributorEpisodesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ContributorToEpisodeConnectionWhereArgs>;
 };
 
 
@@ -3750,6 +3764,107 @@ export type ContributorToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Connection between the Contributor type and the episode type */
+export type ContributorToEpisodeConnection = Connection & EpisodeConnection & {
+  __typename?: 'ContributorToEpisodeConnection';
+  /** Edges for the ContributorToEpisodeConnection connection */
+  edges: Array<ContributorToEpisodeConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Episode>;
+  /** Information about pagination in a connection. */
+  pageInfo: ContributorToEpisodeConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type ContributorToEpisodeConnectionEdge = Edge & EpisodeConnectionEdge & {
+  __typename?: 'ContributorToEpisodeConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Episode;
+};
+
+/** Pagination metadata specific to &quot;ContributorToEpisodeConnection&quot; collections. Provides cursors and flags for navigating through sets of ContributorToEpisodeConnection Nodes. */
+export type ContributorToEpisodeConnectionPageInfo = EpisodeConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'ContributorToEpisodeConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the ContributorToEpisodeConnection connection */
+export type ContributorToEpisodeConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>;
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>;
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Category ID */
+  categoryId?: InputMaybe<Scalars['Int']['input']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Use Category Slug */
+  categoryName?: InputMaybe<Scalars['String']['input']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Tag Slug */
+  tag?: InputMaybe<Scalars['String']['input']>;
+  /** Use Tag ID */
+  tagId?: InputMaybe<Scalars['String']['input']>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of tag slugs, used to display objects from one tag AND another */
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Array of tag slugs, used to include objects in ANY specified tags */
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4921,6 +5036,8 @@ export type CreateEpisodeInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   /** Set connections between the episode and continents */
   continents?: InputMaybe<EpisodeContinentsInput>;
+  /** Set connections between the episode and contributors */
+  contributors?: InputMaybe<EpisodeContributorsInput>;
   /** Set connections between the episode and countries */
   countries?: InputMaybe<EpisodeCountriesInput>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
@@ -7080,6 +7197,8 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   contentTypeName: Scalars['String']['output'];
   /** Connection between the Episode type and the continent type */
   continents?: Maybe<EpisodeToContinentConnection>;
+  /** Connection between the Episode type and the contributor type */
+  contributors?: Maybe<EpisodeToContributorConnection>;
   /** Connection between the Episode type and the country type */
   countries?: Maybe<EpisodeToCountryConnection>;
   /** The unique identifier stored in the database */
@@ -7240,6 +7359,16 @@ export type EpisodeContinentsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EpisodeToContinentConnectionWhereArgs>;
+};
+
+
+/** Manages the Episode custom post type */
+export type EpisodeContributorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<EpisodeToContributorConnectionWhereArgs>;
 };
 
 
@@ -7451,6 +7580,26 @@ export type EpisodeContinentsNodeInput = {
   /** The name of the continent. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
   name?: InputMaybe<Scalars['String']['input']>;
   /** The slug of the continent. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Set relationships between the episode to contributors */
+export type EpisodeContributorsInput = {
+  /** If true, this will append the contributor to existing related contributors. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<EpisodeContributorsNodeInput>>>;
+};
+
+/** List of contributors to connect the episode to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type EpisodeContributorsNodeInput = {
+  /** The description of the contributor. This field is used to set a description of the contributor if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the contributor. If present, this will be used to connect to the episode. If no existing contributor exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** The name of the contributor. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the contributor. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -7827,6 +7976,87 @@ export type EpisodeToContinentConnectionPageInfo = ContinentConnectionPageInfo &
 
 /** Arguments for filtering the EpisodeToContinentConnection connection */
 export type EpisodeToContinentConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Connection between the Episode type and the contributor type */
+export type EpisodeToContributorConnection = Connection & ContributorConnection & {
+  __typename?: 'EpisodeToContributorConnection';
+  /** Edges for the EpisodeToContributorConnection connection */
+  edges: Array<EpisodeToContributorConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Contributor>;
+  /** Information about pagination in a connection. */
+  pageInfo: EpisodeToContributorConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type EpisodeToContributorConnectionEdge = ContributorConnectionEdge & Edge & {
+  __typename?: 'EpisodeToContributorConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The Yoast SEO Primary contributor */
+  isPrimary?: Maybe<Scalars['Boolean']['output']>;
+  /** The item at the end of the edge */
+  node: Contributor;
+};
+
+/** Pagination metadata specific to &quot;EpisodeToContributorConnection&quot; collections. Provides cursors and flags for navigating through sets of EpisodeToContributorConnection Nodes. */
+export type EpisodeToContributorConnectionPageInfo = ContributorConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'EpisodeToContributorConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the EpisodeToContributorConnection connection */
+export type EpisodeToContributorConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
   cacheDomain?: InputMaybe<Scalars['String']['input']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
@@ -8736,6 +8966,10 @@ export type GeneralSettings = {
   email?: Maybe<Scalars['String']['output']>;
   /** WordPress locale code. */
   language?: Maybe<Scalars['String']['output']>;
+  /** The media item representing the site icon configured in site settings, used as the site&#039;s favicon and app icon. */
+  siteIcon?: Maybe<GeneralSettingsToMediaItemConnectionEdge>;
+  /** Site icon URL configured in site settings, used as the site&#039;s favicon and app icon. */
+  siteIconUrl?: Maybe<Scalars['String']['output']>;
   /** A day number of the week that the week should start on. */
   startOfWeek?: Maybe<Scalars['Int']['output']>;
   /** A time format for all time strings. */
@@ -8746,6 +8980,21 @@ export type GeneralSettings = {
   title?: Maybe<Scalars['String']['output']>;
   /** Site URL. */
   url?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The general setting type */
+export type GeneralSettingsSiteIconUrlArgs = {
+  size?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Connection between the GeneralSettings type and the MediaItem type */
+export type GeneralSettingsToMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & OneToOneConnection & {
+  __typename?: 'GeneralSettingsToMediaItemConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: MediaItem;
 };
 
 /** Input for the generateAuthorizationCode mutation. */
@@ -10071,8 +10320,6 @@ export type MediaItem_Audiofields = AcfFieldGroup & {
   audioTitle?: Maybe<Scalars['String']['output']>;
   audioType?: Maybe<Scalars['String']['output']>;
   broadcastDate?: Maybe<Scalars['String']['output']>;
-  /** Duration of audio in seconds. */
-  duration?: Maybe<Scalars['Float']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
   program?: Maybe<Array<Maybe<Program>>>;
@@ -10321,7 +10568,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkable Interface */
-export type MenuItemObjectUnion = Category | Episode | License | Newsletter | Page | Post | Program | ResourceDevelopmentTag | Segment | Station | StoryFormat | Tag;
+export type MenuItemObjectUnion = Category | Contributor | Episode | License | Newsletter | Page | Post | Program | ResourceDevelopmentTag | Segment | Station | StoryFormat | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = Edge & MenuConnectionEdge & OneToOneConnection & {
@@ -26180,6 +26427,8 @@ export type UpdateEpisodeInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   /** Set connections between the episode and continents */
   continents?: InputMaybe<EpisodeContinentsInput>;
+  /** Set connections between the episode and contributors */
+  contributors?: InputMaybe<EpisodeContributorsInput>;
   /** Set connections between the episode and countries */
   countries?: InputMaybe<EpisodeCountriesInput>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
@@ -26862,6 +27111,8 @@ export type UpdateUserPayload = {
 /** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
 export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable & {
   __typename?: 'User';
+  /** The admin color scheme preference for the user. Possible values include &quot;fresh&quot;, &quot;light&quot;, &quot;blue&quot;, &quot;coffee&quot;, &quot;ectoplasm&quot;, &quot;midnight&quot;, &quot;ocean&quot;, &quot;sunrise&quot;. Default is &quot;fresh&quot;. */
+  adminColor?: Maybe<Scalars['String']['output']>;
   /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
   avatar?: Maybe<Avatar>;
   /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
@@ -26888,6 +27139,12 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   extraCapabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
   firstName?: Maybe<Scalars['String']['output']>;
+  /** Whether the user has enabled keyboard shortcuts for comment moderation. Defaults to false. */
+  hasCommentShortcutsEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the user has enabled the visual editor. When enabled, the WYSIWYG editor is used for content editing. Defaults to true. */
+  hasRichEditingEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the user has enabled syntax highlighting when editing code within the post editor. Defaults to true. */
+  hasSyntaxHighlightingEnabled?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier for the user object. */
   id: Scalars['ID']['output'];
   /** Whether the node is a Comment */

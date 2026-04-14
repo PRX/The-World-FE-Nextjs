@@ -26,7 +26,7 @@ function useContentInMonth(date: Date) {
     sf,
   });
   const { data, error, isLoading } = useSWR(
-    `/api/episodes?${apiUrlParams.toString()}`,
+    `/api/explore?${apiUrlParams.toString()}`,
     (url) =>
       fetch(url)
         .then((res) => res.json())
