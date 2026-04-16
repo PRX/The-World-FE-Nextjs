@@ -26,6 +26,7 @@ enum SFContentTypeEnum {
   POST = 1;
   SEGMENT = 2;
   EPISODE = 3;
+  STATION = 4;
 }
 
 enum SFContentSortEnum {

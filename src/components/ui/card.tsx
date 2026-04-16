@@ -28,6 +28,7 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
       {...props}
     >
       <div
+        data-slot="bg-globe"
         className={cn("absolute inset-0 -z-3 bg-card rounded-sm overflow-clip")}
       >
         <LogoGlobe
