@@ -78,7 +78,7 @@ export function convertRegion(input: string, toName?: boolean) {
     ["New Brunswick", "NB"],
     ["Newfoundland", "NF"],
     ["Newfoundland And Labrador", "NL"],
-    ["Northwest Territory", "NT"],
+    ["Northwest Territories", "NT"],
     ["Nova Scotia", "NS"],
     ["Nunavut", "NU"],
     ["Ontario", "ON"],

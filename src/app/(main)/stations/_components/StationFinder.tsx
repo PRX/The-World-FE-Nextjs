@@ -41,7 +41,8 @@ export function StationFinder({
   const hasQuery = !!query?.trim().length;
   const filteredStations = hasQuery
     ? data.filter(({ title, provincesOrStates }) => {
-        const text = [title, provincesOrStates?.nodes[0].name].join(", ");
+        const text = [title, provincesOrStates?.nodes[0]?.name].join(", ");
+        console.log(text);
         return !!text.includes(query);
       })
     : data;
