@@ -5,7 +5,6 @@ import StationFinder from "./_components/StationFinder";
 import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "../_components/CtaRegion";
-import { Suspense } from "react";
 
 export const getCachedStations = unstable_cache(
   async (query?: StationsQueryOptions) => fetchGqlStations(query),
@@ -43,9 +42,7 @@ export default async function StationsPage() {
   return (
     <main className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
       <div className="grid gap-8 max-w-7xl mx-auto">
-        <Suspense fallback={<StationFinder data={nodes} />}>
-          <StationFinder data={nodes} />
-        </Suspense>
+        <StationFinder data={nodes} />
       </div>
 
       {shownContentEndMessage && (

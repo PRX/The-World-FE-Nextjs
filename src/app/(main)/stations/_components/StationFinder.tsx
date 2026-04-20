@@ -27,6 +27,7 @@ import {
   InputGroupAddon,
   InputGroupButton,
 } from "@/components/ui/input-group";
+import { Time } from "@/components/DateTime";
 
 export type StationFinderProps = React.ComponentProps<"div"> & {
   data: Station[];
@@ -112,11 +113,9 @@ export function StationFinder({
                 d.setUTCHours(parseInt(hours, 10));
                 d.setUTCMinutes(parseInt(minutes, 10));
                 d.setUTCSeconds(parseInt(seconds, 10));
+                d.setUTCMilliseconds(0);
 
-                return d.toLocaleTimeString(undefined, {
-                  hour: "numeric",
-                  minute: "2-digit",
-                });
+                return d;
               });
 
             const locationParts = [
@@ -161,8 +160,17 @@ export function StationFinder({
                         {startTimes.map(
                           (time) =>
                             time && (
-                              <Badge className="w-full" key={uniqueId(time)}>
-                                {time}
+                              <Badge
+                                className="w-full"
+                                key={uniqueId(time.toDateString())}
+                              >
+                                <Time
+                                  date={time}
+                                  options={{
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                  }}
+                                />
                               </Badge>
                             ),
                         )}

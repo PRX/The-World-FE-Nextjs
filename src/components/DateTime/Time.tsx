@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * @file DateTime.tsx
+ * @file Time.tsx
  * Component for rendering dates.
  */
 
@@ -9,7 +9,7 @@ import type { Maybe } from "@/interfaces";
 import { sanitizeIso8601Date } from "@/lib/sanitize";
 import { useEffect, useState } from "react";
 
-export type DateTimeProps = {
+export type TimeProps = {
   className?: string;
   date?: Maybe<Date | string | number>;
   timeZone?: string;
@@ -17,13 +17,13 @@ export type DateTimeProps = {
   options?: Intl.DateTimeFormatOptions;
 };
 
-export const DateTime = ({
+export const Time = ({
   className,
   date,
   timeZone,
   locale,
   options,
-}: DateTimeProps) => {
+}: TimeProps) => {
   const [_isClient, setIsClient] = useState(false);
   const usedDateValue =
     typeof date === "string"
@@ -41,7 +41,7 @@ export const DateTime = ({
 
   if (renderDate.toString() === "Invalid Date") return null;
 
-  const formattedDate = renderDate.toLocaleDateString(locale || "en-US", {
+  const formattedDate = renderDate.toLocaleTimeString(locale || "en-US", {
     timeZone: timeZone || "America/New_York",
     ...options,
   });
