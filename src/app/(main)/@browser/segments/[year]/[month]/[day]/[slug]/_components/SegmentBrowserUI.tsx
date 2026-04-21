@@ -24,10 +24,10 @@ function useContentInMonth(date: Date) {
 
   const apiUrlParams = new URLSearchParams({
     sf,
-    all: "1",
+    all: "yes",
   });
   const { data, error, isLoading } = useSWR(
-    `/api/segments?${apiUrlParams.toString()}`,
+    `/api/explore?${apiUrlParams.toString()}`,
     (url) =>
       fetch(url)
         .then((res) => res.json())

@@ -21,6 +21,7 @@ export function convertSearchFiltersToWhereArgs(
     [SFContentTypeEnum.POST, ContentTypeEnum.Post],
     [SFContentTypeEnum.SEGMENT, ContentTypeEnum.Segment],
     [SFContentTypeEnum.EPISODE, ContentTypeEnum.Episode],
+    [SFContentTypeEnum.STATION, ContentTypeEnum.Station],
   ]);
   const whereContentType =
     !isUndefined(searchFilters?.contentType) &&

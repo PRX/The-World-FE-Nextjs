@@ -155,7 +155,6 @@ export default function NewsletterCta({
                 <Input
                   {...register("emailAddress", {
                     required: "Email address is required.",
-                    disabled: !optedIn,
                     pattern: {
                       value: new RegExp(emailPattern, "i"),
                       message: "Email address must be valid.",

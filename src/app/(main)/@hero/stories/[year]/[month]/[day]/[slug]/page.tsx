@@ -50,7 +50,7 @@ export default async function StoryHero({
     primaryCategory?.link && generateContentLinkHref(primaryCategory.link);
 
   return (
-    <HeroHeader image={featuredImage?.node}>
+    <HeroHeader image={image}>
       <h1 className="capitalize text-3xl md:text-4xl font-bold text-balance">
         {title}
       </h1>

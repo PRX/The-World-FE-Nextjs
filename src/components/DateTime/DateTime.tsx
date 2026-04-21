@@ -7,6 +7,7 @@
 
 import type { Maybe } from "@/interfaces";
 import { sanitizeIso8601Date } from "@/lib/sanitize";
+import { useEffect, useState } from "react";
 
 export type DateTimeProps = {
   className?: string;
@@ -23,10 +24,15 @@ export const DateTime = ({
   locale,
   options,
 }: DateTimeProps) => {
+  const [_isClient, setIsClient] = useState(false);
   const usedDateValue =
     typeof date === "string"
       ? sanitizeIso8601Date(date, timeZone || "America/New_York")
       : date;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   if (!usedDateValue) return null;
 
