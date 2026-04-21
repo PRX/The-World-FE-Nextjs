@@ -21,7 +21,7 @@ export const getCachedAppData = unstable_cache(
 export const metadata: Metadata = {
   title: "The World from PRX",
   description:
-    "The World is a public radio program that crosses borders and time zones to bring home the stories that matter. From PRX.",
+    "The World is a public radio program that crosses borders and time zones to bring home the stories that matter. A co-production of PRX and GBH.",
 };
 
 export default async function MainLayout({
