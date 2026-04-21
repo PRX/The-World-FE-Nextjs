@@ -109,7 +109,7 @@ export default function MainUIMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <DonateModalLink variant="unstyled" campaign="731684">
+            <DonateModalLink variant="unstyled" campaign="727547">
               <HeartHandshakeIcon />
               <NavigationMenuLabel>Donate</NavigationMenuLabel>
             </DonateModalLink>
