@@ -41,6 +41,7 @@ export default function Explorer({
   pageInfo: initialPageInfo,
   ...props
 }: ExplorerParams) {
+  const [isClient, setIsClient] = useState(false);
   const [pageInfo, setPageInfo] = useState(initialPageInfo);
   const { hasNextPage, endCursor } = pageInfo || {};
   const [contentNodes, setContentNodes] = useState<ContentNode[]>();
@@ -84,12 +85,18 @@ export default function Explorer({
     }
   }, [endCursor, fetchEndpoint, search, sf]);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: Need to reset extra page results when search filters are changed.
   useEffect(() => {
+    if (!isClient) return;
+
     setPageInfo(initialPageInfo);
     setContentNodes(undefined);
     window.scrollTo(0, 0);
-  }, [search, sf, initialPageInfo]);
+  }, [search, sf, initialPageInfo, isClient]);
 
   const cardGridClassName = cn(
     "grid grid-cols-[repeat(auto-fill,minmax(calc(var(--spacing)*65),1fr))] gap-4",
@@ -115,7 +122,7 @@ export default function Explorer({
             next={fetchData}
             hasMore={!!hasNextPage}
             loader={
-              <div className="col-span-full grid grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*65),1fr))] gap-4 h-200 overflow-hidden mask-b-from-100">
+              <div className="col-span-full grid grid-cols-[repeat(auto-fit,minmax(--spacing(65),1fr))] gap-4 h-200 overflow-hidden mask-b-from-100">
                 {new Array(8).fill(null).map(() => (
                   <Skeleton className="aspect-2/3 h-auto" key={uniqueId()} />
                 ))}

@@ -34,6 +34,7 @@ export function ExplorerDateFilter({
   className,
   ...props
 }: ExplorerDateFilterProps) {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -102,6 +103,12 @@ export function ExplorerDateFilter({
   );
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const newSearchParams = new URLSearchParams(searchParams.toString());
     const newSfParam = encodeContentSearchFiltersParam(searchFilters);
     if (newSfParam.length) {
@@ -113,7 +120,7 @@ export function ExplorerDateFilter({
     router.push(`${pathname}?${newSearchParams.toString()}`, {
       scroll: true,
     });
-  }, [searchFilters, pathname, router.push, searchParams.toString]);
+  }, [searchFilters, pathname, router.push, searchParams.toString, isClient]);
 
   return (
     <Popover>
