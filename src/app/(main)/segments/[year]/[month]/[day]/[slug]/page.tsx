@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
@@ -8,6 +8,7 @@ import { SegmentIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlSegment } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -24,28 +25,23 @@ export const getCachedSegment = unstable_cache(
 
 export async function generateMetadata(
   { params }: Props,
-  // parent: ResolvingMetadata,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const slug = (await params).slug;
 
   // fetch post information
   const data = await getCachedSegment(slug);
+  const metadata = await parent.then((r) => r as Metadata);
 
   if (!data) {
     return notFound();
   }
 
-  const { seo, date, segmentDates } = data;
-  const { broadcastDate } = segmentDates || {};
+  const { seo } = data;
 
-  // console.log(seo);
+  // console.log("SEGMENT SEO", seo);
 
-  return {
-    ...seo, // TODO: Create util to convert seo data to Nextjs Metadata.
-    ...((broadcastDate || date) && {
-      pubdate: broadcastDate || date,
-    }),
-  };
+  return convertSeoToMetadata(seo, metadata) || {};
 }
 
 export default async function SegmentPage({

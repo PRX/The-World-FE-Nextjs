@@ -1,10 +1,18 @@
+import type { Metadata, ResolvingMetadata } from "next";
+import { unstable_cache } from "next/cache";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { HtmlContent } from "@/components/HtmlContent";
 import { PageIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlPage, fetchTwApiQueryAlias } from "@/lib/fetch";
-import { unstable_cache } from "next/cache";
-import { notFound, permanentRedirect, redirect } from "next/navigation";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<{ alias: string[] }>;
+};
+
+const rgxFileExt = /\.\w+$/;
 
 export const getCachedAliasData = unstable_cache(
   async (alias) => fetchTwApiQueryAlias(alias),
@@ -24,14 +32,40 @@ export const getCachedPage = unstable_cache(
   },
 );
 
-export default async function PagePage({
-  params,
-}: {
-  params: Promise<{ alias: string[] }>;
-}) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
   const { alias = [] } = await params;
   const aliasPath = alias.join("/");
-  const rgxFileExt = /\.\w+$/;
+
+  if (rgxFileExt.test(aliasPath)) {
+    return notFound();
+  }
+
+  const aliasData = await getCachedAliasData(aliasPath);
+
+  if (!aliasData || aliasData.type !== "post--page") {
+    return notFound();
+  }
+
+  const data = await getCachedPage(aliasData.id);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { seo } = data;
+
+  // console.log("PAGE SEO", seo);
+
+  return convertSeoToMetadata(seo, metadata) || {};
+}
+
+export default async function PagePage({ params }: Props) {
+  const { alias = [] } = await params;
+  const aliasPath = alias.join("/");
 
   if (rgxFileExt.test(aliasPath)) {
     return notFound();

@@ -14,6 +14,8 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
 import { SFContentTypeEnum } from "@/gen/search_filters_pb";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedStories = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -23,6 +25,24 @@ export const getCachedStories = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Stories";
+  const link = "https://theworld.org/stories";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function StoriesPage({
   searchParams,

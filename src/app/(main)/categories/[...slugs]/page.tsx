@@ -25,6 +25,13 @@ import {
 } from "@/gen/search_filters_pb";
 import { create } from "@bufbuild/protobuf";
 import { cn } from "@/lib/util/css";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<Record<"slugs", string | string[]>>;
+  searchParams: Promise<Record<string, string | string[]>>;
+};
 
 export const getCachedCategory = unstable_cache(
   async (slug) => fetchGqlCategory(slug, CategoryIdType.Slug),
@@ -48,13 +55,39 @@ export const getCachedCategoryContent = unstable_cache(
   },
 );
 
-export default async function TaxonomyPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<Record<"slugs", string | string[]>>;
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { slugs } = await params;
+  const slug = isArray(slugs) ? slugs.pop() || "" : slugs;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  // fetch post information
+  const data = await getCachedCategory(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo, link } = data;
+  const md = seo || {
+    canonical: link,
+    title: name,
+    metaDesc: description,
+    opengraphTitle: name,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: name,
+    twitterDescription: description,
+  };
+
+  // console.log("CATEGORY SEO", seo);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
+export default async function TaxonomyPage({ params, searchParams }: Props) {
   const { slugs } = await params;
   const slug = isArray(slugs) ? slugs.pop() || "" : slugs;
   const resolvedSearchParams = await searchParams;

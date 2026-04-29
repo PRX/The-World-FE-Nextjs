@@ -90,6 +90,7 @@ export default function SearchInput({
   searchContext,
   ...props
 }: SearchInputProps) {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const abortController = useRef<AbortController>(null);
@@ -163,6 +164,12 @@ export default function SearchInput({
   );
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     if (forceLoad) {
       setForceLoad(false);
     }
@@ -214,7 +221,14 @@ export default function SearchInput({
       clearTimeout(timeoutId);
       abortController.current?.abort();
     };
-  }, [searchInput, forceLoad, fetchEndpoint, searchContext, inContextSearch]);
+  }, [
+    searchInput,
+    forceLoad,
+    fetchEndpoint,
+    searchContext,
+    inContextSearch,
+    isClient,
+  ]);
 
   return (
     <form

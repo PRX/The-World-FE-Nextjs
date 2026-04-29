@@ -3,12 +3,13 @@
  */
 
 import { gql } from "@apollo/client";
-import type {
-  ContentNode,
-  ContentNodeConnectionPageInfo,
-  PageInfo,
-  RootQueryToContentNodeConnectionWhereArgs,
-  WpPageInfo,
+import {
+  ContentTypeEnum,
+  type ContentNode,
+  type ContentNodeConnectionPageInfo,
+  type PageInfo,
+  type RootQueryToContentNodeConnectionWhereArgs,
+  type WpPageInfo,
 } from "@/interfaces";
 import { getClient } from "@/lib/fetch/api";
 import {
@@ -84,7 +85,17 @@ export async function fetchGqlContent(
       };
     };
   }>({
-    variables: query,
+    variables: {
+      ...query,
+      where: {
+        ...query?.where,
+        contentTypes: query?.where?.contentTypes || [
+          ContentTypeEnum.Post,
+          ContentTypeEnum.Episode,
+          ContentTypeEnum.Segment,
+        ],
+      },
+    },
     query: GET_CONTENT_NODES(taxonomySingleName, termSlug),
   });
   const results = response?.data?.contentContext?.contentNodes;

@@ -33,6 +33,8 @@ import {
 import Link from "next/link";
 import { DateTime } from "@/components/DateTime";
 import { formatDuration } from "@/lib/parse/time";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedTags = unstable_cache(
   async (query: TagsQueryOptions) => fetchGqlTags(query),
@@ -42,6 +44,24 @@ export const getCachedTags = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Tags";
+  const link = "https://theworld.org/tags";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function TagsPage({
   searchParams,

@@ -26,6 +26,13 @@ import {
 } from "@/gen/search_filters_pb";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { cn } from "@/lib/util/css";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<Record<"slug", string>>;
+  searchParams: Promise<Record<string, string | string[]>>;
+};
 
 export const getCachedProgram = unstable_cache(
   async (slug) => fetchGqlProgram(slug, ProgramIdType.Slug),
@@ -49,13 +56,38 @@ export const getCachedProgramContent = unstable_cache(
   },
 );
 
-export default async function ProgramPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<Record<"slug", string>>;
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  // fetch post information
+  const data = await getCachedProgram(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo, link } = data;
+  const md = seo || {
+    canonical: link,
+    title: name,
+    metaDesc: description,
+    opengraphTitle: name,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: name,
+    twitterDescription: description,
+  };
+
+  // console.log("PROGRAM SEO", seo);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
+export default async function ProgramPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const isTaxonomySlug = taxonomySlugToSingularName.has(slug);

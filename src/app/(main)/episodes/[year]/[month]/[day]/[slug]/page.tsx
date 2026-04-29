@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDuration } from "@/lib/parse/time";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -50,9 +51,12 @@ export const getCachedEpisode = unstable_cache(
 
 export async function generateMetadata(
   { params }: Props,
-  // parent: ResolvingMetadata,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  console.log(metadata);
 
   // fetch post information
   const data = await getCachedEpisode(slug);
@@ -61,17 +65,11 @@ export async function generateMetadata(
     return notFound();
   }
 
-  const { seo, date, episodeDates } = data;
-  const { broadcastDate } = episodeDates || {};
+  const { seo } = data;
 
-  // console.log(seo);
+  // console.log("EPISODE SEO", seo);
 
-  return {
-    ...seo, // TODO: Create util to convert seo data to Nextjs Metadata.
-    ...((broadcastDate || date) && {
-      pubdate: broadcastDate || date,
-    }),
-  };
+  return convertSeoToMetadata(seo, metadata) || {};
 }
 
 export default async function EpisodePage({ params }: Props) {

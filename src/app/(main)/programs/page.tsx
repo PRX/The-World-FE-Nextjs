@@ -40,6 +40,8 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from "@/components/ui/empty";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedPrograms = unstable_cache(
   async (query: ProgramQueryOptions) => fetchGqlPrograms(query),
@@ -49,6 +51,24 @@ export const getCachedPrograms = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Programs";
+  const link = "https://theworld.org/programs";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function ProgramsPage({
   searchParams,

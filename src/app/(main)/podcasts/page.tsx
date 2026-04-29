@@ -17,6 +17,8 @@ import serviceAssetsMap from "@/lib/map/ServiceAssetsMap";
 import { getServiceFromUrl } from "@/lib/parse/url";
 import { cn } from "@/lib/util/css";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedRssFeeds = unstable_cache(
   async (rssUrls: string[]) =>
@@ -29,6 +31,29 @@ export const getCachedRssFeeds = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "The World Podcasts";
+  const description =
+    "There are many ways to listen to The World, from podcasts, to smartspeakers, apps, and on our local public media broadcast. Find us every weekday wherever you choose to listen.";
+  const link = "https://theworld.org/podcasts";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    metaDesc: description,
+    opengraphTitle: seoTitle,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+    twitterDescription: description,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function PodcastsPage() {
   const rssData = await getCachedRssFeeds([

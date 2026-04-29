@@ -36,6 +36,8 @@ import {
 import Link from "next/link";
 import { DateTime } from "@/components/DateTime";
 import { formatDuration } from "@/lib/parse/time";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedProvincesOrStates = unstable_cache(
   async (query: ProvincesOrStatesQueryOptions) =>
@@ -46,6 +48,24 @@ export const getCachedProvincesOrStates = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Provinces or States";
+  const link = "https://theworld.org/tags/provinces_or_states";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function ProvincesOrStatesPage({
   searchParams,
