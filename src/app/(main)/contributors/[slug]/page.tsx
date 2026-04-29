@@ -26,6 +26,13 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<Record<"slug", string>>;
+  searchParams: Promise<Record<string, string | string[]>>;
+};
 
 export const getCachedContributor = unstable_cache(
   async (slug) => fetchGqlContributor(slug, ContributorIdType.Slug),
@@ -49,13 +56,38 @@ export const getCachedContributorContent = unstable_cache(
   },
 );
 
-export default async function ContributorPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<Record<"slug", string>>;
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  // fetch post information
+  const data = await getCachedContributor(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo, link } = data;
+  const md = seo || {
+    canonical: link,
+    title: name,
+    metaDesc: description,
+    opengraphTitle: name,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: name,
+    twitterDescription: description,
+  };
+
+  // console.log("CONTRIBUTOR SEO", seo);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
+export default async function ContributorPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   let data: Awaited<ReturnType<typeof getCachedContributor>>;

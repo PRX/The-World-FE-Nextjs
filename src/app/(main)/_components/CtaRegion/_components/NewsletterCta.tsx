@@ -160,7 +160,7 @@ export default function NewsletterCta({
                       message: "Email address must be valid.",
                     },
                   })}
-                  className="h-10 md:text-xl text-foreground placeholder:text-foreground/70 bg-navy-blue/30 not-focus-visible:border-light-blue/50 shadow-none"
+                  className="h-10 md:text-xl text-foreground backdrop-blur-lg backdrop-brightness-125 placeholder:text-foreground/70 bg-navy-blue/30 not-focus-visible:border-light-blue/50 shadow-none"
                   type="email"
                   placeholder="Email Address..."
                   autoComplete="off"

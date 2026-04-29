@@ -149,7 +149,7 @@ export default async function Home() {
                       slidesToScroll: 1,
                       skipSnaps: true,
                       breakpoints: {
-                        "(max-width: 768px)": { align: "center" },
+                        "(min-width: 1024px)": { active: true },
                       },
                     }}
                     className=""

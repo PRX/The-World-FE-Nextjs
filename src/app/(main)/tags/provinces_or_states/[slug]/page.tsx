@@ -26,6 +26,13 @@ import {
 } from "@/gen/search_filters_pb";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { cn } from "@/lib/util/css";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<Record<"slug", string>>;
+  searchParams: Promise<Record<string, string | string[]>>;
+};
 
 export const getCachedProvinceOrState = unstable_cache(
   async (slug) => fetchGqlTag(slug, TagIdType.Slug),
@@ -49,13 +56,43 @@ export const getCachedProvinceOrStateContent = unstable_cache(
   },
 );
 
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  const data = await getCachedProvinceOrState(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo } = data;
+  const seoLink = `https://theworld.org/tags/provinces_or_states/${slug}`;
+  const md = {
+    ...(seo || {
+      title: name,
+      metaDesc: description,
+      opengraphTitle: name,
+      opengraphDescription: description,
+      twitterTitle: name,
+      twitterDescription: description,
+    }),
+    canonical: seoLink,
+    opengraphUrl: seoLink,
+  };
+
+  // console.log("PROVINCE OR STATE SEO", seo, md);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
 export default async function ProvinceOrStatePage({
   params,
   searchParams,
-}: {
-  params: Promise<Record<"slug", string>>;
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
+}: Props) {
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const isTaxonomySlug = taxonomySlugToSingularName.has(slug);

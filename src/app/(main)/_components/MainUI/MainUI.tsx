@@ -269,11 +269,7 @@ export default function MainUI({
                 <MenuIcon />
               </button>
               <Link href="/">
-                <Logo
-                  className="max-h-10 max-w-[40vw]"
-                  animated
-                  duration="10s"
-                />
+                <Logo className="max-h-10 max-w-48" animated duration="10s" />
               </Link>
             </h1>
             <span className="basis-xl">{search}</span>

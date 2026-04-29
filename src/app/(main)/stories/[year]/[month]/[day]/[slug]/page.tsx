@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import ContentBody from "@/app/(main)/_components/ContentBody";
@@ -10,6 +10,7 @@ import { parseDateParts } from "@/lib/parse/date";
 import { unstable_cache } from "next/cache";
 import { Tags } from "@/app/(main)/_components/Tags";
 import { Separator } from "@/components/ui/separator";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -26,9 +27,12 @@ export const getCachedStory = unstable_cache(
 
 export async function generateMetadata(
   { params }: Props,
-  // parent: ResolvingMetadata,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  console.log(metadata);
 
   // fetch post information
   const data = await getCachedStory(slug);
@@ -37,17 +41,11 @@ export async function generateMetadata(
     return notFound();
   }
 
-  const { seo, date, additionalDates } = data;
-  const { broadcastDate } = additionalDates || {};
+  const { seo } = data;
 
-  // console.log(seo);
+  console.log("STORY SEO", seo);
 
-  return {
-    ...seo, // TODO: Create util to convert seo data to Nextjs Metadata.
-    ...((broadcastDate || date) && {
-      pubdate: broadcastDate || date,
-    }),
-  };
+  return convertSeoToMetadata(seo, metadata) || {};
 }
 
 export default async function StoryPage({ params }: Props) {

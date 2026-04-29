@@ -1,8 +1,11 @@
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
 import { BookmarkIcon } from "lucide-react";
 import { HtmlContent } from "@/components/HtmlContent";
 import { getCachedTag } from "@/app/(main)/tags/[slug]/page";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
+import {
+  ExplorerHero,
+  ExplorerHeroHeading,
+} from "@/app/(main)/_components/Explorer";
 
 export default async function TagHero({
   params,
@@ -26,16 +29,14 @@ export default async function TagHero({
   const hasDescription = !!description?.trim();
 
   return (
-    <HeroHeader
-      image={imageBanner}
-      classes={{ content: "max-w-none mx-0 px-8" }}
-    >
+    <ExplorerHero image={imageBanner}>
       <div className="grid gap-y-4 max-w-3xl text-pretty">
-        <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
-          <BookmarkIcon className="size-9" /> {name}
-        </h1>
+        <ExplorerHeroHeading>
+          <BookmarkIcon />
+          <span>{name}</span>
+        </ExplorerHeroHeading>
         {hasDescription && <HtmlContent html={description} />}
       </div>
-    </HeroHeader>
+    </ExplorerHero>
   );
 }

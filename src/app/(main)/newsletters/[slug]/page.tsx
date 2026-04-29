@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import { NewsletterIdType } from "@/interfaces";
 import { fetchGqlNewsletter } from "@/lib/fetch";
@@ -7,6 +7,7 @@ import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import ContentBody from "@/app/(main)/_components/ContentBody";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -23,9 +24,10 @@ export const getCachedNewsletter = unstable_cache(
 
 export async function generateMetadata(
   { params }: Props,
-  // parent: ResolvingMetadata,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
 
   // fetch post information
   const data = await getCachedNewsletter(slug);
@@ -34,15 +36,23 @@ export async function generateMetadata(
     return notFound();
   }
 
-  const { title, excerpt, seo } = data;
-
-  // console.log(seo);
-
-  return {
-    ...seo, // TODO: Create util to convert seo data to Nextjs Metadata.
-    title: `${title} Newsletter Signup - The World from PRX`,
-    description: excerpt?.replace(/<[^>]+>/g, ""),
+  const { title, excerpt, seo, link } = data;
+  const seoTitle = `${title} Newsletter Signup`;
+  const description = excerpt?.replace(/<[^>]+>/g, "");
+  const md = seo || {
+    canonical: link,
+    title: seoTitle,
+    metaDesc: description,
+    opengraphTitle: seoTitle,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+    twitterDescription: description,
   };
+
+  // console.log("NEWSLETTER SEO", seo);
+
+  return convertSeoToMetadata(md, metadata) || {};
 }
 
 export default async function NewslettersPage({ params }: Props) {

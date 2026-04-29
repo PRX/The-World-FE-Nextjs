@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import PlausibleProvider from "next-plausible";
 import MainUI from "./_components/MainUI";
@@ -8,6 +8,8 @@ import LogoDefs from "./_components/Logo/LogoDefs";
 import LogoGlobe from "./_components/Logo/LogoGlobe";
 import { fetchGqlApp } from "@/lib/fetch";
 import { Player } from "@/components/Player";
+import { SITE_METADATA } from "./_metadata";
+import { merge } from "lodash";
 
 export const getCachedAppData = unstable_cache(
   async () => fetchGqlApp(),
@@ -18,11 +20,22 @@ export const getCachedAppData = unstable_cache(
   },
 );
 
-export const metadata: Metadata = {
-  title: "The World from PRX",
-  description:
-    "The World is a public radio program that crosses borders and time zones to bring home the stories that matter. A co-production of PRX and GBH.",
+type Props = {
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
+
+export async function generateMetadata(
+  _props: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent;
+  const md = structuredClone(metadata);
+
+  merge(md, SITE_METADATA);
+
+  return md as Metadata;
+}
 
 export default async function MainLayout({
   children,

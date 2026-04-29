@@ -47,6 +47,8 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from "@/components/ui/empty";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedCategories = unstable_cache(
   async (query: CategoriesQueryOptions) => fetchGqlCategories(query),
@@ -56,6 +58,24 @@ export const getCachedCategories = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Categories";
+  const link = "https://theworld.org/categories";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function CategoriesPage({
   searchParams,

@@ -17,6 +17,8 @@ import Explorer, {
 import { convertSFParamToWhereArgs } from "@/lib/convert/string";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { cn } from "@/lib/util/css";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedExploreContent = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -26,6 +28,24 @@ export const getCachedExploreContent = unstable_cache(
     revalidate: 60,
   },
 );
+
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Explore";
+  const link = "https://theworld.org/explore";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    opengraphTitle: seoTitle,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function ExplorePage({
   searchParams,

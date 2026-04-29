@@ -16,12 +16,47 @@ import { cn } from "@/lib/util/css";
 import { sanitizeUrl } from "@/lib/parse/url";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
-export default async function TaxonomyPage({
-  params,
-}: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  // fetch post information
+  const data = await getCachedProgram(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo, link } = data;
+  const seoTitle = `${name} Team`;
+  const seoLink = `${link}/team`;
+  const md = seo || {
+    canonical: seoLink,
+    title: seoTitle,
+    metaDesc: description,
+    opengraphTitle: seoTitle,
+    opengraphDescription: description,
+    opengraphUrl: seoLink,
+    twitterTitle: seoTitle,
+    twitterDescription: description,
+  };
+
+  // console.log("PROGRAM TEAM SEO", seo);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
+export default async function TaxonomyPage({ params }: Props) {
   const { slug } = await params;
   let data: Program | undefined;
 

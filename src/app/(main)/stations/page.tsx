@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { fetchGqlStations, type StationsQueryOptions } from "@/lib/fetch";
 import { unstable_cache } from "next/cache";
 import StationFinder from "./_components/StationFinder";
 import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "../_components/CtaRegion";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
 
 export const getCachedStations = unstable_cache(
   async (query?: StationsQueryOptions) => fetchGqlStations(query),
@@ -15,11 +16,28 @@ export const getCachedStations = unstable_cache(
   },
 );
 
-export const metadata: Metadata = {
-  title: "Broadcast Station Finder - The World from PRX",
-  description:
-    "Find the broadcast station near you that is carrying The World.",
-};
+export async function generateMetadata(
+  _props: Record<string, string>,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const metadata = await parent.then((r) => r as Metadata);
+  const seoTitle = "Broadcast Station Finder";
+  const description =
+    "Find the broadcast station near you that is carrying The World.";
+  const link = "https://theworld.org/stations";
+  const md = {
+    canonical: link,
+    title: seoTitle,
+    metaDesc: description,
+    opengraphTitle: seoTitle,
+    opengraphDescription: description,
+    opengraphUrl: link,
+    twitterTitle: seoTitle,
+    twitterDescription: description,
+  };
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
 
 export default async function StationsPage() {
   const data = await getCachedStations({

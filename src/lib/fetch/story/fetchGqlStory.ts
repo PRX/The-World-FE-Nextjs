@@ -70,6 +70,11 @@ export const GET_STORY_POST = gql`
           id
           name
           link
+          contributorDetails {
+            image {
+              ...ImageProps
+            }
+          }
         }
       }
       storyFormats {

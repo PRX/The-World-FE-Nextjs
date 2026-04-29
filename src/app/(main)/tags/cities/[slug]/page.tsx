@@ -15,7 +15,6 @@ import Explorer, {
 } from "@/app/(main)/_components/Explorer";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
-import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
 import { isArray } from "lodash";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { create } from "@bufbuild/protobuf";
@@ -26,6 +25,13 @@ import {
 } from "@/gen/search_filters_pb";
 import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { cn } from "@/lib/util/css";
+import type { Metadata, ResolvingMetadata } from "next";
+import { convertSeoToMetadata } from "@/lib/parse/seo";
+
+type Props = {
+  params: Promise<Record<"slug", string>>;
+  searchParams: Promise<Record<string, string | string[]>>;
+};
 
 export const getCachedCity = unstable_cache(
   async (slug) => fetchGqlTag(slug, TagIdType.Slug),
@@ -49,23 +55,50 @@ export const getCachedCityContent = unstable_cache(
   },
 );
 
-export default async function CityPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<Record<"slug", string>>;
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const slug = (await params).slug;
+  const metadata = await parent.then((r) => r as Metadata);
+
+  const data = await getCachedCity(slug);
+
+  if (!data) {
+    return notFound();
+  }
+
+  const { name, description, seo } = data;
+  const seoLink = `https://theworld.org/tags/cities/${slug}`;
+  const md = {
+    ...(seo || {
+      title: name,
+      metaDesc: description,
+      opengraphTitle: name,
+      opengraphDescription: description,
+      twitterTitle: name,
+      twitterDescription: description,
+    }),
+    canonical: seoLink,
+    opengraphUrl: seoLink,
+  };
+
+  // console.log("CITY SEO", seo, md);
+
+  return convertSeoToMetadata(md, metadata) || {};
+}
+
+export default async function CityPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
-  const isTaxonomySlug = taxonomySlugToSingularName.has(slug);
   let data: Awaited<ReturnType<typeof getCachedCity>>;
 
-  if (slug && !isTaxonomySlug) {
+  if (slug) {
     data = await getCachedCity(slug);
 
     if (!data) return notFound();
   }
+
   const { landingPage } = data || {};
   const { featuredPosts } = landingPage || {};
   const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
