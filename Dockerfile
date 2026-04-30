@@ -16,7 +16,8 @@ RUN \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
-
+# Sharp needs to be installed separately in production.
+RUN yarn add sharp
 
 # Rebuild the source code only when needed
 FROM base AS builder
