@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/util/css";
 import {
@@ -26,7 +26,6 @@ export function ExplorerContentTypeFilter({
   className,
   ...props
 }: ExplorerContentTypeFilterProps) {
-  const [_isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -94,10 +93,6 @@ export function ExplorerContentTypeFilter({
     },
     [searchFilters, pathname, router.push, searchParams.toString, ctMap.get],
   );
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     <Select
