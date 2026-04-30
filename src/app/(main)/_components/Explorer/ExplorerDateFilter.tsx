@@ -4,12 +4,7 @@ import type {
   MonthChangeEventHandler,
   OnSelectHandler,
 } from "react-day-picker";
-import {
-  type MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { type MouseEventHandler, useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/util/css";
@@ -27,6 +22,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { isUndefined } from "lodash";
 import { format } from "date-fns";
+import type { ContentSearchFilters } from "@/gen/search_filters_pb";
 
 export type ExplorerDateFilterProps = React.ComponentProps<typeof ButtonGroup>;
 
@@ -34,14 +30,11 @@ export function ExplorerDateFilter({
   className,
   ...props
 }: ExplorerDateFilterProps) {
-  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const sf = searchParams.get("sf") || undefined;
-  const [searchFilters, setSearchFilters] = useState(
-    decodeContentSearchFiltersParam(sf),
-  );
+  const searchFilters = decodeContentSearchFiltersParam(sf);
   const { year, month, day } = searchFilters || {};
   const today = new Date();
   const monthDate =
@@ -61,6 +54,26 @@ export function ExplorerDateFilter({
     (selectedDate && format(selectedDate, "PPP")) ||
     (monthDate && format(monthDate, "MMM yyyy"));
 
+  const updateSearchFilters = useCallback(
+    (newSearchFilters: ContentSearchFilters) => {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      const newSfParam = encodeContentSearchFiltersParam(newSearchFilters);
+
+      if (newSfParam.length) {
+        newSearchParams.set("sf", newSfParam);
+      } else {
+        newSearchParams.delete("sf");
+      }
+
+      console.log(newSearchFilters);
+
+      router.push(`${pathname}?${newSearchParams.toString()}`, {
+        scroll: true,
+      });
+    },
+    [pathname, router.push, searchParams],
+  );
+
   const handleMonthChange: MonthChangeEventHandler = useCallback(
     (newDate) => {
       const newSearchFilters = structuredClone(searchFilters);
@@ -69,9 +82,9 @@ export function ExplorerDateFilter({
       newSearchFilters.month = newDate.getMonth() + 1;
       delete newSearchFilters.day;
 
-      setSearchFilters(newSearchFilters);
+      updateSearchFilters(newSearchFilters);
     },
-    [searchFilters],
+    [searchFilters, updateSearchFilters],
   );
 
   const handleDateSelect: OnSelectHandler<Date> = useCallback(
@@ -82,9 +95,9 @@ export function ExplorerDateFilter({
       newSearchFilters.month = newDate.getMonth() + 1;
       newSearchFilters.day = newDate.getDate();
 
-      setSearchFilters(newSearchFilters);
+      updateSearchFilters(newSearchFilters);
     },
-    [searchFilters],
+    [searchFilters, updateSearchFilters],
   );
 
   const handleClearDate: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -97,30 +110,10 @@ export function ExplorerDateFilter({
       delete newSearchFilters.month;
       delete newSearchFilters.day;
 
-      setSearchFilters(newSearchFilters);
+      updateSearchFilters(newSearchFilters);
     },
-    [searchFilters],
+    [searchFilters, updateSearchFilters],
   );
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return;
-
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    const newSfParam = encodeContentSearchFiltersParam(searchFilters);
-    if (newSfParam.length) {
-      newSearchParams.set("sf", newSfParam);
-    } else {
-      newSearchParams.delete("sf");
-    }
-
-    router.push(`${pathname}?${newSearchParams.toString()}`, {
-      scroll: true,
-    });
-  }, [searchFilters, pathname, router.push, searchParams.toString, isClient]);
 
   return (
     <Popover>

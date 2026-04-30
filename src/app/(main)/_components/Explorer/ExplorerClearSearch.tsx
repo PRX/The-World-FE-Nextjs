@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/util/css";
@@ -13,7 +13,6 @@ export function ExplorerClearSearch({
   className,
   ...props
 }: ExplorerClearSearchProps) {
-  const [_isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,10 +27,6 @@ export function ExplorerClearSearch({
 
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     !!searchParam && (

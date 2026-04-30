@@ -19,6 +19,7 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { cn } from "@/lib/util/css";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { Suspense } from "react";
 
 export const getCachedExploreContent = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -75,34 +76,37 @@ export default async function ExplorePage({
 
   return (
     <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
-      <div
-        className={cn(
-          "sticky top-(--gutter-top) z-10",
-          "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
-        )}
-      >
-        <div className="flex items-center gap-2">
-          <ExplorerContentTypeFilter />
-          <ExplorerDateFilter />
-          <ExplorerClearSearch />
+      <Suspense fallback={<div />}>
+        <div
+          className={cn(
+            "sticky top-(--gutter-top) z-10",
+            "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <ExplorerContentTypeFilter />
+            <ExplorerDateFilter />
+            <ExplorerClearSearch />
+          </div>
+          <div className="flex items-center gap-2">
+            <ExplorerSortFilter />
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <ExplorerSortFilter />
-        </div>
-      </div>
-      <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
-        {nodes
-          ?.filter((n) => !!n)
-          .map((node, index) => {
-            return (
-              <ExplorerCard
-                data={node as ContentNode}
-                key={node.id}
-                index={index}
-              />
-            );
-          })}
-      </Explorer>
+
+        <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
+          {nodes
+            ?.filter((n) => !!n)
+            .map((node, index) => {
+              return (
+                <ExplorerCard
+                  data={node as ContentNode}
+                  key={node.id}
+                  index={index}
+                />
+              );
+            })}
+        </Explorer>
+      </Suspense>
 
       {shownContentEndMessage && (
         <div className="px-4 mt-20 ml-(--_gutter-left)">
