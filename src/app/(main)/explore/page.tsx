@@ -92,21 +92,21 @@ export default async function ExplorePage({
             <ExplorerSortFilter />
           </div>
         </div>
-
-        <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
-          {nodes
-            ?.filter((n) => !!n)
-            .map((node, index) => {
-              return (
-                <ExplorerCard
-                  data={node as ContentNode}
-                  key={node.id}
-                  index={index}
-                />
-              );
-            })}
-        </Explorer>
       </Suspense>
+
+      <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
+        {nodes
+          ?.filter((n) => !!n)
+          .map((node, index) => {
+            return (
+              <ExplorerCard
+                data={node as ContentNode}
+                key={node.id}
+                index={index}
+              />
+            );
+          })}
+      </Explorer>
 
       {shownContentEndMessage && (
         <div className="px-4 mt-20 ml-(--_gutter-left)">
