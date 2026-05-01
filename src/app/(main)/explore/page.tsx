@@ -4,7 +4,6 @@ import {
   type ContentNode,
 } from "@/interfaces";
 import { unstable_cache } from "next/cache";
-import { isArray } from "lodash";
 import { type ContentQueryOptions, fetchGqlContent } from "@/lib/fetch";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import Explorer, {
@@ -19,7 +18,7 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { cn } from "@/lib/util/css";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
-import { Suspense } from "react";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 export const getCachedExploreContent = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -54,9 +53,12 @@ export default async function ExplorePage({
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const { search: searchParam, sf } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const whereArgs = convertSFParamToWhereArgs(sf);
+
+  console.log("EXPLORE PAGE", siteSearchParams);
 
   const data = await getCachedExploreContent({
     first: 60,
@@ -76,25 +78,27 @@ export default async function ExplorePage({
 
   return (
     <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
-      <Suspense fallback={<div />}>
-        <div
-          className={cn(
-            "sticky top-(--gutter-top) z-10",
-            "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <ExplorerContentTypeFilter />
-            <ExplorerDateFilter />
-            <ExplorerClearSearch />
-          </div>
-          <div className="flex items-center gap-2">
-            <ExplorerSortFilter />
-          </div>
+      <div
+        className={cn(
+          "sticky top-(--gutter-top) z-10",
+          "flex items-center justify-between gap-2 w-full max-w-7xl mx-auto my-5 p-2",
+        )}
+      >
+        <div className="flex items-center gap-2">
+          {/* <ExplorerContentTypeFilter /> */}
+          {/* <ExplorerDateFilter /> */}
+          <ExplorerClearSearch siteSearchParams={siteSearchParams} />
         </div>
-      </Suspense>
+        <div className="flex items-center gap-2">
+          {/* <ExplorerSortFilter /> */}
+        </div>
+      </div>
 
-      <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
+      <Explorer
+        siteSearchParams={siteSearchParams}
+        pageInfo={pageInfo}
+        key={`explore:${search}:${sf}`}
+      >
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

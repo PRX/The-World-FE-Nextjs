@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { Children, useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import type {
@@ -28,12 +27,14 @@ import {
 } from "@/lib/util/binaryData";
 
 export type ExplorerParams = React.ComponentProps<"div"> & {
+  siteSearchParams?: Record<"search" | "sf", string>;
   fetchEndpoint?: string;
   fetchSearchFilters?: MessageInitShape<typeof ContentSearchFiltersSchema>;
   pageInfo?: PageInfo;
 };
 
 export default function Explorer({
+  siteSearchParams,
   className,
   children,
   fetchEndpoint = "explore",
@@ -44,9 +45,7 @@ export default function Explorer({
   const [pageInfo, setPageInfo] = useState(initialPageInfo);
   const { hasNextPage, endCursor } = pageInfo || {};
   const [contentNodes, setContentNodes] = useState<ContentNode[]>();
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
-  const sfParam = searchParams.get("sf") || undefined;
+  const { search, sf: sfParam } = siteSearchParams || {};
   const searchFilters =
     sfParam || fetchSearchFilters
       ? {
