@@ -56,8 +56,6 @@ export async function generateMetadata(
   const slug = (await params).slug;
   const metadata = await parent.then((r) => r as Metadata);
 
-  console.log(metadata);
-
   // fetch post information
   const data = await getCachedEpisode(slug);
 
