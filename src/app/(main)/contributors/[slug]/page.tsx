@@ -7,7 +7,6 @@ import {
 } from "@/gen/search_filters_pb";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
-import { isArray } from "lodash";
 import {
   type ContentQueryOptions,
   fetchGqlContent,
@@ -28,6 +27,7 @@ import Explorer, {
 } from "@/app/(main)/_components/Explorer";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 type Props = {
   params: Promise<Record<"slug", string>>;
@@ -104,9 +104,9 @@ export default async function ContributorPage({ params, searchParams }: Props) {
   const hasContent = !!content?.trim();
   const { featuredPosts } = landingPage || {};
   const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
-  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
     ctx: create(TaxonomyContextSchema, {

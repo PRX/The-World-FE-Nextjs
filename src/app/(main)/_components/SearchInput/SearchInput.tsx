@@ -17,7 +17,8 @@ import type {
   NodeWithTitle,
   TermNode,
 } from "@/interfaces";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import {
   InputGroup,
   InputGroupAddon,
@@ -82,13 +83,11 @@ export type SearchContext = {
 };
 
 export type SearchInputProps = React.ComponentProps<"form"> & {
-  siteSearchParams?: Record<"search" | "sf", string>;
   searchContext?: SearchContext;
 };
 
 export default function SearchInput({
   className,
-  siteSearchParams,
   searchContext,
   ...props
 }: SearchInputProps) {
@@ -104,8 +103,8 @@ export default function SearchInput({
       NodeWithFeaturedImage)[];
     terms?: (TermNode & Contributor)[];
   }>({});
-  const { search: searchParam } = siteSearchParams || {};
-  console.log(siteSearchParams, searchParam);
+  const searchParams = useSearchParams();
+  const searchParam = searchParams.get("search");
   const [searchInput, setSearchInput] = useState(searchParam || undefined);
   const [inContextSearch, setInContextSearch] = useState(!!searchContext);
   const searchPathname = inContextSearch ? pathname : "/explore";
@@ -115,7 +114,7 @@ export default function SearchInput({
   const hasData = !!(data.contentNodes?.length || data.terms?.length);
 
   const updateRoute = useCallback(() => {
-    const newSearchParams = new URLSearchParams(siteSearchParams);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
 
     if (!searchInput) return;
 
@@ -123,7 +122,7 @@ export default function SearchInput({
     router.push(`${searchPathname}?${newSearchParams.toString()}`, {
       scroll: true,
     });
-  }, [searchPathname, router.push, searchInput, siteSearchParams]);
+  }, [searchPathname, router.push, searchInput, searchParams.toString]);
 
   const handleInput: InputEventHandler<HTMLInputElement> = useCallback((e) => {
     setSearchInput(e.currentTarget.value);

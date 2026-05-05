@@ -16,7 +16,6 @@ import Explorer, {
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
-import { isArray } from "lodash";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { create } from "@bufbuild/protobuf";
 import {
@@ -28,6 +27,7 @@ import { convertSearchFiltersToWhereArgs } from "@/lib/convert/string";
 import { cn } from "@/lib/util/css";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 type Props = {
   params: Promise<Record<"slug", string>>;
@@ -101,9 +101,9 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const { landingPage } = data || {};
   const { featuredPosts } = landingPage || {};
   const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
-  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
     ctx: create(TaxonomyContextSchema, {

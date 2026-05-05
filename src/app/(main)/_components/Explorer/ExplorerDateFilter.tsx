@@ -5,7 +5,8 @@ import type {
   OnSelectHandler,
 } from "react-day-picker";
 import { type MouseEventHandler, useCallback } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/util/css";
 import { CalendarIcon, XIcon } from "lucide-react";

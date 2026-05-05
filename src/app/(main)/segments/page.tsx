@@ -1,6 +1,5 @@
 import type { ContentNode } from "@/interfaces";
 import { unstable_cache } from "next/cache";
-import { isArray } from "lodash";
 import Explorer, {
   ExplorerCard,
   ExplorerClearSearch,
@@ -16,6 +15,7 @@ import { cn } from "@/lib/util/css";
 import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 export const getCachedSegments = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -51,9 +51,9 @@ export default async function SegmentsPage({
 }) {
   const resolvedSearchParams = await searchParams;
 
-  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
     contentType: SFContentTypeEnum.SEGMENT,

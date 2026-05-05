@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { cn } from "@/lib/util/css";
 import {
   Select,

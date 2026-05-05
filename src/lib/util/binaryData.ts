@@ -6,6 +6,7 @@ import {
   toBinary,
   type MessageInitShape,
 } from "@bufbuild/protobuf";
+import type { Maybe } from "@/interfaces";
 
 export function encodeContentSearchFiltersParam(
   data?: MessageInitShape<typeof ContentSearchFiltersSchema>,
@@ -20,7 +21,7 @@ export function encodeContentSearchFiltersParam(
   return urlSafeBase64 as string;
 }
 
-export function decodeContentSearchFiltersParam(urlSafeBase64?: string) {
+export function decodeContentSearchFiltersParam(urlSafeBase64?: Maybe<string>) {
   const binaryData = Uint8Array.fromBase64(urlSafeBase64 || "", {
     alphabet: "base64url",
   });
