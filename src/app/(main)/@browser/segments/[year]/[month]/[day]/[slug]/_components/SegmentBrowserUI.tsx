@@ -1,7 +1,8 @@
 "use client";
 
 import { type MouseEventHandler, useCallback, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { AnimatePresence, motion } from "motion/react";
 import useSWR from "swr";
 import type { Segment, RootQueryToContentNodeConnection } from "@/interfaces";
@@ -13,6 +14,7 @@ import { DateTime } from "@/components/DateTime";
 import { convertSecondsToDuration } from "@/lib/parse/time";
 import { CalendarSearchIcon } from "lucide-react";
 import { encodeContentSearchFiltersParam } from "@/lib/util/binaryData";
+import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 
 function useContentInMonth(date: Date) {
   const year = date.getFullYear();
@@ -20,6 +22,7 @@ function useContentInMonth(date: Date) {
   const sf = encodeContentSearchFiltersParam({
     year,
     month,
+    contentType: SFContentTypeEnum.SEGMENT,
   });
 
   const apiUrlParams = new URLSearchParams({

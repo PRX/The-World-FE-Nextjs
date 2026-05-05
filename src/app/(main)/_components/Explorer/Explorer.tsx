@@ -25,16 +25,15 @@ import {
   decodeContentSearchFiltersParam,
   encodeContentSearchFiltersParam,
 } from "@/lib/util/binaryData";
+import { useSearchParams } from "next/navigation";
 
 export type ExplorerParams = React.ComponentProps<"div"> & {
-  siteSearchParams?: Record<"search" | "sf", string>;
   fetchEndpoint?: string;
   fetchSearchFilters?: MessageInitShape<typeof ContentSearchFiltersSchema>;
   pageInfo?: PageInfo;
 };
 
 export default function Explorer({
-  siteSearchParams,
   className,
   children,
   fetchEndpoint = "explore",
@@ -45,7 +44,9 @@ export default function Explorer({
   const [pageInfo, setPageInfo] = useState(initialPageInfo);
   const { hasNextPage, endCursor } = pageInfo || {};
   const [contentNodes, setContentNodes] = useState<ContentNode[]>();
-  const { search, sf: sfParam } = siteSearchParams || {};
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const sfParam = searchParams.get("sf");
   const searchFilters =
     sfParam || fetchSearchFilters
       ? {

@@ -1,6 +1,5 @@
 import type { ContentNode } from "@/interfaces";
 import { unstable_cache } from "next/cache";
-import { isArray } from "lodash";
 import Explorer, {
   ExplorerCard,
   ExplorerClearSearch,
@@ -14,6 +13,7 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { cn } from "@/lib/util/css";
 import { SFContentTypeEnum } from "@/gen/search_filters_pb";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 export const getCachedEpisodesByYear = unstable_cache(
   async (query: ContentQueryOptions) => fetchGqlContent(query),
@@ -41,9 +41,9 @@ export default async function EpisodesByYearPage({
   );
 
   const year = parseInt(yearParam, 10);
-  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
     contentType: SFContentTypeEnum.EPISODE,

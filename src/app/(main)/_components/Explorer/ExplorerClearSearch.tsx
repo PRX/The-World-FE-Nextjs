@@ -1,38 +1,36 @@
 "use client";
 
-import type { MouseEventHandler } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useCallback, type MouseEventHandler } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/util/css";
 import { SearchIcon, XIcon } from "lucide-react";
 import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group";
 
-export type ExplorerClearSearchProps = React.ComponentProps<
-  typeof ButtonGroup
-> & {
-  siteSearchParams?: Record<"search" | "sf", string>;
-};
+export type ExplorerClearSearchProps = React.ComponentProps<typeof ButtonGroup>;
 
 export function ExplorerClearSearch({
   className,
-  siteSearchParams,
   ...props
 }: ExplorerClearSearchProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { search } = siteSearchParams || {};
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
 
-  console.log("CLEAR SEARCH", siteSearchParams, search);
+  const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      e.preventDefault();
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
+      const newSearchParams = new URLSearchParams(searchParams.toString());
 
-    const newSearchParams = new URLSearchParams(siteSearchParams);
+      newSearchParams.delete("search");
 
-    newSearchParams.delete("search");
-
-    router.push(`${pathname}?${newSearchParams.toString()}`);
-  };
+      router.push(`${pathname}?${newSearchParams.toString()}`);
+    },
+    [pathname, router.push, searchParams.toString],
+  );
 
   return (
     !!search && (

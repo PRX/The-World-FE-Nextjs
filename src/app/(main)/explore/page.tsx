@@ -58,8 +58,6 @@ export default async function ExplorePage({
   const { search, sf } = siteSearchParams;
   const whereArgs = convertSFParamToWhereArgs(sf);
 
-  console.log("EXPLORE PAGE", siteSearchParams);
-
   const data = await getCachedExploreContent({
     first: 60,
     where: {
@@ -85,20 +83,16 @@ export default async function ExplorePage({
         )}
       >
         <div className="flex items-center gap-2">
-          {/* <ExplorerContentTypeFilter /> */}
-          {/* <ExplorerDateFilter /> */}
-          <ExplorerClearSearch siteSearchParams={siteSearchParams} />
+          <ExplorerContentTypeFilter />
+          <ExplorerDateFilter />
+          <ExplorerClearSearch />
         </div>
         <div className="flex items-center gap-2">
-          {/* <ExplorerSortFilter /> */}
+          <ExplorerSortFilter />
         </div>
       </div>
 
-      <Explorer
-        siteSearchParams={siteSearchParams}
-        pageInfo={pageInfo}
-        key={`explore:${search}:${sf}`}
-      >
+      <Explorer pageInfo={pageInfo} key={`explore:${search}:${sf}`}>
         {nodes
           ?.filter((n) => !!n)
           .map((node, index) => {

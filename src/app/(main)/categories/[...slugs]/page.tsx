@@ -27,6 +27,7 @@ import { create } from "@bufbuild/protobuf";
 import { cn } from "@/lib/util/css";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 type Props = {
   params: Promise<Record<"slugs", string | string[]>>;
@@ -102,9 +103,9 @@ export default async function TaxonomyPage({ params, searchParams }: Props) {
   const { id, landingPage } = data || {};
   const { featuredPosts } = landingPage || {};
   const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
-  const { search: searchParam, sf: sfParam } = resolvedSearchParams;
-  const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
-  const sf = isArray(sfParam) ? sfParam[0] : sfParam;
+  const siteSearchParams =
+    sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
+  const { search, sf } = siteSearchParams;
   const searchFilters = {
     ...decodeContentSearchFiltersParam(sf),
     ctx: create(TaxonomyContextSchema, {
