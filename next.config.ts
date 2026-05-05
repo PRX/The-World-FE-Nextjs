@@ -2,9 +2,13 @@ import type { NextConfig } from "next";
 import { withPlausibleProxy } from "next-plausible";
 import { uid } from "uid";
 
+const plausibleProxyName = uid(6);
+const plausibleScriptName = uid();
+
 const nextConfig: NextConfig = withPlausibleProxy({
-  subdirectory: uid(6),
-  scriptName: uid(),
+  src: "https://plausible.io/js/pa-fuF1qi-NfkrB0shZi0Ip8.js",
+  scriptPath: `/${plausibleProxyName}/${plausibleScriptName}.js`,
+  apiPath: `/${plausibleProxyName}/api/event`,
 })({
   output: "standalone",
   trailingSlash: false,
