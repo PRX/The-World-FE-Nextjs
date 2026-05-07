@@ -41,7 +41,7 @@ export async function generateMetadata(
 
   const { seo } = data;
 
-  console.log("STORY SEO", seo);
+  // console.log("STORY SEO", seo);
 
   return convertSeoToMetadata(seo, metadata) || {};
 }

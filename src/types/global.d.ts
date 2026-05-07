@@ -32,3 +32,5 @@ interface Uint8ArrayConstructor {
       | undefined,
   ): Uint8Array<ArrayBuffer>;
 }
+
+declare module "next-logger";
