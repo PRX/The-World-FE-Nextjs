@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import { withPlausibleProxy } from "next-plausible";
 import { uid } from "uid";
+import { redirects } from "./next.redirects";
 
 const plausibleProxyName = uid(6);
 const plausibleScriptName = uid();
@@ -12,6 +13,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
 })({
   output: "standalone",
   trailingSlash: false,
+  redirects,
   env: {
     APP_DOMAIN: process.env.APP_DOMAIN,
     API_URL_BASE: process.env.API_URL_BASE,
