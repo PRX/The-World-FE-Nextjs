@@ -2,11 +2,12 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { HtmlContent } from "@/components/HtmlContent";
+import ContentBody from "@/app/(main)/_components/ContentBody";
 import { PageIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlPage, fetchTwApiQueryAlias } from "@/lib/fetch";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 
 type Props = {
   params: Promise<{ alias: string[] }>;
@@ -113,24 +114,30 @@ export default async function PagePage({ params }: Props) {
     return notFound();
   }
 
-  const { content } = data;
+  const { id, title, content } = data;
+  const props = {
+    Title: title,
+  };
+  const plausibleEvents = [["Page", { props }] as PlausibleEventArgs];
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "content-inline-end",
   ).then((messages) => getShownMessage(messages));
 
   return (
-    <div className="group/episode">
-      <div className="ml-(--gutter-left) mr-(--gutter-right)">
-        <div className="max-w-185 mx-auto my-12 px-4">
-          <HtmlContent html={content} />
-        </div>
-
-        {shownContentEndMessage && (
-          <div className="px-4">
-            <CtaRegion cta={shownContentEndMessage} />
-          </div>
-        )}
+    <div className="group/content">
+      <Plausible events={plausibleEvents} key={id} />
+      <div className="relative ps-(--gutter-left)">
+        <ContentBody html={content}>
+          {shownContentEndMessage && (
+            <div className="flex flex-col gap-y-10 w-full max-w-185 mx-auto">
+              <CtaRegion
+                className="-mx-[calc(var(--body-gutter)/2)] lg:-mx-(--body-gutter)"
+                cta={shownContentEndMessage}
+              />
+            </div>
+          )}
+        </ContentBody>
       </div>
     </div>
   );

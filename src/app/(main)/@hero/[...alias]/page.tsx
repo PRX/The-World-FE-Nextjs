@@ -3,6 +3,7 @@ import {
   getCachedPage,
 } from "@/app/(main)/[...alias]/page";
 import HeroHeader from "@/app/(main)/_components/HeroHeader";
+import { ColorSchemeSwitcher } from "../../_components/ColorSchemeSwitcher";
 
 export default async function PageHero({
   params,
@@ -51,10 +52,11 @@ export default async function PageHero({
       image={featuredImage?.node}
       classes={{ content: "max-w-3xl w-full px-8" }}
     >
-      <div className="grid gap-y-4 text-pretty">
-        <h1 className="flex gap-4 items-center text-3xl md:text-4xl font-bold text-balance">
+      <div className="flex flex-wrap gap-4 items-end text-pretty">
+        <h1 className="grow text-3xl md:text-4xl font-bold text-balance">
           <span>{title}</span>
         </h1>
+        <ColorSchemeSwitcher />
       </div>
     </HeroHeader>
   );
