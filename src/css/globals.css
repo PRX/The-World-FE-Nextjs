@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@toolwind/corner-shape";
 
 @custom-variant default (&:is([data-color-scheme=default] *));
 @custom-variant light (&:is(.light *, [data-color-scheme=light] *));
