@@ -383,6 +383,11 @@ serviceAssetsMap.set("podverse", {
   ),
 });
 
+serviceAssetsMap.set("rss", {
+  label: "RSS",
+  IconComponent: dynamic(() => import("@/assets/svg/icons/rss.svg")),
+});
+
 serviceAssetsMap.set("snipd", {
   label: "Snipd",
   IconComponent: dynamic(

@@ -71,7 +71,11 @@ export default async function PodcastsPage() {
       {rssData?.length ? (
         <div className="grid gap-8 max-w-5xl mx-auto">
           {rssData.map(({ feedUrl, title, image, description, podcast }) => {
-            const { links: followLinks } = podcast?.follow?.data || {};
+            const { links } = podcast?.follow?.data || {};
+            const followLinks = [
+              ...(links || []),
+              { href: feedUrl, text: "RSS Feed", service: "rss" },
+            ];
             const hasImage = !!image?.url;
 
             return (
@@ -101,7 +105,8 @@ export default async function PodcastsPage() {
                         {followLinks
                           ?.map((l) => ({
                             ...l,
-                            service: getServiceFromUrl(l.href) || null,
+                            service:
+                              getServiceFromUrl(l.href) || l.service || null,
                           }))
                           .map(({ service, href, text }) => {
                             if (!service) return null;
@@ -116,6 +121,10 @@ export default async function PodcastsPage() {
                                   target="_blank"
                                   rel="noreferrer"
                                   key={`${service}:${href}`}
+                                  className={cn(
+                                    "p-1 bg-white/10 backdrop-blur-lg rounded-full corner-squircle",
+                                    "hover:backdrop-brightness-125 focus-visible:backdrop-brightness-125",
+                                  )}
                                 >
                                   <IconComponent
                                     aria-label={`Listen on ${text || label}`}
