@@ -18,6 +18,7 @@ import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import type { Metadata, ResolvingMetadata } from "next";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -66,8 +67,12 @@ export default async function TaxonomyPage({ params }: Props) {
     if (!data?.programContributors?.team?.length) return notFound();
   }
 
-  const { programContributors } = data || {};
+  const { id, name, programContributors } = data || {};
   const { team } = programContributors || {};
+  const props = {
+    Title: `${name} Team`,
+  };
+  const plausibleEvents = [["Team", { props }] as PlausibleEventArgs];
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-end",
@@ -75,6 +80,7 @@ export default async function TaxonomyPage({ params }: Props) {
 
   return (
     <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
+      <Plausible events={plausibleEvents} key={id} />
       <Explorer pageInfo={{ hasNextPage: false, hasPreviousPage: false }}>
         {team
           ?.filter((n) => !!n)
