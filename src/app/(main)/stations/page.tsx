@@ -4,8 +4,9 @@ import { unstable_cache } from "next/cache";
 import StationFinder from "./_components/StationFinder";
 import { OrderEnum, PostObjectsConnectionOrderbyEnum } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
-import CtaRegion from "../_components/CtaRegion";
+import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
+import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 
 export const getCachedStations = unstable_cache(
   async (query?: StationsQueryOptions) => fetchGqlStations(query),
@@ -52,6 +53,10 @@ export default async function StationsPage() {
     },
   });
   const { nodes = [] } = data || {};
+  const props = {
+    Title: "Broadcast Station Finder",
+  };
+  const plausibleEvents = [["Page", { props }] as PlausibleEventArgs];
 
   const shownContentEndMessage = await getCtaRegionMessages(
     "landing-inline-bottom",
@@ -59,6 +64,7 @@ export default async function StationsPage() {
 
   return (
     <main className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
+      <Plausible events={plausibleEvents} />
       <div className="grid gap-8 max-w-7xl mx-auto">
         <StationFinder data={nodes} />
       </div>
