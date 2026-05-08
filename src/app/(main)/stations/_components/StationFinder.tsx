@@ -2,7 +2,7 @@
 
 import type { Station } from "@/interfaces";
 import { type InputEventHandler, useCallback, useState } from "react";
-import { HdIcon, SearchAlertIcon, XIcon } from "lucide-react";
+import { HdIcon, MapPinIcon, SearchAlertIcon, XIcon } from "lucide-react";
 import { uniqueId } from "lodash";
 import { cn } from "@/lib/util/css";
 import { convertRegion } from "@/lib/convert/string";
@@ -177,10 +177,12 @@ export function StationFinder({
                       </span>
                     )}
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="flex flex-wrap justify-between items-center gap-2">
                     <span className="font-semibold">{callLetters}</span>
-                    <span className="mx-1">&bull;</span>
-                    <span>{location}</span>
+                    <span className="flex items-center gap-0.5">
+                      <MapPinIcon className="size-[1.25em]" />
+                      <span>{location}</span>
+                    </span>
                   </CardDescription>
                 </CardHeader>
               </Card>
