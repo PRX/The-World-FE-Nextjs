@@ -52,7 +52,7 @@ export default function HeroEpisodesCarousel({
   const { nodes } = episodes;
   const scrollWrapper = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [isInit, setIsInit] = useState(true);
   const episode = nodes[currentIndex];
   const {
     id: episodeId,
@@ -107,18 +107,21 @@ export default function HeroEpisodesCarousel({
           )}
         >
           {/* Full Episode Card */}
-          <AnimatePresence custom={direction} mode="popLayout">
+          <AnimatePresence mode="popLayout">
             <motion.div
               key={episodeId}
               variants={{
-                hidden: (d) => ({
+                hidden: {
                   opacity: 0,
-                  x: d === 1 ? -100 : 100,
-                }),
+                },
                 initial: { opacity: 0, x: 0 },
-                visible: { opacity: 1, x: 0, transition: { delay: 0.25 } },
+                visible: {
+                  opacity: 1,
+                  x: 0,
+                  transition: { duration: 0.5, delay: 0.25 },
+                },
               }}
-              initial="initial"
+              initial={isInit ? "visible" : "initial"}
               animate="visible"
               exit="hidden"
               className={cn(
@@ -181,28 +184,27 @@ export default function HeroEpisodesCarousel({
               <h2 className="sticky left-4 self-start text-cyan font-serif font-bold italic uppercase ml-2">
                 In This Episode&hellip;
               </h2>
-              <AnimatePresence custom={direction} mode="popLayout">
+              <AnimatePresence mode="popLayout">
                 <motion.div
                   key={episodeId}
                   variants={{
-                    hidden: (d) => ({
-                      x: d === 1 ? -100 : 100,
+                    hidden: {
+                      opacity: 0,
                       transition: {
-                        delayChildren: stagger(0.1, {
-                          // from: direction === 1 ? "first" : "last",
-                        }),
+                        delayChildren: stagger(0.1),
                       },
-                    }),
+                    },
                     visible: {
                       x: 0,
+                      opacity: 1,
                       transition: {
-                        delayChildren: stagger(0.1, {
-                          // from: direction === 1 ? "last" : "first",
-                        }),
+                        duration: 0.5,
+                        delay: 0.25,
+                        delayChildren: stagger(0.1),
                       },
                     },
                   }}
-                  initial="hidden"
+                  initial={isInit ? "visible" : "hidden"}
                   animate="visible"
                   exit="hidden"
                 >
@@ -351,10 +353,8 @@ export default function HeroEpisodesCarousel({
                 { "w-12 bg-cyan": i === currentIndex },
               )}
               onClick={((ni) => () => {
-                setCurrentIndex((ci) => {
-                  setDirection(ni > ci ? 1 : -1);
-                  return ni;
-                });
+                setIsInit(false);
+                setCurrentIndex(ni);
                 if (scrollWrapper.current) {
                   scrollWrapper.current.scrollLeft = 0;
                 }

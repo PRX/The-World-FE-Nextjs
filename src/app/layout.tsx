@@ -18,6 +18,6 @@ export async function generateMetadata(
   return md as Metadata;
 }
 
-export default function HeroLayout({ children }: Props) {
+export default function GlobalLayout({ children }: Props) {
   return children;
 }

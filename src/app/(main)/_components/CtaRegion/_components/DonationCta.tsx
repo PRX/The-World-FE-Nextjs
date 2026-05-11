@@ -20,7 +20,6 @@ export default function DonationCta({
     /^\?campaign=(?<cidParam>[^&]+)|give\/(?<cidSegment>[^/]+)/.exec(
       action?.url || "",
     )?.groups || {};
-  const modalCampaignId = cidParam || cidSegment;
   const handleActionClick = () => {
     onClose?.();
   };
@@ -43,26 +42,23 @@ export default function DonationCta({
       {hasActions && (
         <div className="flex flex-wrap items-center gap-4 justify-center md:justify-start">
           {action &&
-            (modalCampaignId ? (
-              <DonateModalLink
-                campaign={modalCampaignId}
-                variant="action"
-                size="lg"
-              >
+            ((cidParam && (
+              <DonateModalLink campaign={cidParam} variant="action" size="lg">
                 {action.name}
               </DonateModalLink>
-            ) : (
-              <Button
-                variant="action"
-                size="lg"
-                onClick={handleActionClick}
-                asChild
-              >
-                <Link href={action.url} target="_tw_cta">
-                  {action.name}
-                </Link>
-              </Button>
-            ))}
+            )) ||
+              (cidSegment && (
+                <Button
+                  variant="action"
+                  size="lg"
+                  onClick={handleActionClick}
+                  asChild
+                >
+                  <Link href={action.url} target="_tw_cta">
+                    {action.name}
+                  </Link>
+                </Button>
+              )))}
           {canDismiss && (
             <Button
               className="cursor-pointer"
