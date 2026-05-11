@@ -1,6 +1,6 @@
 "use client";
 
-import type { MediaItem } from "@/interfaces";
+import type { Maybe, MediaItem } from "@/interfaces";
 import { cn } from "@/lib/util/css";
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -13,7 +13,9 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState<string>();
+  const [currentSrc, setCurrentSrc] = useState<Maybe<string> | undefined>(
+    imageSrc,
+  );
 
   /**
    * Watch for changes in image's current source, then update url used as background image.
