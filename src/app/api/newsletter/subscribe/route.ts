@@ -1,4 +1,4 @@
-import type { NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { encode as base64Encode } from "base-64";
 
 export async function POST(req: NextRequest) {
@@ -74,15 +74,12 @@ export async function POST(req: NextRequest) {
         },
       },
     );
-  } catch (err) {
-    return new Response(
-      JSON.stringify({
-        errorCode: 500,
-        error: err,
-      }),
-      {
-        status: 500,
-      },
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      { message: "Internal Server Error", error },
+      { status: 500 },
     );
   }
 }
