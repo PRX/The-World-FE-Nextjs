@@ -8,8 +8,8 @@ const plausibleScriptName = uid();
 
 const nextConfig: NextConfig = withPlausibleProxy({
   src: "https://plausible.io/js/pa-fuF1qi-NfkrB0shZi0Ip8.js",
-  scriptPath: `/${plausibleProxyName}/${plausibleScriptName}.js`,
-  apiPath: `/${plausibleProxyName}/api/event`,
+  scriptPath: `/p/${plausibleProxyName}/${plausibleScriptName}.js`,
+  apiPath: `/p/${plausibleProxyName}/api/event`,
 })({
   output: "standalone",
   trailingSlash: false,
@@ -25,6 +25,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
     FB_ADMINS: process.env.FB_ADMINS,
     FB_APP_ID: process.env.FB_APP_ID,
     TWITTER_ACCOUNT_ID: process.env.TWITTER_ACCOUNT_ID,
+    YT_API_KEY: process.env.YT_API_KEY,
   },
   experimental: {
     turbopackFileSystemCacheForDev: false,
