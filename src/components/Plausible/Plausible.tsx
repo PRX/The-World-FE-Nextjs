@@ -30,16 +30,6 @@ export const Plausible = ({ events }: IPlausibleProps) => {
   const plausible = usePlausible();
 
   useEffect(() => {
-    window.plausible =
-      window.plausible ||
-      function p(...rest: PlausibleEventArgs) {
-        const q = window.plausible.q || [];
-        q.push(rest);
-        window.plausible.q = q;
-      };
-  }, []);
-
-  useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       // eslint-disable-next-line no-console
       console.log("Plausible Events:", events);
