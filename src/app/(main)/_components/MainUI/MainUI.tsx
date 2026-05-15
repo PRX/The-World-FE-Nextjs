@@ -274,7 +274,15 @@ export default function MainUI({
             </h1>
             <span className="basis-xl">{search}</span>
             <span>
-              <DonateModalLink campaign="727547" size="lg" variant="action">
+              <DonateModalLink
+                campaign="727547"
+                size="lg"
+                variant="action"
+                queryParams={{
+                  c_src: "Referral",
+                  c_src2: "website-donate-heart",
+                }}
+              >
                 <HeartHandshakeIcon aria-label="Donate" />
                 <span className="hidden md:inline" aria-hidden>
                   Donate

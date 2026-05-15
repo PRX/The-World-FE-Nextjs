@@ -109,7 +109,14 @@ export default function MainUIMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <DonateModalLink variant="unstyled" campaign="727547">
+            <DonateModalLink
+              variant="unstyled"
+              campaign="727547"
+              queryParams={{
+                c_src: "Referral",
+                c_src2: "website-menu-hamburger",
+              }}
+            >
               <HeartHandshakeIcon />
               <NavigationMenuLabel>Donate</NavigationMenuLabel>
             </DonateModalLink>
