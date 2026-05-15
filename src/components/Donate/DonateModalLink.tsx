@@ -1,45 +1,25 @@
-"use client";
-
 import { cn } from "@/lib/util/css";
-import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function DonateModalLink({
   campaign,
+  queryParams,
   className,
   children,
   ...props
 }: React.ComponentProps<typeof Button> & {
   campaign: string;
+  queryParams?: Record<string, string>;
 }) {
-  const [modal, setModal] = useState<{ open: (c: string) => void }>();
-  const handleClick = useCallback(() => {
-    modal?.open(campaign);
-  }, [campaign, modal]);
+  const urlParams = new URLSearchParams({
+    campaign,
+    ...queryParams,
+  });
+  const linkHref = `?${urlParams.toString()}`;
 
-  useEffect(() => {
-    const { eg } = window as Window & {
-      eg?: { modal: { open: (c: string) => void } };
-    };
-
-    setModal(eg?.modal);
-  }, []);
-
-  return modal ? (
-    <Button
-      type="button"
-      {...props}
-      className={cn("cursor-pointer", className)}
-      onClick={handleClick}
-    >
-      {children}
-    </Button>
-  ) : (
+  return (
     <Button asChild {...props} className={cn("cursor-pointer", className)}>
-      <a
-        href={`?campaign=${campaign}`}
-        target={`donate-to-the-world:${campaign}`}
-      >
+      <a href={linkHref} target={`donate-to-the-world:${campaign}`}>
         {children}
       </a>
     </Button>

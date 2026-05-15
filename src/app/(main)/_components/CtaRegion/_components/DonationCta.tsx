@@ -17,7 +17,7 @@ export default function DonationCta({
   const hasActions = !!(action || dismiss);
   const canDismiss = !!(dismiss && onClose);
   const { cidParam, cidSegment } =
-    /^\?campaign=(?<cidParam>[^&]+)|give\/(?<cidSegment>[^/]+)/.exec(
+    /^\?campaign=(?<cidParam>[^&]+)|(?:give|campaign)\/(?<cidSegment>[^/]+)/.exec(
       action?.url || "",
     )?.groups || {};
   const handleActionClick = () => {
