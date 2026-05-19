@@ -380,7 +380,7 @@ export default function MainUI({
               </nav>
             )}
             <div>
-              <p>©2025 The World from PRX</p>
+              <p>©{new Date().getFullYear()} The World from PRX</p>
               <p>
                 PRX is a 501(c)(3) organization recognized by the IRS:
                 #263347402.
