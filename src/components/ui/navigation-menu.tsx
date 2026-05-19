@@ -50,7 +50,7 @@ function NavigationMenuList({
         "group flex gap-1 list-none data-[size=compact]:justify-center data-[size=compact]:gap-2 data-[size=compact]:my-4",
         "data-[orientation=vertical]:flex-col",
         // Size: Compact
-        "data-[size=compact]:[&>li>:where(a,button)]:grid data-[size=compact]:[&>li>:where(a,button)]:grid-rows-[repeat(2,min-content)] data-[size=compact]:[&>li>:where(a,button)]:justify-items-center data-[size=compact]:[&>li>:where(a,button)]:items-start data-[size=compact]:[&>li>:where(a,button)]:w-auto data-[size=compact]:[&>li>:where(a,button)]:p-2 data-[size=compact]:[&>li>:where(a,button)]:rounded-sm data-[size=compact]:[&>li>:where(a,button)]:text-sm data-[size=compact]:[&>li>:where(a,button)]:font-medium",
+        "data-[size=compact]:[&>li>:where(a,button)]:grid data-[size=compact]:[&>li>:where(a,button)]:grid-rows-[repeat(2,min-content)] data-[size=compact]:[&>li>:where(a,button)]:justify-items-center data-[size=compact]:[&>li>:where(a,button)]:items-start data-[size=compact]:[&>li>:where(a,button)]:gap-1 data-[size=compact]:[&>li>:where(a,button)]:w-auto data-[size=compact]:[&>li>:where(a,button)]:p-2 data-[size=compact]:[&>li>:where(a,button)]:rounded-sm data-[size=compact]:[&>li>:where(a,button)]:text-sm data-[size=compact]:[&>li>:where(a,button)]:font-medium data-[size=compact]:[&>li>:where(a,button)]:leading-none",
         className,
       )}
       {...props}
@@ -66,7 +66,7 @@ function NavigationMenuItem({
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
       className={cn(
-        "relative grid group-data-[size=compact]:grid group-data-[size=compact]:px-3",
+        "relative grid group-data-[size=compact]:leading-none group-data-[size=compact]:px-3",
         className,
       )}
       {...props}
