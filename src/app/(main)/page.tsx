@@ -76,7 +76,7 @@ export default async function Home() {
   // Prepend Latest Headlines carousel config.
   carouselsData.unshift({
     key: id,
-    header: <>Latest Headlines</>,
+    header: <>Featured Headlines</>,
     featuredPostsNodes,
     postsNodes,
   });
