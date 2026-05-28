@@ -45,9 +45,7 @@ export default async function SegmentHero({
 
   return (
     <HeroHeader image={featuredImage?.node}>
-      <h1 className="text-3xl md:text-4xl font-bold text-balance">
-        {title}
-      </h1>
+      <h1 className="text-3xl md:text-4xl font-bold text-balance">{title}</h1>
       <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
         <div className="grow">
           <div className="flex gap-x-4 text-md/snug">
@@ -63,7 +61,7 @@ export default async function SegmentHero({
           </div>
         </div>
         {!!contributors?.nodes.length && (
-          <div className="flex @max-xl/hero-content:flex-wrap @xl/hero-content:flex-col gap-2">
+          <div className="flex flex-wrap gap-2">
             {contributors.nodes.map((contributor: Contributor) => {
               const { id: key, name, link, contributorDetails } = contributor;
               const { image } = contributorDetails || {};
