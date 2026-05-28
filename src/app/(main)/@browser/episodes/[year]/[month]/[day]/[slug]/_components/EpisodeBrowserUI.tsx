@@ -81,7 +81,7 @@ export default function EpisodeBrowserUI({
     mode: "single",
     showOutsideDays: false,
     captionLayout: "dropdown",
-    startMonth: new Date(2010, 0),
+    startMonth: new Date(2012, 8),
     month: selectedMonth,
     endMonth: today,
     disabled: (d: Date) => !episodes?.has(d.toDateString()),
