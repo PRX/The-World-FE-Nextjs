@@ -22,7 +22,6 @@ import { generateContentLinkHref } from "@/lib/routing/content";
 import { BookmarkIcon } from "lucide-react";
 import { formatDuration } from "@/lib/parse/time";
 import CardCarousel from "./_components/CardCarousel";
-import { DateTime } from "@/components/DateTime";
 import Link from "next/link";
 import { parseMenu } from "@/lib/parse/menu";
 import { Button } from "@/components/ui/button";
@@ -162,7 +161,6 @@ export default async function Home() {
                         const {
                           id,
                           title,
-                          date,
                           link,
                           featuredImage,
                           additionalMedia,
@@ -227,16 +225,6 @@ export default async function Home() {
                                   </Link>
                                 )}
                                 <CardTitle>{title}</CardTitle>
-                                <div className="flex items-center text-md [&>*+*]:before:content-['\2022'] [&>*+*]:before:mx-2">
-                                  <DateTime
-                                    date={date}
-                                    options={{
-                                      year: "numeric",
-                                      month: "short",
-                                      day: "numeric",
-                                    }}
-                                  />
-                                </div>
                               </CardHeader>
                               {audio && (
                                 <CardFooter>
