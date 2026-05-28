@@ -32,7 +32,7 @@ export default async function EpisodeHero({
 
   return (
     <HeroHeader image={featuredImage?.node}>
-      <h1 className="capitalize text-3xl md:text-4xl font-bold text-balance">
+      <h1 className="text-3xl md:text-4xl font-bold text-balance">
         {title}
       </h1>
       <div className="flex gap-x-4 text-md/snug">
