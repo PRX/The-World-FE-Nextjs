@@ -16,7 +16,7 @@ export default async function PeopleHero() {
       classes={{ content: "max-w-none mx-0 md:px-4" }}
     >
       <div className="grid gap-y-4 max-w-3xl text-pretty">
-        <h1 className="flex gap-4 items-center capitalize text-3xl md:text-4xl font-bold text-balance">
+        <h1 className="flex gap-4 items-center text-3xl md:text-4xl font-bold text-balance">
           <UserIcon className="size-9" />
           <span>Content By Person</span>
         </h1>

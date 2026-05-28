@@ -51,7 +51,7 @@ export default async function StoryHero({
 
   return (
     <HeroHeader image={image}>
-      <h1 className="capitalize text-3xl md:text-4xl font-bold text-balance">
+      <h1 className="text-3xl md:text-4xl font-bold text-balance">
         {title}
       </h1>
       <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
