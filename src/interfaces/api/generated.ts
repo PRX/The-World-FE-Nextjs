@@ -14,9 +14,56 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-/** A Field Group registered by ACF */
+/** Connection between the AudioFields_Fields type and the ContentNode type */
+export type AcfContentNodeConnection = Connection & ContentNodeConnection & {
+  __typename?: 'AcfContentNodeConnection';
+  /** Edges for the AcfContentNodeConnection connection */
+  edges: Array<AcfContentNodeConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<ContentNode>;
+  /** Information about pagination in a connection. */
+  pageInfo: AcfContentNodeConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type AcfContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
+  __typename?: 'AcfContentNodeConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: ContentNode;
+};
+
+/** Pagination metadata specific to &quot;AcfContentNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of AcfContentNodeConnection Nodes. */
+export type AcfContentNodeConnectionPageInfo = ContentNodeConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'AcfContentNodeConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** A Field Group managed by ACF */
 export type AcfFieldGroup = {
-  /** The name of the ACF Field Group */
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Fields associated with an ACF Field Group */
+export type AcfFieldGroupFields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
@@ -29,6 +76,231 @@ export type AcfLink = {
   title?: Maybe<Scalars['String']['output']>;
   /** The url of the link */
   url?: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the AdditionalMedia_Fields type and the MediaItem type */
+export type AcfMediaItemConnection = Connection & MediaItemConnection & {
+  __typename?: 'AcfMediaItemConnection';
+  /** Edges for the AcfMediaItemConnection connection */
+  edges: Array<AcfMediaItemConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<MediaItem>;
+  /** Information about pagination in a connection. */
+  pageInfo: AcfMediaItemConnectionPageInfo;
+};
+
+/** Connection between the EpisodeAudio_Fields type and the MediaItem type */
+export type AcfMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & OneToOneConnection & {
+  __typename?: 'AcfMediaItemConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: MediaItem;
+};
+
+/** Pagination metadata specific to &quot;AcfMediaItemConnection&quot; collections. Provides cursors and flags for navigating through sets of AcfMediaItemConnection Nodes. */
+export type AcfMediaItemConnectionPageInfo = MediaItemConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'AcfMediaItemConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the AudioFields_Fields type and the TermNode type */
+export type AcfTermNodeConnection = Connection & TermNodeConnection & {
+  __typename?: 'AcfTermNodeConnection';
+  /** Edges for the AcfTermNodeConnection connection */
+  edges: Array<AcfTermNodeConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<TermNode>;
+  /** Information about pagination in a connection. */
+  pageInfo: AcfTermNodeConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type AcfTermNodeConnectionEdge = Edge & TermNodeConnectionEdge & {
+  __typename?: 'AcfTermNodeConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: TermNode;
+};
+
+/** Pagination metadata specific to &quot;AcfTermNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of AcfTermNodeConnection Nodes. */
+export type AcfTermNodeConnectionPageInfo = PageInfo & TermNodeConnectionPageInfo & WpPageInfo & {
+  __typename?: 'AcfTermNodeConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;AdditionalDates&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AdditionalDates = AcfFieldGroup & AcfFieldGroupFields & AdditionalDates_Fields & {
+  __typename?: 'AdditionalDates';
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;AdditionalDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;date_time_picker&quot; Field Type added to the schema as part of the &quot;AdditionalDates&quot; Field Group (ACF Fields of the &quot;date_time_picker&quot; type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  updatedDate?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;AdditionalDates&quot; Field Group */
+export type AdditionalDates_Fields = {
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;AdditionalDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;date_time_picker&quot; Field Type added to the schema as part of the &quot;AdditionalDates&quot; Field Group (ACF Fields of the &quot;date_time_picker&quot; type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  updatedDate?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;AdditionalMedia&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AdditionalMedia = AcfFieldGroup & AcfFieldGroupFields & AdditionalMedia_Fields & {
+  __typename?: 'AdditionalMedia';
+  /** Field of the &quot;gallery&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  additionalImages?: Maybe<AcfMediaItemConnection>;
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;oembed&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  video?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;AdditionalMedia&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AdditionalMediaAdditionalImagesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;AdditionalMedia&quot; Field Group */
+export type AdditionalMedia_Fields = {
+  /** Field of the &quot;gallery&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  additionalImages?: Maybe<AcfMediaItemConnection>;
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;oembed&quot; Field Type added to the schema as part of the &quot;AdditionalMedia&quot; Field Group */
+  video?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;AdditionalMedia&quot; Field Group */
+export type AdditionalMedia_FieldsAdditionalImagesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;AudioFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AudioFields = AcfFieldGroup & AcfFieldGroupFields & AudioFields_Fields & {
+  __typename?: 'AudioFields';
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  audioTitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  audioType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  program?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  segmentsList?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  transcript?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;AudioFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AudioFieldsProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;AudioFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type AudioFieldsSegmentsListArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;AudioFields&quot; Field Group */
+export type AudioFields_Fields = {
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  audioTitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  audioType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  program?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  segmentsList?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;AudioFields&quot; Field Group */
+  transcript?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;AudioFields&quot; Field Group */
+export type AudioFields_FieldsProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;AudioFields&quot; Field Group */
+export type AudioFields_FieldsSegmentsListArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
@@ -71,7 +343,7 @@ export enum AvatarRatingEnum {
 }
 
 /** Manages the Call To Action custom post type */
-export type CallToAction = ContentNode & DatabaseIdentifier & Node & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type CallToAction = ContentNode & DatabaseIdentifier & Node & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCtaOptions & WithAcfCtaSettings & WithAcfCtaTargeting & {
   __typename?: 'CallToAction';
   /**
    * The ancestors of the content node.
@@ -89,12 +361,12 @@ export type CallToAction = ContentNode & DatabaseIdentifier & Node & NodeWithTem
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** The name of the Content Type the node belongs to */
   contentTypeName: Scalars['String']['output'];
-  /** Fields to configure Call To Action prompts. | Added to the GraphQL Schema because the ACF Field Group &quot;CTA Options&quot; was set to Show in GraphQL. */
-  ctaOptions?: Maybe<CallToAction_Ctaoptions>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;CTA Settings&quot; was set to Show in GraphQL. */
-  ctaSettings?: Maybe<CallToAction_Ctasettings>;
-  /** Fields for targeting CTA&#039;s to content, either directly or by taxonomy. | Added to the GraphQL Schema because the ACF Field Group &quot;CTA Targeting&quot; was set to Show in GraphQL. */
-  ctaTargeting?: Maybe<CallToAction_Ctatargeting>;
+  /** Fields of the CtaOptions ACF Field Group */
+  ctaOptions?: Maybe<CtaOptions>;
+  /** Fields of the CtaSettings ACF Field Group */
+  ctaSettings?: Maybe<CtaSettings>;
+  /** Fields of the CtaTargeting ACF Field Group */
+  ctaTargeting?: Maybe<CtaTargeting>;
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int']['output'];
   /** Post publishing date. */
@@ -306,98 +578,17 @@ export type CallToActionToPreviewConnectionEdge = CallToActionConnectionEdge & E
   node: CallToAction;
 };
 
-/** Field Group */
-export type CallToAction_Ctaoptions = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctaoptions';
-  actions?: Maybe<CallToAction_Ctaoptions_Actions>;
-  content?: Maybe<CallToAction_Ctaoptions_Content>;
-  /**
-   * &lt;p&gt;Select the type of call to action you wish to use.&lt;/p&gt;
-   * &lt;ul&gt;
-   * &lt;li&gt;Informational - General information.&lt;/li&gt;
-   * &lt;li&gt;Donation - Similar to Informational, but will be themed for donating. (Additional donation settings will come later for in app donation form configuration.)
-   * &lt;li&gt;Opt-In - Prompt to opt into something, such as privacy policy. Checkbox will be provided to enable action button when checked.&lt;/li&gt;
-   * &lt;li&gt;Newsletter - Show a newsletter subscription form. Mailing List can be customized from the default Top of The World newsletter list.&lt;/li&gt;
-   * &lt;/ul&gt;
-   */
-  ctaType?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  newsletterSettings?: Maybe<CallToAction_Ctaoptions_NewsletterSettings>;
-  optInSettings?: Maybe<CallToAction_Ctaoptions_OptInSettings>;
-};
-
-/** Field Group */
-export type CallToAction_Ctaoptions_Actions = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctaoptions_Actions';
-  /** Label used in action button. Will override the default label, or create an action button for CTA types that usually do not have an default action. */
-  actionButtonLabel?: Maybe<Scalars['String']['output']>;
-  /** URL the action button should link to. Action button will act as a dismiss button in dismissible regions when no URL is provided. */
-  actionButtonUrl?: Maybe<Scalars['String']['output']>;
-  /** Customize the label of the dismiss button. Dismiss button will only be shown in dismissible regions. */
-  dismissButtonLabel?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type CallToAction_Ctaoptions_Content = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctaoptions_Content';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  heading?: Maybe<Scalars['String']['output']>;
-  message?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type CallToAction_Ctaoptions_NewsletterSettings = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctaoptions_NewsletterSettings';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  /** Select a Newsletter post to have sign up form settings pulled from. If a region wouldn&#039;t support a sign up form, a link to the newsletter page will be provided. */
-  newsletter?: Maybe<CallToAction_Ctaoptions_NewsletterSettings_Newsletter>;
-};
-
-export type CallToAction_Ctaoptions_NewsletterSettings_Newsletter = Newsletter;
-
-/** Field Group */
-export type CallToAction_Ctaoptions_OptInSettings = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctaoptions_OptInSettings';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  optInText?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type CallToAction_Ctasettings = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctasettings';
-  /** Dissed messages use cookies to determine the next time it should be shown to a user. Set the number of minutes the cookie should expire. Default is &#039;0&#039; which expires when the user closes the browser window or tab. */
-  cookieLifespan?: Maybe<Scalars['Float']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type CallToAction_Ctatargeting = AcfFieldGroup & {
-  __typename?: 'CallToAction_Ctatargeting';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  /** Select which categories this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
-  targetCategories?: Maybe<Array<Maybe<Category>>>;
-  targetContent?: Maybe<Array<Maybe<CallToAction_Ctatargeting_TargetContent>>>;
-  /** Select which programs this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
-  targetPrograms?: Maybe<Array<Maybe<Program>>>;
-};
-
-export type CallToAction_Ctatargeting_TargetContent = Episode | Post;
-
 /** A taxonomy term that classifies content. Categories support hierarchy and can be used to create a nested structure. */
-export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
+export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & WithAcfCategoryDetails & WithAcfCategoryEditors & WithAcfCategoryFieldsMigration & WithAcfLandingPage & WithAcfSponsorship & WithAcfTaxonomyImages & WithAcfTeaserFields & {
   __typename?: 'Category';
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Category Editors&quot; was set to Show in GraphQL. */
-  categoryEditors?: Maybe<Category_Categoryeditors>;
+  /** Fields of the CategoryDetails ACF Field Group */
+  categoryDetails?: Maybe<CategoryDetails>;
+  /** Fields of the CategoryEditors ACF Field Group */
+  categoryEditors?: Maybe<CategoryEditors>;
+  /** Fields of the CategoryFieldsMigration ACF Field Group */
+  categoryFieldsMigration?: Maybe<CategoryFieldsMigration>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of databaseId
@@ -435,8 +626,8 @@ export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermN
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Category_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -455,16 +646,16 @@ export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermN
   seo?: Maybe<TaxonomySeo>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Sponsorship&quot; was set to Show in GraphQL. */
-  sponsorship?: Maybe<Category_Sponsorship>;
+  /** Fields of the Sponsorship ACF Field Group */
+  sponsorship?: Maybe<Sponsorship>;
   /** Connection between the Category type and the Taxonomy type */
   taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Category_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Teaser&quot; was set to Show in GraphQL. */
-  teaserFields?: Maybe<Category_Teaserfields>;
+  /** Fields of the TeaserFields ACF Field Group */
+  teaserFields?: Maybe<TeaserFields>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']['output']>;
@@ -581,6 +772,244 @@ export type CategoryConnectionPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CategoryDetails&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryDetails = AcfFieldGroup & AcfFieldGroupFields & CategoryDetails_Fields & {
+  __typename?: 'CategoryDetails';
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;CategoryDetails&quot; Field Group */
+  archiveCategory?: Maybe<Scalars['Boolean']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryDetails&quot; Field Group */
+export type CategoryDetails_Fields = {
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;CategoryDetails&quot; Field Group */
+  archiveCategory?: Maybe<Scalars['Boolean']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CategoryEditors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryEditors = AcfFieldGroup & AcfFieldGroupFields & CategoryEditors_Fields & {
+  __typename?: 'CategoryEditors';
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;CategoryEditors&quot; Field Group */
+  editors?: Maybe<AcfTermNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;CategoryEditors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryEditorsEditorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryEditors&quot; Field Group */
+export type CategoryEditors_Fields = {
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;CategoryEditors&quot; Field Group */
+  editors?: Maybe<AcfTermNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CategoryEditors&quot; Field Group */
+export type CategoryEditors_FieldsEditorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;CategoryFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigration = AcfFieldGroup & AcfFieldGroupFields & CategoryFieldsMigration_Fields & {
+  __typename?: 'CategoryFieldsMigration';
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryBody?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryCategoryDeprecated?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryFeaturedStory?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryImageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryTextTagline?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryFeaturedStories?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryLinksSponsors?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryRefEditor?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryRefEditor>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;CategoryFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCategoryFeaturedStoryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCollectionCategoryFeaturedStories = AcfFieldGroup & AcfFieldGroupFields & CategoryFieldsMigrationCollectionCategoryFeaturedStories_Fields & {
+  __typename?: 'CategoryFieldsMigrationCollectionCategoryFeaturedStories';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group */
+  categoryFeaturedStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCollectionCategoryFeaturedStoriesCategoryFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group */
+export type CategoryFieldsMigrationCollectionCategoryFeaturedStories_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group */
+  categoryFeaturedStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigrationCollectionCategoryFeaturedStories&quot; Field Group */
+export type CategoryFieldsMigrationCollectionCategoryFeaturedStories_FieldsCategoryFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;CategoryFieldsMigrationCollectionCategoryLinksSponsors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCollectionCategoryLinksSponsors = AcfFieldGroup & AcfFieldGroupFields & CategoryFieldsMigrationCollectionCategoryLinksSponsors_Fields & {
+  __typename?: 'CategoryFieldsMigrationCollectionCategoryLinksSponsors';
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryLinksSponsors&quot; Field Group */
+  categoryLinksSponsors?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigrationCollectionCategoryLinksSponsors&quot; Field Group */
+export type CategoryFieldsMigrationCollectionCategoryLinksSponsors_Fields = {
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryLinksSponsors&quot; Field Group */
+  categoryLinksSponsors?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCollectionCategoryRefEditor = AcfFieldGroup & AcfFieldGroupFields & CategoryFieldsMigrationCollectionCategoryRefEditor_Fields & {
+  __typename?: 'CategoryFieldsMigrationCollectionCategoryRefEditor';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group */
+  categoryRefEditor?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CategoryFieldsMigrationCollectionCategoryRefEditorCategoryRefEditorArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group */
+export type CategoryFieldsMigrationCollectionCategoryRefEditor_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group */
+  categoryRefEditor?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigrationCollectionCategoryRefEditor&quot; Field Group */
+export type CategoryFieldsMigrationCollectionCategoryRefEditor_FieldsCategoryRefEditorArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigration&quot; Field Group */
+export type CategoryFieldsMigration_Fields = {
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryBody?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryCategoryDeprecated?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryFeaturedStory?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryImageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  categoryTextTagline?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryFeaturedStories?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryLinksSponsors?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;CategoryFieldsMigration&quot; Field Group */
+  collectionCategoryRefEditor?: Maybe<Array<Maybe<CategoryFieldsMigrationCollectionCategoryRefEditor>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CategoryFieldsMigration&quot; Field Group */
+export type CategoryFieldsMigration_FieldsCategoryFeaturedStoryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Identifier types for retrieving a specific Category. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the Category. */
@@ -1107,59 +1536,8 @@ export type CategoryToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxon
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Category_Categoryeditors = AcfFieldGroup & {
-  __typename?: 'Category_Categoryeditors';
-  editors?: Maybe<Array<Maybe<Contributor>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Category_Landingpage = AcfFieldGroup & {
-  __typename?: 'Category_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Category_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Category_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Category_Sponsorship = AcfFieldGroup & {
-  __typename?: 'Category_Sponsorship';
-  collectionSponsorLinks?: Maybe<Array<Maybe<Category_Sponsorship_CollectionSponsorLinks>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Category_Sponsorship_CollectionSponsorLinks = AcfFieldGroup & {
-  __typename?: 'Category_Sponsorship_collectionSponsorLinks';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  sponsorLinks?: Maybe<AcfLink>;
-};
-
-/** Field Group */
-export type Category_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Category_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
-/** Field Group */
-export type Category_Teaserfields = AcfFieldGroup & {
-  __typename?: 'Category_Teaserfields';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  teaser?: Maybe<Scalars['String']['output']>;
-};
-
 /** The city type */
-export type City = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type City = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'City';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -1196,8 +1574,8 @@ export type City = DatabaseIdentifier & Node & TermNode & UniformResourceIdentif
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<City_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -1214,8 +1592,8 @@ export type City = DatabaseIdentifier & Node & TermNode & UniformResourceIdentif
   stations?: Maybe<CityToStationConnection>;
   /** Connection between the City type and the Taxonomy type */
   taxonomy?: Maybe<CityToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<City_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -1799,25 +2177,6 @@ export type CityToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyC
   cursor?: Maybe<Scalars['String']['output']>;
   /** The node of the connection, without the edges */
   node: Taxonomy;
-};
-
-/** Field Group */
-export type City_Landingpage = AcfFieldGroup & {
-  __typename?: 'City_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<City_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type City_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type City_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'City_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
 };
 
 /** A response or reaction to content submitted by users. Comments are typically associated with a specific content entry. */
@@ -3021,7 +3380,7 @@ export enum ContentTypesOfTagEnum {
 }
 
 /** The continent type */
-export type Continent = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type Continent = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Continent';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -3058,8 +3417,8 @@ export type Continent = DatabaseIdentifier & Node & TermNode & UniformResourceId
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Continent_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -3074,8 +3433,8 @@ export type Continent = DatabaseIdentifier & Node & TermNode & UniformResourceId
   slug?: Maybe<Scalars['String']['output']>;
   /** Connection between the Continent type and the Taxonomy type */
   taxonomy?: Maybe<ContinentToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Continent_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -3578,41 +3937,22 @@ export type ContinentToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxo
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Continent_Landingpage = AcfFieldGroup & {
-  __typename?: 'Continent_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Continent_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Continent_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Continent_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Continent_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
 /** Biographical details of folks that work on content. */
-export type Contributor = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
+export type Contributor = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & WithAcfContributorDetails & WithAcfContributorSocialLinks & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Contributor';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
   /** Connection between the Contributor type and the ContentNode type */
   contentNodes?: Maybe<ContributorToContentNodeConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Contributor Details&quot; was set to Show in GraphQL. */
-  contributorDetails?: Maybe<Contributor_Contributordetails>;
+  /** Fields of the ContributorDetails ACF Field Group */
+  contributorDetails?: Maybe<ContributorDetails>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of databaseId
    */
   contributorId?: Maybe<Scalars['Int']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Contributor Social Links&quot; was set to Show in GraphQL. */
-  contributorSocialLinks?: Maybe<Contributor_Contributorsociallinks>;
+  /** Fields of the ContributorSocialLinks ACF Field Group */
+  contributorSocialLinks?: Maybe<ContributorSocialLinks>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']['output']>;
   /** The unique identifier stored in the database */
@@ -3639,8 +3979,8 @@ export type Contributor = DatabaseIdentifier & MenuItemLinkable & Node & TermNod
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Contributor_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** Connection between the Contributor type and the mediaItem type */
@@ -3657,8 +3997,8 @@ export type Contributor = DatabaseIdentifier & MenuItemLinkable & Node & TermNod
   slug?: Maybe<Scalars['String']['output']>;
   /** Connection between the Contributor type and the Taxonomy type */
   taxonomy?: Maybe<ContributorToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Contributor_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -3770,6 +4110,67 @@ export type ContributorConnectionPageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** The &quot;ContributorDetails&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ContributorDetails = AcfFieldGroup & AcfFieldGroupFields & ContributorDetails_Fields & {
+  __typename?: 'ContributorDetails';
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  bio?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  program?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;ContributorDetails&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ContributorDetailsProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ContributorDetails&quot; Field Group */
+export type ContributorDetails_Fields = {
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  bio?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  program?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;ContributorDetails&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ContributorDetails&quot; Field Group */
+export type ContributorDetails_FieldsProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** Identifier types for retrieving a specific Contributor. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the Contributor. */
 export enum ContributorIdType {
   /** The Database ID for the node */
@@ -3783,6 +4184,65 @@ export enum ContributorIdType {
   /** The URI for the node */
   Uri = 'URI'
 }
+
+/** The &quot;ContributorSocialLinks&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ContributorSocialLinks = AcfFieldGroup & AcfFieldGroupFields & ContributorSocialLinks_Fields & {
+  __typename?: 'ContributorSocialLinks';
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  blog?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;email&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  email?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  facebook?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  instagram?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  podcast?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  rss?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  tiktok?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  tumblr?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  twitter?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  website?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;ContributorSocialLinks&quot; Field Group */
+export type ContributorSocialLinks_Fields = {
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  blog?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;email&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  email?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  facebook?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  instagram?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  podcast?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  rss?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  tiktok?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  tumblr?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  twitter?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;ContributorSocialLinks&quot; Field Group */
+  website?: Maybe<Scalars['String']['output']>;
+};
 
 /** Connection between the Contributor type and the ContentNode type */
 export type ContributorToContentNodeConnection = Connection & ContentNodeConnection & {
@@ -4252,57 +4712,8 @@ export type ContributorToTaxonomyConnectionEdge = Edge & OneToOneConnection & Ta
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Contributor_Contributordetails = AcfFieldGroup & {
-  __typename?: 'Contributor_Contributordetails';
-  bio?: Maybe<Scalars['String']['output']>;
-  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  image?: Maybe<MediaItem>;
-  position?: Maybe<Scalars['String']['output']>;
-  program?: Maybe<Array<Maybe<Program>>>;
-  teaser?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Contributor_Contributorsociallinks = AcfFieldGroup & {
-  __typename?: 'Contributor_Contributorsociallinks';
-  blog?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  facebook?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  instagram?: Maybe<Scalars['String']['output']>;
-  podcast?: Maybe<Scalars['String']['output']>;
-  rss?: Maybe<Scalars['String']['output']>;
-  tiktok?: Maybe<Scalars['String']['output']>;
-  tumblr?: Maybe<Scalars['String']['output']>;
-  twitter?: Maybe<Scalars['String']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Contributor_Landingpage = AcfFieldGroup & {
-  __typename?: 'Contributor_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Contributor_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Contributor_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Contributor_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Contributor_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
 /** The country type */
-export type Country = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type Country = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Country';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -4339,8 +4750,8 @@ export type Country = DatabaseIdentifier & Node & TermNode & UniformResourceIden
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Country_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -4357,8 +4768,8 @@ export type Country = DatabaseIdentifier & Node & TermNode & UniformResourceIden
   stations?: Maybe<CountryToStationConnection>;
   /** Connection between the Country type and the Taxonomy type */
   taxonomy?: Maybe<CountryToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Country_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -4942,25 +5353,6 @@ export type CountryToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxono
   cursor?: Maybe<Scalars['String']['output']>;
   /** The node of the connection, without the edges */
   node: Taxonomy;
-};
-
-/** Field Group */
-export type Country_Landingpage = AcfFieldGroup & {
-  __typename?: 'Country_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Country_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Country_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Country_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Country_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
 };
 
 /** Input for the createCallToAction mutation. */
@@ -5794,8 +6186,185 @@ export type CreateUserPayload = {
   user?: Maybe<User>;
 };
 
+/** The &quot;CtaOptions&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptions = AcfFieldGroup & AcfFieldGroupFields & CtaOptions_Fields & {
+  __typename?: 'CtaOptions';
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  actions?: Maybe<CtaOptionsActions>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  content?: Maybe<CtaOptionsContent>;
+  /**
+   * &lt;p&gt;Select the type of call to action you wish to use.&lt;/p&gt;
+   * &lt;ul&gt;
+   * &lt;li&gt;Informational - General information.&lt;/li&gt;
+   * &lt;li&gt;Donation - Similar to Informational, but will be themed for donating. (Additional donation settings will come later for in app donation form configuration.)
+   * &lt;li&gt;Opt-In - Prompt to opt into something, such as privacy policy. Checkbox will be provided to enable action button when checked.&lt;/li&gt;
+   * &lt;li&gt;Newsletter - Show a newsletter subscription form. Mailing List can be customized from the default Top of The World newsletter list.&lt;/li&gt;
+   * &lt;/ul&gt;
+   */
+  ctaType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  newsletterSettings?: Maybe<CtaOptionsNewsletterSettings>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  optInSettings?: Maybe<CtaOptionsOptInSettings>;
+};
+
+/** The &quot;CtaOptionsActions&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptionsActions = AcfFieldGroup & AcfFieldGroupFields & CtaOptionsActions_Fields & {
+  __typename?: 'CtaOptionsActions';
+  /** Label used in action button. Will override the default label, or create an action button for CTA types that usually do not have an default action. */
+  actionButtonLabel?: Maybe<Scalars['String']['output']>;
+  /** URL the action button should link to. Action button will act as a dismiss button in dismissible regions when no URL is provided. */
+  actionButtonUrl?: Maybe<Scalars['String']['output']>;
+  /** Customize the label of the dismiss button. Dismiss button will only be shown in dismissible regions. */
+  dismissButtonLabel?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaOptionsActions&quot; Field Group */
+export type CtaOptionsActions_Fields = {
+  /** Label used in action button. Will override the default label, or create an action button for CTA types that usually do not have an default action. */
+  actionButtonLabel?: Maybe<Scalars['String']['output']>;
+  /** URL the action button should link to. Action button will act as a dismiss button in dismissible regions when no URL is provided. */
+  actionButtonUrl?: Maybe<Scalars['String']['output']>;
+  /** Customize the label of the dismiss button. Dismiss button will only be shown in dismissible regions. */
+  dismissButtonLabel?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CtaOptionsContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptionsContent = AcfFieldGroup & AcfFieldGroupFields & CtaOptionsContent_Fields & {
+  __typename?: 'CtaOptionsContent';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;CtaOptionsContent&quot; Field Group */
+  heading?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CtaOptionsContent&quot; Field Group */
+  message?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaOptionsContent&quot; Field Group */
+export type CtaOptionsContent_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;CtaOptionsContent&quot; Field Group */
+  heading?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CtaOptionsContent&quot; Field Group */
+  message?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CtaOptionsNewsletterSettings&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptionsNewsletterSettings = AcfFieldGroup & AcfFieldGroupFields & CtaOptionsNewsletterSettings_Fields & {
+  __typename?: 'CtaOptionsNewsletterSettings';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Select a Newsletter post to have sign up form settings pulled from. If a region wouldn&#039;t support a sign up form, a link to the newsletter page will be provided. */
+  newsletter?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** The &quot;CtaOptionsNewsletterSettings&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptionsNewsletterSettingsNewsletterArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaOptionsNewsletterSettings&quot; Field Group */
+export type CtaOptionsNewsletterSettings_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Select a Newsletter post to have sign up form settings pulled from. If a region wouldn&#039;t support a sign up form, a link to the newsletter page will be provided. */
+  newsletter?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CtaOptionsNewsletterSettings&quot; Field Group */
+export type CtaOptionsNewsletterSettings_FieldsNewsletterArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;CtaOptionsOptInSettings&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaOptionsOptInSettings = AcfFieldGroup & AcfFieldGroupFields & CtaOptionsOptInSettings_Fields & {
+  __typename?: 'CtaOptionsOptInSettings';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CtaOptionsOptInSettings&quot; Field Group */
+  optInText?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaOptionsOptInSettings&quot; Field Group */
+export type CtaOptionsOptInSettings_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;CtaOptionsOptInSettings&quot; Field Group */
+  optInText?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaOptions&quot; Field Group */
+export type CtaOptions_Fields = {
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  actions?: Maybe<CtaOptionsActions>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  content?: Maybe<CtaOptionsContent>;
+  /**
+   * &lt;p&gt;Select the type of call to action you wish to use.&lt;/p&gt;
+   * &lt;ul&gt;
+   * &lt;li&gt;Informational - General information.&lt;/li&gt;
+   * &lt;li&gt;Donation - Similar to Informational, but will be themed for donating. (Additional donation settings will come later for in app donation form configuration.)
+   * &lt;li&gt;Opt-In - Prompt to opt into something, such as privacy policy. Checkbox will be provided to enable action button when checked.&lt;/li&gt;
+   * &lt;li&gt;Newsletter - Show a newsletter subscription form. Mailing List can be customized from the default Top of The World newsletter list.&lt;/li&gt;
+   * &lt;/ul&gt;
+   */
+  ctaType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  newsletterSettings?: Maybe<CtaOptionsNewsletterSettings>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;CtaOptions&quot; Field Group */
+  optInSettings?: Maybe<CtaOptionsOptInSettings>;
+};
+
 /** Manages the CTA Region custom post type */
-export type CtaRegion = ContentNode & DatabaseIdentifier & Node & NodeWithExcerpt & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type CtaRegion = ContentNode & DatabaseIdentifier & Node & NodeWithExcerpt & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCtaRegionContent & {
   __typename?: 'CtaRegion';
   /**
    * The ancestors of the content node.
@@ -5808,8 +6377,8 @@ export type CtaRegion = ContentNode & DatabaseIdentifier & Node & NodeWithExcerp
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** The name of the Content Type the node belongs to */
   contentTypeName: Scalars['String']['output'];
-  /** Fields to define CTA Region content. | Added to the GraphQL Schema because the ACF Field Group &quot;CTA Region Content&quot; was set to Show in GraphQL. */
-  ctaRegionContent?: Maybe<CtaRegion_Ctaregioncontent>;
+  /** Fields of the CtaRegionContent ACF Field Group */
+  ctaRegionContent?: Maybe<CtaRegionContent>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -5982,6 +6551,47 @@ export type CtaRegionConnectionPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CtaRegionContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaRegionContent = AcfFieldGroup & AcfFieldGroupFields & CtaRegionContent_Fields & {
+  __typename?: 'CtaRegionContent';
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;CtaRegionContent&quot; Field Group */
+  callToActions?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;CtaRegionContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaRegionContentCallToActionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaRegionContent&quot; Field Group */
+export type CtaRegionContent_Fields = {
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;CtaRegionContent&quot; Field Group */
+  callToActions?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CtaRegionContent&quot; Field Group */
+export type CtaRegionContent_FieldsCallToActionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Set relationships between the ctaRegion to ctaRegionTypes */
@@ -6540,15 +7150,113 @@ export type CtaRegionTypeToTaxonomyConnectionEdge = Edge & OneToOneConnection & 
   node: Taxonomy;
 };
 
-/** Field Group */
-export type CtaRegion_Ctaregioncontent = AcfFieldGroup & {
-  __typename?: 'CtaRegion_Ctaregioncontent';
-  callToActions?: Maybe<Array<Maybe<CtaRegion_Ctaregioncontent_CallToActions>>>;
-  /** The name of the ACF Field Group */
+/** The &quot;CtaSettings&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaSettings = AcfFieldGroup & AcfFieldGroupFields & CtaSettings_Fields & {
+  __typename?: 'CtaSettings';
+  /** Dissed messages use cookies to determine the next time it should be shown to a user. Set the number of minutes the cookie should expire. Default is &#039;0&#039; which expires when the user closes the browser window or tab. */
+  cookieLifespan?: Maybe<Scalars['Float']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
-export type CtaRegion_Ctaregioncontent_CallToActions = CallToAction;
+/** Interface representing fields of the ACF &quot;CtaSettings&quot; Field Group */
+export type CtaSettings_Fields = {
+  /** Dissed messages use cookies to determine the next time it should be shown to a user. Set the number of minutes the cookie should expire. Default is &#039;0&#039; which expires when the user closes the browser window or tab. */
+  cookieLifespan?: Maybe<Scalars['Float']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;CtaTargeting&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaTargeting = AcfFieldGroup & AcfFieldGroupFields & CtaTargeting_Fields & {
+  __typename?: 'CtaTargeting';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Select which categories this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
+  targetCategories?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;CtaTargeting&quot; Field Group */
+  targetContent?: Maybe<AcfContentNodeConnection>;
+  /** Select which programs this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
+  targetPrograms?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** The &quot;CtaTargeting&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaTargetingTargetCategoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;CtaTargeting&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaTargetingTargetContentArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;CtaTargeting&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type CtaTargetingTargetProgramsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;CtaTargeting&quot; Field Group */
+export type CtaTargeting_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Select which categories this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
+  targetCategories?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;CtaTargeting&quot; Field Group */
+  targetContent?: Maybe<AcfContentNodeConnection>;
+  /** Select which programs this CTA should appear on. CTA will be shown on the terms&#039; landing pages, and content tagged by these terms. */
+  targetPrograms?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CtaTargeting&quot; Field Group */
+export type CtaTargeting_FieldsTargetCategoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CtaTargeting&quot; Field Group */
+export type CtaTargeting_FieldsTargetContentArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;CtaTargeting&quot; Field Group */
+export type CtaTargeting_FieldsTargetProgramsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** An object that has a unique numeric identifier in the database. Provides consistent access to the database ID across different object types. */
 export type DatabaseIdentifier = {
@@ -7352,7 +8060,7 @@ export type EnqueuedStylesheetConnectionPageInfo = {
 };
 
 /** Manages the Episode custom post type */
-export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfEpisodeAudio & WithAcfEpisodeContent & WithAcfEpisodeContributors & WithAcfEpisodeDates & WithAcfPodcastMetadata & WithAcfTeaserFields & {
   __typename?: 'Episode';
   /**
    * The ancestors of the content node.
@@ -7399,14 +8107,14 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
   /** Connection between the ContentNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Episode Audio&quot; was set to Show in GraphQL. */
-  episodeAudio?: Maybe<Episode_Episodeaudio>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Episode Content&quot; was set to Show in GraphQL. */
-  episodeContent?: Maybe<Episode_Episodecontent>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Episode Contributors&quot; was set to Show in GraphQL. */
-  episodeContributors?: Maybe<Episode_Episodecontributors>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Episode Dates&quot; was set to Show in GraphQL. */
-  episodeDates?: Maybe<Episode_Episodedates>;
+  /** Fields of the EpisodeAudio ACF Field Group */
+  episodeAudio?: Maybe<EpisodeAudio>;
+  /** Fields of the EpisodeContent ACF Field Group */
+  episodeContent?: Maybe<EpisodeContent>;
+  /** Fields of the EpisodeContributors ACF Field Group */
+  episodeContributors?: Maybe<EpisodeContributors>;
+  /** Fields of the EpisodeDates ACF Field Group */
+  episodeDates?: Maybe<EpisodeDates>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -7457,8 +8165,8 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   password?: Maybe<Scalars['String']['output']>;
   /** Connection between the Episode type and the person type */
   people?: Maybe<EpisodeToPersonConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Podcast Metadata&quot; was set to Show in GraphQL. */
-  podcastMetadata?: Maybe<Episode_Podcastmetadata>;
+  /** Fields of the PodcastMetadata ACF Field Group */
+  podcastMetadata?: Maybe<PodcastMetadata>;
   /** Connection between the episode type and the episode type */
   preview?: Maybe<EpisodeToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -7485,8 +8193,8 @@ export type Episode = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   status?: Maybe<Scalars['String']['output']>;
   /** Connection between the Episode type and the tag type */
   tags?: Maybe<EpisodeToTagConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Teaser&quot; was set to Show in GraphQL. */
-  teaserFields?: Maybe<Episode_Teaserfields>;
+  /** Fields of the TeaserFields ACF Field Group */
+  teaserFields?: Maybe<TeaserFields>;
   /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -7673,6 +8381,29 @@ export type EpisodeTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
+/** The &quot;EpisodeAudio&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeAudio = AcfFieldGroup & AcfFieldGroupFields & EpisodeAudio_Fields & {
+  __typename?: 'EpisodeAudio';
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;EpisodeAudio&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EpisodeAudio&quot; Field Group */
+export type EpisodeAudio_Fields = {
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;EpisodeAudio&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
 /** Set relationships between the episode to categories */
 export type EpisodeCategoriesInput = {
   /** If true, this will append the category to existing related categories. If false, this will replace existing relationships. Default true. */
@@ -7745,6 +8476,74 @@ export type EpisodeConnectionPageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** The &quot;EpisodeContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContent = AcfFieldGroup & AcfFieldGroupFields & EpisodeContent_Fields & {
+  __typename?: 'EpisodeContent';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;EpisodeContent&quot; Field Group */
+  relatedStories?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EpisodeContent&quot; Field Group */
+  spotifyPlaylists?: Maybe<Array<Maybe<EpisodeContentSpotifyPlaylists>>>;
+};
+
+
+/** The &quot;EpisodeContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContentRelatedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;EpisodeContentSpotifyPlaylists&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContentSpotifyPlaylists = AcfFieldGroup & AcfFieldGroupFields & EpisodeContentSpotifyPlaylists_Fields & {
+  __typename?: 'EpisodeContentSpotifyPlaylists';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;EpisodeContentSpotifyPlaylists&quot; Field Group */
+  spotifyPlaylist?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EpisodeContentSpotifyPlaylists&quot; Field Group */
+export type EpisodeContentSpotifyPlaylists_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;EpisodeContentSpotifyPlaylists&quot; Field Group */
+  spotifyPlaylist?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EpisodeContent&quot; Field Group */
+export type EpisodeContent_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;EpisodeContent&quot; Field Group */
+  relatedStories?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EpisodeContent&quot; Field Group */
+  spotifyPlaylists?: Maybe<Array<Maybe<EpisodeContentSpotifyPlaylists>>>;
+};
+
+
+/** Interface representing fields of the ACF &quot;EpisodeContent&quot; Field Group */
+export type EpisodeContent_FieldsRelatedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** Set relationships between the episode to continents */
 export type EpisodeContinentsInput = {
   /** If true, this will append the continent to existing related continents. If false, this will replace existing relationships. Default true. */
@@ -7763,6 +8562,60 @@ export type EpisodeContinentsNodeInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** The slug of the continent. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The &quot;EpisodeContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContributors = AcfFieldGroup & AcfFieldGroupFields & EpisodeContributors_Fields & {
+  __typename?: 'EpisodeContributors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  guests?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  hosts?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  producers?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  reporters?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** The &quot;EpisodeContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContributorsGuestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;EpisodeContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContributorsHostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;EpisodeContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContributorsProducersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;EpisodeContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeContributorsReportersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Set relationships between the episode to contributors */
@@ -7785,6 +8638,59 @@ export type EpisodeContributorsNodeInput = {
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Interface representing fields of the ACF &quot;EpisodeContributors&quot; Field Group */
+export type EpisodeContributors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  guests?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  hosts?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  producers?: Maybe<AcfTermNodeConnection>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;EpisodeContributors&quot; Field Group */
+  reporters?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;EpisodeContributors&quot; Field Group */
+export type EpisodeContributors_FieldsGuestsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;EpisodeContributors&quot; Field Group */
+export type EpisodeContributors_FieldsHostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;EpisodeContributors&quot; Field Group */
+export type EpisodeContributors_FieldsProducersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;EpisodeContributors&quot; Field Group */
+export type EpisodeContributors_FieldsReportersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** Set relationships between the episode to countries */
 export type EpisodeCountriesInput = {
   /** If true, this will append the country to existing related countries. If false, this will replace existing relationships. Default true. */
@@ -7803,6 +8709,29 @@ export type EpisodeCountriesNodeInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** The slug of the country. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The &quot;EpisodeDates&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EpisodeDates = AcfFieldGroup & AcfFieldGroupFields & EpisodeDates_Fields & {
+  __typename?: 'EpisodeDates';
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;EpisodeDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EpisodeDates&quot; Field Group */
+export type EpisodeDates_Fields = {
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;EpisodeDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
 /** Identifier types for retrieving a specific Episode. Specifies which unique attribute is used to find an exact Episode. */
@@ -9072,71 +10001,6 @@ export type EpisodeToTermNodeConnectionWhereArgs = {
   updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Field Group */
-export type Episode_Episodeaudio = AcfFieldGroup & {
-  __typename?: 'Episode_Episodeaudio';
-  audio?: Maybe<MediaItem>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Episode_Episodecontent = AcfFieldGroup & {
-  __typename?: 'Episode_Episodecontent';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  relatedStories?: Maybe<Array<Maybe<Episode_Episodecontent_RelatedStories>>>;
-  spotifyPlaylists?: Maybe<Array<Maybe<Episode_Episodecontent_SpotifyPlaylists>>>;
-};
-
-export type Episode_Episodecontent_RelatedStories = Post;
-
-/** Field Group */
-export type Episode_Episodecontent_SpotifyPlaylists = AcfFieldGroup & {
-  __typename?: 'Episode_Episodecontent_spotifyPlaylists';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  spotifyPlaylist?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Episode_Episodecontributors = AcfFieldGroup & {
-  __typename?: 'Episode_Episodecontributors';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  guests?: Maybe<Array<Maybe<Contributor>>>;
-  hosts?: Maybe<Array<Maybe<Contributor>>>;
-  producers?: Maybe<Array<Maybe<Contributor>>>;
-  reporters?: Maybe<Array<Maybe<Contributor>>>;
-};
-
-/** Field Group */
-export type Episode_Episodedates = AcfFieldGroup & {
-  __typename?: 'Episode_Episodedates';
-  broadcastDate?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Episode_Podcastmetadata = AcfFieldGroup & {
-  __typename?: 'Episode_Podcastmetadata';
-  audioExplicit?: Maybe<Scalars['String']['output']>;
-  episodeNumber?: Maybe<Scalars['String']['output']>;
-  episodeType?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  season?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Episode_Teaserfields = AcfFieldGroup & {
-  __typename?: 'Episode_Teaserfields';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  teaser?: Maybe<Scalars['String']['output']>;
-};
-
 /** The general setting type */
 export type GeneralSettings = {
   __typename?: 'GeneralSettings';
@@ -9563,6 +10427,82 @@ export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** The &quot;ImageFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ImageFields = AcfFieldGroup & AcfFieldGroupFields & ImageFields_Fields & {
+  __typename?: 'ImageFields';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
+  hideImage?: Maybe<Scalars['Boolean']['output']>;
+  /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
+  imageTitle?: Maybe<Scalars['String']['output']>;
+  /** Give credit when credit is due. See image usage agreement for required credit text format. */
+  mediaCredit?: Maybe<Scalars['String']['output']>;
+  /** Provide link back to source as required by image usage agreement. */
+  mediaCreditUrl?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;ImageFields&quot; Field Group */
+export type ImageFields_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
+  hideImage?: Maybe<Scalars['Boolean']['output']>;
+  /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
+  imageTitle?: Maybe<Scalars['String']['output']>;
+  /** Give credit when credit is due. See image usage agreement for required credit text format. */
+  mediaCredit?: Maybe<Scalars['String']['output']>;
+  /** Provide link back to source as required by image usage agreement. */
+  mediaCreditUrl?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;LandingPage&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type LandingPage = AcfFieldGroup & AcfFieldGroupFields & LandingPage_Fields & {
+  __typename?: 'LandingPage';
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;LandingPage&quot; Field Group */
+  featuredPosts?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;LandingPage&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type LandingPageFeaturedPostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;LandingPage&quot; Field Group */
+export type LandingPage_Fields = {
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;LandingPage&quot; Field Group */
+  featuredPosts?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;LandingPage&quot; Field Group */
+export type LandingPage_FieldsFeaturedPostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** The license type */
 export type License = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'License';
@@ -9896,14 +10836,14 @@ export type MediaDetailsSizesArgs = {
 };
 
 /** Represents uploaded media, including images, videos, documents, and audio files. */
-export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & Node & NodeWithAuthor & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
+export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & Node & NodeWithAuthor & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & WithAcfAudioFields & WithAcfImageFields & {
   __typename?: 'MediaItem';
   /** Alternative text to display when resource is not displayed */
   altText?: Maybe<Scalars['String']['output']>;
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Audio Fields&quot; was set to Show in GraphQL. */
-  audioFields?: Maybe<MediaItem_Audiofields>;
+  /** Fields of the AudioFields ACF Field Group */
+  audioFields?: Maybe<AudioFields>;
   /** Connection between the NodeWithAuthor type and the User type */
   author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
   /** The database identifier of the author of the node */
@@ -9954,8 +10894,8 @@ export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNo
   hasPassword?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the attachment object. */
   id: Scalars['ID']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Image Fields&quot; was set to Show in GraphQL. */
-  imageFields?: Maybe<MediaItem_Imagefields>;
+  /** Fields of the ImageFields ACF Field Group */
+  imageFields?: Maybe<ImageFields>;
   /** Whether the node is a Comment */
   isComment: Scalars['Boolean']['output'];
   /** Whether the node is a Content Node */
@@ -10494,36 +11434,6 @@ export type MediaItemToTermNodeConnectionWhereArgs = {
   termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Field Group */
-export type MediaItem_Audiofields = AcfFieldGroup & {
-  __typename?: 'MediaItem_Audiofields';
-  audioTitle?: Maybe<Scalars['String']['output']>;
-  audioType?: Maybe<Scalars['String']['output']>;
-  broadcastDate?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  program?: Maybe<Array<Maybe<Program>>>;
-  segmentsList?: Maybe<Array<Maybe<MediaItem_Audiofields_SegmentsList>>>;
-  transcript?: Maybe<Scalars['String']['output']>;
-};
-
-export type MediaItem_Audiofields_SegmentsList = Segment;
-
-/** Field Group */
-export type MediaItem_Imagefields = AcfFieldGroup & {
-  __typename?: 'MediaItem_Imagefields';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
-  hideImage?: Maybe<Scalars['Boolean']['output']>;
-  /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
-  imageTitle?: Maybe<Scalars['String']['output']>;
-  /** Give credit when credit is due. See image usage agreement for required credit text format. */
-  mediaCredit?: Maybe<Scalars['String']['output']>;
-  /** Provide link back to source as required by image usage agreement. */
-  mediaCreditUrl?: Maybe<Scalars['String']['output']>;
 };
 
 /** Details of an available size for a media item */
@@ -11089,7 +11999,7 @@ export enum MimeTypeEnum {
 }
 
 /** Manages the Newsletter custom post type */
-export type Newsletter = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Newsletter = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfNewsletterOptions & {
   __typename?: 'Newsletter';
   /**
    * The ancestors of the content node.
@@ -11161,8 +12071,8 @@ export type Newsletter = ContentNode & DatabaseIdentifier & MenuItemLinkable & N
    * @deprecated Deprecated in favor of the databaseId field
    */
   newsletterId: Scalars['Int']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Newsletter Options&quot; was set to Show in GraphQL. */
-  newsletterOptions?: Maybe<Newsletter_Newsletteroptions>;
+  /** Fields of the NewsletterOptions ACF Field Group */
+  newsletterOptions?: Maybe<NewsletterOptions>;
   /**
    * The parent of the content node.
    * @deprecated This content type is not hierarchical and typically will not have a parent
@@ -11280,6 +12190,37 @@ export enum NewsletterIdType {
   Uri = 'URI'
 }
 
+/** The &quot;NewsletterOptions&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type NewsletterOptions = AcfFieldGroup & AcfFieldGroupFields & NewsletterOptions_Fields & {
+  __typename?: 'NewsletterOptions';
+  /** Text to use in sign up form&#039;s submit button. */
+  buttonLabel?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** To get the ID of the list, in CM, go to &lt;b&gt;Lists &amp; Subscribers&lt;/b&gt;, choose the list you want and click on &lt;b&gt;change name/type&lt;/b&gt;. */
+  listId?: Maybe<Scalars['String']['output']>;
+  /** Text to use as the label next to opt-in checkbox. Should include conformation of accepting privacy terms and include a link to a privacy policy page. */
+  optInText?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;NewsletterOptions&quot; Field Group */
+export type NewsletterOptions_Fields = {
+  /** Text to use in sign up form&#039;s submit button. */
+  buttonLabel?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** To get the ID of the list, in CM, go to &lt;b&gt;Lists &amp; Subscribers&lt;/b&gt;, choose the list you want and click on &lt;b&gt;change name/type&lt;/b&gt;. */
+  listId?: Maybe<Scalars['String']['output']>;
+  /** Text to use as the label next to opt-in checkbox. Should include conformation of accepting privacy terms and include a link to a privacy policy page. */
+  optInText?: Maybe<Scalars['String']['output']>;
+};
+
 /** Connection between the newsletter type and the newsletter type */
 export type NewsletterToNewsletterConnection = Connection & NewsletterConnection & {
   __typename?: 'NewsletterToNewsletterConnection';
@@ -11340,19 +12281,6 @@ export type NewsletterToPreviewConnectionEdge = Edge & NewsletterConnectionEdge 
   cursor?: Maybe<Scalars['String']['output']>;
   /** The node of the connection, without the edges */
   node: Newsletter;
-};
-
-/** Field Group */
-export type Newsletter_Newsletteroptions = AcfFieldGroup & {
-  __typename?: 'Newsletter_Newsletteroptions';
-  /** Text to use in sign up form&#039;s submit button. */
-  buttonLabel?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  /** To get the ID of the list, in CM, go to &lt;b&gt;Lists &amp; Subscribers&lt;/b&gt;, choose the list you want and click on &lt;b&gt;change name/type&lt;/b&gt;. */
-  listId?: Maybe<Scalars['String']['output']>;
-  /** Text to use as the label next to opt-in checkbox. Should include conformation of accepting privacy terms and include a link to a privacy policy page. */
-  optInText?: Maybe<Scalars['String']['output']>;
 };
 
 /** An object with a globally unique identifier. All objects that can be identified by a unique ID implement this interface. */
@@ -11499,7 +12427,7 @@ export enum OrderEnum {
 }
 
 /** A standalone content entry generally used for static, non-chronological content such as &quot;About Us&quot; or &quot;Contact&quot; pages. */
-export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfPageFields & WithAcfPageFieldsMigration & {
   __typename?: 'Page';
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
@@ -11575,6 +12503,10 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
+  /** Fields of the PageFields ACF Field Group */
+  pageFields?: Maybe<PageFields>;
+  /** Fields of the PageFieldsMigration ACF Field Group */
+  pageFieldsMigration?: Maybe<PageFieldsMigration>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -11705,6 +12637,60 @@ export type PageConnectionPageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** The &quot;PageFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PageFields = AcfFieldGroup & AcfFieldGroupFields & PageFields_Fields & {
+  __typename?: 'PageFields';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PageFields&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PageFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;PageFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PageFieldsMigration = AcfFieldGroup & AcfFieldGroupFields & PageFieldsMigration_Fields & {
+  __typename?: 'PageFieldsMigration';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PageFieldsMigration&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PageFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;PageFieldsMigration&quot; Field Group */
+export type PageFieldsMigration_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PageFieldsMigration&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PageFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;PageFields&quot; Field Group */
+export type PageFields_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PageFields&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PageFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
 /** Identifier types for retrieving a specific Page. Specifies which unique attribute is used to find an exact Page. */
 export enum PageIdType {
   /** Identify a resource by the Database ID. */
@@ -11818,7 +12804,7 @@ export type PageToRevisionConnectionWhereArgs = {
 };
 
 /** The person type */
-export type Person = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type Person = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Person';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -11850,8 +12836,8 @@ export type Person = DatabaseIdentifier & Node & TermNode & UniformResourceIdent
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Person_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -11871,8 +12857,8 @@ export type Person = DatabaseIdentifier & Node & TermNode & UniformResourceIdent
   slug?: Maybe<Scalars['String']['output']>;
   /** Connection between the Person type and the Taxonomy type */
   taxonomy?: Maybe<PersonToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Person_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -11972,6 +12958,328 @@ export type PersonConnectionPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;PersonFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFields = AcfFieldGroup & AcfFieldGroupFields & PersonFields_Fields & {
+  __typename?: 'PersonFields';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<PersonFieldsCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  collectionSocialLinks?: Maybe<Array<Maybe<PersonFieldsCollectionSocialLinks>>>;
+  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  refProgram?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;PersonFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsRefProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsCollectionFeaturedStories = AcfFieldGroup & AcfFieldGroupFields & PersonFieldsCollectionFeaturedStories_Fields & {
+  __typename?: 'PersonFieldsCollectionFeaturedStories';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsCollectionFeaturedStoriesFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group */
+export type PersonFieldsCollectionFeaturedStories_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;PersonFieldsCollectionFeaturedStories&quot; Field Group */
+export type PersonFieldsCollectionFeaturedStories_FieldsFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;PersonFieldsCollectionSocialLinks&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsCollectionSocialLinks = AcfFieldGroup & AcfFieldGroupFields & PersonFieldsCollectionSocialLinks_Fields & {
+  __typename?: 'PersonFieldsCollectionSocialLinks';
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  blog?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  facebook?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  getInTouch?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  podcast?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  rss?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  tumblr?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  twitter?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  website?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+export type PersonFieldsCollectionSocialLinks_Fields = {
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  blog?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  facebook?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  getInTouch?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  podcast?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  rss?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  tumblr?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  twitter?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsCollectionSocialLinks&quot; Field Group */
+  website?: Maybe<AcfLink>;
+};
+
+/** The &quot;PersonFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsMigration = AcfFieldGroup & AcfFieldGroupFields & PersonFieldsMigration_Fields & {
+  __typename?: 'PersonFieldsMigration';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<PersonFieldsMigrationCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  collectionSocialLinks?: Maybe<Array<Maybe<PersonFieldsMigrationCollectionSocialLinks>>>;
+  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  fgd2wpOldNodeId?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  nid?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  refProgram?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;PersonFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsMigrationRefProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsMigrationCollectionFeaturedStories = AcfFieldGroup & AcfFieldGroupFields & PersonFieldsMigrationCollectionFeaturedStories_Fields & {
+  __typename?: 'PersonFieldsMigrationCollectionFeaturedStories';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsMigrationCollectionFeaturedStoriesFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+export type PersonFieldsMigrationCollectionFeaturedStories_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;PersonFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+export type PersonFieldsMigrationCollectionFeaturedStories_FieldsFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PersonFieldsMigrationCollectionSocialLinks = AcfFieldGroup & AcfFieldGroupFields & PersonFieldsMigrationCollectionSocialLinks_Fields & {
+  __typename?: 'PersonFieldsMigrationCollectionSocialLinks';
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  blog?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  facebook?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  getInTouch?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  podcast?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  rss?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  tumblr?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  twitter?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  website?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+export type PersonFieldsMigrationCollectionSocialLinks_Fields = {
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  blog?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  facebook?: Maybe<AcfLink>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  getInTouch?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  podcast?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  rss?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  tumblr?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  twitter?: Maybe<AcfLink>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigrationCollectionSocialLinks&quot; Field Group */
+  website?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFieldsMigration&quot; Field Group */
+export type PersonFieldsMigration_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<PersonFieldsMigrationCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  collectionSocialLinks?: Maybe<Array<Maybe<PersonFieldsMigrationCollectionSocialLinks>>>;
+  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  fgd2wpOldNodeId?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  nid?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  refProgram?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PersonFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;PersonFieldsMigration&quot; Field Group */
+export type PersonFieldsMigration_FieldsRefProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;PersonFields&quot; Field Group */
+export type PersonFields_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<PersonFieldsCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  collectionSocialLinks?: Maybe<Array<Maybe<PersonFieldsCollectionSocialLinks>>>;
+  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  department?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  image?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  position?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  refProgram?: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;PersonFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;PersonFields&quot; Field Group */
+export type PersonFields_FieldsRefProgramArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Identifier types for retrieving a specific Person. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the Person. */
@@ -12375,25 +13683,6 @@ export type PersonToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxonom
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Person_Landingpage = AcfFieldGroup & {
-  __typename?: 'Person_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Person_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Person_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Person_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Person_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
 /** An plugin object */
 export type Plugin = Node & {
   __typename?: 'Plugin';
@@ -12467,13 +13756,48 @@ export enum PluginStatusEnum {
   Upgrade = 'UPGRADE'
 }
 
+/** The &quot;PodcastMetadata&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type PodcastMetadata = AcfFieldGroup & AcfFieldGroupFields & PodcastMetadata_Fields & {
+  __typename?: 'PodcastMetadata';
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  audioExplicit?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  episodeNumber?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  episodeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  season?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;PodcastMetadata&quot; Field Group */
+export type PodcastMetadata_Fields = {
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  audioExplicit?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  episodeNumber?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  episodeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;PodcastMetadata&quot; Field Group */
+  season?: Maybe<Scalars['String']['output']>;
+};
+
 /** A chronological content entry typically used for blog posts, news articles, or similar date-based content. */
-export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfAdditionalDates & WithAcfAdditionalMedia & WithAcfPresentation & WithAcfSeoAndDistribution & WithAcfSponsorship & {
   __typename?: 'Post';
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Additional Dates&quot; was set to Show in GraphQL. */
-  additionalDates?: Maybe<Post_Additionaldates>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Additional Media&quot; was set to Show in GraphQL. */
-  additionalMedia?: Maybe<Post_Additionalmedia>;
+  /** Fields of the AdditionalDates ACF Field Group */
+  additionalDates?: Maybe<AdditionalDates>;
+  /** Fields of the AdditionalMedia ACF Field Group */
+  additionalMedia?: Maybe<AdditionalMedia>;
   /**
    * The ancestors of the content node.
    * @deprecated This content type is not hierarchical and typically will not have ancestors
@@ -12575,8 +13899,8 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
    * @deprecated Deprecated in favor of the databaseId field
    */
   postId: Scalars['Int']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Presentation&quot; was set to Show in GraphQL. */
-  presentation?: Maybe<Post_Presentation>;
+  /** Fields of the Presentation ACF Field Group */
+  presentation?: Maybe<Presentation>;
   /** Connection between the post type and the post type */
   preview?: Maybe<PostToPreviewConnectionEdge>;
   /** The database id of the preview node */
@@ -12597,14 +13921,16 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
   /** Connection between the Post type and the post type */
   revisions?: Maybe<PostToRevisionConnection>;
+  /** Fields of the SEOAndDistribution ACF Field Group */
+  sEOAndDistribution?: Maybe<SeoAndDistribution>;
   /** The Yoast SEO data of the ContentNode */
   seo?: Maybe<PostTypeSeo>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']['output']>;
   /** Connection between the Post type and the socialTag type */
   socialTags?: Maybe<PostToSocialTagConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Sponsorship&quot; was set to Show in GraphQL. */
-  sponsorship?: Maybe<Post_Sponsorship>;
+  /** Fields of the Sponsorship ACF Field Group */
+  sponsorship?: Maybe<Sponsorship>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']['output']>;
   /** Connection between the Post type and the storyFormat type */
@@ -13497,12 +14823,16 @@ export enum PostStatusEnum {
   Draft = 'DRAFT',
   /** Objects with the draft-revision status */
   DraftRevision = 'DRAFT_REVISION',
+  /** Objects with the failed status */
+  Failed = 'FAILED',
   /** Objects with the future status */
   Future = 'FUTURE',
   /** Objects with the future-revision status */
   FutureRevision = 'FUTURE_REVISION',
   /** Content that inherits its status from a parent object */
   Inherit = 'INHERIT',
+  /** Objects with the in-progress status */
+  InProgress = 'IN_PROGRESS',
   /** Content awaiting review before publication */
   Pending = 'PENDING',
   /** Objects with the pending-revision status */
@@ -15025,47 +16355,27 @@ export type PostTypeSeo = {
   twitterTitle?: Maybe<Scalars['String']['output']>;
 };
 
-/** Field Group */
-export type Post_Additionaldates = AcfFieldGroup & {
-  __typename?: 'Post_Additionaldates';
-  broadcastDate?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
+/** The &quot;Presentation&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type Presentation = AcfFieldGroup & AcfFieldGroupFields & Presentation_Fields & {
+  __typename?: 'Presentation';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  updatedDate?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;Presentation&quot; Field Group */
+  format?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
-/** Field Group */
-export type Post_Additionalmedia = AcfFieldGroup & {
-  __typename?: 'Post_Additionalmedia';
-  additionalImages?: Maybe<Array<Maybe<MediaItem>>>;
-  audio?: Maybe<MediaItem>;
-  /** The name of the ACF Field Group */
+/** Interface representing fields of the ACF &quot;Presentation&quot; Field Group */
+export type Presentation_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  video?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Post_Presentation = AcfFieldGroup & {
-  __typename?: 'Post_Presentation';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  format?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Post_Sponsorship = AcfFieldGroup & {
-  __typename?: 'Post_Sponsorship';
-  collectionSponsorLinks?: Maybe<Array<Maybe<Post_Sponsorship_CollectionSponsorLinks>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Post_Sponsorship_CollectionSponsorLinks = AcfFieldGroup & {
-  __typename?: 'Post_Sponsorship_collectionSponsorLinks';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  sponsorLinks?: Maybe<AcfLink>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;Presentation&quot; Field Group */
+  format?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 /** Content that supports a draft preview mode. Allows viewing unpublished changes before they are made publicly available. Previewing unpublished changes requires appropriate permissions. */
@@ -15079,7 +16389,7 @@ export type Previewable = {
 };
 
 /** The program type */
-export type Program = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
+export type Program = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfProgramContributors & WithAcfSponsorship & WithAcfTaxonomyImages & WithAcfTeaserFields & {
   __typename?: 'Program';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -15111,16 +16421,16 @@ export type Program = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & 
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Program_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
   name?: Maybe<Scalars['String']['output']>;
   /** Connection between the Program type and the post type */
   posts?: Maybe<ProgramToPostConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Program Contributors&quot; was set to Show in GraphQL. */
-  programContributors?: Maybe<Program_Programcontributors>;
+  /** Fields of the ProgramContributors ACF Field Group */
+  programContributors?: Maybe<ProgramContributors>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of databaseId
@@ -15132,16 +16442,16 @@ export type Program = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & 
   seo?: Maybe<TaxonomySeo>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Sponsorship&quot; was set to Show in GraphQL. */
-  sponsorship?: Maybe<Program_Sponsorship>;
+  /** Fields of the Sponsorship ACF Field Group */
+  sponsorship?: Maybe<Sponsorship>;
   /** Connection between the Program type and the Taxonomy type */
   taxonomy?: Maybe<ProgramToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Program_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Teaser&quot; was set to Show in GraphQL. */
-  teaserFields?: Maybe<Program_Teaserfields>;
+  /** Fields of the TeaserFields ACF Field Group */
+  teaserFields?: Maybe<TeaserFields>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']['output']>;
@@ -15239,6 +16549,365 @@ export type ProgramConnectionPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;ProgramContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramContributors = AcfFieldGroup & AcfFieldGroupFields & ProgramContributors_Fields & {
+  __typename?: 'ProgramContributors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ProgramContributors&quot; Field Group */
+  hosts?: Maybe<AcfTermNodeConnection>;
+  /** Contributors selected will be shown on the program&#039;s team page. Make sure to include Hosts in this fields as well. */
+  team?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** The &quot;ProgramContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramContributorsHostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;ProgramContributors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramContributorsTeamArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramContributors&quot; Field Group */
+export type ProgramContributors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ProgramContributors&quot; Field Group */
+  hosts?: Maybe<AcfTermNodeConnection>;
+  /** Contributors selected will be shown on the program&#039;s team page. Make sure to include Hosts in this fields as well. */
+  team?: Maybe<AcfTermNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramContributors&quot; Field Group */
+export type ProgramContributors_FieldsHostsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramContributors&quot; Field Group */
+export type ProgramContributors_FieldsTeamArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;ProgramFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFields = AcfFieldGroup & AcfFieldGroupFields & ProgramFields_Fields & {
+  __typename?: 'ProgramFields';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<ProgramFieldsCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionLinksSponsors?: Maybe<Array<Maybe<ProgramFieldsCollectionLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionRefAuthors?: Maybe<Array<Maybe<ProgramFieldsCollectionRefAuthors>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  podcastLogo?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsCollectionFeaturedStories = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsCollectionFeaturedStories_Fields & {
+  __typename?: 'ProgramFieldsCollectionFeaturedStories';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsCollectionFeaturedStoriesFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group */
+export type ProgramFieldsCollectionFeaturedStories_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsCollectionFeaturedStories&quot; Field Group */
+export type ProgramFieldsCollectionFeaturedStories_FieldsFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;ProgramFieldsCollectionLinksSponsors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsCollectionLinksSponsors = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsCollectionLinksSponsors_Fields & {
+  __typename?: 'ProgramFieldsCollectionLinksSponsors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionLinksSponsors&quot; Field Group */
+  linksSponsors?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsCollectionLinksSponsors&quot; Field Group */
+export type ProgramFieldsCollectionLinksSponsors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionLinksSponsors&quot; Field Group */
+  linksSponsors?: Maybe<AcfLink>;
+};
+
+/** The &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsCollectionRefAuthors = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsCollectionRefAuthors_Fields & {
+  __typename?: 'ProgramFieldsCollectionRefAuthors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group */
+  refAuthors?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** The &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsCollectionRefAuthorsRefAuthorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group */
+export type ProgramFieldsCollectionRefAuthors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group */
+  refAuthors?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsCollectionRefAuthors&quot; Field Group */
+export type ProgramFieldsCollectionRefAuthors_FieldsRefAuthorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;ProgramFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigration = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsMigration_Fields & {
+  __typename?: 'ProgramFieldsMigration';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionLinksSponsors?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionRefAuthors?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionRefAuthors>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  podcastLogo?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigrationCollectionFeaturedStories = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsMigrationCollectionFeaturedStories_Fields & {
+  __typename?: 'ProgramFieldsMigrationCollectionFeaturedStories';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigrationCollectionFeaturedStoriesFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+export type ProgramFieldsMigrationCollectionFeaturedStories_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+  featuredStories?: Maybe<AcfContentNodeConnection>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigrationCollectionFeaturedStories&quot; Field Group */
+export type ProgramFieldsMigrationCollectionFeaturedStories_FieldsFeaturedStoriesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The &quot;ProgramFieldsMigrationCollectionLinksSponsors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigrationCollectionLinksSponsors = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsMigrationCollectionLinksSponsors_Fields & {
+  __typename?: 'ProgramFieldsMigrationCollectionLinksSponsors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionLinksSponsors&quot; Field Group */
+  linksSponsors?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigrationCollectionLinksSponsors&quot; Field Group */
+export type ProgramFieldsMigrationCollectionLinksSponsors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionLinksSponsors&quot; Field Group */
+  linksSponsors?: Maybe<AcfLink>;
+};
+
+/** The &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigrationCollectionRefAuthors = AcfFieldGroup & AcfFieldGroupFields & ProgramFieldsMigrationCollectionRefAuthors_Fields & {
+  __typename?: 'ProgramFieldsMigrationCollectionRefAuthors';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group */
+  refAuthors?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** The &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProgramFieldsMigrationCollectionRefAuthorsRefAuthorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group */
+export type ProgramFieldsMigrationCollectionRefAuthors_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group */
+  refAuthors?: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigrationCollectionRefAuthors&quot; Field Group */
+export type ProgramFieldsMigrationCollectionRefAuthors_FieldsRefAuthorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFieldsMigration&quot; Field Group */
+export type ProgramFieldsMigration_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionLinksSponsors?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  collectionRefAuthors?: Maybe<Array<Maybe<ProgramFieldsMigrationCollectionRefAuthors>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  podcastLogo?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ProgramFieldsMigration&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProgramFields&quot; Field Group */
+export type ProgramFields_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionFeaturedStories?: Maybe<Array<Maybe<ProgramFieldsCollectionFeaturedStories>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionLinksSponsors?: Maybe<Array<Maybe<ProgramFieldsCollectionLinksSponsors>>>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  collectionRefAuthors?: Maybe<Array<Maybe<ProgramFieldsCollectionRefAuthors>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  podcastLogo?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;ProgramFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
 };
 
 /** Identifier types for retrieving a specific Program. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the Program. */
@@ -15642,61 +17311,8 @@ export type ProgramToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxono
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Program_Landingpage = AcfFieldGroup & {
-  __typename?: 'Program_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Program_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Program_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Program_Programcontributors = AcfFieldGroup & {
-  __typename?: 'Program_Programcontributors';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  hosts?: Maybe<Array<Maybe<Contributor>>>;
-  /** Contributors selected will be shown on the program&#039;s team page. Make sure to include Hosts in this fields as well. */
-  team?: Maybe<Array<Maybe<Contributor>>>;
-};
-
-/** Field Group */
-export type Program_Sponsorship = AcfFieldGroup & {
-  __typename?: 'Program_Sponsorship';
-  collectionSponsorLinks?: Maybe<Array<Maybe<Program_Sponsorship_CollectionSponsorLinks>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Program_Sponsorship_CollectionSponsorLinks = AcfFieldGroup & {
-  __typename?: 'Program_Sponsorship_collectionSponsorLinks';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  sponsorLinks?: Maybe<AcfLink>;
-};
-
-/** Field Group */
-export type Program_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Program_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
-/** Field Group */
-export type Program_Teaserfields = AcfFieldGroup & {
-  __typename?: 'Program_Teaserfields';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  teaser?: Maybe<Scalars['String']['output']>;
-};
-
 /** The provinceOrState type */
-export type ProvinceOrState = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type ProvinceOrState = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'ProvinceOrState';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -15728,8 +17344,8 @@ export type ProvinceOrState = DatabaseIdentifier & Node & TermNode & UniformReso
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<ProvinceOrState_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -15751,8 +17367,8 @@ export type ProvinceOrState = DatabaseIdentifier & Node & TermNode & UniformReso
   stations?: Maybe<ProvinceOrStateToStationConnection>;
   /** Connection between the ProvinceOrState type and the Taxonomy type */
   taxonomy?: Maybe<ProvinceOrStateToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<ProvinceOrState_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -16338,25 +17954,6 @@ export type ProvinceOrStateToTaxonomyConnectionEdge = Edge & OneToOneConnection 
   node: Taxonomy;
 };
 
-/** Field Group */
-export type ProvinceOrState_Landingpage = AcfFieldGroup & {
-  __typename?: 'ProvinceOrState_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<ProvinceOrState_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type ProvinceOrState_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type ProvinceOrState_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'ProvinceOrState_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
 /** The reading setting type */
 export type ReadingSettings = {
   __typename?: 'ReadingSettings';
@@ -16371,7 +17968,7 @@ export type ReadingSettings = {
 };
 
 /** The region type */
-export type Region = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type Region = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Region';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -16403,8 +18000,8 @@ export type Region = DatabaseIdentifier & Node & TermNode & UniformResourceIdent
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Region_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -16424,8 +18021,8 @@ export type Region = DatabaseIdentifier & Node & TermNode & UniformResourceIdent
   slug?: Maybe<Scalars['String']['output']>;
   /** Connection between the Region type and the Taxonomy type */
   taxonomy?: Maybe<RegionToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Region_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -16926,25 +18523,6 @@ export type RegionToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxonom
   cursor?: Maybe<Scalars['String']['output']>;
   /** The node of the connection, without the edges */
   node: Taxonomy;
-};
-
-/** Field Group */
-export type Region_Landingpage = AcfFieldGroup & {
-  __typename?: 'Region_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Region_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Region_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Region_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Region_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
 };
 
 /** Input for the registerUser mutation. */
@@ -22035,6 +23613,37 @@ export type RootQueryToUserRoleConnectionPageInfo = PageInfo & UserRoleConnectio
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** The &quot;SEOAndDistribution&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type SeoAndDistribution = AcfFieldGroup & AcfFieldGroupFields & SeoAndDistribution_Fields & {
+  __typename?: 'SEOAndDistribution';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  seoTitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  suggestedSocialPost?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  suggestedTweet?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;SEOAndDistribution&quot; Field Group */
+export type SeoAndDistribution_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  seoTitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  suggestedSocialPost?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;SEOAndDistribution&quot; Field Group */
+  suggestedTweet?: Maybe<Scalars['String']['output']>;
+};
+
 /** The Yoast SEO breadcrumb config */
 export type SeoBreadcrumbs = {
   __typename?: 'SEOBreadcrumbs';
@@ -22349,7 +23958,7 @@ export enum ScriptLoadingStrategyEnum {
 }
 
 /** Manages the Segment custom post type */
-export type Segment = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Segment = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfSegmentContent & WithAcfSegmentDates & {
   __typename?: 'Segment';
   /**
    * The ancestors of the content node.
@@ -22455,10 +24064,10 @@ export type Segment = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   regions?: Maybe<SegmentToRegionConnection>;
   /** Connection between the Segment type and the resourceDevelopmentTag type */
   resourceDevelopmentTags?: Maybe<SegmentToResourceDevelopmentTagConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Segment Content&quot; was set to Show in GraphQL. */
-  segmentContent?: Maybe<Segment_Segmentcontent>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Segment Dates&quot; was set to Show in GraphQL. */
-  segmentDates?: Maybe<Segment_Segmentdates>;
+  /** Fields of the SegmentContent ACF Field Group */
+  segmentContent?: Maybe<SegmentContent>;
+  /** Fields of the SegmentDates ACF Field Group */
+  segmentDates?: Maybe<SegmentDates>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -22726,6 +24335,33 @@ export type SegmentConnectionPageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** The &quot;SegmentContent&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type SegmentContent = AcfFieldGroup & AcfFieldGroupFields & SegmentContent_Fields & {
+  __typename?: 'SegmentContent';
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;SegmentContent&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;SegmentContent&quot; Field Group */
+  transcript?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;SegmentContent&quot; Field Group */
+export type SegmentContent_Fields = {
+  /** Field of the &quot;file&quot; Field Type added to the schema as part of the &quot;SegmentContent&quot; Field Group */
+  audio?: Maybe<AcfMediaItemConnectionEdge>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;wysiwyg&quot; Field Type added to the schema as part of the &quot;SegmentContent&quot; Field Group */
+  transcript?: Maybe<Scalars['String']['output']>;
+};
+
 /** Set relationships between the segment to continents */
 export type SegmentContinentsInput = {
   /** If true, this will append the continent to existing related continents. If false, this will replace existing relationships. Default true. */
@@ -22784,6 +24420,33 @@ export type SegmentCountriesNodeInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** The slug of the country. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The &quot;SegmentDates&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type SegmentDates = AcfFieldGroup & AcfFieldGroupFields & SegmentDates_Fields & {
+  __typename?: 'SegmentDates';
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;SegmentDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;SegmentDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  expirationDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;SegmentDates&quot; Field Group */
+export type SegmentDates_Fields = {
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;SegmentDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  broadcastDate?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;date_picker&quot; Field Type added to the schema as part of the &quot;SegmentDates&quot; Field Group (ACF Fields of the date_picker type return a date string according to the RFC3339 spec: https://datatracker.ietf.org/doc/html/rfc3339.) */
+  expirationDate?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
 /** Identifier types for retrieving a specific Segment. Specifies which unique attribute is used to find an exact Segment. */
@@ -24053,24 +25716,6 @@ export type SegmentToTermNodeConnectionWhereArgs = {
   updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Field Group */
-export type Segment_Segmentcontent = AcfFieldGroup & {
-  __typename?: 'Segment_Segmentcontent';
-  audio?: Maybe<MediaItem>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  transcript?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Segment_Segmentdates = AcfFieldGroup & {
-  __typename?: 'Segment_Segmentdates';
-  broadcastDate?: Maybe<Scalars['String']['output']>;
-  expirationDate?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
 /** Input for the sendPasswordResetEmail mutation. */
 export type SendPasswordResetEmailInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -24135,7 +25780,7 @@ export type Settings = {
 };
 
 /** The socialTag type */
-export type SocialTag = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
+export type SocialTag = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'SocialTag';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -24167,8 +25812,8 @@ export type SocialTag = DatabaseIdentifier & Node & TermNode & UniformResourceId
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<SocialTag_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -24188,8 +25833,8 @@ export type SocialTag = DatabaseIdentifier & Node & TermNode & UniformResourceId
   socialTagId?: Maybe<Scalars['Int']['output']>;
   /** Connection between the SocialTag type and the Taxonomy type */
   taxonomy?: Maybe<SocialTagToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<SocialTag_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -24692,27 +26337,54 @@ export type SocialTagToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxo
   node: Taxonomy;
 };
 
-/** Field Group */
-export type SocialTag_Landingpage = AcfFieldGroup & {
-  __typename?: 'SocialTag_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<SocialTag_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
+/** The &quot;Sponsorship&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type Sponsorship = AcfFieldGroup & AcfFieldGroupFields & Sponsorship_Fields & {
+  __typename?: 'Sponsorship';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;Sponsorship&quot; Field Group */
+  collectionSponsorLinks?: Maybe<Array<Maybe<SponsorshipCollectionSponsorLinks>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
-export type SocialTag_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type SocialTag_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'SocialTag_Taxonomyimages';
-  /** The name of the ACF Field Group */
+/** The &quot;SponsorshipCollectionSponsorLinks&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type SponsorshipCollectionSponsorLinks = AcfFieldGroup & AcfFieldGroupFields & SponsorshipCollectionSponsorLinks_Fields & {
+  __typename?: 'SponsorshipCollectionSponsorLinks';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;SponsorshipCollectionSponsorLinks&quot; Field Group */
+  sponsorLinks?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;SponsorshipCollectionSponsorLinks&quot; Field Group */
+export type SponsorshipCollectionSponsorLinks_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;link&quot; Field Type added to the schema as part of the &quot;SponsorshipCollectionSponsorLinks&quot; Field Group */
+  sponsorLinks?: Maybe<AcfLink>;
+};
+
+/** Interface representing fields of the ACF &quot;Sponsorship&quot; Field Group */
+export type Sponsorship_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;Sponsorship&quot; Field Group */
+  collectionSponsorLinks?: Maybe<Array<Maybe<SponsorshipCollectionSponsorLinks>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
 /** Manages the list of Stations that air The World */
-export type Station = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
+export type Station = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfStationFields & {
   __typename?: 'Station';
   /**
    * The ancestors of the content node.
@@ -24802,8 +26474,8 @@ export type Station = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   seo?: Maybe<PostTypeSeo>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']['output']>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Station Fields&quot; was set to Show in GraphQL. */
-  stationFields?: Maybe<Station_Stationfields>;
+  /** Fields of the StationFields ACF Field Group */
+  stationFields?: Maybe<StationFields>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -24977,6 +26649,91 @@ export type StationCountriesNodeInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** The slug of the country. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The &quot;StationFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type StationFields = AcfFieldGroup & AcfFieldGroupFields & StationFields_Fields & {
+  __typename?: 'StationFields';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;StationFields&quot; Field Group */
+  schedule?: Maybe<Array<Maybe<StationFieldsSchedule>>>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;StationFields&quot; Field Group */
+  stationInfo?: Maybe<StationFieldsStationInfo>;
+};
+
+/** The &quot;StationFieldsSchedule&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type StationFieldsSchedule = AcfFieldGroup & AcfFieldGroupFields & StationFieldsSchedule_Fields & {
+  __typename?: 'StationFieldsSchedule';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;time_picker&quot; Field Type added to the schema as part of the &quot;StationFieldsSchedule&quot; Field Group */
+  startTimeUtc?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;StationFieldsSchedule&quot; Field Group */
+export type StationFieldsSchedule_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;time_picker&quot; Field Type added to the schema as part of the &quot;StationFieldsSchedule&quot; Field Group */
+  startTimeUtc?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;StationFieldsStationInfo&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type StationFieldsStationInfo = AcfFieldGroup & AcfFieldGroupFields & StationFieldsStationInfo_Fields & {
+  __typename?: 'StationFieldsStationInfo';
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  callLetters?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  frequency?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  modulator?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  website?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;StationFieldsStationInfo&quot; Field Group */
+export type StationFieldsStationInfo_Fields = {
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  callLetters?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  frequency?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  modulator?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;StationFieldsStationInfo&quot; Field Group */
+  website?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;StationFields&quot; Field Group */
+export type StationFields_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;StationFields&quot; Field Group */
+  schedule?: Maybe<Array<Maybe<StationFieldsSchedule>>>;
+  /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;StationFields&quot; Field Group */
+  stationInfo?: Maybe<StationFieldsStationInfo>;
 };
 
 /** Identifier types for retrieving a specific Station. Specifies which unique attribute is used to find an exact Station. */
@@ -25397,34 +27154,6 @@ export type StationToTermNodeConnectionWhereArgs = {
   updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Field Group */
-export type Station_Stationfields = AcfFieldGroup & {
-  __typename?: 'Station_Stationfields';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  schedule?: Maybe<Array<Maybe<Station_Stationfields_Schedule>>>;
-  stationInfo?: Maybe<Station_Stationfields_StationInfo>;
-};
-
-/** Field Group */
-export type Station_Stationfields_StationInfo = AcfFieldGroup & {
-  __typename?: 'Station_Stationfields_StationInfo';
-  callLetters?: Maybe<Scalars['String']['output']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  frequency?: Maybe<Scalars['String']['output']>;
-  modulator?: Maybe<Scalars['String']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
-};
-
-/** Field Group */
-export type Station_Stationfields_Schedule = AcfFieldGroup & {
-  __typename?: 'Station_Stationfields_schedule';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  startTimeUtc?: Maybe<Scalars['String']['output']>;
-};
-
 /** The storyFormat type */
 export type StoryFormat = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'StoryFormat';
@@ -25754,7 +27483,7 @@ export type StoryFormatToTaxonomyConnectionEdge = Edge & OneToOneConnection & Ta
 };
 
 /** A taxonomy term used to organize and classify content. Tags do not have a hierarchy and are generally used for more specific classifications. */
-export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
+export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & WithAcfLandingPage & WithAcfTaxonomyImages & {
   __typename?: 'Tag';
   /** @deprecated Deprecated in favor of using Next.js pages */
   conditionalTags?: Maybe<ConditionalTags>;
@@ -25786,8 +27515,8 @@ export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Unif
   isRestricted?: Maybe<Scalars['Boolean']['output']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean']['output'];
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Landing Page&quot; was set to Show in GraphQL. */
-  landingPage?: Maybe<Tag_Landingpage>;
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
   /** The link to the term */
   link?: Maybe<Scalars['String']['output']>;
   /** The human friendly name of the object. */
@@ -25807,8 +27536,8 @@ export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Unif
   tagId?: Maybe<Scalars['Int']['output']>;
   /** Connection between the Tag type and the Taxonomy type */
   taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Images&quot; was set to Show in GraphQL. */
-  taxonomyImages?: Maybe<Tag_Taxonomyimages>;
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
   /** The name of the taxonomy that the object is associated with */
   taxonomyName?: Maybe<Scalars['String']['output']>;
   templates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -26311,25 +28040,6 @@ export type TagToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyCo
   node: Taxonomy;
 };
 
-/** Field Group */
-export type Tag_Landingpage = AcfFieldGroup & {
-  __typename?: 'Tag_Landingpage';
-  featuredPosts?: Maybe<Array<Maybe<Tag_Landingpage_FeaturedPosts>>>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-};
-
-export type Tag_Landingpage_FeaturedPosts = Post;
-
-/** Field Group */
-export type Tag_Taxonomyimages = AcfFieldGroup & {
-  __typename?: 'Tag_Taxonomyimages';
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  imageBanner?: Maybe<MediaItem>;
-  logo?: Maybe<MediaItem>;
-};
-
 /** A taxonomy object */
 export type Taxonomy = Node & {
   __typename?: 'Taxonomy';
@@ -26471,6 +28181,33 @@ export enum TaxonomyIdTypeEnum {
   Name = 'NAME'
 }
 
+/** The &quot;TaxonomyImages&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TaxonomyImages = AcfFieldGroup & AcfFieldGroupFields & TaxonomyImages_Fields & {
+  __typename?: 'TaxonomyImages';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;TaxonomyImages&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;TaxonomyImages&quot; Field Group */
+  logo?: Maybe<AcfMediaItemConnectionEdge>;
+};
+
+/** Interface representing fields of the ACF &quot;TaxonomyImages&quot; Field Group */
+export type TaxonomyImages_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;TaxonomyImages&quot; Field Group */
+  imageBanner?: Maybe<AcfMediaItemConnectionEdge>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;TaxonomyImages&quot; Field Group */
+  logo?: Maybe<AcfMediaItemConnectionEdge>;
+};
+
 export type TaxonomySeo = {
   __typename?: 'TaxonomySEO';
   breadcrumbs?: Maybe<Array<Maybe<SeoPostTypeBreadcrumbs>>>;
@@ -26567,6 +28304,29 @@ export type TaxonomyToTermNodeConnectionPageInfo = PageInfo & TermNodeConnection
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;TeaserFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeaserFields = AcfFieldGroup & AcfFieldGroupFields & TeaserFields_Fields & {
+  __typename?: 'TeaserFields';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;TeaserFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;TeaserFields&quot; Field Group */
+export type TeaserFields_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;TeaserFields&quot; Field Group */
+  teaser?: Maybe<Scalars['String']['output']>;
 };
 
 /** Base interface for taxonomy terms such as categories and tags. Terms are used to organize and classify content. */
@@ -27805,7 +29565,7 @@ export type UpdateUserPayload = {
 };
 
 /** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
-export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable & {
+export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable & WithAcfUserFields & WithAcfUserFieldsMigration & {
   __typename?: 'User';
   /** The admin color scheme preference for the user. Possible values include &quot;fresh&quot;, &quot;light&quot;, &quot;blue&quot;, &quot;coffee&quot;, &quot;ectoplasm&quot;, &quot;midnight&quot;, &quot;ocean&quot;, &quot;sunrise&quot;. Default is &quot;fresh&quot;. */
   adminColor?: Maybe<Scalars['String']['output']>;
@@ -27891,6 +29651,10 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   uri?: Maybe<Scalars['String']['output']>;
   /** A website url that is associated with the user. */
   url?: Maybe<Scalars['String']['output']>;
+  /** Fields of the UserFields ACF Field Group */
+  userFields?: Maybe<UserFields>;
+  /** Fields of the UserFieldsMigration ACF Field Group */
+  userFieldsMigration?: Maybe<UserFieldsMigration>;
   /**
    * The Id of the user. Equivalent to WP_User-&gt;ID
    * @deprecated Deprecated in favor of the databaseId field
@@ -28035,6 +29799,60 @@ export type UserConnectionPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;UserFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type UserFields = AcfFieldGroup & AcfFieldGroupFields & UserFields_Fields & {
+  __typename?: 'UserFields';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;UserFields&quot; Field Group */
+  messageSubscribeEmail?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;UserFields&quot; Field Group */
+  picture?: Maybe<AcfMediaItemConnectionEdge>;
+};
+
+/** The &quot;UserFieldsMigration&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type UserFieldsMigration = AcfFieldGroup & AcfFieldGroupFields & UserFieldsMigration_Fields & {
+  __typename?: 'UserFieldsMigration';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;UserFieldsMigration&quot; Field Group */
+  messageSubscribeEmail?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;UserFieldsMigration&quot; Field Group */
+  picture?: Maybe<AcfMediaItemConnectionEdge>;
+};
+
+/** Interface representing fields of the ACF &quot;UserFieldsMigration&quot; Field Group */
+export type UserFieldsMigration_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;UserFieldsMigration&quot; Field Group */
+  messageSubscribeEmail?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;UserFieldsMigration&quot; Field Group */
+  picture?: Maybe<AcfMediaItemConnectionEdge>;
+};
+
+/** Interface representing fields of the ACF &quot;UserFields&quot; Field Group */
+export type UserFields_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;UserFields&quot; Field Group */
+  messageSubscribeEmail?: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;UserFields&quot; Field Group */
+  picture?: Maybe<AcfMediaItemConnectionEdge>;
 };
 
 /** Identifier types for retrieving a specific user. Determines whether to look up users by ID, email, username, or other unique properties. */
@@ -28928,6 +30746,204 @@ export type WpPageInfo = {
   seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** Provides access to fields of the &quot;AdditionalDates&quot; ACF Field Group via the &quot;additionalDates&quot; field */
+export type WithAcfAdditionalDates = {
+  /** Fields of the AdditionalDates ACF Field Group */
+  additionalDates?: Maybe<AdditionalDates>;
+};
+
+/** Provides access to fields of the &quot;AdditionalMedia&quot; ACF Field Group via the &quot;additionalMedia&quot; field */
+export type WithAcfAdditionalMedia = {
+  /** Fields of the AdditionalMedia ACF Field Group */
+  additionalMedia?: Maybe<AdditionalMedia>;
+};
+
+/** Provides access to fields of the &quot;AudioFields&quot; ACF Field Group via the &quot;audioFields&quot; field */
+export type WithAcfAudioFields = {
+  /** Fields of the AudioFields ACF Field Group */
+  audioFields?: Maybe<AudioFields>;
+};
+
+/** Provides access to fields of the &quot;CategoryDetails&quot; ACF Field Group via the &quot;categoryDetails&quot; field */
+export type WithAcfCategoryDetails = {
+  /** Fields of the CategoryDetails ACF Field Group */
+  categoryDetails?: Maybe<CategoryDetails>;
+};
+
+/** Provides access to fields of the &quot;CategoryEditors&quot; ACF Field Group via the &quot;categoryEditors&quot; field */
+export type WithAcfCategoryEditors = {
+  /** Fields of the CategoryEditors ACF Field Group */
+  categoryEditors?: Maybe<CategoryEditors>;
+};
+
+/** Provides access to fields of the &quot;CategoryFieldsMigration&quot; ACF Field Group via the &quot;categoryFieldsMigration&quot; field */
+export type WithAcfCategoryFieldsMigration = {
+  /** Fields of the CategoryFieldsMigration ACF Field Group */
+  categoryFieldsMigration?: Maybe<CategoryFieldsMigration>;
+};
+
+/** Provides access to fields of the &quot;ContributorDetails&quot; ACF Field Group via the &quot;contributorDetails&quot; field */
+export type WithAcfContributorDetails = {
+  /** Fields of the ContributorDetails ACF Field Group */
+  contributorDetails?: Maybe<ContributorDetails>;
+};
+
+/** Provides access to fields of the &quot;ContributorSocialLinks&quot; ACF Field Group via the &quot;contributorSocialLinks&quot; field */
+export type WithAcfContributorSocialLinks = {
+  /** Fields of the ContributorSocialLinks ACF Field Group */
+  contributorSocialLinks?: Maybe<ContributorSocialLinks>;
+};
+
+/** Provides access to fields of the &quot;CtaOptions&quot; ACF Field Group via the &quot;ctaOptions&quot; field */
+export type WithAcfCtaOptions = {
+  /** Fields of the CtaOptions ACF Field Group */
+  ctaOptions?: Maybe<CtaOptions>;
+};
+
+/** Provides access to fields of the &quot;CtaRegionContent&quot; ACF Field Group via the &quot;ctaRegionContent&quot; field */
+export type WithAcfCtaRegionContent = {
+  /** Fields of the CtaRegionContent ACF Field Group */
+  ctaRegionContent?: Maybe<CtaRegionContent>;
+};
+
+/** Provides access to fields of the &quot;CtaSettings&quot; ACF Field Group via the &quot;ctaSettings&quot; field */
+export type WithAcfCtaSettings = {
+  /** Fields of the CtaSettings ACF Field Group */
+  ctaSettings?: Maybe<CtaSettings>;
+};
+
+/** Provides access to fields of the &quot;CtaTargeting&quot; ACF Field Group via the &quot;ctaTargeting&quot; field */
+export type WithAcfCtaTargeting = {
+  /** Fields of the CtaTargeting ACF Field Group */
+  ctaTargeting?: Maybe<CtaTargeting>;
+};
+
+/** Provides access to fields of the &quot;EpisodeAudio&quot; ACF Field Group via the &quot;episodeAudio&quot; field */
+export type WithAcfEpisodeAudio = {
+  /** Fields of the EpisodeAudio ACF Field Group */
+  episodeAudio?: Maybe<EpisodeAudio>;
+};
+
+/** Provides access to fields of the &quot;EpisodeContent&quot; ACF Field Group via the &quot;episodeContent&quot; field */
+export type WithAcfEpisodeContent = {
+  /** Fields of the EpisodeContent ACF Field Group */
+  episodeContent?: Maybe<EpisodeContent>;
+};
+
+/** Provides access to fields of the &quot;EpisodeContributors&quot; ACF Field Group via the &quot;episodeContributors&quot; field */
+export type WithAcfEpisodeContributors = {
+  /** Fields of the EpisodeContributors ACF Field Group */
+  episodeContributors?: Maybe<EpisodeContributors>;
+};
+
+/** Provides access to fields of the &quot;EpisodeDates&quot; ACF Field Group via the &quot;episodeDates&quot; field */
+export type WithAcfEpisodeDates = {
+  /** Fields of the EpisodeDates ACF Field Group */
+  episodeDates?: Maybe<EpisodeDates>;
+};
+
+/** Provides access to fields of the &quot;ImageFields&quot; ACF Field Group via the &quot;imageFields&quot; field */
+export type WithAcfImageFields = {
+  /** Fields of the ImageFields ACF Field Group */
+  imageFields?: Maybe<ImageFields>;
+};
+
+/** Provides access to fields of the &quot;LandingPage&quot; ACF Field Group via the &quot;landingPage&quot; field */
+export type WithAcfLandingPage = {
+  /** Fields of the LandingPage ACF Field Group */
+  landingPage?: Maybe<LandingPage>;
+};
+
+/** Provides access to fields of the &quot;NewsletterOptions&quot; ACF Field Group via the &quot;newsletterOptions&quot; field */
+export type WithAcfNewsletterOptions = {
+  /** Fields of the NewsletterOptions ACF Field Group */
+  newsletterOptions?: Maybe<NewsletterOptions>;
+};
+
+/** Provides access to fields of the &quot;PageFields&quot; ACF Field Group via the &quot;pageFields&quot; field */
+export type WithAcfPageFields = {
+  /** Fields of the PageFields ACF Field Group */
+  pageFields?: Maybe<PageFields>;
+};
+
+/** Provides access to fields of the &quot;PageFieldsMigration&quot; ACF Field Group via the &quot;pageFieldsMigration&quot; field */
+export type WithAcfPageFieldsMigration = {
+  /** Fields of the PageFieldsMigration ACF Field Group */
+  pageFieldsMigration?: Maybe<PageFieldsMigration>;
+};
+
+/** Provides access to fields of the &quot;PodcastMetadata&quot; ACF Field Group via the &quot;podcastMetadata&quot; field */
+export type WithAcfPodcastMetadata = {
+  /** Fields of the PodcastMetadata ACF Field Group */
+  podcastMetadata?: Maybe<PodcastMetadata>;
+};
+
+/** Provides access to fields of the &quot;Presentation&quot; ACF Field Group via the &quot;presentation&quot; field */
+export type WithAcfPresentation = {
+  /** Fields of the Presentation ACF Field Group */
+  presentation?: Maybe<Presentation>;
+};
+
+/** Provides access to fields of the &quot;ProgramContributors&quot; ACF Field Group via the &quot;programContributors&quot; field */
+export type WithAcfProgramContributors = {
+  /** Fields of the ProgramContributors ACF Field Group */
+  programContributors?: Maybe<ProgramContributors>;
+};
+
+/** Provides access to fields of the &quot;SEOAndDistribution&quot; ACF Field Group via the &quot;sEOAndDistribution&quot; field */
+export type WithAcfSeoAndDistribution = {
+  /** Fields of the SEOAndDistribution ACF Field Group */
+  sEOAndDistribution?: Maybe<SeoAndDistribution>;
+};
+
+/** Provides access to fields of the &quot;SegmentContent&quot; ACF Field Group via the &quot;segmentContent&quot; field */
+export type WithAcfSegmentContent = {
+  /** Fields of the SegmentContent ACF Field Group */
+  segmentContent?: Maybe<SegmentContent>;
+};
+
+/** Provides access to fields of the &quot;SegmentDates&quot; ACF Field Group via the &quot;segmentDates&quot; field */
+export type WithAcfSegmentDates = {
+  /** Fields of the SegmentDates ACF Field Group */
+  segmentDates?: Maybe<SegmentDates>;
+};
+
+/** Provides access to fields of the &quot;Sponsorship&quot; ACF Field Group via the &quot;sponsorship&quot; field */
+export type WithAcfSponsorship = {
+  /** Fields of the Sponsorship ACF Field Group */
+  sponsorship?: Maybe<Sponsorship>;
+};
+
+/** Provides access to fields of the &quot;StationFields&quot; ACF Field Group via the &quot;stationFields&quot; field */
+export type WithAcfStationFields = {
+  /** Fields of the StationFields ACF Field Group */
+  stationFields?: Maybe<StationFields>;
+};
+
+/** Provides access to fields of the &quot;TaxonomyImages&quot; ACF Field Group via the &quot;taxonomyImages&quot; field */
+export type WithAcfTaxonomyImages = {
+  /** Fields of the TaxonomyImages ACF Field Group */
+  taxonomyImages?: Maybe<TaxonomyImages>;
+};
+
+/** Provides access to fields of the &quot;TeaserFields&quot; ACF Field Group via the &quot;teaserFields&quot; field */
+export type WithAcfTeaserFields = {
+  /** Fields of the TeaserFields ACF Field Group */
+  teaserFields?: Maybe<TeaserFields>;
+};
+
+/** Provides access to fields of the &quot;UserFields&quot; ACF Field Group via the &quot;userFields&quot; field */
+export type WithAcfUserFields = {
+  /** Fields of the UserFields ACF Field Group */
+  userFields?: Maybe<UserFields>;
+};
+
+/** Provides access to fields of the &quot;UserFieldsMigration&quot; ACF Field Group via the &quot;userFieldsMigration&quot; field */
+export type WithAcfUserFieldsMigration = {
+  /** Fields of the UserFieldsMigration ACF Field Group */
+  userFieldsMigration?: Maybe<UserFieldsMigration>;
 };
 
 /** The writing setting type */
