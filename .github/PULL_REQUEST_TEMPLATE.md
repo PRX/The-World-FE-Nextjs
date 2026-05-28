@@ -4,13 +4,9 @@ Closes #[ISSUE_ID]
 
 ## To Review
 
-- [ ] Use the Preview link located in the Now comment below.
-
-> ...or...
-
 - [ ] Checkout Branch.
 - [ ] Run `yarn`.
-- [ ] Run `yarn dev:start`.
+- [ ] Run `yarn dev`.
 - [ ] Go to [localhost:3000](https://localhost:3000).
 
 > ...then...

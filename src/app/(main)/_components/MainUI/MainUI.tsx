@@ -204,6 +204,13 @@ export default function MainUI({
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Scroll to top when route changes.
+  useEffect(() => {
+    if (!isDesktopLayout) {
+      setIsMenuOpen(false);
+    }
+  }, [pathname, isDesktopLayout]);
+
   return (
     <MainUIContext.Provider
       value={{

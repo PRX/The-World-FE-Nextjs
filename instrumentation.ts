@@ -81,7 +81,7 @@ export async function register() {
     transport: [
       new PinoTransport({
         logger: pino({
-          ...(deploymentEnv !== "production" && {
+          ...(deploymentEnv === "development" && {
             transport: {
               target: "pino-pretty",
               options: {
