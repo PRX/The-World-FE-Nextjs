@@ -16,7 +16,7 @@ import Logo from "../Logo/Logo";
 import "./MainUI.css";
 import { useBreakpoint } from "@react-awesome/use-breakpoint";
 import { usePathname } from "next/navigation";
-import DonateModalLink from "@/components/Donate/DonateModalLink";
+// import DonateModalLink from "@/components/Donate/DonateModalLink";
 import CcnLogo from "@/assets/svg/logos/CCN-Logo.svg";
 import GbhLogo from "@/assets/svg/logos/GBH-Logo.svg";
 import ProgressiveLogo from "@/assets/svg/logos/Progressive-Logo.svg";
@@ -204,6 +204,13 @@ export default function MainUI({
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Scroll to top when route changes.
+  useEffect(() => {
+    if (!isDesktopLayout) {
+      setIsMenuOpen(false);
+    }
+  }, [pathname, isDesktopLayout]);
+
   return (
     <MainUIContext.Provider
       value={{
@@ -274,7 +281,15 @@ export default function MainUI({
             </h1>
             <span className="basis-xl">{search}</span>
             <span>
-              <DonateModalLink
+              <Button variant="action" asChild>
+                <Link href="https://give.prx.org/campaign/804766/donate?c_src=Referal&c_src2=website-donate-heart">
+                  <HeartHandshakeIcon aria-label="Donate" />
+                  <span className="hidden md:inline" aria-hidden>
+                    Donate
+                  </span>
+                </Link>
+              </Button>
+              {/* <DonateModalLink
                 campaign="727547"
                 size="lg"
                 variant="action"
@@ -287,7 +302,7 @@ export default function MainUI({
                 <span className="hidden md:inline" aria-hidden>
                   Donate
                 </span>
-              </DonateModalLink>
+              </DonateModalLink> */}
             </span>
           </div>
         </div>

@@ -31,6 +31,13 @@ export const GET_SEGMENT = gql`
           id
           name
           link
+          contributorDetails {
+            image {
+              sourceUrl
+              mediaItemUrl
+              altText
+            }
+          }
         }
       }
       programs(first: 1) {
