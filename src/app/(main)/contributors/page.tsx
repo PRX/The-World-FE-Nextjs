@@ -1,5 +1,11 @@
 import type { CSSProperties } from "react";
-import type { Contributor, Episode, Post, Segment } from "@/interfaces";
+import type {
+  Contributor,
+  Episode,
+  Post,
+  Program,
+  Segment,
+} from "@/interfaces";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import { isArray } from "lodash";
@@ -104,13 +110,13 @@ export default async function ContributorsPage({
       }
       className="grid gap-y-10 mt-10"
     >
-      {!!nodes?.length ? (
+      {nodes?.length ? (
         nodes
           // Filter out GlobalPost contributors.
           // TODO: Remove once GP content is removed.
           ?.filter((c: Contributor) => {
             const { program } = c.contributorDetails || {};
-            const isGlobalPost = !!program?.find(
+            const isGlobalPost = !!(program?.nodes as Program[])?.find(
               (p) => p && p.name === "GlobalPost",
             );
             return !isGlobalPost;
@@ -124,10 +130,12 @@ export default async function ContributorsPage({
             });
             const info = [
               position,
-              ...(program || []).filter((v) => !!v).map(({ name }) => name),
+              ...((program?.nodes as Program[]) || [])
+                .filter((v) => !!v)
+                .map(({ name }) => name),
               count && (count > 1 ? `${countString} posts` : "1 post"),
             ].filter((v) => !!v);
-            const { sourceUrl, mediaItemUrl, altText } = image || {};
+            const { sourceUrl, mediaItemUrl, altText } = image?.node || {};
             const imageSrc = sourceUrl || mediaItemUrl;
             const initials = name
               ?.match(/\b(\w)/g)
@@ -212,7 +220,7 @@ export default async function ContributorsPage({
                           episodeAudio ||
                           segmentContent ||
                           {};
-                        const { duration, parent } = audio || {};
+                        const { duration, parent } = audio?.node || {};
                         const isParentOfSegmentAudioAStory =
                           !!segmentContent &&
                           parent?.node.contentTypeName === "post";
@@ -310,7 +318,7 @@ export default async function ContributorsPage({
                                   />
                                 </div>
                               </CardHeader>
-                              {audio && (
+                              {audio?.node && (
                                 <CardFooter>
                                   <div
                                     className={cn(
@@ -321,7 +329,7 @@ export default async function ContributorsPage({
                                       <PlayAudioButton
                                         className="text-cyan"
                                         variant="ghost"
-                                        audio={audio}
+                                        audio={audio.node}
                                         fallbackProps={fallbackProps}
                                       />
                                       {duration && (
@@ -331,7 +339,7 @@ export default async function ContributorsPage({
                                     <AddAudioButton
                                       className="text-cyan"
                                       variant="ghost"
-                                      audio={audio}
+                                      audio={audio.node}
                                       fallbackProps={fallbackProps}
                                     />
                                   </div>

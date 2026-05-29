@@ -9,7 +9,11 @@ import type { CollectionQueryOptions, Maybe, PostTag } from "@/interfaces";
 import { upperFirst } from "lodash";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { IMAGE_PROPS, POST_CARD_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+  POST_CARD_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_TAG_POSTS = (taxonomySingleName: Maybe<string>) => gql`
   query getTagPosts(
@@ -40,6 +44,7 @@ const GET_TAG_POSTS = (taxonomySingleName: Maybe<string>) => gql`
   }
   ${POST_CARD_PROPS}
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export async function fetchGqlTagPosts(

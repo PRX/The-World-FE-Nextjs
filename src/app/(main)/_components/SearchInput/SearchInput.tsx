@@ -404,8 +404,10 @@ export default function SearchInput({
                   ]).get(taxonomyName || "") || BookmarkIcon;
                 const linkHref = generateContentLinkHref(link);
                 const { image } = contributorDetails || {};
-                const imgSrc = image?.sourceUrl || image?.mediaItemUrl;
-                const altText = image?.altText || `Thumbnail for "${name}"`;
+                const imgSrc =
+                  image?.node?.sourceUrl || image?.node?.mediaItemUrl;
+                const altText =
+                  image?.node?.altText || `Thumbnail for "${name}"`;
                 const countString = count?.toLocaleString(undefined, {
                   notation: "compact",
                 });

@@ -47,7 +47,9 @@ export const GET_SEGMENT = gql`
       }
       segmentContent {
         audio {
-          ...AudioProps
+          node {
+            ...AudioProps
+          }
         }
       }
       segmentDates {

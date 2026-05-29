@@ -1,4 +1,8 @@
-import { CtaRegionIdType, type ICtaFilterProps } from "@/interfaces";
+import {
+  type CallToAction,
+  CtaRegionIdType,
+  type ICtaFilterProps,
+} from "@/interfaces";
 import { fetchGqlCtaRegion } from "@/lib/fetch";
 import { parseCtaMessage } from "@/lib/parse/cta";
 import { filterCtaMessages } from "./filterCtaMessages";
@@ -11,7 +15,7 @@ export async function getCtaRegionMessages(
     (await fetchGqlCtaRegion(slug, CtaRegionIdType.Slug)) || {};
   const { callToActions } = ctaRegionContent || {};
 
-  return callToActions
+  return (callToActions?.nodes as CallToAction[])
     ?.map((cta) => parseCtaMessage(cta, slug))
     .filter((v) => !!v)
     .map((cta) => ({

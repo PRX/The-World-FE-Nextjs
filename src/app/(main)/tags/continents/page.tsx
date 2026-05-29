@@ -103,7 +103,8 @@ export default async function ContinentsPage({
         const info = [
           count && (count > 1 ? `${countString} posts` : "1 post"),
         ].filter((v) => !!v);
-        const { sourceUrl, mediaItemUrl, altText } = taxonomyImages?.logo || {};
+        const { sourceUrl, mediaItemUrl, altText } =
+          taxonomyImages?.logo?.node || {};
         const imageSrc = sourceUrl || mediaItemUrl;
         const href = generateContentLinkHref(link) || "";
         const slides = contentNodes?.nodes || [];
@@ -180,7 +181,7 @@ export default async function ContinentsPage({
 
                     const { audio } =
                       additionalMedia || episodeAudio || segmentContent || {};
-                    const { duration, parent } = audio || {};
+                    const { duration, parent } = audio?.node || {};
                     const isParentOfSegmentAudioAStory =
                       !!segmentContent &&
                       parent?.node.contentTypeName === "post";
@@ -276,7 +277,7 @@ export default async function ContinentsPage({
                               />
                             </div>
                           </CardHeader>
-                          {audio && (
+                          {audio?.node && (
                             <CardFooter>
                               <div
                                 className={cn(
@@ -287,7 +288,7 @@ export default async function ContinentsPage({
                                   <PlayAudioButton
                                     className="text-cyan"
                                     variant="ghost"
-                                    audio={audio}
+                                    audio={audio.node}
                                     fallbackProps={fallbackProps}
                                   />
                                   {duration && (
@@ -297,7 +298,7 @@ export default async function ContinentsPage({
                                 <AddAudioButton
                                   className="text-cyan"
                                   variant="ghost"
-                                  audio={audio}
+                                  audio={audio.node}
                                   fallbackProps={fallbackProps}
                                 />
                               </div>

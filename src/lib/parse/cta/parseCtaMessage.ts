@@ -5,22 +5,22 @@
 
 import type {
   Newsletter,
-  INewsletterOptions,
   ICtaMessage,
   Maybe,
   CallToAction,
 } from "@/interfaces";
 
 export const parseNewsletterOptions = (
-  data: Newsletter,
+  data?: Maybe<Newsletter>,
   region?: Maybe<string>,
-): INewsletterOptions => ({
-  listId: data.newsletterOptions?.listId,
-  customFields: {
-    source: "website",
-    ...(region && { "source-placement": region }),
-  },
-});
+) =>
+  data && {
+    listId: data.newsletterOptions?.listId,
+    customFields: {
+      source: "website",
+      ...(region && { "source-placement": region }),
+    },
+  };
 
 export const parseCtaMessage = (
   cta: Maybe<CallToAction>,
@@ -29,7 +29,7 @@ export const parseCtaMessage = (
   cta?.ctaOptions?.ctaType
     ? ({
         id: cta.id,
-        type: cta.ctaOptions.ctaType,
+        type: cta.ctaOptions.ctaType.at(0),
         hash: `${cta.id}:${cta.modified}`,
         ...(cta.ctaOptions.content?.heading && {
           heading: cta.ctaOptions.content.heading,
@@ -40,7 +40,7 @@ export const parseCtaMessage = (
         ...(cta.ctaSettings?.cookieLifespan && {
           cookieLifespan: cta.ctaSettings.cookieLifespan,
         }),
-        ...(cta.ctaOptions.ctaType === "optin" &&
+        ...(cta.ctaOptions.ctaType.at(0) === "optin" &&
           cta.ctaOptions.optInSettings?.optInText && {
             optinLabel: cta.ctaOptions.optInSettings.optInText,
           }),
@@ -57,24 +57,38 @@ export const parseCtaMessage = (
             name: cta.ctaOptions.actions.dismissButtonLabel,
           },
         }),
-        ...(cta.ctaOptions.ctaType === "newsletter" &&
+        ...(cta.ctaOptions.ctaType.at(0) === "newsletter" &&
           cta.ctaOptions.newsletterSettings?.newsletter && {
             ...(!cta.ctaOptions.content?.heading && {
-              heading: cta.ctaOptions.newsletterSettings.newsletter.title,
+              heading: (
+                cta.ctaOptions.newsletterSettings.newsletter
+                  .nodes as Newsletter[]
+              ).at(0)?.title,
             }),
             ...(!cta.ctaOptions.content?.message && {
-              message: cta.ctaOptions.newsletterSettings.newsletter.excerpt,
+              message: (
+                cta.ctaOptions.newsletterSettings.newsletter
+                  .nodes as Newsletter[]
+              ).at(0)?.excerpt,
             }),
             action: {
               name:
                 cta.ctaOptions.actions?.actionButtonLabel ||
-                cta.ctaOptions.newsletterSettings.newsletter.newsletterOptions
-                  ?.buttonLabel,
-              url: cta.ctaOptions.newsletterSettings.newsletter.link,
+                (
+                  cta.ctaOptions.newsletterSettings.newsletter
+                    .nodes as Newsletter[]
+                ).at(0)?.newsletterOptions?.buttonLabel,
+              url: (
+                cta.ctaOptions.newsletterSettings.newsletter
+                  .nodes as Newsletter[]
+              ).at(0)?.link,
             },
             newsletter: cta.ctaOptions.newsletterSettings.newsletter,
             newsletterOptions: parseNewsletterOptions(
-              cta.ctaOptions.newsletterSettings.newsletter,
+              (
+                cta.ctaOptions.newsletterSettings.newsletter
+                  .nodes as Newsletter[]
+              ).at(0),
               region,
             ),
           }),

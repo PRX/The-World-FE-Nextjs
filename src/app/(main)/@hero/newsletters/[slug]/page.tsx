@@ -39,9 +39,11 @@ export default async function NewslettersHero({
           {excerpt && !isExcerptFromContent && (
             <HtmlContent html={excerpt} className="text-xl/snug" />
           )}
-          <NewsletterCta
-            cta={{ id, type: "newsletter", hash: "", newsletterOptions }}
-          />
+          {newsletterOptions && (
+            <NewsletterCta
+              cta={{ id, type: "newsletter", hash: "", newsletterOptions }}
+            />
+          )}
         </div>
       </div>
     </HeroHeader>

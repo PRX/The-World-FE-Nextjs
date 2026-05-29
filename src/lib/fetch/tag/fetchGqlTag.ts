@@ -33,16 +33,22 @@ const GET_TAG = gql`
       description
       taxonomyImages {
         imageBanner {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
         logo {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
       }
       landingPage {
         featuredPosts {
-          ... on Post {
-            ...PostCardProps
+          nodes {
+            ... on Post {
+              ...PostCardProps
+            }
           }
         }
       }

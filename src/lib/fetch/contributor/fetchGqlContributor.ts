@@ -8,6 +8,7 @@ import type { Contributor, Maybe } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import {
+  AUDIO_PROPS,
   IMAGE_PROPS,
   POST_CARD_PROPS,
   SEGMENT_LIST_PROPS,
@@ -31,7 +32,9 @@ const GET_CONTRIBUTOR = gql`
           name
         }
         image {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
       }
       contributorSocialLinks {
@@ -48,16 +51,22 @@ const GET_CONTRIBUTOR = gql`
       }
       taxonomyImages {
         imageBanner {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
         logo {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
       }
       landingPage {
         featuredPosts {
-          ... on Post {
-            ...PostCardProps
+          nodes {
+            ... on Post {
+              ...PostCardProps
+            }
           }
         }
       }
@@ -80,6 +89,7 @@ const GET_CONTRIBUTOR = gql`
   }
   ${POST_CARD_PROPS}
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
   ${TAXONOMY_SEO_PROPS}
   ${SEGMENT_LIST_PROPS}
 `;

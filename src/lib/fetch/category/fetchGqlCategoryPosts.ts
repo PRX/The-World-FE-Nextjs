@@ -8,7 +8,11 @@
 import type { CollectionQueryOptions, Category } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
-import { IMAGE_PROPS, POST_CARD_PROPS } from "@/lib/fetch/api/graphql";
+import {
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+  POST_CARD_PROPS,
+} from "@/lib/fetch/api/graphql";
 
 const GET_CATEGORY_POSTS = gql`
   query getCategoryPosts(
@@ -39,6 +43,7 @@ const GET_CATEGORY_POSTS = gql`
   }
   ${POST_CARD_PROPS}
   ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export async function fetchGqlCategoryPosts(

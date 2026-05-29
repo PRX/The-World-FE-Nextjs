@@ -49,10 +49,14 @@ const GET_PEOPLE = gql`
     count
     taxonomyImages {
       logo {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
       imageBanner {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
     contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {

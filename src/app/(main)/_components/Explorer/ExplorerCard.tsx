@@ -44,7 +44,7 @@ export function ExplorerCard({
   const { segmentContent, segmentDates } = data as Segment;
 
   const { audio } = additionalMedia || episodeAudio || segmentContent || {};
-  const { duration } = audio || {};
+  const { duration } = audio?.node || {};
   const isEpisode = !!episodeAudio;
 
   const { title, date, link, featuredImage } =
@@ -116,7 +116,7 @@ export function ExplorerCard({
           />
         </div>
       </CardHeader>
-      {audio && (
+      {audio?.node && (
         <CardFooter>
           <div
             className={cn(
@@ -127,7 +127,7 @@ export function ExplorerCard({
               <PlayAudioButton
                 className="text-cyan"
                 variant="ghost"
-                audio={audio}
+                audio={audio.node}
                 fallbackProps={fallbackProps}
               />
               {duration && <span>{formatDuration(duration)}</span>}
@@ -135,7 +135,7 @@ export function ExplorerCard({
             <AddAudioButton
               className="text-cyan"
               variant="ghost"
-              audio={audio}
+              audio={audio.node}
               fallbackProps={fallbackProps}
             />
           </div>

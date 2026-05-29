@@ -20,26 +20,33 @@ export const EPISODE_CARD_PROPS = gql`
     }
     episodeAudio {
       audio {
-        ...AudioProps
-        audioFields {
-          segmentsList {
-            ... on Segment {
-              id
-              link
-              title
-              featuredImage {
-                node {
-                  ...ImageProps
-                }
-              }
-              segmentContent {
-                audio {
-                  ...AudioProps
+        node {
+          ...AudioProps
+          audioFields {
+            segmentsList {
+              nodes {
+                ... on Segment {
+                  id
+                  link
+                  title
+                  featuredImage {
+                    node {
+                      ...ImageProps
+                    }
+                  }
+                  segmentContent {
+                    audio {
+                      node {
+                        ...AudioProps
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
+        
       }
     }
     programs(first: 1) {
@@ -72,7 +79,9 @@ export const EPISODE_CARD_PROPS_WITHOUT_SEGMENTS = gql`
     }
     episodeAudio {
       audio {
-        ...AudioProps
+        node {
+          ...AudioProps
+        }
       }
     }
     programs(first: 1) {

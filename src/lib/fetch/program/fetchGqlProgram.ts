@@ -28,38 +28,56 @@ const GET_PROGRAM = gql`
       }
       taxonomyImages {
         imageBanner {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
         logo {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
       }
       landingPage {
         featuredPosts {
-          ... on Post {
-            ...PostCardProps
+          nodes {
+            ... on Post {
+              ...PostCardProps
+            }
           }
         }
       }
       programContributors {
         hosts {
-          id
-          link
-          name
-          contributorDetails {
-            image {
-              ...ImageProps
+          nodes {
+            id
+            link
+            name
+            ... on WithAcfContributorDetails {
+              contributorDetails {
+                image {
+                  node {
+                    ...ImageProps
+                  }
+                }
+              }
             }
           }
         }
         team {
-          id
-          link
-          name
-          contributorDetails {
-            position
-            image {
-              ...ImageProps
+          nodes {
+            id
+            link
+            name
+            ... on WithAcfContributorDetails {
+              contributorDetails {
+                position
+                image {
+                  node {
+                    ...ImageProps
+                  }
+                }
+              }
             }
           }
         }

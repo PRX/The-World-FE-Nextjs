@@ -6,7 +6,12 @@ import type { App, Maybe, Menu, Settings } from "@/interfaces";
 import { gql } from "@apollo/client";
 import { gqlClient } from "@/lib/fetch/api";
 import { parseMenu } from "@/lib/parse/menu";
-import { MENU_PROPS } from "../api/graphql";
+import {
+  AUDIO_PROPS,
+  IMAGE_PROPS,
+  MENU_PROPS,
+  POST_CARD_PROPS,
+} from "../api/graphql";
 
 const GET_APP = gql`
   query getApp {
@@ -20,6 +25,9 @@ const GET_APP = gql`
       ...MenuProps
     }
   }
+  ${POST_CARD_PROPS}
+  ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
   ${MENU_PROPS}
 `;
 

@@ -47,30 +47,42 @@ const GET_CATEGORY = gql`
       }
       taxonomyImages {
         imageBanner {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
         logo {
-          ...ImageProps
+          node {
+            ...ImageProps
+          }
         }
       }
       landingPage {
         featuredPosts {
-          ... on ContentNode {
-            databaseId
-          }
-          ... on Post {
-            ...PostCardProps
+          nodes {
+            ... on ContentNode {
+              databaseId
+            }
+            ... on Post {
+              ...PostCardProps
+            }
           }
         }
       }
       categoryEditors {
         editors {
-          id
-          link
-          name
-          contributorDetails {
-            image {
-              ...ImageProps
+          nodes {
+            id
+            link
+            name
+            ... on WithAcfContributorDetails {
+              contributorDetails {
+                image {
+                  node {
+                    ...ImageProps
+                  }
+                }
+              }
             }
           }
         }

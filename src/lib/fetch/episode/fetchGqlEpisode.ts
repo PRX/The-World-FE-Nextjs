@@ -19,7 +19,9 @@ const CONTRIBUTOR_PROPS = gql`
     name
     contributorDetails {
       image {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
   }
@@ -55,16 +57,22 @@ export const GET_EPISODE = gql`
       }
       episodeAudio {
         audio {
-          ...AudioProps
-          audioFields {
-            segmentsList {
-              ... on Segment {
-                id
-                link
-                title
-                segmentContent {
-                  audio {
-                    ...AudioProps
+          node {
+            ...AudioProps
+            audioFields {
+              segmentsList {
+                nodes {
+                  ... on Segment {
+                    id
+                    link
+                    title
+                    segmentContent {
+                      audio {
+                        node {
+                          ...AudioProps
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -79,16 +87,24 @@ export const GET_EPISODE = gql`
       }
       episodeContributors {
         hosts {
-          ...ContributorProps
+          nodes {
+            ...ContributorProps
+          }
         }
         guests {
-          ...ContributorProps
+          nodes {
+            ...ContributorProps
+          }
         }
         producers {
-          ...ContributorProps
+          nodes {
+            ...ContributorProps
+          }
         }
         reporters {
-          ...ContributorProps
+          nodes {
+            ...ContributorProps
+          }
         }
       }
       seo {

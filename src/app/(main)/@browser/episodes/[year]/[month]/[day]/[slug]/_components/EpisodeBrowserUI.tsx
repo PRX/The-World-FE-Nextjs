@@ -140,7 +140,7 @@ export default function EpisodeBrowserUI({
           )}
           {selectedEpisodes?.map((e, index, all) => {
             const { id, date, link, title, episodeAudio } = e;
-            const { duration } = episodeAudio?.audio || {};
+            const { duration } = episodeAudio?.audio?.node || {};
             const linkHref = generateContentLinkHref(link);
 
             return (

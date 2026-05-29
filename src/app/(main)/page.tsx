@@ -17,7 +17,7 @@ import {
   CardLink,
   CardTitle,
 } from "@/components/ui/card";
-import type { Category, Post } from "@/interfaces";
+import type { Category, Contributor, Post } from "@/interfaces";
 import { generateContentLinkHref } from "@/lib/routing/content";
 import { BookmarkIcon } from "lucide-react";
 import { formatDuration } from "@/lib/parse/time";
@@ -167,7 +167,7 @@ export default async function Home() {
                           primaryCategory,
                         } = post;
                         const { audio } = additionalMedia || {};
-                        const { duration } = audio || {};
+                        const { duration } = audio?.node || {};
                         const { name: pcName, link: pcLink } =
                           primaryCategory || {};
                         const { altText, sourceUrl, mediaItemUrl } =
@@ -226,7 +226,7 @@ export default async function Home() {
                                 )}
                                 <CardTitle>{title}</CardTitle>
                               </CardHeader>
-                              {audio && (
+                              {audio?.node && (
                                 <CardFooter>
                                   <div
                                     className={cn(
@@ -237,7 +237,7 @@ export default async function Home() {
                                       <PlayAudioButton
                                         className="text-cyan"
                                         variant="ghost"
-                                        audio={audio}
+                                        audio={audio.node}
                                         fallbackProps={fallbackProps}
                                       />
                                       {duration && (
@@ -247,7 +247,7 @@ export default async function Home() {
                                     <AddAudioButton
                                       className="text-cyan"
                                       variant="ghost"
-                                      audio={audio}
+                                      audio={audio.node}
                                       fallbackProps={fallbackProps}
                                     />
                                   </div>
@@ -267,7 +267,7 @@ export default async function Home() {
         )}
 
         {/* Team Carousel */}
-        {!!team?.length && (
+        {!!team?.nodes?.length && (
           <div
             className={cn(
               "grid grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
@@ -281,12 +281,13 @@ export default async function Home() {
               <CardCarousel>
                 <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left)" />
                 <CarouselContent>
-                  {team
+                  {(team.nodes as Contributor[])
                     ?.filter((v) => !!v)
                     .map(({ id, name, link, contributorDetails }) => {
                       const { position, image } = contributorDetails || {};
                       const contributorLink = generateContentLinkHref(link);
-                      const { altText, sourceUrl, mediaItemUrl } = image || {};
+                      const { altText, sourceUrl, mediaItemUrl } =
+                        image?.node || {};
                       const imageSrc = sourceUrl || mediaItemUrl;
 
                       return (
