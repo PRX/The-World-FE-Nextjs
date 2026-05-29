@@ -33,7 +33,7 @@ import TwitterXIcon from "@/assets/svg/icons/brands/twitter.svg";
 import TikTokIcon from "@/assets/svg/icons/brands/tiktok.svg";
 import YoutubeIcon from "@/assets/svg/icons/brands/youtube.svg";
 import MainUIContext from "../../_contexts/MainUIContext";
-import DonateModalLink from "@/components/Donate/DonateModalLink";
+// import DonateModalLink from "@/components/Donate/DonateModalLink";
 import LogoGlobe from "../Logo/LogoGlobe";
 import { usePathname } from "next/navigation";
 
@@ -109,7 +109,11 @@ export default function MainUIMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <DonateModalLink
+            <Link href="https://give.prx.org/campaign/804766/donate?c_src=Referal&c_src2=website-menu-hamburger">
+              <HeartHandshakeIcon />
+              <NavigationMenuLabel>Donate</NavigationMenuLabel>
+            </Link>
+            {/* <DonateModalLink
               variant="unstyled"
               campaign="727547"
               queryParams={{
@@ -119,7 +123,7 @@ export default function MainUIMenu() {
             >
               <HeartHandshakeIcon />
               <NavigationMenuLabel>Donate</NavigationMenuLabel>
-            </DonateModalLink>
+            </DonateModalLink> */}
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
