@@ -110,5 +110,5 @@ export const onRequestError: Instrumentation.onRequestError = async (
   request,
   context,
 ) => {
-  console.error(err, request, context);
+  console.error(err, { err, request, context });
 };

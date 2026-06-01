@@ -98,8 +98,6 @@ export async function fetchGqlHomepage() {
 
   if (!homepage) return undefined;
 
-  // TODO: Get data for card carousels.
-
   return {
     ...homepage,
     menus: {
