@@ -33,9 +33,11 @@ export const GET_SEGMENT = gql`
           link
           contributorDetails {
             image {
-              sourceUrl
-              mediaItemUrl
-              altText
+              node {
+                sourceUrl
+                mediaItemUrl
+                altText
+              }
             }
           }
         }
