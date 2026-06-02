@@ -174,6 +174,7 @@ export default async function CountriesPage({
                   {slides.map((node, index, all) => {
                     if (!node) return null;
 
+                    const { id } = node;
                     const { additionalMedia, primaryCategory } = node as Post;
                     const { episodeAudio } = node as Episode;
                     const { segmentContent } = node as Segment;
@@ -196,7 +197,7 @@ export default async function CountriesPage({
                       (isParentOfSegmentAudioAStory &&
                         (parent?.node as Post)) ||
                       (node as Post);
-                    const { id, title, date, link, featuredImage } =
+                    const { title, date, link, featuredImage } =
                       slideNode || {};
 
                     const { name: pcName, link: pcLink } =
