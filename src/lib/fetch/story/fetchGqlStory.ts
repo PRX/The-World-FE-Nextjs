@@ -29,7 +29,9 @@ export const STORY_CARD_PROPS = gql`
     }
     additionalMedia {
       audio {
-        ...AudioProps
+        node {
+          ...AudioProps
+        }
       }
     }
   }
@@ -58,7 +60,9 @@ export const GET_STORY_POST = gql`
       }
       additionalMedia {
         audio {
-          ...AudioProps
+          node {
+            ...AudioProps
+          }
         }
         video
       }
@@ -72,7 +76,9 @@ export const GET_STORY_POST = gql`
           link
           contributorDetails {
             image {
-              ...ImageProps
+              node {
+                ...ImageProps
+              }
             }
           }
         }

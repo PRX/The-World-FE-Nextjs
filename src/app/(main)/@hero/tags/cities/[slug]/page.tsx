@@ -29,7 +29,7 @@ export default async function TagHero({
   const hasDescription = !!description?.trim();
 
   return (
-    <ExplorerHero image={imageBanner}>
+    <ExplorerHero image={imageBanner?.node}>
       <div className="grid gap-y-4 max-w-3xl text-pretty">
         <ExplorerHeroHeading>
           <Building2Icon />

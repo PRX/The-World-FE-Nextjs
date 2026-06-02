@@ -64,7 +64,9 @@ const GET_SEARCH_RESULTS = (
         ...on Contributor {
           contributorDetails {
             image {
-              ...ImageProps
+              node {
+                ...ImageProps
+              }
             }
           }
         }

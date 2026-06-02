@@ -52,7 +52,9 @@ const GET_PROGRAMS = gql`
     }
     taxonomyImages {
       logo {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
     contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {

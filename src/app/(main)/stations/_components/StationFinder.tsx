@@ -98,7 +98,8 @@ export function StationFinder({
             } = stationFields?.stationInfo || {};
             const [frequency, hd] = rawFrequency?.split(" ") || [];
             const isHD =
-              hd?.toLowerCase() === "hd" || modulator?.toLowerCase() === "fm2";
+              hd?.toLowerCase() === "hd" ||
+              modulator?.at(0)?.toLowerCase() === "fm2";
             const isUSA = countries?.nodes[0]?.name?.match(
               /united states( of america)?/i,
             );

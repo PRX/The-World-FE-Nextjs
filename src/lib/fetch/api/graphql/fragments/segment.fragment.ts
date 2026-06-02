@@ -7,7 +7,9 @@ export const SEGMENT_LIST_PROPS = gql`
     title
     segmentContent {
       audio {
-        id
+        node{
+          id
+        }
       }
     }
   }
@@ -29,7 +31,9 @@ export const SEGMENT_CARD_PROPS = gql`
     }
     segmentContent {
       audio {
-        ...AudioProps
+        node {
+          ...AudioProps
+        }
       }
     }
   }

@@ -49,7 +49,7 @@ export default async function CategoryHero({
   const hasSponsors = !!sponsorLinks?.length;
 
   return (
-    <ExplorerHero image={imageBanner}>
+    <ExplorerHero image={imageBanner?.node}>
       <div className="grid gap-y-4 text-lg text-pretty">
         <ExplorerHeroHeading>
           <BookmarkIcon />
@@ -84,11 +84,11 @@ export default async function CategoryHero({
               </div>
             )}
           </div>
-          {!!editors?.length && (
+          {!!editors?.nodes?.length && (
             <div className="flex flex-col gap-2">
               <h3 className="font-light">Edited By</h3>
               <div className="flex @max-xl/hero-content:flex-wrap @xl/hero-content:flex-col gap-2">
-                {editors
+                {(editors?.nodes as Contributor[])
                   .filter((v) => !!v)
                   .map((contributor: Contributor) => {
                     const {
@@ -98,7 +98,8 @@ export default async function CategoryHero({
                       contributorDetails,
                     } = contributor;
                     const { image } = contributorDetails || {};
-                    const { sourceUrl, mediaItemUrl, altText } = image || {};
+                    const { sourceUrl, mediaItemUrl, altText } =
+                      image?.node || {};
                     const imageUrl = sourceUrl || mediaItemUrl;
                     const initials = name
                       ?.match(/\b(\w)/g)

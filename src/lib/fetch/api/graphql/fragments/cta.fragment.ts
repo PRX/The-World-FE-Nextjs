@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const CTA_REGION_PROPS = gql`
   fragment CtaRegionProps on CtaRegion {
@@ -7,7 +7,9 @@ export const CTA_REGION_PROPS = gql`
     slug
     ctaRegionContent {
       callToActions {
-        ...CtaProps
+        nodes {
+          ...CtaProps
+        }
       }
     }
   }
@@ -33,14 +35,16 @@ export const CTA_PROPS = gql`
       }
       newsletterSettings {
         newsletter {
-          ... on Newsletter {
-            id
-            title
-            link
-            newsletterOptions {
-              buttonLabel
-              listId
-              optInText
+          nodes {
+            ... on Newsletter {
+              id
+              title
+              link
+              newsletterOptions {
+                buttonLabel
+                listId
+                optInText
+              }
             }
           }
         }
@@ -51,17 +55,18 @@ export const CTA_PROPS = gql`
     }
     ctaTargeting {
       targetCategories {
-        id
-      }
-      targetPrograms {
-        id
-      }
-      targetContent {
-        __typename
-        ... on Post {
+        nodes {
           id
         }
-        ... on Episode {
+      }
+      targetPrograms {
+        nodes {
+          id
+        }
+      }
+      targetContent {
+        nodes {
+          __typename
           id
         }
       }

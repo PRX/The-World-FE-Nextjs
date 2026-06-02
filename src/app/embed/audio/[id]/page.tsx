@@ -24,7 +24,7 @@ export const getCachedAudioEmbedData = unstable_cache(
   async (id: string) => {
     const story = await fetchGqlStory(id);
     if (story) {
-      const audioId = story?.additionalMedia?.audio?.id;
+      const audioId = story?.additionalMedia?.audio?.node?.id;
       const audioData =
         (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 
@@ -33,7 +33,7 @@ export const getCachedAudioEmbedData = unstable_cache(
 
     const segment = await fetchGqlSegment(id);
     if (segment) {
-      const audioId = segment?.segmentContent?.audio?.id;
+      const audioId = segment?.segmentContent?.audio?.node?.id;
       const audioData =
         (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 
@@ -42,7 +42,7 @@ export const getCachedAudioEmbedData = unstable_cache(
 
     const episode = await fetchGqlEpisode(id);
     if (episode) {
-      const audioId = episode?.episodeAudio?.audio?.id;
+      const audioId = episode?.episodeAudio?.audio?.node?.id;
       const audioData =
         (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 

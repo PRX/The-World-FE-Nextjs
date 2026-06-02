@@ -32,9 +32,7 @@ export default async function EpisodeHero({
 
   return (
     <HeroHeader image={featuredImage?.node}>
-      <h1 className="text-3xl md:text-4xl font-bold text-balance">
-        {title}
-      </h1>
+      <h1 className="text-3xl md:text-4xl font-bold text-balance">{title}</h1>
       <div className="flex gap-x-4 text-md/snug">
         <span className="font-serif uppercase italic">Full Episode</span>
         <DateTime
@@ -48,8 +46,12 @@ export default async function EpisodeHero({
         />
       </div>
       <div className="flex justify-between items-stretch gap-x-4">
-        {audio && (
-          <AudioBar className="grow" audio={audio} fallbackProps={audioProps} />
+        {audio?.node && (
+          <AudioBar
+            className="grow"
+            audio={audio.node}
+            fallbackProps={audioProps}
+          />
         )}
         <ShareButton
           title={title || undefined}

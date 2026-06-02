@@ -1,4 +1,4 @@
-import type { Program } from "@/interfaces";
+import type { Contributor, Program } from "@/interfaces";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getCachedProgram } from "../page";
@@ -64,7 +64,7 @@ export default async function TaxonomyPage({ params }: Props) {
   if (slug) {
     data = await getCachedProgram(slug);
 
-    if (!data?.programContributors?.team?.length) return notFound();
+    if (!data?.programContributors?.team?.nodes?.length) return notFound();
   }
 
   const { id, name, programContributors } = data || {};
@@ -82,22 +82,23 @@ export default async function TaxonomyPage({ params }: Props) {
     <div className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
       <Plausible events={plausibleEvents} key={id} />
       <Explorer pageInfo={{ hasNextPage: false, hasPreviousPage: false }}>
-        {team
+        {(team?.nodes as Contributor[])
           ?.filter((n) => !!n)
           .map((node, index) => {
             const { id, name, link, contributorDetails } = node;
             const { image, position } = contributorDetails || {};
             const linkHref = generateContentLinkHref(link);
-            const imageSrc = image?.sourceUrl || image?.mediaItemUrl;
+            const imageSrc =
+              image?.node?.sourceUrl || image?.node?.mediaItemUrl;
 
             return (
               <Card className={cn("aspect-2/3")} key={id}>
                 {linkHref && <CardLink href={linkHref} />}
                 {imageSrc && (
-                  <CardImage data-image-id={image.id}>
+                  <CardImage data-image-id={image.node.id}>
                     <Image
                       src={sanitizeUrl(imageSrc)}
-                      alt={image?.altText || ""}
+                      alt={image.node.altText || ""}
                       fill
                       sizes={`(min-width: 768px) 800px, 200vw`}
                       style={{

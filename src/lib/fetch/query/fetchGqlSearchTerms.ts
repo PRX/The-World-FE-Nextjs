@@ -4,18 +4,12 @@
 
 import {
   OrderEnum,
-  RootQueryToTermNodeConnection,
-  TaxonomyEnum,
+  type RootQueryToTermNodeConnection,
   TermObjectsConnectionOrderbyEnum,
-  type RootQueryToTagConnectionWhereArgs,
   type RootQueryToTermNodeConnectionWhereArgs,
-  type TermNodeConnection,
 } from "@/interfaces";
 import { gql } from "@apollo/client";
-import { upperFirst } from "lodash";
 import { getClient } from "@/lib/fetch/api";
-import { IMAGE_PROPS } from "@/lib/fetch/api/graphql";
-import fetchGqlTaxonomies from "@/lib/fetch/tag/fetchGqlTaxonomies";
 
 export type SearchTermQueryOptions = {
   first?: number;
@@ -43,14 +37,15 @@ const GET_SEARCH_TERM_RESULTS = gql`
         ...on Contributor {
           contributorDetails {
             image {
-              ...ImageProps
+              node {
+                ...ImageProps
+              }
             }
           }
         }
       }
     }
   }
-  ${IMAGE_PROPS}
 `;
 
 export async function fetchGqlSearchTerms(

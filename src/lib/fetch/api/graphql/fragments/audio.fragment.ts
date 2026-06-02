@@ -64,13 +64,20 @@ export const AUDIO_PROPS = gql`
       audioTitle
       broadcastDate
       program {
-        id
-        link
-        name
-        taxonomyImages {
-          logo {
-            ...ImageProps
+        nodes {
+          id
+          link
+          name
+          ... on WithAcfTaxonomyImages {
+            taxonomyImages {
+              logo {
+                node {
+                  ...ImageProps
+                }
+              }
+            }
           }
+          
         }
       }
     }

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import ContentBody from "@/app/(main)/_components/ContentBody";
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
 import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
-import { EpisodeIdType, type Post } from "@/interfaces";
+import { EpisodeIdType, type Segment, type Post } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlEpisode } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
@@ -88,7 +88,7 @@ export default async function EpisodePage({ params }: Props) {
     episodeDates,
   } = data;
   const { audio } = episodeAudio || {};
-  const { audioFields } = audio || {};
+  const { audioFields } = audio?.node || {};
   const { segmentsList } = audioFields || {};
   const { broadcastDate } = episodeDates || {};
   const props = {
@@ -132,7 +132,7 @@ export default async function EpisodePage({ params }: Props) {
       <div className="relative ps-(--gutter-left)">
         <ContentBody html={content}>
           {/* Segments Carousel */}
-          {!!segmentsList?.length && (
+          {!!segmentsList?.nodes?.length && (
             <div className={cn("max-sm:snap-always max-sm:snap-center")}>
               <h2
                 className={cn(
@@ -159,13 +159,13 @@ export default async function EpisodePage({ params }: Props) {
                 >
                   <CarouselPrevious className="pl-(--gutter-left) from-[calc(var(--gutter-left))] max-md:hidden" />
                   <CarouselContent className="pl-[calc(var(--gutter-left)+var(--body-gutter))] justify-between">
-                    {segmentsList.map((segment) => {
+                    {(segmentsList.nodes as Segment[]).map((segment) => {
                       if (!segment) return null;
 
                       const { segmentContent } = segment;
                       const { audio: segmentAudio } = segmentContent || {};
                       const { duration: segmentAudioDuration, parent } =
-                        segmentAudio || {};
+                        segmentAudio?.node || {};
                       const isParentAStory =
                         parent?.node.contentTypeName === "post";
                       const {
@@ -221,7 +221,7 @@ export default async function EpisodePage({ params }: Props) {
                                 </CardAction>
                               )}
                             </CardHeader>
-                            {!!segmentAudio && (
+                            {!!segmentAudio?.node && (
                               <CardFooter>
                                 <div
                                   className={cn(
@@ -232,7 +232,7 @@ export default async function EpisodePage({ params }: Props) {
                                     <PlayAudioButton
                                       className="text-cyan"
                                       variant="ghost"
-                                      audio={segmentAudio}
+                                      audio={segmentAudio.node}
                                       fallbackProps={segmentAudioProps}
                                     />
                                     {segmentAudioDuration && (
@@ -244,7 +244,7 @@ export default async function EpisodePage({ params }: Props) {
                                   <AddAudioButton
                                     className="text-cyan"
                                     variant="ghost"
-                                    audio={segmentAudio}
+                                    audio={segmentAudio.node}
                                     fallbackProps={segmentAudioProps}
                                   />
                                 </div>

@@ -1,5 +1,5 @@
 import CtaRegion from "@/app/(main)/_components/CtaRegion";
-import { type ContentNode, TagIdType } from "@/interfaces";
+import { type ContentNode, type Post, TagIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import {
   type ContentQueryOptions,
@@ -105,7 +105,9 @@ export default async function ProvinceOrStatePage({
   }
   const { landingPage } = data || {};
   const { featuredPosts } = landingPage || {};
-  const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
+  const excludeIds = (featuredPosts?.nodes as Post[])
+    ?.filter((v) => !!v)
+    .map((p) => p.databaseId);
   const siteSearchParams =
     sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
   const { search, sf } = siteSearchParams;
@@ -155,7 +157,7 @@ export default async function ProvinceOrStatePage({
         </div>
       </div>
       <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
-        {[...(featuredPosts || []), ...(nodes || [])]
+        {[...(featuredPosts?.nodes || []), ...(nodes || [])]
           ?.filter((n) => !!n)
           .map((node, index) => {
             return (

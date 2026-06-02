@@ -65,7 +65,7 @@ export default async function SegmentHero({
             {contributors.nodes.map((contributor: Contributor) => {
               const { id: key, name, link, contributorDetails } = contributor;
               const { image } = contributorDetails || {};
-              const { sourceUrl, mediaItemUrl, altText } = image || {};
+              const { sourceUrl, mediaItemUrl, altText } = image?.node || {};
               const imageUrl = sourceUrl || mediaItemUrl;
               const initials = name
                 ?.match(/\b(\w)/g)
@@ -105,8 +105,12 @@ export default async function SegmentHero({
         )}
       </div>
       <div className="flex justify-between items-stretch gap-x-4">
-        {audio && (
-          <AudioBar className="grow" audio={audio} fallbackProps={audioProps} />
+        {audio?.node && (
+          <AudioBar
+            className="grow"
+            audio={audio.node}
+            fallbackProps={audioProps}
+          />
         )}
         <ShareButton
           title={title || undefined}

@@ -17,13 +17,17 @@ const GET_PROGRAM = gql`
       slug
       programContributors {
         team {
-          id
-          link
-          name
-          contributorDetails {
-            position
-            image {
-              ...ImageProps
+          nodes {
+            id
+            link
+            name
+            contributorDetails {
+              position
+              image {
+                node {
+                  ...ImageProps
+                }
+              }
             }
           }
         }

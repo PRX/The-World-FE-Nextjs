@@ -141,7 +141,7 @@ export default function SegmentBrowserUI({
           )}
           {selectedSegments?.map((e, index, all) => {
             const { id, date, link, title, segmentContent } = e;
-            const { duration } = segmentContent?.audio || {};
+            const { duration } = segmentContent?.audio?.node || {};
             const linkHref = generateContentLinkHref(link);
 
             return (

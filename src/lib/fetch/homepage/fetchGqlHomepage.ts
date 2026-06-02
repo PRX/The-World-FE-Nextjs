@@ -11,6 +11,8 @@ import {
   MENU_PROPS,
   EPISODE_CARD_PROPS,
   AUDIO_PROPS,
+  IMAGE_PROPS,
+  POST_CARD_PROPS,
 } from "@/lib/fetch/api/graphql";
 
 const GET_HOMEPAGE = gql`
@@ -20,21 +22,29 @@ const GET_HOMEPAGE = gql`
       link
       programContributors {
         team {
-          id
-          name
-          link
-          contributorDetails {
-            position
-            image {
-              ...ImageProps
+          nodes {
+            id
+            name
+            link
+            ... on WithAcfContributorDetails {
+              contributorDetails {
+                position
+                image {
+                  node {
+                    ...ImageProps
+                  }
+                }
+              }
             }
           }
         }
       }
       landingPage {
         featuredPosts {
-          ... on Post {
-            ...PostCardProps
+          nodes {
+            ... on Post {
+              ...PostCardProps
+            }
           }
         }
       }
@@ -67,7 +77,9 @@ const GET_HOMEPAGE = gql`
   }
   ${MENU_PROPS}
   ${EPISODE_CARD_PROPS}
+  ${POST_CARD_PROPS}
   ${AUDIO_PROPS}
+  ${IMAGE_PROPS}
 `;
 
 export async function fetchGqlHomepage() {
@@ -85,8 +97,6 @@ export async function fetchGqlHomepage() {
   const quickLinksMenu = response?.data?.quickLinks?.menuItems?.nodes;
 
   if (!homepage) return undefined;
-
-  // TODO: Get data for card carousels.
 
   return {
     ...homepage,

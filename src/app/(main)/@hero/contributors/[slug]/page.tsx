@@ -24,6 +24,7 @@ import TiktokIcon from "@/assets/svg/icons/brands/tiktok.svg";
 import { Button } from "@/components/ui/button";
 import { capitalize } from "lodash";
 import { ColorSchemeSwitcher } from "@/app/(main)/_components/ColorSchemeSwitcher";
+import type { Program } from "@/interfaces";
 
 const followIconMap = new Map();
 followIconMap.set("blog", LinkIcon);
@@ -58,12 +59,13 @@ export default async function ContributorHero({
   const { name, taxonomyImages, contributorDetails, contributorSocialLinks } =
     data;
   const { image, position, program } = contributorDetails || {};
-  const imageSrc = image?.sourceUrl || image?.mediaItemUrl;
+  const imageSrc = image?.node?.sourceUrl || image?.node?.mediaItemUrl;
   const initials = name
     ?.match(/\b(\w)/g)
     ?.join("")
     .toUpperCase();
-  const { name: programName, link: programLink } = program?.at(0) || {};
+  const { name: programName, link: programLink } =
+    (program?.nodes as Program[])?.at(0) || {};
   const programHref = generateContentLinkHref(programLink);
   const { imageBanner } = taxonomyImages || {};
   const hasPosition = !!position?.trim().length;
@@ -92,7 +94,7 @@ export default async function ContributorHero({
       });
 
   return (
-    <ExplorerHero image={imageBanner}>
+    <ExplorerHero image={imageBanner?.node}>
       <div className="grid md:grid-cols-[--spacing(50)_1fr] gap-8 items-end">
         <Avatar
           className={cn(
@@ -103,7 +105,7 @@ export default async function ContributorHero({
             <AvatarImage
               src={imageSrc}
               sizes="400px"
-              alt={image?.altText || name || ""}
+              alt={image?.node?.altText || name || ""}
             />
           )}
           <AvatarFallback className="text-3xl font-bold">

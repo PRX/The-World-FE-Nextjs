@@ -101,6 +101,8 @@ export async function register() {
     console.warn = createConsoleMethod(logger, "warn");
     console.debug = createConsoleMethod(logger, "debug");
   }
+
+  console.log("Instrumentation logger registration complete.");
 }
 
 export const onRequestError: Instrumentation.onRequestError = async (
@@ -108,5 +110,5 @@ export const onRequestError: Instrumentation.onRequestError = async (
   request,
   context,
 ) => {
-  console.error(err, request, context);
+  console.error(err, { err, request, context });
 };

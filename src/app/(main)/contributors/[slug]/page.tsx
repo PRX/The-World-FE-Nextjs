@@ -1,4 +1,4 @@
-import { type ContentNode, ContributorIdType } from "@/interfaces";
+import { type ContentNode, ContributorIdType, type Post } from "@/interfaces";
 import { create } from "@bufbuild/protobuf";
 import {
   ExcludeIdsListSchema,
@@ -103,7 +103,9 @@ export default async function ContributorPage({ params, searchParams }: Props) {
   const content = bio || description;
   const hasContent = !!content?.trim();
   const { featuredPosts } = landingPage || {};
-  const excludeIds = featuredPosts?.filter((v) => !!v).map((p) => p.databaseId);
+  const excludeIds = (featuredPosts?.nodes as Post[])
+    ?.filter((v) => !!v)
+    .map((p) => p.databaseId);
   const siteSearchParams =
     sanitizeSearchParamsForSiteSearch(resolvedSearchParams);
   const { search, sf } = siteSearchParams;
@@ -155,7 +157,7 @@ export default async function ContributorPage({ params, searchParams }: Props) {
         </div>
       </div>
       <Explorer fetchSearchFilters={searchFilters} pageInfo={pageInfo}>
-        {[...(featuredPosts || []), ...(nodes || [])]
+        {[...(featuredPosts?.nodes || []), ...(nodes || [])]
           ?.filter((n) => !!n)
           .map((node, index) => {
             return (

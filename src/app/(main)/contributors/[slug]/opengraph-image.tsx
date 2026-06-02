@@ -29,6 +29,6 @@ export default async function Image({ params }: Props) {
   return createMetaImage({
     size,
     title: name,
-    image: contributorDetails?.image,
+    image: contributorDetails?.image?.node,
   });
 }

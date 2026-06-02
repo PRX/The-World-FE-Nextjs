@@ -30,8 +30,10 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Set the Next.js runtime variable. Required by instrumentation to setup logging formatter.
+ENV NEXT_RUNTIME=nodejs
+
 ENV APP_DOMAIN=theworld.org
-ENV API_URL_BASE=https://api.theworld.org
 ENV WP_REST_ENDPOINT=wp-json
 ENV WP_GRAPHQL_ENDPOINT=graphql
 

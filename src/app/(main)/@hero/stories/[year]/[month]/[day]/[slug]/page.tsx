@@ -51,9 +51,7 @@ export default async function StoryHero({
 
   return (
     <HeroHeader image={image}>
-      <h1 className="text-3xl md:text-4xl font-bold text-balance">
-        {title}
-      </h1>
+      <h1 className="text-3xl md:text-4xl font-bold text-balance">{title}</h1>
       <div className="flex @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-2">
         <div className="grow flex flex-col gap-y-4">
           {excerpt && <HtmlContent html={excerpt} className="text-xl/snug" />}
@@ -100,7 +98,7 @@ export default async function StoryHero({
             {contributors.nodes.map((contributor: Contributor) => {
               const { id: key, name, link, contributorDetails } = contributor;
               const { image } = contributorDetails || {};
-              const { sourceUrl, mediaItemUrl, altText } = image || {};
+              const { sourceUrl, mediaItemUrl, altText } = image?.node || {};
               const imageUrl = sourceUrl || mediaItemUrl;
               const initials = name
                 ?.match(/\b(\w)/g)
@@ -140,8 +138,12 @@ export default async function StoryHero({
         )}
       </div>
       <div className="flex justify-between items-stretch gap-x-4">
-        {audio && (
-          <AudioBar className="grow" audio={audio} fallbackProps={audioProps} />
+        {audio?.node && (
+          <AudioBar
+            className="grow"
+            audio={audio.node}
+            fallbackProps={audioProps}
+          />
         )}
         <ShareButton
           title={title || undefined}

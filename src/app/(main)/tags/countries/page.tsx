@@ -102,7 +102,8 @@ export default async function CountriesPage({
         const info = [
           count && (count > 1 ? `${countString} posts` : "1 post"),
         ].filter((v) => !!v);
-        const { sourceUrl, mediaItemUrl, altText } = taxonomyImages?.logo || {};
+        const { sourceUrl, mediaItemUrl, altText } =
+          taxonomyImages?.logo?.node || {};
         const imageSrc = sourceUrl || mediaItemUrl;
         const href = generateContentLinkHref(link) || "";
         const slides = contentNodes?.nodes || [];
@@ -173,13 +174,14 @@ export default async function CountriesPage({
                   {slides.map((node, index, all) => {
                     if (!node) return null;
 
+                    const { id } = node;
                     const { additionalMedia, primaryCategory } = node as Post;
                     const { episodeAudio } = node as Episode;
                     const { segmentContent } = node as Segment;
 
                     const { audio } =
                       additionalMedia || episodeAudio || segmentContent || {};
-                    const { duration, parent } = audio || {};
+                    const { duration, parent } = audio?.node || {};
                     const isParentOfSegmentAudioAStory =
                       !!segmentContent &&
                       parent?.node.contentTypeName === "post";
@@ -195,7 +197,7 @@ export default async function CountriesPage({
                       (isParentOfSegmentAudioAStory &&
                         (parent?.node as Post)) ||
                       (node as Post);
-                    const { id, title, date, link, featuredImage } =
+                    const { title, date, link, featuredImage } =
                       slideNode || {};
 
                     const { name: pcName, link: pcLink } =
@@ -275,7 +277,7 @@ export default async function CountriesPage({
                               />
                             </div>
                           </CardHeader>
-                          {audio && (
+                          {audio?.node && (
                             <CardFooter>
                               <div
                                 className={cn(
@@ -286,7 +288,7 @@ export default async function CountriesPage({
                                   <PlayAudioButton
                                     className="text-cyan"
                                     variant="ghost"
-                                    audio={audio}
+                                    audio={audio.node}
                                     fallbackProps={fallbackProps}
                                   />
                                   {duration && (
@@ -296,7 +298,7 @@ export default async function CountriesPage({
                                 <AddAudioButton
                                   className="text-cyan"
                                   variant="ghost"
-                                  audio={audio}
+                                  audio={audio.node}
                                   fallbackProps={fallbackProps}
                                 />
                               </div>

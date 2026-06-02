@@ -1,12 +1,6 @@
 import type { Category } from "@/interfaces";
 import { getCachedCategory } from "@/app/(main)/categories/[...slugs]/page";
-import HeroHeader from "@/app/(main)/_components/HeroHeader";
-import { HtmlContent } from "@/components/HtmlContent";
 import { BookmarkIcon, ChevronRightIcon } from "lucide-react";
-import {
-  ExplorerHero,
-  ExplorerHeroHeading,
-} from "@/app/(main)/_components/Explorer";
 import {
   Item,
   ItemActions,
@@ -18,11 +12,7 @@ import {
 import { generateContentLinkHref } from "@/lib/routing";
 import Link from "next/link";
 import { cn } from "@/lib/util/css";
-import { Separator } from "@/components/ui/separator";
-import {
-  NavigationMenuItemSeparator,
-  NavigationMenuLinkSeparator,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenuLinkSeparator } from "@/components/ui/navigation-menu";
 
 export default async function CategoryHero({
   params,

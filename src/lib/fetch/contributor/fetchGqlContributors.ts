@@ -41,12 +41,16 @@ const CONTRIBUTOR_CARD_PROPS = gql`
         name
       }
       image {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
     taxonomyImages {
       imageBanner {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
     contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {

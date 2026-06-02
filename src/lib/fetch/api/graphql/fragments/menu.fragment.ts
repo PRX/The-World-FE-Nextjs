@@ -1,6 +1,4 @@
 import { gql } from "@apollo/client";
-import { POST_CARD_PROPS } from "./post.fragment";
-import { IMAGE_PROPS } from "./image.fragment";
 
 export const MENU_ITEM_PROPS = gql`
   fragment MenuItemProps on MenuItem {
@@ -31,7 +29,5 @@ export const MENU_PROPS = gql`
       }
     }
   }
-  ${IMAGE_PROPS}
-  ${POST_CARD_PROPS}
   ${MENU_ITEM_PROPS}
 `;

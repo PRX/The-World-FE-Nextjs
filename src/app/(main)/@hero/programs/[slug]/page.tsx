@@ -44,7 +44,7 @@ export default async function ProgramHero({
   const { teaser } = teaserFields || {};
   const { imageBanner, logo } = taxonomyImages || {};
   const { hosts, team } = programContributors || {};
-  const hasContributors = !!hosts?.length || !!team?.length;
+  const hasContributors = !!hosts?.nodes?.length || !!team?.nodes?.length;
   const { collectionSponsorLinks } = sponsorship || {};
   const sponsorLinks = collectionSponsorLinks
     ?.filter((v) => !!v)
@@ -52,19 +52,20 @@ export default async function ProgramHero({
   const hasDescription = !!description?.trim();
   const hasTeaser = !!teaser?.trim();
   const hasSponsors = !!sponsorLinks?.length;
-  const logoSrc = logo?.sourceUrl || logo?.mediaItemUrl;
+  const logoSrc = logo?.node?.sourceUrl || logo?.node?.mediaItemUrl;
+  const hasLogo = !!(logo?.node && logoSrc);
 
   return (
-    <ExplorerHero image={imageBanner}>
+    <ExplorerHero image={imageBanner?.node}>
       <div className="grid gap-y-4 text-lg text-pretty">
         <div className="flex items-end @max-xl/hero-content:flex-wrap content-start gap-x-12 gap-y-4">
           <div className="grow flex flex-col gap-y-4">
-            {logoSrc && (
+            {hasLogo && (
               <Avatar className={cn("relative size-20 ring-6 ring-current/20")}>
                 <AvatarImage
                   src={logoSrc}
                   sizes="400px"
-                  alt={logo?.altText || name || ""}
+                  alt={logo.node.altText || name || ""}
                 />
               </Avatar>
             )}
@@ -100,11 +101,11 @@ export default async function ProgramHero({
           </div>
           {hasContributors && (
             <div className="flex flex-col gap-4">
-              {!!hosts?.length && (
+              {!!hosts?.nodes?.length && (
                 <div className="flex flex-col gap-2">
                   <h3 className="font-light">Hosted By</h3>
                   <div className="flex @max-xl/hero-content:flex-wrap @xl/hero-content:flex-col gap-2">
-                    {hosts
+                    {(hosts.nodes as Contributor[])
                       .filter((v) => !!v)
                       .map((contributor: Contributor) => {
                         const {
@@ -115,7 +116,7 @@ export default async function ProgramHero({
                         } = contributor;
                         const { image } = contributorDetails || {};
                         const { sourceUrl, mediaItemUrl, altText } =
-                          image || {};
+                          image?.node || {};
                         const imageUrl = sourceUrl || mediaItemUrl;
                         const initials = name
                           ?.match(/\b(\w)/g)
@@ -158,7 +159,7 @@ export default async function ProgramHero({
                   </div>
                 </div>
               )}
-              {!!team?.length && (
+              {!!team?.nodes?.length && (
                 <div className="flex flex-col gap-2">
                   <h3 className="font-light">{name} Team</h3>
                   <Button
@@ -179,9 +180,11 @@ export default async function ProgramHero({
                           "**:data-[slot=avatar-fallback]:text-white",
                         )}
                       >
-                        {team
+                        {(team.nodes as Contributor[])
                           .filter((v) => !!v)
-                          .filter((t) => !hosts?.find((h) => t.id === h?.id))
+                          .filter(
+                            (t) => !hosts?.nodes?.find((h) => t.id === h?.id),
+                          )
                           .slice(0, 4)
                           .map((contributor: Contributor) => {
                             const {
@@ -191,7 +194,7 @@ export default async function ProgramHero({
                             } = contributor;
                             const { image } = contributorDetails || {};
                             const { sourceUrl, mediaItemUrl, altText } =
-                              image || {};
+                              image?.node || {};
                             const imageUrl = sourceUrl || mediaItemUrl;
                             const initials = contributorName
                               ?.match(/\b(\w)/g)
@@ -211,7 +214,9 @@ export default async function ProgramHero({
                               </Avatar>
                             );
                           })}
-                        <AvatarGroupCount>+{team.length - 4}</AvatarGroupCount>
+                        <AvatarGroupCount>
+                          +{team.nodes.length - 4}
+                        </AvatarGroupCount>
                       </AvatarGroup>
                     </Link>
                   </Button>

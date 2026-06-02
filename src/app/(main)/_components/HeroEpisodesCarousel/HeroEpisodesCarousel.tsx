@@ -1,6 +1,6 @@
 "use client";
 
-import type { Post, ProgramToEpisodeConnection } from "@/interfaces";
+import type { Post, ProgramToEpisodeConnection, Segment } from "@/interfaces";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,12 +71,12 @@ export default function HeroEpisodesCarousel({
   const imageSrc = sourceUrl || mediaItemUrl;
   const { teaser } = teaserFields || {};
   const { audio } = episodeAudio || {};
-  const { audioFields } = audio || {};
+  const { audioFields } = audio?.node || {};
   const { segmentsList } = audioFields || {};
   const linkHref = generateContentLinkHref(link);
   const hasExcerpt = !!excerpt?.trim();
   const hasTeaser = !!teaser?.trim();
-  const hasAudio = !!audio;
+  const hasAudio = !!audio?.node;
   const audioProps = {
     title,
     queuedFrom: "Card Controls (Hero Episodes Carousel)",
@@ -169,12 +169,12 @@ export default function HeroEpisodesCarousel({
                 )
               )}
               {hasAudio && (
-                <AudioBar audio={audio} fallbackProps={audioProps} />
+                <AudioBar audio={audio.node} fallbackProps={audioProps} />
               )}
             </motion.div>
           </AnimatePresence>
           {/* Segments Carousel */}
-          {!!segmentsList?.length && (
+          {!!segmentsList?.nodes?.length && (
             <div
               className={cn(
                 "flex flex-col align-items-start gap-y-2 -mb-1",
@@ -224,13 +224,13 @@ export default function HeroEpisodesCarousel({
                   >
                     <CarouselPrevious className="rounded-s-sm" />
                     <CarouselContent className="">
-                      {segmentsList?.map((segment) => {
+                      {(segmentsList.nodes as Segment[]).map((segment) => {
                         if (!segment) return null;
 
                         const { segmentContent } = segment;
                         const { audio: segmentAudio } = segmentContent || {};
                         const { duration: segmentAudioDuration, parent } =
-                          segmentAudio || {};
+                          segmentAudio?.node || {};
                         const isParentAStory =
                           parent?.node.contentTypeName === "post";
                         const {
@@ -300,7 +300,7 @@ export default function HeroEpisodesCarousel({
                                     </CardAction>
                                   )}
                                 </CardHeader>
-                                {!!segmentAudio && (
+                                {!!segmentAudio?.node && (
                                   <CardFooter>
                                     <div
                                       className={cn(
@@ -311,7 +311,7 @@ export default function HeroEpisodesCarousel({
                                         <PlayAudioButton
                                           className="text-cyan"
                                           variant="ghost"
-                                          audio={segmentAudio}
+                                          audio={segmentAudio.node}
                                           fallbackProps={segmentAudioProps}
                                         />
                                         {segmentAudioDuration && (
@@ -325,7 +325,7 @@ export default function HeroEpisodesCarousel({
                                       <AddAudioButton
                                         className="text-cyan"
                                         variant="ghost"
-                                        audio={segmentAudio}
+                                        audio={segmentAudio.node}
                                         fallbackProps={segmentAudioProps}
                                       />
                                     </div>

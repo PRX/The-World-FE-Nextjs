@@ -10,6 +10,7 @@ import type {
   Episode,
   MediaItem,
   PostStory,
+  Program,
   Segment,
 } from "@/interfaces";
 import { generateAudioUrl } from "@/lib/generate/string";
@@ -39,8 +40,8 @@ export const parseAudioData = (
     program: programs,
     broadcastDate: audioBroadcastDate,
   } = audioFields || {};
-  const program = programs?.[0];
-  const programImage = program?.taxonomyImages?.logo;
+  const program = programs?.nodes?.[0] as Program;
+  const programImage = program?.taxonomyImages?.logo?.node;
   const programImageUrl = programImage?.sourceUrl || programImage?.mediaItemUrl;
   const audioAuthor = contributors?.nodes;
   const {

@@ -49,7 +49,9 @@ const GET_TAGS = gql`
     count
     taxonomyImages {
       imageBanner {
-        ...ImageProps
+        node {
+          ...ImageProps
+        }
       }
     }
     contentNodes (first: 20, where: { orderby: { field: DATE, order: DESC } }) {
