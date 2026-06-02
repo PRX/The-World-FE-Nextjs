@@ -27,9 +27,11 @@ const GET_CONTRIBUTOR = gql`
         position
         teaser
         program {
-          id
-          link
-          name
+          nodes {
+            id
+            link
+            name
+          }
         }
         image {
           node {
