@@ -149,7 +149,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       ref={carouselRef}
-      className="overflow-hidden rounded-sm"
+      className="overflow-hidden rounded-sm no-scrollbar"
       data-slot="carousel-content"
     >
       <div

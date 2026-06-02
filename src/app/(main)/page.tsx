@@ -92,9 +92,17 @@ export default async function Home() {
     >
       {/* Quick Links Menu */}
       <div className="md:sticky top-(--gutter-top) z-2 overflow-hidden">
-        <CardCarousel>
-          <CarouselPrevious className="w-auto opacity-100 md:pl-(--_gutter-left) [&>svg]:size-8" />
-          <CarouselContent>
+        <CardCarousel
+          opts={{
+            active: false,
+            breakpoints: {
+              "(pointer: fine)": { active: true },
+            },
+          }}
+          className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto"
+        >
+          <CarouselPrevious className="w-auto opacity-100 md:pl-(--_gutter-left) [&>svg]:size-8 pointer-coarse:hidden" />
+          <CarouselContent className="pointer-coarse:w-fit">
             {quickLinksMenu.map(({ key, label, url }) => (
               <CarouselItem
                 className={cn(
@@ -109,7 +117,7 @@ export default async function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselNext className="[&>svg]:size-8" />
+          <CarouselNext className="[&>svg]:size-8 pointer-coarse:hidden" />
         </CardCarousel>
       </div>
 
@@ -134,27 +142,28 @@ export default async function Home() {
               <section
                 className={cn(
                   "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
-                  "max-sm:snap-always max-sm:snap-center",
+                  "pointer-coarse:snap-always pointer-coarse:snap-center",
                 )}
                 key={key}
               >
                 <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
                   {header}
                 </h2>
-                <div className="row-start-2 col-span-2 overflow-hidden">
+                <div className="row-start-2 col-span-2">
                   <CardCarousel
                     opts={{
+                      active: false,
                       align: "start",
                       slidesToScroll: 1,
                       skipSnaps: true,
                       breakpoints: {
-                        "(min-width: 1024px)": { active: true },
+                        "(pointer: fine)": { active: true },
                       },
                     }}
-                    className=""
+                    className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
                   >
-                    <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) max-md:hidden" />
-                    <CarouselContent className="">
+                    <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) pointer-coarse:hidden" />
+                    <CarouselContent>
                       {slides.map((post, index) => {
                         if (!post) return null;
 
@@ -188,6 +197,7 @@ export default async function Home() {
                               "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
                               "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
                               "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
+                              "snap-always snap-center",
                             )}
                             key={id}
                           >
@@ -258,7 +268,7 @@ export default async function Home() {
                         );
                       })}
                     </CarouselContent>
-                    <CarouselNext />
+                    <CarouselNext className="opacity-100 pointer-coarse:hidden" />
                   </CardCarousel>
                 </div>
               </section>
@@ -270,16 +280,27 @@ export default async function Home() {
         {!!team?.nodes?.length && (
           <div
             className={cn(
-              "grid grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
-              "max-sm:snap-always max-sm:snap-end",
+              "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
+              "pointer-coarse:snap-always pointer-coarse:snap-center",
             )}
           >
             <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
               <Link href="/programs/the-world/team">Meet the Team</Link>
             </h2>
             <div className="row-start-2 col-span-2 overflow-hidden">
-              <CardCarousel>
-                <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left)" />
+              <CardCarousel
+                opts={{
+                  active: false,
+                  align: "start",
+                  slidesToScroll: 1,
+                  skipSnaps: true,
+                  breakpoints: {
+                    "(pointer: fine)": { active: true },
+                  },
+                }}
+                className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
+              >
+                <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left) pointer-coarse:hidden" />
                 <CarouselContent>
                   {(team.nodes as Contributor[])
                     ?.filter((v) => !!v)
@@ -295,6 +316,7 @@ export default async function Home() {
                           className={cn(
                             "grid basis-45 h-83",
                             "md:nth-of-type-[1]:ml-[calc(max(var(--gutter-left),var(--spacing)*28)+var(--spacing)*2)]",
+                            "snap-always snap-center",
                           )}
                           key={id}
                         >
@@ -326,7 +348,7 @@ export default async function Home() {
                       );
                     })}
                 </CarouselContent>
-                <CarouselNext className="max-md:hidden" />
+                <CarouselNext className="pointer-coarse:hidden" />
               </CardCarousel>
             </div>
           </div>

@@ -20,10 +20,15 @@ export default function Logo({
     <div className={classNames}>
       <LogoGlobe
         className="aspect-square h-[2em]"
+        data-slot="globe"
         {...{ animated, duration }}
       />
-      <svg className="inline-block h-[1.25em]" viewBox="0 0 300 46">
-        <title>The World from PRX</title>
+      <svg
+        className="inline-block h-[1.25em]"
+        viewBox="0 0 300 46"
+        data-slot="text"
+        aria-hidden={true}
+      >
         <use href="#tw-logo-text" />
       </svg>
     </div>

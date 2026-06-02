@@ -144,20 +144,23 @@ export default async function EpisodePage({ params }: Props) {
               <div className={cn("mt-2")}>
                 <CardCarousel
                   opts={{
+                    active: false,
                     align: "start",
                     slidesToScroll: 1,
                     skipSnaps: true,
                     breakpoints: {
+                      "(pointer: fine)": { active: true },
                       "(max-width: 768px)": { align: "center" },
                     },
                   }}
                   className={cn(
                     "relative w-lvw -translate-x-[calc(var(--gutter-left)+var(--body-gutter)+var(--body-margin))]",
                     "group-data-[color-scheme=dark]/body:[--card:hsl(from_var(--color-navy-blue)_h_s_calc(l*1.5))]",
+                    "**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x **:data-[slot=carousel-content]:scroll-pl-[calc(var(--gutter-left)+var(--body-gutter))]",
                     // "group-data-menu-open/ui:mask-[linear-gradient(to_right,transparent_calc(var(--gutter-left)-var(--body-gutter)),black_calc(var(--gutter-left)+var(--body-gutter)))]",
                   )}
                 >
-                  <CarouselPrevious className="pl-(--gutter-left) from-[calc(var(--gutter-left))] max-md:hidden" />
+                  <CarouselPrevious className="pl-(--gutter-left) from-[calc(var(--gutter-left))] pointer-coarse:hidden" />
                   <CarouselContent className="pl-[calc(var(--gutter-left)+var(--body-gutter))] justify-between">
                     {(segmentsList.nodes as Segment[]).map((segment) => {
                       if (!segment) return null;
@@ -189,7 +192,7 @@ export default async function EpisodePage({ params }: Props) {
                       } as Partial<PlayerAudio>;
                       return (
                         <CarouselItem
-                          className="basis-[calc(min(280px,80dvw))] grid max-lg:snap-always max-lg:snap-center"
+                          className="basis-[calc(min(280px,80dvw))] grid snap-always snap-start"
                           key={id}
                         >
                           <Card className={cn("aspect-260/360")}>
@@ -255,7 +258,7 @@ export default async function EpisodePage({ params }: Props) {
                       );
                     })}
                   </CarouselContent>
-                  <CarouselNext className="max-md:hidden" />
+                  <CarouselNext className="pointer-coarse:hidden" />
                 </CardCarousel>
               </div>
             </div>
