@@ -253,7 +253,7 @@ export default function MainUI({
           </div>
           <div
             ref={topNavRef}
-            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-10 w-screen p-3"
+            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-4 w-screen p-3"
           >
             <div className="absolute md:hidden inset-0 -z-1 bg-navy-blue/30 backdrop-blur-lg mask-b-from-60%"></div>
             <NextTopLoader

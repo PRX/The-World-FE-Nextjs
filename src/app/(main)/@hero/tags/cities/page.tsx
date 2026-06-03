@@ -8,11 +8,11 @@ export default async function CountriesHero() {
     <HeroHeader
       style={
         {
-          "--_menu-width": "max(var(--gutter-left), var(--spacing) * 20)",
+          "--_menu-width": "var(--gutter-left)",
           "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 10))",
         } as CSSProperties
       }
-      className="pl-(--_gutter-left)"
+      className="pl-2 snap-always snap-start md:pl-(--_gutter-left)"
       classes={{ content: "max-w-none mx-0 md:px-4" }}
     >
       <div className="grid gap-y-4 max-w-3xl text-pretty">
