@@ -35,7 +35,7 @@ jobs:
           API_URL_BASE: https://api.stag.theworld.org
         run: |
           docker build \
-          --build-arg API_URL_BASE="${{$API_URL_BASE}}" \
+          --build-arg API_URL_BASE="$API_URL_BASE" \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
