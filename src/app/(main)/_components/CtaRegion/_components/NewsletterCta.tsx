@@ -66,7 +66,6 @@ export default function NewsletterCta({
               }
             })
             .catch((reason) => {
-              console.log("CATCH CALLBACK", reason);
               return reason;
             })
             .finally(() => {
@@ -82,8 +81,6 @@ export default function NewsletterCta({
           duration: 10000,
         }),
         error: (reason) => {
-          console.log("ERROR CALLBACK", reason);
-
           if (typeof reason === "string") return { message: reason };
 
           const { error } = reason;

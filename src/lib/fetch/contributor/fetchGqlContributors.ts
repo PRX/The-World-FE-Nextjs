@@ -133,8 +133,6 @@ const GET_CONTRIBUTORS = gql`
 export async function fetchGqlContributors(query: ContributorQueryOptions) {
   let data: { nodes: Contributor[] } | undefined;
 
-  console.log(query);
-
   if (query?.where?.search) {
     // Query contributors when search param is provided.
     const response = await gqlClient.query<{

@@ -23,10 +23,12 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
   useEffect(() => {
     // Listen for new load events.
     imageRef.current?.addEventListener("load", () => {
-      console.log(
-        "Image loaded, setting current src:",
-        imageRef.current?.currentSrc,
-      );
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Image loaded, setting current src:",
+          imageRef.current?.currentSrc,
+        );
+      }
       setLoading(false);
       setLoaded(true);
       setCurrentSrc(imageRef.current?.currentSrc);
@@ -36,7 +38,7 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
   useEffect(() => {
     const isLoaded = !!imageRef.current?.complete;
     setLoaded(isLoaded);
-    if (isLoaded) {
+    if (isLoaded && process.env.NODE_ENV !== "production") {
       console.log(
         "Image loaded from cache, setting current src:",
         imageRef.current?.currentSrc,

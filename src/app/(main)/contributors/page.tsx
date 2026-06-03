@@ -88,7 +88,6 @@ export default async function ContributorsPage({
   const { search: searchParam } = resolvedSearchParams;
   const search = isArray(searchParam) ? searchParam.join(", ") : searchParam;
 
-  console.log(search);
   const data = await getCachedContributors({
     first: 20,
     where: {

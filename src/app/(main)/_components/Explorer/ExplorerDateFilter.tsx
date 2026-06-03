@@ -66,8 +66,6 @@ export function ExplorerDateFilter({
         newSearchParams.delete("sf");
       }
 
-      console.log(newSearchFilters);
-
       router.push(`${pathname}?${newSearchParams.toString()}`, {
         scroll: true,
       });
