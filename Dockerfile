@@ -2,8 +2,6 @@
 
 FROM node:24-alpine AS base
 
-ARG API_URL_BASE
-
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -35,8 +33,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Set the Next.js runtime variable. Required by instrumentation to setup logging formatter.
 ENV NEXT_RUNTIME=nodejs
 
-ENV APP_DOMAIN=theworld.org
-ENV API_URL_BASE=$API_URL_BASE
+ENV API_URL_BASE=https://api.stag.theworld.org
 ENV WP_REST_ENDPOINT=wp-json
 ENV WP_GRAPHQL_ENDPOINT=graphql
 
