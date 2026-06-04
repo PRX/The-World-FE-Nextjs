@@ -107,7 +107,7 @@ export default async function CategoriesPage({
     <main
       style={
         {
-          "--_menu-width": "max(var(--gutter-left), var(--spacing) * 20)",
+          "--_menu-width": "var(--gutter-left)",
           "--_gutter-left": "calc(var(--_menu-width) + (var(--spacing) * 10))",
         } as CSSProperties
       }
@@ -181,17 +181,18 @@ export default async function CategoriesPage({
               <div className="row-start-2 col-span-2 overflow-hidden">
                 <CardCarousel
                   opts={{
+                    active: false,
                     align: "start",
                     slidesToScroll: 1,
                     skipSnaps: true,
                     breakpoints: {
-                      "(max-width: 768px)": { align: "center" },
+                      "(pointer: fine)": { active: true },
                     },
                   }}
-                  className=""
+                  className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
                 >
-                  <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left) max-md:hidden" />
-                  <CarouselContent className="">
+                  <CarouselPrevious className="w-auto opacity-100 pl-(--_gutter-left) pointer-coarse:hidden" />
+                  <CarouselContent>
                     {slides.map((node, index, all) => {
                       if (!node) return null;
 
@@ -246,6 +247,7 @@ export default async function CategoriesPage({
                             "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
                             "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
                             "md:nth-of-type-[1]:ml-[calc(var(--_gutter-left)+var(--spacing)*2)]",
+                            "snap-always snap-center",
                           )}
                           key={id}
                         >
@@ -331,7 +333,7 @@ export default async function CategoriesPage({
                       );
                     })}
                   </CarouselContent>
-                  <CarouselNext />
+                  <CarouselNext className="pointer-coarse:hidden" />
                 </CardCarousel>
               </div>
             </section>
@@ -352,7 +354,7 @@ export default async function CategoriesPage({
       )}
 
       {shownContentEndMessage && (
-        <div className="px-4 mt-20 ml-(--_gutter-left)">
+        <div className="px-4 mt-20 md:ml-(--_gutter-left)">
           <CtaRegion cta={shownContentEndMessage} />
         </div>
       )}

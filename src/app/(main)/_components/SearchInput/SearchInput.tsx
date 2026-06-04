@@ -224,7 +224,7 @@ export default function SearchInput({
       action={searchPathname}
       onSubmit={handleSubmit}
       autoComplete="off"
-      className={cn("max-sm:hidden", className)}
+      className={cn("", className)}
       {...props}
     >
       <Command
@@ -250,7 +250,7 @@ export default function SearchInput({
           <InputGroupAddon
             align="inline-end"
             className={cn("p-0 px-1 has-[>button]:mr-0", {
-              invisible: !searchInput && !isLoading,
+              hidden: !searchInput && !isLoading,
             })}
           >
             <InputGroupButton
@@ -275,7 +275,7 @@ export default function SearchInput({
                 <DropdownMenuTrigger asChild>
                   <InputGroupButton
                     variant="outline"
-                    className="rounded-full w-min max-w-[45cqw]"
+                    className="rounded-full w-min max-w-[30cqw]"
                   >
                     <span className="overflow-hidden text-ellipsis">
                       {inContextSearch ? searchContext.label : "The Site"}

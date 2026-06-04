@@ -253,7 +253,7 @@ export default function MainUI({
           </div>
           <div
             ref={topNavRef}
-            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-10 w-screen p-3"
+            className="isolate sticky top-0 z-(--z-ui) flex justify-between gap-x-4 w-screen p-3"
           >
             <div className="absolute md:hidden inset-0 -z-1 bg-navy-blue/30 backdrop-blur-lg mask-b-from-60%"></div>
             <NextTopLoader
@@ -275,8 +275,12 @@ export default function MainUI({
               >
                 <MenuIcon />
               </button>
-              <Link href="/">
-                <Logo className="max-h-10 max-w-48" animated duration="10s" />
+              <Link href="/" aria-label="The World from PRX">
+                <Logo
+                  className="max-h-10 max-w-48 max-sm:*:data-[slot=text]:hidden"
+                  animated
+                  duration="10s"
+                />
               </Link>
             </h1>
             <span className="basis-xl">{search}</span>
@@ -506,7 +510,7 @@ export default function MainUI({
           {children}
         </div>
 
-        <footer className="grid justify-items-center gap-16 py-20 ml-(--gutter-left) mb-(--gutter-bottom)">
+        <footer className="grid justify-items-center gap-16 py-20 ml-(--gutter-left) mb-(--gutter-bottom) pointer-coarse:snap-always pointer-coarse:snap-end">
           <div className="flex flex-wrap justify-center gap-x-20 gap-y-10">
             <MainUIFooterLogoGroup heading="Produced By">
               <PrxLogo aria-label="PRX" />

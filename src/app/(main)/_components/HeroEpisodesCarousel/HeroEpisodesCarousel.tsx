@@ -101,9 +101,9 @@ export default function HeroEpisodesCarousel({
         <div
           ref={scrollWrapper}
           className={cn(
-            "grid grid-cols-[min-content_1fr] items-end gap-8 p-4 pr-0",
+            "grid grid-cols-[min-content_1fr] items-end p-4 pr-0",
             "md:pl-(--_gutter-left) md:mask-[linear-gradient(90deg,transparent_calc(var(--_menu-width)/1.5),black_var(--_gutter-left))] lg:mask-none",
-            "max-lg:overflow-hidden max-lg:overflow-x-auto max-lg:gap-4 max-lg:snap-mandatory max-lg:snap-x max-lg:scroll-pl-(--_gutter-left) max-sm:scroll-pl-4 no-scrollbar",
+            "max-lg:overflow-x-auto max-lg:gap-4 max-lg:snap-mandatory max-lg:snap-x max-lg:scroll-pl-(--_gutter-left) max-sm:scroll-pl-4 no-scrollbar",
           )}
         >
           {/* Full Episode Card */}
@@ -177,16 +177,17 @@ export default function HeroEpisodesCarousel({
           {!!segmentsList?.nodes?.length && (
             <div
               className={cn(
-                "flex flex-col align-items-start gap-y-2 -mb-1",
-                "lg:overflow-hidden",
+                "grid grid-cols-[0_max-content] align-items-start gap-y-2 w-fit -mb-1",
+                "lg:overflow-hidden lg:grid-cols-[--spacing(8)_1fr] lg:mask-[linear-gradient(90deg,transparent_--spacing(2),black_--spacing(8))]",
               )}
             >
-              <h2 className="sticky left-4 self-start text-cyan font-serif font-bold italic uppercase ml-2">
+              <h2 className="col-start-2 sticky left-4 justify-self-start text-cyan font-serif font-bold italic uppercase ml-2">
                 In This Episode&hellip;
               </h2>
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={episodeId}
+                  className="row-start-2 col-span-2"
                   variants={{
                     hidden: {
                       opacity: 0,
@@ -215,15 +216,20 @@ export default function HeroEpisodesCarousel({
                       slidesToScroll: 1,
                       skipSnaps: true,
                       breakpoints: {
-                        "(min-width: 1024px)": { active: true },
+                        "(min-width: 1024px) and (pointer: fine)": {
+                          active: true,
+                        },
                       },
                     }}
                     plugins={[WheelGestures()]}
                     key={episodeId}
-                    className="max-lg:**:data-[slot=carousel-content]:overflow-visible"
+                    className={cn(
+                      "**:data-[slot=carousel-content]:overflow-visible",
+                      "**:data-[slot=carousel-content]:lg:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:lg:pointer-coarse:snap-proximity **:data-[slot=carousel-content]:lg:pointer-coarse:snap-x **:data-[slot=carousel-content]:lg:pointer-coarse:scroll-pl-8",
+                    )}
                   >
-                    <CarouselPrevious className="rounded-s-sm" />
-                    <CarouselContent className="">
+                    <CarouselPrevious className="rounded-s-sm pointer-coarse:hidden" />
+                    <CarouselContent>
                       {(segmentsList.nodes as Segment[]).map((segment) => {
                         if (!segment) return null;
 
@@ -255,7 +261,10 @@ export default function HeroEpisodesCarousel({
 
                         return (
                           <CarouselItem
-                            className="basis-[calc(min(280px,80dvw))] grid max-lg:snap-always max-lg:snap-center"
+                            className={cn(
+                              "basis-[calc(min(280px,80dvw))] grid snap-always snap-center lg:snap-start",
+                              "first:lg:ml-8",
+                            )}
                             key={id}
                           >
                             <motion.div
@@ -337,7 +346,7 @@ export default function HeroEpisodesCarousel({
                         );
                       })}
                     </CarouselContent>
-                    <CarouselNext />
+                    <CarouselNext className="pointer-coarse:hidden" />
                   </Carousel>
                 </motion.div>
               </AnimatePresence>

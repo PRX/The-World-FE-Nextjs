@@ -10,6 +10,7 @@ import { fetchGqlApp } from "@/lib/fetch";
 import { Player } from "@/components/Player";
 import { SITE_METADATA } from "./_metadata";
 import { merge } from "lodash";
+import { cn } from "@/lib/util/css";
 
 export const getCachedAppData = unstable_cache(
   async () => fetchGqlApp(),
@@ -63,7 +64,11 @@ export default async function MainLayout({
   return (
     <html
       lang="en"
-      className="antialiased max-sm:snap-proximity max-sm:snap-y max-md:has-data-menu-open:overflow-y-clip  max-sm:scroll-pt-(--gutter-top) max-sm:scroll-pb-(--gutter-bottom)"
+      className={cn(
+        "antialiased",
+        "max-md:has-data-menu-open:overflow-y-clip",
+        "pointer-coarse:snap-proximity pointer-coarse:snap-y pointer-coarse:scroll-pt-(--gutter-top) pointer-coarse:scroll-pb-(--gutter-bottom)",
+      )}
     >
       <head>
         <script
