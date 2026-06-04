@@ -32,7 +32,7 @@ jobs:
           REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           REPOSITORY: github/prx/theworld-org
           IMAGE_TAG: ${{ github.sha }}
-          API_URL_BASE: https://api.stag.theworld.org
+          API_URL_BASE: https://api.theworld.org
         run: |
           docker build \
           --build-arg API_URL_BASE="$API_URL_BASE" \
