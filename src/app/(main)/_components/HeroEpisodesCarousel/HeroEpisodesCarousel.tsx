@@ -177,7 +177,7 @@ export default function HeroEpisodesCarousel({
           {!!segmentsList?.nodes?.length && (
             <div
               className={cn(
-                "grid grid-cols-[0_max-content] align-items-start gap-y-2 w-fit -mb-1",
+                "grid grid-cols-[0_max-content] align-items-start gap-y-2 -mb-1",
                 "lg:overflow-hidden lg:grid-cols-[--spacing(8)_1fr] lg:mask-[linear-gradient(90deg,transparent_--spacing(2),black_--spacing(8))]",
               )}
             >
