@@ -45,5 +45,14 @@ export const sanitizeIso8601Date = (
     }
   }
 
+  // Make sure date values that are UTC midnight get time set to noon.
+  // Prevents day rollbacks when rendering date on client.
+  if (/T00:00:00\+00:00$/.test(usedDateValue)) {
+    usedDateValue = usedDateValue.replace(
+      /T00:00:00\+00:00$/,
+      "T12:00:00+00:00",
+    );
+  }
+
   return usedDateValue;
 };
