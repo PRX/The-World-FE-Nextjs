@@ -38,11 +38,13 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
   useEffect(() => {
     const isLoaded = !!imageRef.current?.complete;
     setLoaded(isLoaded);
-    if (isLoaded && process.env.NODE_ENV !== "production") {
-      console.log(
-        "Image loaded from cache, setting current src:",
-        imageRef.current?.currentSrc,
-      );
+    if (isLoaded) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Image loaded from cache, setting current src:",
+          imageRef.current?.currentSrc,
+        );
+      }
     } else {
       setLoading(!!imageSrc);
     }
