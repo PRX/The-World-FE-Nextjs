@@ -19,6 +19,21 @@ export function proxy(request: NextRequest) {
 
     return NextResponse.redirect(url);
   }
+
+  /**
+   * Redirect legacy content routes to current routes.
+   */
+  const { contentTypePlural, pubDate, slug } =
+    url.pathname.match(
+      /^\/(?<contentTypePlural>episodes|segments|stories)\/(?<pubDate>\d{4}-\d{2}-\d{2})\/(?<slug>[\w_-]+)/i,
+    )?.groups || {};
+  if (contentTypePlural && pubDate && slug) {
+    const newPath = `/${contentTypePlural}/${pubDate.split("-").join("/")}/${slug}`;
+
+    url.pathname = newPath;
+
+    return NextResponse.redirect(url);
+  }
 }
 
 export const config: ProxyConfig = {
@@ -28,6 +43,11 @@ export const config: ProxyConfig = {
       source: "/(.*)",
       locale: false,
       has: [{ type: "query", key: "v", value: "episodes" }],
+    },
+    // Legacy content route: `/[content_type_plural]/[date]/[slug]`
+    {
+      source: "/(episodes|segments|stories)/(\\d{4}-\\d{2}-\\d{2})/([\\w_-]+)",
+      locale: false,
     },
   ],
 };
