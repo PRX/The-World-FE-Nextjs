@@ -445,6 +445,7 @@ export default function MainUI({
                           className="rounded-full cursor-pointer"
                           size="icon"
                           variant="ghost"
+                          aria-label={isPlaylistOpen ? "Hide Playlist" : "Show Playlist"}
                           onClick={handlePlaylistToggle}
                         >
                           <ChevronUpIcon

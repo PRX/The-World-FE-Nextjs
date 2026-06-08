@@ -54,7 +54,7 @@ export function PlayerMenu({
           {...triggerProps}
           asChild
         >
-          <Button size="icon" variant="ghost">
+          <Button size="icon" variant="ghost" aria-label="Player options">
             <EllipsisVerticalIcon />
           </Button>
         </DropdownMenuTrigger>

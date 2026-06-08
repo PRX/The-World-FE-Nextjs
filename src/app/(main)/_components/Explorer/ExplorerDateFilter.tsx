@@ -124,12 +124,13 @@ export function ExplorerDateFilter({
               className="cursor-pointer"
               variant="frosted"
               size="icon"
+              aria-label="Clear date filter"
               onClick={handleClearDate}
             >
               <XIcon />
             </Button>
           )}
-          <Button className="cursor-pointer" variant="frosted" size="icon">
+          <Button className="cursor-pointer" variant="frosted" size="icon" aria-label="Filter by date">
             <CalendarIcon />
           </Button>
         </ButtonGroup>

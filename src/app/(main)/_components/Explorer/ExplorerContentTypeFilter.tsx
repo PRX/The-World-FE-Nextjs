@@ -101,7 +101,7 @@ export function ExplorerContentTypeFilter({
       defaultValue={defaultValue?.value}
       value={selected?.value}
     >
-      <SelectTrigger data-slot="explorer-filter-control-content-type">
+      <SelectTrigger data-slot="explorer-filter-control-content-type" aria-label="Filter by content type">
         <SelectValue placeholder="Filter By Type" />
       </SelectTrigger>
       <SelectContent className={cn("", className)} {...props}>

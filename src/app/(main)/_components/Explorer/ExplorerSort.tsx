@@ -101,7 +101,7 @@ export function ExplorerSortFilter({
       defaultValue={defaultValue?.value}
       value={selected?.value}
     >
-      <SelectTrigger data-slot="explorer-filter-control-sort">
+      <SelectTrigger data-slot="explorer-filter-control-sort" aria-label="Sort order">
         <SelectValue placeholder="Sort Order" />
       </SelectTrigger>
       <SelectContent className={cn("", className)} align="end" {...props}>
