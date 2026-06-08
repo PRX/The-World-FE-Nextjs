@@ -72,7 +72,7 @@ export function ExplorerCard({
 
   return (
     <Card className={cn("aspect-2/3", className)} {...props}>
-      {linkHref && <CardLink href={linkHref} />}
+      {linkHref && <CardLink href={linkHref} aria-label={title} />}
       {imageSrc && !isPlaceholderImage && (
         <CardImage data-image-id={imageId}>
           <Image

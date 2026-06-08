@@ -93,7 +93,7 @@ export default async function TaxonomyPage({ params }: Props) {
 
             return (
               <Card className={cn("aspect-2/3")} key={id}>
-                {linkHref && <CardLink href={linkHref} />}
+                {linkHref && <CardLink href={linkHref} aria-label={name ?? undefined} />}
                 {imageSrc && (
                   <CardImage data-image-id={image.node.id}>
                     <Image

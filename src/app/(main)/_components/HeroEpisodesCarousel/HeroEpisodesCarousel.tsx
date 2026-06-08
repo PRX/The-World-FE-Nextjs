@@ -135,6 +135,7 @@ export default function HeroEpisodesCarousel({
               {linkHref && (
                 <Link
                   href={linkHref}
+                  aria-label={title ?? undefined}
                   className="absolute inset-0 focus-visible:outline-none"
                 ></Link>
               )}
@@ -282,7 +283,7 @@ export default function HeroEpisodesCarousel({
                             >
                               <Card className={cn("aspect-260/360")}>
                                 {segmentLinkHref && (
-                                  <CardLink href={segmentLinkHref} />
+                                  <CardLink href={segmentLinkHref} aria-label={title ?? undefined} />
                                 )}
                                 {segmentImageSrc && (
                                   <CardImage>

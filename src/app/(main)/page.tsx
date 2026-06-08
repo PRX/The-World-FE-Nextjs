@@ -202,7 +202,7 @@ export default async function Home() {
                             key={id}
                           >
                             <Card className={cn("")}>
-                              {linkHref && <CardLink href={linkHref} />}
+                              {linkHref && <CardLink href={linkHref} aria-label={title ?? undefined} />}
                               {imageSrc && (
                                 <CardImage>
                                   <Image
@@ -322,7 +322,7 @@ export default async function Home() {
                         >
                           <Card>
                             {contributorLink && (
-                              <CardLink href={contributorLink} />
+                              <CardLink href={contributorLink} aria-label={name ?? undefined} />
                             )}
                             {imageSrc && (
                               <CardImage>

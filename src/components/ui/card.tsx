@@ -43,12 +43,13 @@ function Card({ className, children, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CardLink({ href }: React.ComponentProps<typeof Link>) {
+function CardLink({ href, ...props }: React.ComponentProps<typeof Link>) {
   return (
     <Link
       data-slot="link"
       href={href}
       className="absolute inset-0 focus-visible:outline-none"
+      {...props}
     ></Link>
   );
 }

@@ -197,7 +197,7 @@ export default async function EpisodePage({ params }: Props) {
                         >
                           <Card className={cn("aspect-260/360")}>
                             {segmentLinkHref && (
-                              <CardLink href={segmentLinkHref} />
+                              <CardLink href={segmentLinkHref} aria-label={title ?? undefined} />
                             )}
                             {segmentImageSrc && (
                               <CardImage>
