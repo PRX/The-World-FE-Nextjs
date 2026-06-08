@@ -313,8 +313,7 @@ export default function MainUI({
 
         <div
           id="main-menu"
-          role="menu"
-          aria-labelledby="main-menu-button"
+          aria-label="Main navigation"
           className={cn(
             "fixed inset-0 flex flex-col justify-stretch transition-transform z-(--z-dialog) bg-linear-to-r from-blue to-green",
             "md:top-(--gutter-top) md:bottom-(--gutter-bottom) md:right-auto md:w-min md:z-(--z-ui) md:bg-none md:delay-(--default-transition-duration)",
@@ -385,7 +384,7 @@ export default function MainUI({
           {/* Footer */}
           <div className="grid gap-2 p-4 text-xs/4 max-w-62">
             {footerNav && (
-              <nav className="flex flex-wrap gap-x-2">
+              <nav className="flex flex-wrap gap-x-3 gap-y-2">
                 {footerNav.map(({ key, url, label, attributes }) => (
                   <Link
                     className="hover:underline underline-offset-2"
