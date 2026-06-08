@@ -139,9 +139,9 @@ export default function HeroEpisodesCarousel({
                   className="absolute inset-0 focus-visible:outline-none"
                 ></Link>
               )}
-              <h3 className="text-[clamp(2rem,6vw,3rem)] leading-none font-bold text-balance">
+              <h2 className="text-[clamp(2rem,6vw,3rem)] leading-none font-bold text-balance">
                 {title}
-              </h3>
+              </h2>
               <div className="flex flex-wrap items-center gap-x-4">
                 <span className="text-cyan font-serif font-bold italic uppercase">
                   Full Episode
