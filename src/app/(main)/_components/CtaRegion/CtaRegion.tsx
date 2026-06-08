@@ -67,6 +67,7 @@ export default function CtaRegion({
     >
       {dismissible && (
         <Button
+          aria-label="Dismiss Banner"
           variant="ghost"
           size="icon-sm"
           className={cn(

@@ -122,6 +122,7 @@ export const PlaylistItem = ({
               size="icon"
               variant="ghost"
               className="cursor-pointer"
+              aria-label={isPlaying(id) ? `Pause "${title}"` : `Play "${title}"`}
               onClick={handlePlayClick}
             >
               {isPlaying(id) ? <PauseIcon /> : <PlayIcon />}
@@ -136,6 +137,7 @@ export const PlaylistItem = ({
               size="icon"
               variant="ghost"
               className="cursor-pointer"
+              aria-label={`Remove "${title}" from playlist`}
               onClick={handleRemoveTrackClick}
             >
               <ListMinusIcon />

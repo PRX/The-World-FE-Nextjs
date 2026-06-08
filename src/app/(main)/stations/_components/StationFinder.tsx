@@ -146,7 +146,7 @@ export function StationFinder({
                 )}
                 key={id}
               >
-                {website && <CardLink href={website} />}
+                {website && <CardLink href={website} aria-label={callLetters ?? undefined} />}
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <span className="grow flex items-start gap-x-1">

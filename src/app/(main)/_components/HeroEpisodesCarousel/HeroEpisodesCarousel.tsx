@@ -135,12 +135,13 @@ export default function HeroEpisodesCarousel({
               {linkHref && (
                 <Link
                   href={linkHref}
+                  aria-label={title ?? undefined}
                   className="absolute inset-0 focus-visible:outline-none"
                 ></Link>
               )}
-              <h3 className="text-[clamp(2rem,6vw,3rem)] leading-none font-bold text-balance">
+              <h2 className="text-[clamp(2rem,6vw,3rem)] leading-none font-bold text-balance">
                 {title}
-              </h3>
+              </h2>
               <div className="flex flex-wrap items-center gap-x-4">
                 <span className="text-cyan font-serif font-bold italic uppercase">
                   Full Episode
@@ -282,7 +283,7 @@ export default function HeroEpisodesCarousel({
                             >
                               <Card className={cn("aspect-260/360")}>
                                 {segmentLinkHref && (
-                                  <CardLink href={segmentLinkHref} />
+                                  <CardLink href={segmentLinkHref} aria-label={title ?? undefined} />
                                 )}
                                 {segmentImageSrc && (
                                   <CardImage>
