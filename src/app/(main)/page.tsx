@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "@/lib/util/css";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
@@ -31,6 +32,8 @@ import {
   type PlayerAudio,
 } from "@/components/Player";
 import type { CSSProperties } from "react";
+import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
+import CtaRegion from "./_components/CtaRegion";
 
 export const getCachedHomepage = unstable_cache(
   async () => fetchGqlHomepage(),
@@ -71,6 +74,15 @@ export default async function Home() {
   const { featuredPosts } = landingPage || {};
   const postsNodes = (posts?.nodes || []) as Post[];
   const featuredPostsNodes = (featuredPosts || []) as Post[];
+
+  const [shownInlineTopMessage, shownInlineBottomMessage] = await Promise.all([
+    getCtaRegionMessages("homepage-inline-top").then((messages) =>
+      getShownMessage(messages),
+    ),
+    getCtaRegionMessages("homepage-inline-bottom").then((messages) =>
+      getShownMessage(messages),
+    ),
+  ]);
 
   // Prepend Latest Headlines carousel config.
   carouselsData.unshift({
@@ -139,144 +151,159 @@ export default async function Home() {
               // May remove this since its affect may not be noticeable.
               .slice(0, 20);
             return (
-              <section
-                className={cn(
-                  "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
-                  "pointer-coarse:snap-always pointer-coarse:snap-center",
-                )}
-                key={key}
-              >
-                <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
-                  {header}
-                </h2>
-                <div className="row-start-2 col-span-2">
-                  <CardCarousel
-                    opts={{
-                      active: false,
-                      align: "start",
-                      slidesToScroll: 1,
-                      skipSnaps: true,
-                      breakpoints: {
-                        "(pointer: fine)": { active: true },
-                      },
-                    }}
-                    className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
-                  >
-                    <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) pointer-coarse:hidden" />
-                    <CarouselContent>
-                      {slides.map((post, index) => {
-                        if (!post) return null;
+              <React.Fragment key={key}>
+                <section
+                  className={cn(
+                    "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
+                    "pointer-coarse:snap-always pointer-coarse:snap-center",
+                  )}
+                  key={key}
+                >
+                  <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
+                    {header}
+                  </h2>
+                  <div className="row-start-2 col-span-2">
+                    <CardCarousel
+                      opts={{
+                        active: false,
+                        align: "start",
+                        slidesToScroll: 1,
+                        skipSnaps: true,
+                        breakpoints: {
+                          "(pointer: fine)": { active: true },
+                        },
+                      }}
+                      className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
+                    >
+                      <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) pointer-coarse:hidden" />
+                      <CarouselContent>
+                        {slides.map((post, index) => {
+                          if (!post) return null;
 
-                        const {
-                          id,
-                          title,
-                          link,
-                          featuredImage,
-                          additionalMedia,
-                          primaryCategory,
-                        } = post;
-                        const { audio } = additionalMedia || {};
-                        const { duration } = audio?.node || {};
-                        const { name: pcName, link: pcLink } =
-                          primaryCategory || {};
-                        const { altText, sourceUrl, mediaItemUrl } =
-                          featuredImage?.node || {};
-                        const imageSrc = sourceUrl || mediaItemUrl;
-                        const linkHref = generateContentLinkHref(link);
-                        const pcLinkHref = generateContentLinkHref(pcLink);
-                        const fallbackProps = {
-                          title,
-                          queuedFrom: "Card Controls",
-                          ...(imageSrc && { imageUrl: imageSrc }),
-                          linkResource: post,
-                        } as Partial<PlayerAudio>;
+                          const {
+                            id,
+                            title,
+                            link,
+                            featuredImage,
+                            additionalMedia,
+                            primaryCategory,
+                          } = post;
+                          const { audio } = additionalMedia || {};
+                          const { duration } = audio?.node || {};
+                          const { name: pcName, link: pcLink } =
+                            primaryCategory || {};
+                          const { altText, sourceUrl, mediaItemUrl } =
+                            featuredImage?.node || {};
+                          const imageSrc = sourceUrl || mediaItemUrl;
+                          const linkHref = generateContentLinkHref(link);
+                          const pcLinkHref = generateContentLinkHref(pcLink);
+                          const fallbackProps = {
+                            title,
+                            queuedFrom: "Card Controls",
+                            ...(imageSrc && { imageUrl: imageSrc }),
+                            linkResource: post,
+                          } as Partial<PlayerAudio>;
 
-                        return (
-                          <CarouselItem
-                            className={cn(
-                              "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
-                              "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
-                              "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
-                              "snap-always snap-center",
-                            )}
-                            key={id}
-                          >
-                            <Card className={cn("")}>
-                              {linkHref && (
-                                <CardLink
-                                  href={linkHref}
-                                  aria-label={title ?? undefined}
-                                />
+                          return (
+                            <CarouselItem
+                              className={cn(
+                                "grid aspect-300/480 basis-[calc(min(300px,80dvw))] h-120 transition-all",
+                                "nth-of-type-[1]:aspect-square nth-of-type-[1]:basis-[calc(min(480px,80dvw))]",
+                                "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
+                                "snap-always snap-center",
                               )}
-                              {imageSrc && (
-                                <CardImage>
-                                  <Image
-                                    src={imageSrc}
-                                    alt={altText || ""}
-                                    fill
-                                    sizes={`(min-width: 768px) ${index === 0 ? "1440px" : "900px"}, 240vw`}
-                                    style={{
-                                      objectFit: "cover",
-                                    }}
-                                    loading={
-                                      carouselIndex === 0 ? "eager" : "lazy"
-                                    }
-                                    {...(carouselIndex === 0 && {
-                                      preload: true,
-                                    })}
+                              key={id}
+                            >
+                              <Card className={cn("")}>
+                                {linkHref && (
+                                  <CardLink
+                                    href={linkHref}
+                                    aria-label={title ?? undefined}
                                   />
-                                </CardImage>
-                              )}
-                              <CardHeader>
-                                {pcLinkHref && (
-                                  <Link
-                                    href={pcLinkHref}
-                                    className={cn(
-                                      "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md/tight text-balance [&>svg]:text-cyan",
-                                      "hover:bg-cyan/10 hover:backdrop-blur-md hover:backdrop-brightness-125",
-                                    )}
-                                  >
-                                    <BookmarkIcon /> {pcName}
-                                  </Link>
                                 )}
-                                <CardTitle>{title}</CardTitle>
-                              </CardHeader>
-                              {audio?.node && (
-                                <CardFooter>
-                                  <div
-                                    className={cn(
-                                      "relative z-1 flex justify-between items-center leading-1",
-                                    )}
-                                  >
-                                    <span className="flex items-center gap-x-2">
-                                      <PlayAudioButton
+                                {imageSrc && (
+                                  <CardImage>
+                                    <Image
+                                      src={imageSrc}
+                                      alt={altText || ""}
+                                      fill
+                                      sizes={`(min-width: 768px) ${index === 0 ? "1440px" : "900px"}, 240vw`}
+                                      style={{
+                                        objectFit: "cover",
+                                      }}
+                                      loading={
+                                        carouselIndex === 0 ? "eager" : "lazy"
+                                      }
+                                      {...(carouselIndex === 0 && {
+                                        preload: true,
+                                      })}
+                                    />
+                                  </CardImage>
+                                )}
+                                <CardHeader>
+                                  {pcLinkHref && (
+                                    <Link
+                                      href={pcLinkHref}
+                                      className={cn(
+                                        "relative z-2 flex self-start items-center gap-x-2 py-1 pl-1 pr-2 -ml-1 rounded-sm text-md/tight text-balance [&>svg]:text-cyan",
+                                        "hover:bg-cyan/10 hover:backdrop-blur-md hover:backdrop-brightness-125",
+                                      )}
+                                    >
+                                      <BookmarkIcon /> {pcName}
+                                    </Link>
+                                  )}
+                                  <CardTitle>{title}</CardTitle>
+                                </CardHeader>
+                                {audio?.node && (
+                                  <CardFooter>
+                                    <div
+                                      className={cn(
+                                        "relative z-1 flex justify-between items-center leading-1",
+                                      )}
+                                    >
+                                      <span className="flex items-center gap-x-2">
+                                        <PlayAudioButton
+                                          className="text-cyan"
+                                          variant="ghost"
+                                          audio={audio.node}
+                                          fallbackProps={fallbackProps}
+                                        />
+                                        {duration && (
+                                          <span>
+                                            {formatDuration(duration)}
+                                          </span>
+                                        )}
+                                      </span>
+                                      <AddAudioButton
                                         className="text-cyan"
                                         variant="ghost"
                                         audio={audio.node}
                                         fallbackProps={fallbackProps}
                                       />
-                                      {duration && (
-                                        <span>{formatDuration(duration)}</span>
-                                      )}
-                                    </span>
-                                    <AddAudioButton
-                                      className="text-cyan"
-                                      variant="ghost"
-                                      audio={audio.node}
-                                      fallbackProps={fallbackProps}
-                                    />
-                                  </div>
-                                </CardFooter>
-                              )}
-                            </Card>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                    <CarouselNext className="opacity-100 pointer-coarse:hidden" />
-                  </CardCarousel>
-                </div>
-              </section>
+                                    </div>
+                                  </CardFooter>
+                                )}
+                              </Card>
+                            </CarouselItem>
+                          );
+                        })}
+                      </CarouselContent>
+                      <CarouselNext className="opacity-100 pointer-coarse:hidden" />
+                    </CardCarousel>
+                  </div>
+                </section>
+
+                {carouselIndex === 0 && shownInlineTopMessage && (
+                  <div
+                    className={cn(
+                      "px-6 md:ml-(--_gutter-left)",
+                      "pointer-coarse:snap-always pointer-coarse:snap-center",
+                    )}
+                  >
+                    <CtaRegion cta={shownInlineTopMessage} />
+                  </div>
+                )}
+              </React.Fragment>
             );
           },
         )}
@@ -359,6 +386,17 @@ export default async function Home() {
                 <CarouselNext className="pointer-coarse:hidden" />
               </CardCarousel>
             </div>
+          </div>
+        )}
+
+        {shownInlineBottomMessage && (
+          <div
+            className={cn(
+              "px-4 my-10 md:ml-(--_gutter-left)",
+              "pointer-coarse:snap-always pointer-coarse:snap-center",
+            )}
+          >
+            <CtaRegion cta={shownInlineBottomMessage} />
           </div>
         )}
       </main>
