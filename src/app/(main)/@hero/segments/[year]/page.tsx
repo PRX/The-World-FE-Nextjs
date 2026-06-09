@@ -10,9 +10,16 @@ export default async function SegmentsByYearHero({
 }: {
   params: Promise<Record<"year", string>>;
 }) {
-  const { year } = await params;
+  const { year: yearParam } = await params;
 
-  const date = new Date(parseInt(year, 10), 1, 1, 12);
+  const year = parseInt(yearParam, 10);
+  const hasNanParams = Number.isNaN(year);
+
+  if (hasNanParams) {
+    return null;
+  }
+
+  const date = new Date(year, 1, 1, 12);
 
   return (
     <ExplorerHero>

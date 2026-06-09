@@ -12,6 +12,15 @@ export default async function StoriesByDateSearch({
   const year = parseInt(yearParam, 10);
   const month = parseInt(monthParam, 10);
   const day = parseInt(dayParam, 10);
+  const hasNanParams = [year, month, day].reduce(
+    (a, v) => a || Number.isNaN(v),
+    false,
+  );
+
+  if (hasNanParams) {
+    return null;
+  }
+
   return (
     <SearchInput
       searchContext={{

@@ -59,7 +59,7 @@ function useContentInMonth(date: Date) {
 
 export type SegmentBrowserProps = {
   selected: Date;
-  currentSegment: Segment;
+  currentSegment?: Segment;
 };
 
 export default function SegmentBrowserUI({

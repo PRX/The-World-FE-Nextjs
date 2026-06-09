@@ -58,7 +58,7 @@ function useContentInMonth(date: Date) {
 
 export type EpisodeBrowserProps = {
   selected: Date;
-  currentEpisode: Episode;
+  currentEpisode?: Episode;
 };
 
 export default function EpisodeBrowserUI({

@@ -9,6 +9,12 @@ export default async function StoriesByYearSearch({
   const { year: yearParam } = await params;
 
   const year = parseInt(yearParam, 10);
+  const hasNanParams = [year].reduce((a, v) => a || Number.isNaN(v), false);
+
+  if (hasNanParams) {
+    return null;
+  }
+
   return (
     <SearchInput
       searchContext={{

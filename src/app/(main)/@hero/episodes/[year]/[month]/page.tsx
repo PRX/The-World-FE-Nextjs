@@ -10,9 +10,20 @@ export default async function EpisodesByMonthHero({
 }: {
   params: Promise<Record<"year" | "month", string>>;
 }) {
-  const { year, month } = await params;
+  const { year: yearParam, month: monthParam } = await params;
 
-  const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 1, 12);
+  const year = parseInt(yearParam, 10);
+  const month = parseInt(monthParam, 10);
+  const hasNanParams = [year, month].reduce(
+    (a, v) => a || Number.isNaN(v),
+    false,
+  );
+
+  if (hasNanParams) {
+    return null;
+  }
+
+  const date = new Date(year, month - 1, 1, 12);
 
   return (
     <ExplorerHero>
