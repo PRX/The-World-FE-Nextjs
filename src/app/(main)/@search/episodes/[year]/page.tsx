@@ -9,6 +9,12 @@ export default async function EpisodesByYearSearch({
   const { year: yearParam } = await params;
 
   const year = parseInt(yearParam, 10);
+  const hasNanParams = Number.isNaN(year);
+
+  if (hasNanParams) {
+    return null;
+  }
+
   return (
     <SearchInput
       searchContext={{

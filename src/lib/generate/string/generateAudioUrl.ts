@@ -23,9 +23,8 @@ export const generateAudioUrl = (audioUrl: string) => {
     }
 
     return url.toString();
-  } catch (error) {
-    console.debug(audioUrl);
-    console.debug(error);
+  } catch (err) {
+    console.error(err, { err, audioUrl });
     return undefined;
   }
 };

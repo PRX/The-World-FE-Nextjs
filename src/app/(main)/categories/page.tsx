@@ -90,10 +90,13 @@ export default async function CategoriesPage({
     where: {
       ...(search && {
         search,
-        orderby: TermObjectsConnectionOrderbyEnum.Count,
-        order: OrderEnum.Desc,
       }),
-      ...(!search && { parent: 0, exclude: ["1"] }),
+      ...(!search && {
+        parent: 0,
+        exclude: ["1"],
+      }),
+      orderby: TermObjectsConnectionOrderbyEnum.Count,
+      order: OrderEnum.Desc,
     },
   });
 
@@ -176,7 +179,9 @@ export default async function CategoriesPage({
                     </div>
                   )}
                 </div>
-                {!!href && <CardLink href={href} aria-label={name ?? undefined} />}
+                {!!href && (
+                  <CardLink href={href} aria-label={name ?? undefined} />
+                )}
               </header>
               <div className="row-start-2 col-span-2 overflow-hidden">
                 <CardCarousel
@@ -252,7 +257,12 @@ export default async function CategoriesPage({
                           key={id}
                         >
                           <Card className={cn("")}>
-                            {linkHref && <CardLink href={linkHref} aria-label={title ?? undefined} />}
+                            {linkHref && (
+                              <CardLink
+                                href={linkHref}
+                                aria-label={title ?? undefined}
+                              />
+                            )}
                             {imageSrc && !isPlaceholderImage && (
                               <CardImage data-image-id={imageId}>
                                 <Image

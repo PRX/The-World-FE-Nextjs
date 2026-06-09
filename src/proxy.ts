@@ -27,6 +27,7 @@ export function proxy(request: NextRequest) {
     url.pathname.match(
       /^\/(?<contentTypePlural>episodes|segments|stories)\/(?<pubDate>\d{4}-\d{2}-\d{2})\/(?<slug>[\w_-]+)/i,
     )?.groups || {};
+
   if (contentTypePlural && pubDate && slug) {
     const newPath = `/${contentTypePlural}/${pubDate.split("-").join("/")}/${slug}`;
 
@@ -46,7 +47,7 @@ export const config: ProxyConfig = {
     },
     // Legacy content route: `/[content_type_plural]/[date]/[slug]`
     {
-      source: "/(episodes|segments|stories)/(\\d{4}-\\d{2}-\\d{2})/([\\w_-]+)",
+      source: "/(episodes|segments|stories)/(\\d{4}-\\d{2}-\\d{2})/(.+)",
       locale: false,
     },
   ],

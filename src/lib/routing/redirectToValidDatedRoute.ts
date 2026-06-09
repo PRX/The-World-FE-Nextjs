@@ -9,7 +9,7 @@ export function redirectToValidDatedRoute(
   const { year, month, day } = params;
   const monthPadded = month && padStart(month.replace(/^0+/, "0"), 2, "0");
   const dayPadded = day && padStart(day.replace(/^0+/, "0"), 2, "0");
-  const now = new Date("2025/04");
+  const now = new Date();
   const nowYear = `${now.getFullYear()}`;
   const valid: typeof params = {
     year,
@@ -32,16 +32,16 @@ export function redirectToValidDatedRoute(
   // - 2 digits, padded with "0"
   // - 1 through 12
   if (monthPadded && !/^0?\d$|^1[012]$/.test(monthPadded)) {
-    // At this point, invalid values will be larger than 12, so cap at 12.
-    valid.month = "12";
+    // At this point, invalid values will be larger than 12, so cap at current month.
+    valid.month = padStart(`${now.getMonth() + 1}`, 2, "0");
   }
 
   // Validate day:
   // - 2 digits, padded with "0"
   // - 1 through 31
   if (dayPadded && !/^0?\d$|^1\d$|^2\d$|^3[01]$/.test(dayPadded)) {
-    // At this point, invalid values will be larger than 31, so cap at 31.
-    valid.day = "31";
+    // At this point, invalid values will be larger than 31, so cap at current day.
+    valid.day = padStart(`${now.getDate()}`, 2, "0");
   }
 
   // When we have a valid day, ensure it is capped at the last day of the valid month.

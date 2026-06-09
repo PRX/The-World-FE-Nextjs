@@ -29,7 +29,7 @@ import { convertSeoToMetadata } from "@/lib/parse/seo";
 import { sanitizeSearchParamsForSiteSearch } from "@/lib/sanitize";
 
 type Props = {
-  params: Promise<Record<"slugs", string[]>>;
+  params: Promise<Record<"slug", string>>;
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
@@ -59,8 +59,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { slugs } = await params;
-  const slug = slugs.pop() || "";
+  const { slug } = await params;
   const metadata = await parent.then((r) => r as Metadata);
 
   // fetch post information
@@ -88,8 +87,7 @@ export async function generateMetadata(
 }
 
 export default async function TaxonomyPage({ params, searchParams }: Props) {
-  const { slugs } = await params;
-  const slug = slugs.pop() || "";
+  const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   let data: Awaited<ReturnType<typeof getCachedCategory>>;
 
