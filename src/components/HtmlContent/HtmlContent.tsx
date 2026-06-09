@@ -22,6 +22,7 @@ import {
   fixBlockInParagraph,
   fixNestedSpans,
   removeImgWIthRelativeSrc,
+  removeLegacyEntityEmbed,
   //   instagramEmbed,
   removeUnsupportedElementTypes,
   unwrapLegacyWrappers,
@@ -66,6 +67,7 @@ export const HtmlContent = ({
 
         removeUnsupportedElementTypes,
         removeImgWIthRelativeSrc,
+        removeLegacyEntityEmbed,
         fbRootRemove,
         unwrapLegacyWrappers,
 
