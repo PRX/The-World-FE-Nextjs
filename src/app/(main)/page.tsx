@@ -75,7 +75,7 @@ export default async function Home() {
   // Prepend Latest Headlines carousel config.
   carouselsData.unshift({
     key: id,
-    header: <>Featured Headlines</>,
+    header: <>From Our Newsroom</>,
     featuredPostsNodes,
     postsNodes,
   });
@@ -202,7 +202,12 @@ export default async function Home() {
                             key={id}
                           >
                             <Card className={cn("")}>
-                              {linkHref && <CardLink href={linkHref} aria-label={title ?? undefined} />}
+                              {linkHref && (
+                                <CardLink
+                                  href={linkHref}
+                                  aria-label={title ?? undefined}
+                                />
+                              )}
                               {imageSrc && (
                                 <CardImage>
                                   <Image
@@ -322,7 +327,10 @@ export default async function Home() {
                         >
                           <Card>
                             {contributorLink && (
-                              <CardLink href={contributorLink} aria-label={name ?? undefined} />
+                              <CardLink
+                                href={contributorLink}
+                                aria-label={name ?? undefined}
+                              />
                             )}
                             {imageSrc && (
                               <CardImage>
