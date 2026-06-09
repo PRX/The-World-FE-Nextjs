@@ -9,8 +9,6 @@ export default async function StoriesByMonthSearch({
 }) {
   const { year: yearParam, month: monthParam } = await params;
 
-  console.log(yearParam, monthParam);
-
   const year = parseInt(yearParam, 10);
   const month = parseInt(monthParam, 10);
   const hasNanParams = [year, month].reduce(

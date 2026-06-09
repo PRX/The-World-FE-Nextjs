@@ -5,8 +5,6 @@ import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
 
-  console.debug("Running proxy on route.", url.pathname);
-
   /**
    * Redirect landing page episodes flag parameter to new search filter param.
    * Example: /programs/the-world?v=episodes to /programs/the-world?sf=CAM
@@ -29,8 +27,6 @@ export function proxy(request: NextRequest) {
     url.pathname.match(
       /^\/(?<contentTypePlural>episodes|segments|stories)\/(?<pubDate>\d{4}-\d{2}-\d{2})\/(?<slug>[\w_-]+)/i,
     )?.groups || {};
-
-  console.debug(contentTypePlural, pubDate, slug);
 
   if (contentTypePlural && pubDate && slug) {
     const newPath = `/${contentTypePlural}/${pubDate.split("-").join("/")}/${slug}`;
