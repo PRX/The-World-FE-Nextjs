@@ -311,7 +311,7 @@ export default function MainUI({
           </div>
         </div>
 
-        <div
+        <nav
           id="main-menu"
           aria-label="Main navigation"
           className={cn(
@@ -405,7 +405,7 @@ export default function MainUI({
               </p>
             </div>
           </div>
-        </div>
+        </nav>
 
         <div
           ref={uiBottomRef}
@@ -445,7 +445,9 @@ export default function MainUI({
                           className="rounded-full cursor-pointer"
                           size="icon"
                           variant="ghost"
-                          aria-label={isPlaylistOpen ? "Hide Playlist" : "Show Playlist"}
+                          aria-label={
+                            isPlaylistOpen ? "Hide Playlist" : "Show Playlist"
+                          }
                           onClick={handlePlaylistToggle}
                         >
                           <ChevronUpIcon

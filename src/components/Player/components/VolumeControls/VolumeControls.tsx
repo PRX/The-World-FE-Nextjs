@@ -20,13 +20,13 @@ import { Slider } from "@/components/ui/slider";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 export type VolumeControlsProps = React.ComponentProps<"div"> & {
-  muteButtonProps?: React.ComponentProps<typeof Button> & {
-    disableTooltip?: boolean;
-  };
+  disableTooltips?: boolean;
+  muteButtonProps?: React.ComponentProps<typeof Button>;
 };
 
 export const VolumeControls: React.FC<VolumeControlsProps> = ({
   className,
+  disableTooltips,
   muteButtonProps,
   ...other
 }: VolumeControlsProps) => {
@@ -34,7 +34,8 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
   const { volume = 0.8 } = audioElm || {};
   const [vol, setVol] = useState(volume);
   const [muted, setMuted] = useState(!!audioElm?.muted);
-  const { disableTooltip, ...otherMuteButtonProps } = muteButtonProps || {};
+  const { className: muteButtonClassName, ...otherMuteButtonProps } =
+    muteButtonProps || {};
   let VolumeIcon = Volume2Icon;
 
   if (volume === 0) {
@@ -83,9 +84,30 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
     };
   }, [audioElm, vol, muted]);
 
+  const renderSlider = () => (
+    <Slider
+      className={cn(
+        "w-25 pl-2 cursor-pointer transition-all transition-discrete",
+        "media-hover:hidden media-hover:animate-out media-hover:fade-out-0",
+        // "group-hover/volume:grid group-focus-within/volume:opacity-100",
+        // "group-hover/volume:translate-0 group-focus-within/volume:translate-0",
+        "group-hover/volume:grid group-hover/volume:animate-in group-hover/volume:fade-in-100",
+      )}
+      max={1}
+      step={0.01}
+      value={[vol]}
+      onValueChange={handleSliderChange}
+      aria-label="Volume"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={vol * 100}
+      aria-valuetext={`${vol * 100}%`}
+    />
+  );
+
   const renderMuteButton = () => (
     <Button
-      className="rounded-full cursor-pointer"
+      className={cn("rounded-full cursor-pointer", muteButtonClassName)}
       size="icon"
       variant="ghost"
       {...otherMuteButtonProps}
@@ -109,44 +131,30 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
         className,
       )}
     >
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Slider
-            className={cn(
-              "w-25 pl-2 cursor-pointer transition-all transition-discrete",
-              "media-hover:hidden media-hover:animate-out media-hover:fade-out-0",
-              // "group-hover/volume:grid group-focus-within/volume:opacity-100",
-              // "group-hover/volume:translate-0 group-focus-within/volume:translate-0",
-              "group-hover/volume:grid group-hover/volume:animate-in group-hover/volume:fade-in-100",
-            )}
-            max={1}
-            step={0.01}
-            value={[vol]}
-            onValueChange={handleSliderChange}
-            aria-label="Volume"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={vol * 100}
-            aria-valuetext={`${vol * 100}%`}
-          />
-        </TooltipTrigger>
-        <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
-          Volume{" "}
-          <KbdGroup>
-            <Kbd>-</Kbd>,<Kbd>=</Kbd>
-          </KbdGroup>
-        </TooltipContent>
-      </Tooltip>
-
-      {disableTooltip ? (
-        renderMuteButton()
+      {disableTooltips ? (
+        <>
+          {renderSlider()}
+          {renderMuteButton()}
+        </>
       ) : (
-        <Tooltip>
-          <TooltipTrigger asChild>{renderMuteButton()}</TooltipTrigger>
-          <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
-            {muted ? "Unmute" : "Mute"} <Kbd>M</Kbd>
-          </TooltipContent>
-        </Tooltip>
+        <>
+          <Tooltip>
+            <TooltipTrigger asChild>{renderSlider()}</TooltipTrigger>
+            <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
+              Volume{" "}
+              <KbdGroup>
+                <Kbd>-</Kbd>,<Kbd>=</Kbd>
+              </KbdGroup>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>{renderMuteButton()}</TooltipTrigger>
+            <TooltipContent className="flex gap-x-2 items-center z-(--z-ui-player)">
+              {muted ? "Unmute" : "Mute"} <Kbd>M</Kbd>
+            </TooltipContent>
+          </Tooltip>
+        </>
       )}
     </div>
   );
