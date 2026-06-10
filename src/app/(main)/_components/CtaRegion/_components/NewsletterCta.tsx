@@ -207,11 +207,8 @@ export default function NewsletterCta({
                 }}
                 value="agree"
               />
-              <FieldContent>
-                <FieldLabel
-                  htmlFor="cta-newsletter-opt-in"
-                  className="whitespace-nowrap"
-                >
+              <FieldContent className="inline-block">
+                <FieldLabel htmlFor="cta-newsletter-opt-in" className="w-auto">
                   <em>
                     I have read and agree to your{" "}
                     <Link

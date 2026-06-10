@@ -37,8 +37,10 @@ export function PlayerMenu({
   contentProps,
   ...props
 }: PlayerMenuProps) {
-  const { className: triggerClassName } = triggerProps || {};
-  const { className: contentClassName } = contentProps || {};
+  const { className: triggerClassName, ...otherTriggerProps } =
+    triggerProps || {};
+  const { className: contentClassName, ...otherContentProps } =
+    contentProps || {};
   const { state, clearPlaylist, removeTrack } = useContext(PlayerContext);
   const { currentTrackIndex, tracks } = state;
   const currentTrack =
@@ -51,7 +53,7 @@ export function PlayerMenu({
       <DropdownMenu {...props}>
         <DropdownMenuTrigger
           className={cn("rounded-full cursor-pointer", triggerClassName)}
-          {...triggerProps}
+          {...otherTriggerProps}
           asChild
         >
           <Button size="icon" variant="ghost" aria-label="Player options">
@@ -60,7 +62,7 @@ export function PlayerMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           className={cn("", contentClassName)}
-          {...contentProps}
+          {...otherContentProps}
         >
           <DropdownMenuGroup>
             <DropdownMenuItem
@@ -107,7 +109,7 @@ export function PlayerMenu({
       {/* Embed Dialog */}
       <Drawer open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
         <DrawerContent
-          className="z-(--z-ui) pb-8"
+          className="z-(--z-ui) pb-[calc(var(--gutter-bottom)+--spacing(4))]"
           aria-describedby="menu-embed-audio"
         >
           <DrawerHeader>

@@ -69,9 +69,16 @@ export default async function AudioEmbed({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = await params;
-  const { id } = resolvedParams;
+  const { id: idParam } = resolvedParams;
 
-  if (!id) {
+  if (!idParam?.length) {
+    notFound();
+  }
+
+  const id = decodeURIComponent(idParam);
+  const isValidId = /^[\w=]+$/.test(id);
+
+  if (!isValidId) {
     notFound();
   }
 
@@ -95,7 +102,7 @@ export default async function AudioEmbed({
     }
   }
 
-  const audio = await getCachedAudioEmbedData(decodeURIComponent(id));
+  const audio = await getCachedAudioEmbedData(id);
 
   return (
     audio && (
@@ -119,7 +126,7 @@ export default async function AudioEmbed({
                 "**:data-[slot=slider-range]:bg-white",
                 "[&>button]:size-8 [&>button>svg]:size-6",
               )}
-              muteButtonProps={{ disableTooltip: true }}
+              disableTooltips
             />
           </div>
           <div className="row-span-2 grid place-items-stretch aspect-square p-0 z-1">

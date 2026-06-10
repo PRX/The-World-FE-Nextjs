@@ -74,7 +74,7 @@ export function EmbedModalContent({
           src={`/embed/audio/${embedUrlId}`}
           height="50"
           width="100%"
-          className="my-4 bg-transparent"
+          className="my-4 bg-navy-blue rounded-sm"
           allowTransparency
           style={{ colorScheme: "auto" }}
         />
