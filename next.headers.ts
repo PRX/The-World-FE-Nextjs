@@ -31,7 +31,7 @@ export const headers: NextConfig["headers"] = async () => {
             },
             {
               key: "Content-Security-Policy",
-              value: "frame-ancestors https://admin.theworld.org",
+              value: "frame-ancestors 'self' https://admin.theworld.org",
             },
           ],
         },
