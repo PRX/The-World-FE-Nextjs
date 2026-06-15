@@ -19,6 +19,10 @@ const nextConfig: NextConfig = withPlausibleProxy({
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
     deviceSizes: [370, 600, 960, 1280, 1920, 2048, 3840],
     imageSizes: [50, 86, 100, 172, 200, 300, 400, 568, 808],

@@ -25,7 +25,7 @@ export const findDescendant = (
 
   if (!found && node.children?.length) {
     found = children.reduce(
-      (acc: undefined | Element, n) =>
+      (acc: ReturnType<typeof findDescendant>, n) =>
         acc || findDescendant(n as DOMNode, func),
       undefined,
     );
