@@ -1,7 +1,12 @@
 import type { CSSProperties } from "react";
 import type { YouTubeEmbedProps } from "react-social-media-embed";
 import type { ReplaceCallback } from "@/components/HtmlContent/types";
-import { attributesToProps, type DOMNode, domToReact } from "html-react-parser";
+import {
+  attributesToProps,
+  type DOMNode,
+  type Text,
+  domToReact,
+} from "html-react-parser";
 import ContentEmbed from "@/app/(main)/_components/ContentEmbed";
 import { findDescendant, getElementAlignment } from "@/lib/dom";
 import { replaceElement } from "./replaceElement";
@@ -9,7 +14,7 @@ import { replaceElement } from "./replaceElement";
 const youTubeEmbedUrlPattern = /youtube(?:-nocookie)?\.com|youtu.be/;
 
 export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
-  ["div", "iframe", "figure"],
+  ["div", "iframe", "figure", "p"],
   (el, _index, options) => {
     const { name, attribs } = el;
     const embedProps: Partial<YouTubeEmbedProps> = {
@@ -116,6 +121,44 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
               {
                 "--max-w": "min(100%,70dvh*var(--aspect-ratio))",
                 "--aspect-ratio": aspectRatio,
+              } as CSSProperties
+            }
+          />
+        )
+      );
+    }
+
+    // Handle parent contains single child that is <a> tag with text that is a `youtube://` URL.
+    const ytProtocolPattern = /^youtube:\/\/v/;
+    const videoLinkUrl = (
+      findDescendant(
+        el,
+        (n) =>
+          n.name === "a" &&
+          n.childNodes[0]?.type === "text" &&
+          ytProtocolPattern.test(n.childNodes[0].data) &&
+          n,
+      )?.childNodes[0] as Text
+    )?.data;
+    console.log(videoLinkUrl, el.childNodes.length);
+    if (el.childNodes.length === 1 && videoLinkUrl) {
+      const embedUrl = videoLinkUrl.replace(
+        ytProtocolPattern,
+        "https://www.youtube.com/embed",
+      );
+
+      console.log(embedUrl);
+
+      return (
+        embedUrl && (
+          <ContentEmbed
+            provider="youtube"
+            embedProps={{ ...embedProps, url: embedUrl }}
+            data-align="default"
+            style={
+              {
+                "--max-w": "min(100%,70dvh*var(--aspect-ratio))",
+                "--aspect-ratio": 16 / 9,
               } as CSSProperties
             }
           />
