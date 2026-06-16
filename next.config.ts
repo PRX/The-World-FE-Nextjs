@@ -19,9 +19,16 @@ const nextConfig: NextConfig = withPlausibleProxy({
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
     deviceSizes: [370, 600, 960, 1280, 1920, 2048, 3840],
-    imageSizes: [50, 86, 100, 172, 200, 300, 400, 568, 808],
+    imageSizes: [
+      16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048,
+      3840,
+    ],
     qualities: [75, 100],
   },
   turbopack: {
@@ -31,7 +38,8 @@ const nextConfig: NextConfig = withPlausibleProxy({
         as: "*.js",
       },
     },
-  },
+  }, // Tells Turbopack to skip bundling this package and its dependencies
+  serverExternalPackages: ["subset-font", "harfbuzzjs"],
 });
 
 export default nextConfig;
