@@ -16,8 +16,9 @@ RUN \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
-# Sharp needs to be installed separately in production.
-RUN yarn add sharp
+
+# Install sharp for build.
+RUN yarn add -E sharp@0.32.6 --ignore-workspace-root-check
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -63,6 +64,11 @@ RUN adduser --system --uid 1001 nextjs
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Install sharp for runtime.
+RUN yarn add -E sharp@0.32.6 --ignore-workspace-root-check
+# Make sure Nextjs knows where sharp library is located.
+ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 USER nextjs
 

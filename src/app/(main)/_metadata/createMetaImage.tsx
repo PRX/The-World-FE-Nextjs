@@ -3,6 +3,7 @@ import type { Maybe, MediaItem } from "@/interfaces";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import subsetFont from "subset-font";
 
 export type MetaImageOptions = {
   title?: Maybe<string>;
@@ -13,12 +14,57 @@ export type MetaImageOptions = {
   };
 };
 
+async function optimizeImage(
+  imageSrc: Maybe<string> | undefined,
+  size: MetaImageOptions["size"],
+) {
+  if (!imageSrc) return null;
+
+  const optimizedImageUrl = `http://localhost:3000/_next/image?url=${encodeURIComponent(imageSrc)}&w=${size.width}&q=75`;
+  const res = await fetch(optimizedImageUrl, {
+    headers: [["Accept", "image/apng,image/svg+xml,image/*,*/*;q=0.8"]],
+  });
+
+  if (!res.ok) {
+    console.error("Error fetching optimized image.", { imageSrc, res });
+    return null;
+  }
+
+  try {
+    const contentType = res.headers.get("content-type") || "image/jpeg";
+    const buffer = await res.arrayBuffer();
+    const base64String = Buffer.from(buffer).toString("base64");
+
+    return `data:${contentType};base64,${base64String}`;
+  } catch (err) {
+    console.log("Error converting image to base64 string.", {
+      err,
+    });
+    return null;
+  }
+}
+
+async function loadFont(text?: Maybe<string>) {
+  if (!text) return null;
+
+  try {
+    const seravekSemiBold = await readFile(
+      join(process.cwd(), "src/assets/fonts/Seravek-Bold.otf"),
+    );
+    // Generate the subset for characters in text.
+    const seravekSemiBoldSubset = await subsetFont(seravekSemiBold, text);
+
+    return seravekSemiBoldSubset;
+  } catch (err) {
+    console.error("Error loading font subset.", { err });
+  }
+}
+
 export async function createMetaImage(options: MetaImageOptions) {
   const { title, image, size } = options;
   const imageSrc = image?.sourceUrl || image?.mediaItemUrl;
-  const seravekSemiBold = await readFile(
-    join(process.cwd(), "src/assets/fonts/Seravek-Bold.otf"),
-  );
+  const optimizedSrc = await optimizeImage(imageSrc, size);
+  const seravekSemiBold = await loadFont(title);
 
   return new ImageResponse(
     <div
@@ -71,7 +117,7 @@ export async function createMetaImage(options: MetaImageOptions) {
         </defs>
       </svg>
 
-      {!imageSrc ? (
+      {!optimizedSrc ? (
         <div
           style={{
             flexGrow: 1,
@@ -163,7 +209,7 @@ export async function createMetaImage(options: MetaImageOptions) {
         >
           {/** biome-ignore lint/performance/noImgElement: Not rendered in DOM. */}
           <img
-            src={imageSrc}
+            src={optimizedSrc}
             alt=""
             style={{
               position: "absolute",
@@ -318,14 +364,16 @@ export async function createMetaImage(options: MetaImageOptions) {
     </div>,
     {
       ...size,
-      fonts: [
-        {
-          name: "Seravek",
-          data: seravekSemiBold,
-          style: "normal",
-          weight: 700,
-        },
-      ],
+      ...(seravekSemiBold && {
+        fonts: [
+          {
+            name: "Seravek",
+            data: seravekSemiBold,
+            style: "normal",
+            weight: 700,
+          },
+        ],
+      }),
     },
   );
 }
