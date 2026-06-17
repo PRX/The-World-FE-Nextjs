@@ -162,7 +162,6 @@ export default function NewsletterCta({
                   placeholder="Email Address..."
                   autoComplete="off"
                   aria-invalid={!!errors?.emailAddress}
-                  aria-valid={!errors?.emailAddress}
                 />
                 <Button
                   className="max-md:hidden"
