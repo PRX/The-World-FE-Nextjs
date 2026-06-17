@@ -74,6 +74,7 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
         fill
         preload
         loading="eager"
+        fetchPriority="high"
       />
       <div className="absolute inset-0 opacity-60 bg-linear-to-r from-navy-blue to-10%"></div>
       <div className="absolute inset-0 bg-linear-to-t from-navy-blue to-navy-blue/25 to-75%"></div>
