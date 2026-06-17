@@ -3,6 +3,7 @@ import type { Maybe, MediaItem } from "@/interfaces";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import subsetFont from "subset-font";
 
 export type MetaImageOptions = {
@@ -20,22 +21,23 @@ async function optimizeImage(
 ) {
   if (!imageSrc) return null;
 
-  const optimizedImageUrl = `http://localhost:3000/_next/image?url=${encodeURIComponent(imageSrc)}&w=${size.width}&q=75`;
-  const res = await fetch(optimizedImageUrl, {
-    headers: [["Accept", "image/apng,image/svg+xml,image/*,*/*;q=0.8"]],
-  });
+  const res = await fetch(imageSrc);
 
   if (!res.ok) {
-    console.error("Error fetching optimized image.", { imageSrc, res });
+    console.error("Error fetching source image.", { imageSrc, res });
     return null;
   }
 
   try {
-    const contentType = res.headers.get("content-type") || "image/jpeg";
+    const { width } = size;
     const buffer = await res.arrayBuffer();
-    const base64String = Buffer.from(buffer).toString("base64");
+    const optimizedBuffer = await sharp(buffer)
+      .resize({ width })
+      .png({ quality: 75 })
+      .toBuffer();
+    const base64String = optimizedBuffer.toString("base64");
 
-    return `data:${contentType};base64,${base64String}`;
+    return `data:image/png;base64,${base64String}`;
   } catch (err) {
     console.log("Error converting image to base64 string.", {
       err,
