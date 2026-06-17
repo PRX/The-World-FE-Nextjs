@@ -140,14 +140,12 @@ export const replaceYouTubeEmbed: ReplaceCallback = replaceElement(
           n,
       )?.childNodes[0] as Text
     )?.data;
-    console.log(videoLinkUrl, el.childNodes.length);
+
     if (el.childNodes.length === 1 && videoLinkUrl) {
       const embedUrl = videoLinkUrl.replace(
         ytProtocolPattern,
         "https://www.youtube.com/embed",
       );
-
-      console.log(embedUrl);
 
       return (
         embedUrl && (
