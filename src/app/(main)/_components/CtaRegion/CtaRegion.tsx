@@ -25,7 +25,7 @@ export const ctaRegionVariants = cva(
         donation: "from-light-blue to-purple",
         info: "from-green to-light-blue [--button-background:var(--color-blue)] [--button-background-end:var(--color-dark-purple)]",
         newsletter:
-          "from-light-blue to-navy-blue [--button-background-end:var(--color-burnt-orange)]",
+          "from-navy-blue to-purple [--button-background-end:var(--color-burnt-orange)]",
       },
     },
     defaultVariants: {
