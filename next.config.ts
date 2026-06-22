@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import { withPlausibleProxy } from "next-plausible";
-import { headers } from "./next.headers";
 import { redirects } from "./next.redirects";
 
 const nextConfig: NextConfig = withPlausibleProxy({
@@ -8,7 +7,6 @@ const nextConfig: NextConfig = withPlausibleProxy({
 })({
   output: "standalone",
   trailingSlash: false,
-  headers,
   redirects,
   experimental: {
     turbopackFileSystemCacheForDev: false,

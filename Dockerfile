@@ -1,11 +1,11 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:24-alpine AS base
+FROM node:26-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+RUN apk update && apk add --no-cache libc6-compat && apk add --no-cache yarn
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
@@ -17,14 +17,12 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Install sharp for build.
-RUN yarn add -E sharp@0.32.6 --ignore-workspace-root-check
-
 # Rebuild the source code only when needed
 FROM base AS builder
+RUN apk update && apk add --no-cache yarn
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY --from=deps /app/node_modules ./node_modules
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -65,8 +63,6 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Install sharp for runtime.
-RUN yarn add -E sharp@0.32.6 --ignore-workspace-root-check
 # Make sure Nextjs knows where sharp library is located.
 ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 

@@ -2,5 +2,5 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
   "css.lint.unknownAtRules": "ignore",
-  "cSpell.words": ["flipboard"]
+  "cSpell.words": ["flipboard", "maxage", "nosniff", "theworld"]
 }

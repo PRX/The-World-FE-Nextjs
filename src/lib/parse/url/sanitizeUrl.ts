@@ -8,7 +8,10 @@ import { unescape as lodashUnescape } from "lodash";
 export const sanitizeUrl = (url: string) =>
   [
     // Extract URL from between quotes or appended weirdly to another string.
-    (u: string) => /(?<=^.*)https?:\/\/[\w/._\-?&=%:\s]+/i.exec(u)?.[0] || u,
+    (u: string) =>
+      /(?<=^.*)https?:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;%=\s]+/i.exec(
+        u,
+      )?.[0] || u,
     // Ensure relative protocol URL's have a protocol.
     (u: string) => (u.startsWith("//") ? `https:${u}` : u),
     // Bad links to base 64 encoded image.
