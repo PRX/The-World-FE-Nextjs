@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest) {
    */
   const imageApiUrl = url.searchParams.get("url");
   if (url.pathname.startsWith("/_next/image") && imageApiUrl) {
-    let isImageUrlOk = true;
+    let isImageUrlOk = false;
 
     try {
       const imageHeaders = await fetch(imageApiUrl, { method: "HEAD" });
@@ -49,7 +49,6 @@ export async function proxy(request: NextRequest) {
       isImageUrlOk = imageHeaders.ok;
     } catch (err) {
       console.error("Error fetching source image.", { err });
-      isImageUrlOk = false;
     }
 
     if (!isImageUrlOk) {
@@ -58,7 +57,7 @@ export async function proxy(request: NextRequest) {
           success: false,
           message: `Source image not accessible: ${imageApiUrl}`,
         },
-        { status: 404 },
+        { status: 422 },
       );
     }
   }
@@ -114,17 +113,16 @@ export async function proxy(request: NextRequest) {
 
     // Check if content path contains full, valid date segments.
     if (year && month && day) {
+      const now = Temporal.Now.plainDateISO();
       const pubDate = new Temporal.PlainDate(year, month, day);
-      const lastWeekStartDate = Temporal.Now.plainDateISO().subtract({
+      const lastWeekStartDate = now.subtract({
         days: 7,
       });
 
       // Update headers for content older than a week.
       if (Temporal.PlainDate.compare(pubDate, lastWeekStartDate) === -1) {
-        const pubDuration = pubDate.until(Temporal.Now.plainDateISO(), {
-          smallestUnit: "days",
-        });
-        const maxAge = pubDuration.total("seconds");
+        const pubDuration = now.since(pubDate);
+        const maxAge = Math.min(pubDuration.total("seconds"), 31536000); // Cap at 1 year.
 
         [
           {
