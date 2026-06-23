@@ -22,7 +22,7 @@ export const getCachedStories = unstable_cache(
   ["content", "stories"],
   {
     tags: ["content", "stories"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

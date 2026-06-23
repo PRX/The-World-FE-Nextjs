@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { unstable_cache } from "next/cache";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
@@ -20,17 +21,12 @@ export const getCachedAliasData = unstable_cache(
   ["alias"],
   {
     tags: ["page", "alias"],
-    revalidate: 60,
+    revalidate: 86400,
   },
 );
 
-export const getCachedPage = unstable_cache(
-  async (id) => fetchGqlPage(id, PageIdType.Id),
-  ["page"],
-  {
-    tags: ["page", "content"],
-    revalidate: 60,
-  },
+export const getCachedPage = cache(async (id: string) =>
+  fetchGqlPage(id, PageIdType.Id),
 );
 
 export async function generateMetadata(
@@ -47,7 +43,7 @@ export async function generateMetadata(
 
   const aliasData = await getCachedAliasData(aliasPath);
 
-  if (!aliasData || aliasData.type !== "post--page") {
+  if (!aliasData?.id || aliasData.type !== "post--page") {
     return notFound();
   }
 
@@ -104,7 +100,7 @@ export default async function PagePage({ params }: Props) {
     }
   }
 
-  if (resourceType !== "post--page") {
+  if (!resourceId || resourceType !== "post--page") {
     return notFound();
   }
 

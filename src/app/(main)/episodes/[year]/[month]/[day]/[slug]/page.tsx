@@ -1,5 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import ContentBody from "@/app/(main)/_components/ContentBody";
@@ -40,13 +40,8 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const getCachedEpisode = unstable_cache(
-  async (slug) => fetchGqlEpisode(slug, EpisodeIdType.Slug),
-  ["episode"],
-  {
-    tags: ["episodes", "content"],
-    revalidate: 60,
-  },
+export const getCachedEpisode = cache(async (slug: string) =>
+  fetchGqlEpisode(slug, EpisodeIdType.Slug),
 );
 
 export async function generateMetadata(
@@ -197,7 +192,10 @@ export default async function EpisodePage({ params }: Props) {
                         >
                           <Card className={cn("aspect-260/360")}>
                             {segmentLinkHref && (
-                              <CardLink href={segmentLinkHref} aria-label={title ?? undefined} />
+                              <CardLink
+                                href={segmentLinkHref}
+                                aria-label={title ?? undefined}
+                              />
                             )}
                             {segmentImageSrc && (
                               <CardImage>

@@ -13,6 +13,7 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { decodeContentSearchFiltersParam } from "@/lib/util/binaryData";
@@ -33,13 +34,8 @@ type Props = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export const getCachedCategory = unstable_cache(
-  async (slug) => fetchGqlCategory(slug, CategoryIdType.Slug),
-  ["category"],
-  {
-    tags: ["category", "taxonomy"],
-    revalidate: 60,
-  },
+export const getCachedCategory = cache(async (slug: string) =>
+  fetchGqlCategory(slug, CategoryIdType.Slug),
 );
 
 export const getCachedCategoryContent = unstable_cache(
@@ -51,7 +47,7 @@ export const getCachedCategoryContent = unstable_cache(
   ["content", "category"],
   {
     tags: ["content", "category", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

@@ -17,7 +17,7 @@ export const getCachedAppData = unstable_cache(
   ["app"],
   {
     tags: ["app"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

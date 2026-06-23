@@ -20,7 +20,7 @@ export const getCachedStoriesByMonth = unstable_cache(
   ["content", "stories", "year", "month"],
   {
     tags: ["content", "stories"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

@@ -20,7 +20,7 @@ export const getCachedSegmentsByMonth = unstable_cache(
   ["content", "segments", "year", "month"],
   {
     tags: ["content", "segments"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

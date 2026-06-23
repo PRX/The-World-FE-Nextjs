@@ -5,6 +5,7 @@ import {
   SFTaxonomyEnum,
   TaxonomyContextSchema,
 } from "@/gen/search_filters_pb";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import {
@@ -34,13 +35,8 @@ type Props = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export const getCachedContributor = unstable_cache(
-  async (slug) => fetchGqlContributor(slug, ContributorIdType.Slug),
-  ["contributor"],
-  {
-    tags: ["contributor", "taxonomy"],
-    revalidate: 60,
-  },
+export const getCachedContributor = cache(async (slug: string) =>
+  fetchGqlContributor(slug, ContributorIdType.Slug),
 );
 
 export const getCachedContributorContent = unstable_cache(
@@ -52,7 +48,7 @@ export const getCachedContributorContent = unstable_cache(
   ["content", "contributor"],
   {
     tags: ["content", "contributor", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

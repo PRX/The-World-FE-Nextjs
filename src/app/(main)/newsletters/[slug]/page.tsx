@@ -1,5 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { NewsletterIdType } from "@/interfaces";
 import { fetchGqlNewsletter } from "@/lib/fetch";
 import { notFound } from "next/navigation";
@@ -13,13 +13,8 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const getCachedNewsletter = unstable_cache(
-  async (slug) => fetchGqlNewsletter(slug, NewsletterIdType.Slug),
-  ["newsletter"],
-  {
-    tags: ["newsletter"],
-    revalidate: 60,
-  },
+export const getCachedNewsletter = cache(async (slug: string) =>
+  fetchGqlNewsletter(slug, NewsletterIdType.Slug),
 );
 
 export async function generateMetadata(

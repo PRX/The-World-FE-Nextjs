@@ -13,7 +13,7 @@ export const getCachedStations = unstable_cache(
   ["stations"],
   {
     tags: ["stations"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 
