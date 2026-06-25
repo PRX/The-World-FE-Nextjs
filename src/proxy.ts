@@ -5,6 +5,30 @@ import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 const deploymentEnv =
   process.env.PRX_ENVIRONMENT || process.env.NODE_ENV || "development";
 
+function logger(request: NextRequest, response: NextResponse | Response) {
+  const requestUrl = request.nextUrl.clone();
+
+  console.log("Proxy Logger", {
+    request: {
+      path: requestUrl.pathname,
+      searchParams: requestUrl.searchParams.toString(),
+      method: request.method,
+      headers: request.headers
+        .entries()
+        // biome-ignore lint/performance/noAccumulatingSpread: Fine for now.
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}),
+    },
+    response: {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers
+        .entries()
+        // biome-ignore lint/performance/noAccumulatingSpread: Fine for now.
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}),
+    },
+  });
+}
+
 export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
 
@@ -22,7 +46,7 @@ export async function proxy(request: NextRequest) {
 
     const response = NextResponse.redirect(url);
 
-    console.log({ request, response });
+    logger(request, response);
 
     return response;
   }
@@ -42,7 +66,7 @@ export async function proxy(request: NextRequest) {
 
     const response = NextResponse.redirect(url);
 
-    console.log({ request, response });
+    logger(request, response);
 
     return response;
   }
@@ -71,7 +95,7 @@ export async function proxy(request: NextRequest) {
         { status: 422 },
       );
 
-      console.log({ request, response });
+      logger(request, response);
 
       return response;
     }
@@ -152,7 +176,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (deploymentEnv !== "development") {
-    console.log({ request, response });
+    logger(request, response);
   }
 
   return response;
