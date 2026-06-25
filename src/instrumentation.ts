@@ -4,7 +4,8 @@ import { PinoTransport } from "@loglayer/transport-pino";
 import pino from "pino";
 import { serializeError } from "serialize-error";
 
-const deploymentEnv = process.env.NODE_ENV || "development";
+const deploymentEnv =
+  process.env.PRX_ENVIRONMENT || process.env.NODE_ENV || "development";
 
 function stripAnsiCodes(str: string): string {
   // This regex matches all ANSI escape sequences that next.js likes to put in the console logs

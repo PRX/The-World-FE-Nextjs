@@ -2,6 +2,9 @@ import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 import { encodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 
+const deploymentEnv =
+  process.env.PRX_ENVIRONMENT || process.env.NODE_ENV || "development";
+
 export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
 
@@ -148,7 +151,9 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  console.log({ request, response });
+  if (deploymentEnv !== "development") {
+    console.log({ request, response });
+  }
 
   return response;
 }

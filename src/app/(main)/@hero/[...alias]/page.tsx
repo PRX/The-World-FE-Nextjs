@@ -35,7 +35,7 @@ export default async function PageHero({
     resourceType = undefined;
   }
 
-  if (resourceType !== "post--page") {
+  if (!resourceId || resourceType !== "post--page") {
     return null;
   }
 
