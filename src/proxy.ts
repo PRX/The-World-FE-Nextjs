@@ -17,7 +17,11 @@ export async function proxy(request: NextRequest) {
     url.searchParams.set("sf", sf);
     url.searchParams.delete("v");
 
-    return NextResponse.redirect(url);
+    const response = NextResponse.redirect(url);
+
+    console.log({ request, response });
+
+    return response;
   }
 
   /**
@@ -33,7 +37,11 @@ export async function proxy(request: NextRequest) {
 
     url.pathname = newPath;
 
-    return NextResponse.redirect(url);
+    const response = NextResponse.redirect(url);
+
+    console.log({ request, response });
+
+    return response;
   }
 
   /**
@@ -52,13 +60,17 @@ export async function proxy(request: NextRequest) {
     }
 
     if (!isImageUrlOk) {
-      return Response.json(
+      const response = Response.json(
         {
           success: false,
           message: `Source image not accessible: ${imageApiUrl}`,
         },
         { status: 422 },
       );
+
+      console.log({ request, response });
+
+      return response;
     }
   }
 
@@ -135,6 +147,8 @@ export async function proxy(request: NextRequest) {
       }
     }
   }
+
+  console.log({ request, response });
 
   return response;
 }
