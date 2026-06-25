@@ -7,6 +7,7 @@ const nextConfig: NextConfig = withPlausibleProxy({
 })({
   output: "standalone",
   trailingSlash: false,
+  skipProxyUrlNormalize: true,
   redirects,
   experimental: {
     turbopackFileSystemCacheForDev: false,

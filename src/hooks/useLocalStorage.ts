@@ -54,6 +54,7 @@ export function useLocalStorage<T>(key: string, initialValue?: T) {
           setLocalStorageItem(key, nextState);
         }
       } catch (e) {
+        // There was a problem parsing local storage data. This should not halt. Log as a warning.
         console.warn(e);
       }
     },
