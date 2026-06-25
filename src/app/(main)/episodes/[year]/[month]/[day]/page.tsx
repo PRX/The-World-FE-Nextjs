@@ -20,7 +20,7 @@ export const getCachedEpisodesByDate = unstable_cache(
   ["content", "episodes", "year", "month", "day"],
   {
     tags: ["content", "episodes"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

@@ -13,6 +13,7 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
@@ -34,13 +35,8 @@ type Props = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export const getCachedProvinceOrState = unstable_cache(
-  async (slug) => fetchGqlTag(slug, TagIdType.Slug),
-  ["provinceOrState"],
-  {
-    tags: ["provinceOrState", "taxonomy"],
-    revalidate: 60,
-  },
+export const getCachedProvinceOrState = cache(async (slug: string) =>
+  fetchGqlTag(slug, TagIdType.Slug),
 );
 
 export const getCachedProvinceOrStateContent = unstable_cache(
@@ -52,7 +48,7 @@ export const getCachedProvinceOrStateContent = unstable_cache(
   ["content", "provinceOrState"],
   {
     tags: ["content", "provinceOrState", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

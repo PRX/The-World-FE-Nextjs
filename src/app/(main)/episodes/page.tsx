@@ -26,7 +26,7 @@ export const getCachedEpisodes = unstable_cache(
   ["content", "episodes"],
   {
     tags: ["content", "episodes"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

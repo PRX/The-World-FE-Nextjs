@@ -17,51 +17,44 @@ import { parseAudioData } from "@/lib/parse/audio";
 import { cn } from "@/lib/util/css";
 import { encode } from "base-64";
 import { DownloadIcon } from "lucide-react";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { notFound, redirect, RedirectType } from "next/navigation";
 
-export const getCachedAudioEmbedData = unstable_cache(
-  async (id: string) => {
-    const story = await fetchGqlStory(id);
-    if (story) {
-      const audioId = story?.additionalMedia?.audio?.node?.id;
-      const audioData =
-        (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
+export const getCachedAudioEmbedData = cache(async (id: string) => {
+  const story = await fetchGqlStory(id);
+  if (story) {
+    const audioId = story?.additionalMedia?.audio?.node?.id;
+    const audioData =
+      (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 
-      return audioData && parseAudioData(audioData, { linkResource: story });
-    }
+    return audioData && parseAudioData(audioData, { linkResource: story });
+  }
 
-    const segment = await fetchGqlSegment(id);
-    if (segment) {
-      const audioId = segment?.segmentContent?.audio?.node?.id;
-      const audioData =
-        (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
+  const segment = await fetchGqlSegment(id);
+  if (segment) {
+    const audioId = segment?.segmentContent?.audio?.node?.id;
+    const audioData =
+      (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 
-      return audioData && parseAudioData(audioData, { linkResource: segment });
-    }
+    return audioData && parseAudioData(audioData, { linkResource: segment });
+  }
 
-    const episode = await fetchGqlEpisode(id);
-    if (episode) {
-      const audioId = episode?.episodeAudio?.audio?.node?.id;
-      const audioData =
-        (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
+  const episode = await fetchGqlEpisode(id);
+  if (episode) {
+    const audioId = episode?.episodeAudio?.audio?.node?.id;
+    const audioData =
+      (!!audioId && (await fetchGqlAudio(audioId))) || undefined;
 
-      return audioData && parseAudioData(audioData, { linkResource: episode });
-    }
+    return audioData && parseAudioData(audioData, { linkResource: episode });
+  }
 
-    const audio = await fetchGqlAudio(id);
-    if (audio) {
-      return parseAudioData(audio);
-    }
+  const audio = await fetchGqlAudio(id);
+  if (audio) {
+    return parseAudioData(audio);
+  }
 
-    return undefined;
-  },
-  ["embed"],
-  {
-    tags: ["embed", "audio"],
-    revalidate: 60,
-  },
-);
+  return undefined;
+});
 
 export default async function AudioEmbed({
   params,

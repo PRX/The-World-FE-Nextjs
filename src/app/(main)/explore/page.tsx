@@ -25,7 +25,7 @@ export const getCachedExploreContent = unstable_cache(
   ["content"],
   {
     tags: ["content"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

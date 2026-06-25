@@ -48,7 +48,7 @@ export const getCachedPrograms = unstable_cache(
   ["programs"],
   {
     tags: ["programs", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 
@@ -168,7 +168,9 @@ export default async function ProgramsPage({
                     </div>
                   )}
                 </div>
-                {!!href && <CardLink href={href} aria-label={name ?? undefined} />}
+                {!!href && (
+                  <CardLink href={href} aria-label={name ?? undefined} />
+                )}
               </header>
               <div className="row-start-2 col-span-2 overflow-hidden">
                 <CardCarousel
@@ -244,7 +246,12 @@ export default async function ProgramsPage({
                           key={id}
                         >
                           <Card className={cn("")}>
-                            {linkHref && <CardLink href={linkHref} aria-label={title ?? undefined} />}
+                            {linkHref && (
+                              <CardLink
+                                href={linkHref}
+                                aria-label={title ?? undefined}
+                              />
+                            )}
                             {imageSrc && !isPlaceholderImage && (
                               <CardImage data-image-id={imageId}>
                                 <Image

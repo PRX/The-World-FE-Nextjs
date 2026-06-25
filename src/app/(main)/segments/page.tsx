@@ -22,7 +22,7 @@ export const getCachedSegments = unstable_cache(
   ["content", "segments"],
   {
     tags: ["content", "segments"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

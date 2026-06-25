@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/util/css";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import Image from "next/image";
 import { fetchGqlHomepage } from "@/lib/fetch";
 import {
@@ -35,14 +35,7 @@ import type { CSSProperties } from "react";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "./_components/CtaRegion";
 
-export const getCachedHomepage = unstable_cache(
-  async () => fetchGqlHomepage(),
-  ["homepage"],
-  {
-    tags: ["homepage", "content"],
-    revalidate: 60,
-  },
-);
+export const getCachedHomepage = cache(async () => fetchGqlHomepage());
 
 export default async function Home() {
   const data = await getCachedHomepage();

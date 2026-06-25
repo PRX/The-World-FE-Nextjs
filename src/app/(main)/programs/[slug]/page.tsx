@@ -13,6 +13,7 @@ import Explorer, {
   ExplorerDateFilter,
   ExplorerSortFilter,
 } from "@/app/(main)/_components/Explorer";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { taxonomySlugToSingularName } from "@/lib/map/taxonomy";
@@ -34,13 +35,8 @@ type Props = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export const getCachedProgram = unstable_cache(
-  async (slug) => fetchGqlProgram(slug, ProgramIdType.Slug),
-  ["program"],
-  {
-    tags: ["program", "taxonomy"],
-    revalidate: 60,
-  },
+export const getCachedProgram = cache(async (slug: string) =>
+  fetchGqlProgram(slug, ProgramIdType.Slug),
 );
 
 export const getCachedProgramContent = unstable_cache(
@@ -52,7 +48,7 @@ export const getCachedProgramContent = unstable_cache(
   ["content", "program"],
   {
     tags: ["content", "program", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

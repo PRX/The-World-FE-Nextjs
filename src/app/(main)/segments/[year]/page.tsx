@@ -20,7 +20,7 @@ export const getCachedSegmentsByYear = unstable_cache(
   ["content", "segments", "year"],
   {
     tags: ["content", "segments"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

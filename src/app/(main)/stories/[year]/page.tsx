@@ -20,7 +20,7 @@ export const getCachedStoriesByYear = unstable_cache(
   ["content", "stories", "year"],
   {
     tags: ["content", "stories"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

@@ -92,7 +92,7 @@ export default function MiniMenu() {
             </NavigationMenuLink>
 
             <NavigationMenuLink asChild>
-              <Link href="/episodes">
+              <Link href="/stories">
                 <BookOpenIcon /> Stories
               </Link>
             </NavigationMenuLink>

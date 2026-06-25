@@ -7,7 +7,7 @@ import { PostIdType } from "@/interfaces";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import { fetchGqlStory } from "@/lib/fetch";
 import { parseDateParts } from "@/lib/parse/date";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { Tags } from "@/app/(main)/_components/Tags";
 import { Separator } from "@/components/ui/separator";
 import { convertSeoToMetadata } from "@/lib/parse/seo";
@@ -16,13 +16,8 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const getCachedStory = unstable_cache(
-  async (slug) => fetchGqlStory(slug, PostIdType.Slug),
-  ["story"],
-  {
-    tags: ["story", "content"],
-    revalidate: 60,
-  },
+export const getCachedStory = cache(async (slug: string) =>
+  fetchGqlStory(slug, PostIdType.Slug),
 );
 
 export async function generateMetadata(

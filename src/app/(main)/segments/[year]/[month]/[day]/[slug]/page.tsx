@@ -1,5 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { Plausible, type PlausibleEventArgs } from "@/components/Plausible";
 import ContentBody from "@/app/(main)/_components/ContentBody";
@@ -14,13 +14,8 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const getCachedSegment = unstable_cache(
-  async (slug) => fetchGqlSegment(slug, SegmentIdType.Slug),
-  ["segment"],
-  {
-    tags: ["segment", "content"],
-    revalidate: 60,
-  },
+export const getCachedSegment = cache(async (slug: string) =>
+  fetchGqlSegment(slug, SegmentIdType.Slug),
 );
 
 export async function generateMetadata(

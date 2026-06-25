@@ -28,7 +28,7 @@ export const getCachedRssFeeds = unstable_cache(
   ["podcasts"],
   {
     tags: ["podcasts"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 

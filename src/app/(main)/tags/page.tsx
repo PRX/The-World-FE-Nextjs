@@ -41,7 +41,7 @@ export const getCachedTags = unstable_cache(
   ["tags"],
   {
     tags: ["tags", "taxonomy"],
-    revalidate: 60,
+    revalidate: 3600,
   },
 );
 
@@ -156,7 +156,9 @@ export default async function TagsPage({
                   </div>
                 )}
               </div>
-              {!!href && <CardLink href={href} aria-label={name ?? undefined} />}
+              {!!href && (
+                <CardLink href={href} aria-label={name ?? undefined} />
+              )}
             </header>
             <div className="row-start-2 col-span-2 overflow-hidden">
               <CardCarousel
@@ -232,7 +234,12 @@ export default async function TagsPage({
                         key={id}
                       >
                         <Card className={cn("")}>
-                          {linkHref && <CardLink href={linkHref} aria-label={title ?? undefined} />}
+                          {linkHref && (
+                            <CardLink
+                              href={linkHref}
+                              aria-label={title ?? undefined}
+                            />
+                          )}
                           {imageSrc && !isPlaceholderImage && (
                             <CardImage data-image-id={imageId}>
                               <Image
