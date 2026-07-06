@@ -5,10 +5,17 @@ import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 const deploymentEnv =
   process.env.PRX_ENVIRONMENT || process.env.NODE_ENV || "development";
 
-function logger(request: NextRequest, response: NextResponse | Response) {
+function logger(
+  request: NextRequest,
+  response: NextResponse | Response,
+  requestedAt: Temporal.Instant,
+) {
   const requestUrl = request.nextUrl.clone();
+  const now = Temporal.Now.instant();
+  const responseDuration = now.since(requestedAt);
 
   console.log("Proxy Logger", {
+    totalTime: responseDuration.milliseconds,
     request: {
       path: requestUrl.pathname,
       searchParams: requestUrl.searchParams.toString(),
@@ -30,6 +37,7 @@ function logger(request: NextRequest, response: NextResponse | Response) {
 }
 
 export async function proxy(request: NextRequest) {
+  const requestedAt = Temporal.Now.instant();
   const url = request.nextUrl.clone();
 
   /**
@@ -46,7 +54,7 @@ export async function proxy(request: NextRequest) {
 
     const response = NextResponse.redirect(url);
 
-    logger(request, response);
+    logger(request, response, requestedAt);
 
     return response;
   }
@@ -66,7 +74,7 @@ export async function proxy(request: NextRequest) {
 
     const response = NextResponse.redirect(url);
 
-    logger(request, response);
+    logger(request, response, requestedAt);
 
     return response;
   }
@@ -95,7 +103,7 @@ export async function proxy(request: NextRequest) {
         { status: 422 },
       );
 
-      logger(request, response);
+      logger(request, response, requestedAt);
 
       return response;
     }
@@ -176,7 +184,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (deploymentEnv !== "development") {
-    logger(request, response);
+    logger(request, response, requestedAt);
   }
 
   return response;
