@@ -33,11 +33,11 @@ async function optimizeImage(
     const buffer = await res.arrayBuffer();
     const optimizedBuffer = await sharp(buffer)
       .resize({ width })
-      .png({ quality: 75 })
+      .jpeg({ quality: 75 })
       .toBuffer();
     const base64String = optimizedBuffer.toString("base64");
 
-    return `data:image/png;base64,${base64String}`;
+    return `data:image/jpeg;base64,${base64String}`;
   } catch (err) {
     console.log("Error converting image to base64 string.", {
       err,
@@ -67,8 +67,7 @@ export async function createMetaImage(options: MetaImageOptions) {
   const imageSrc = image?.sourceUrl || image?.mediaItemUrl;
   const optimizedSrc = await optimizeImage(imageSrc, size);
   const seravekSemiBold = await loadFont(title);
-
-  return new ImageResponse(
+  const png = await new ImageResponse(
     <div
       style={{
         display: "flex",
@@ -377,7 +376,14 @@ export async function createMetaImage(options: MetaImageOptions) {
         ],
       }),
     },
-  );
+  ).arrayBuffer();
+  const jpeg = await sharp(Buffer.from(png)).jpeg({ quality: 80 }).toBuffer();
+
+  return new Response(jpeg as unknown as BodyInit, {
+    headers: {
+      "Content-Type": "image/jpeg",
+    },
+  });
 }
 
 export default createMetaImage;
