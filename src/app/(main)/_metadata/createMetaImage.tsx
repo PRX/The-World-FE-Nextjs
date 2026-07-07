@@ -93,7 +93,7 @@ export async function createMetaImage(options: MetaImageOptions) {
         xmlns="http://www.w3.org/2000/svg"
         style={{
           position: "absolute",
-          bottom: 0,
+          top: 45,
           right: size.width - (375 + 920),
         }}
       >
