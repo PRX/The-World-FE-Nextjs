@@ -64,8 +64,6 @@ export default async function EpisodesPage({
   };
   const whereArgs = convertSearchFiltersToWhereArgs(searchFilters);
 
-  console.warn(whereArgs);
-
   const data = await getCachedEpisodes({
     first: 60,
     where: {
