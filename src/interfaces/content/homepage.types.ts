@@ -6,4 +6,5 @@ import type { MenuItem, Program } from "@/interfaces/api";
 
 export type Homepage = Program & {
   menus: Record<"quickLinks", MenuItem[]>;
+  youtubePlaylist?: GoogleAppsScript.YouTube.Schema.PlaylistItem[];
 };

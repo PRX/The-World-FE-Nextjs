@@ -210,7 +210,9 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, []);
 
   const volumeUp = useCallback(() => {
-    const bv = boundedVolume((audioElm.current ? audioElm.current.volume : 0.8) + 0.05);
+    const bv = boundedVolume(
+      (audioElm.current ? audioElm.current.volume : 0.8) + 0.05,
+    );
 
     if (audioElm.current) {
       audioElm.current.volume = bv;
@@ -220,7 +222,9 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, [boundedVolume]);
 
   const volumeDown = useCallback(() => {
-    const bv = boundedVolume((audioElm.current ? audioElm.current.volume : 0.8) - 0.05);
+    const bv = boundedVolume(
+      (audioElm.current ? audioElm.current.volume : 0.8) - 0.05,
+    );
 
     if (audioElm.current) {
       audioElm.current.volume = bv;
@@ -590,10 +594,10 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
 
       dispatch({
         type: PlayerActionTypes.PLAYER_HYDRATE,
-        payload
+        payload,
       });
     }
-  }, []);
+  }, [standalone]);
 
   useEffect(() => {
     if (!standalone && localStorage) {
@@ -605,7 +609,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
         }),
       );
     }
-  }, [state]);
+  }, [state, standalone]);
 
   useEffect(() => {
     // Setup event handlers on audio element.

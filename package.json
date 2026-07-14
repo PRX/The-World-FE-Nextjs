@@ -78,6 +78,7 @@
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/base-64": "^1.0.2",
+    "@types/google-apps-script": "^2.0.11",
     "@types/htmlparser2": "^4.1.0",
     "@types/lodash": "^4.17.20",
     "@types/node": "^20.19.16",

@@ -1,3 +1,3 @@
-export * from './fetchApi';
-export * from './fetchTwApi';
-export * from './gqlClient';
+export * from "./fetchApi";
+export * from "./fetchTwApi";
+export * from "./gqlClient";
