@@ -6,7 +6,7 @@ export const size = {
   width: 1200,
   height: 675,
 };
-export const contentType = "image/png";
+export const contentType = "image/jpeg";
 
 export default async function Image() {
   return createMetaImage({
