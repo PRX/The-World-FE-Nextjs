@@ -8,6 +8,7 @@ export * from "./PlayButton";
 export * from "./Playlist";
 export * from "./PlayerMenu";
 export * from "./PlayerProgress";
+export * from "./PlayYoutubeButton";
 export * from "./PreviousButton";
 export * from "./ReplayButton";
 export * from "./TimeInfo";

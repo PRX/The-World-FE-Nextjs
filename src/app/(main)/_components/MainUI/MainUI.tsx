@@ -1,5 +1,6 @@
 "use client";
 
+import "youtube-video-element";
 import type { AppMenus, Settings } from "@/interfaces";
 import { ChevronUpIcon, HeartHandshakeIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
@@ -54,6 +55,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import dynamic from "next/dynamic";
+import MainUIVideoOverlay from "./MainUIVideoOverlay";
 
 const NextTopLoader = dynamic(() => import("nextjs-toploader"), { ssr: false });
 
@@ -437,7 +439,7 @@ export default function MainUI({
                 <div className="max-md:hidden">
                   <TrackInfo ref={trackInfoRef} />
                 </div>
-                {tracks.length > 1 && (
+                {tracks?.length > 1 && (
                   <Drawer open={isPlaylistOpen} handleOnly>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -503,6 +505,7 @@ export default function MainUI({
               <VolumeControls className="hidden md:media-hover:flex lg:flex" />
               <AutoplayButton />
             </div>
+            <MainUIVideoOverlay />
           </div>
         </div>
 

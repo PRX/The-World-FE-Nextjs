@@ -111,7 +111,7 @@ export async function fetchGqlHomepage() {
     );
 
     ytApiUrl.searchParams.set("key", process.env.YT_API_KEY);
-    ytApiUrl.searchParams.set("part", "snippet");
+    ytApiUrl.searchParams.set("part", "contentDetails");
     ytApiUrl.searchParams.set(
       "playlistId",
       "PLroz2B1RPf0GiDwdj6NLexB5-v5NQnkFf",
@@ -123,9 +123,24 @@ export async function fetchGqlHomepage() {
         headers: [["Accept", "application/json"]],
       }).then((resp) => resp.ok && resp.json());
 
-    console.log(ytPlaylistItemsResponse.pageInfo);
+    if (ytPlaylistItemsResponse.items?.length) {
+      const videoIds = ytPlaylistItemsResponse.items.map(
+        ({ contentDetails }) => contentDetails?.videoId,
+      );
+      ytApiUrl.pathname = "/youtube/v3/videos";
+      ytApiUrl.searchParams.delete("playlistId");
+      ytApiUrl.searchParams.set("part", "contentDetails,snippet,player");
+      ytApiUrl.searchParams.set("maxHeight", "1200");
+      ytApiUrl.searchParams.set("maxWidth", "1200");
+      ytApiUrl.searchParams.set("id", videoIds.join(","));
 
-    returnData.youtubePlaylist = ytPlaylistItemsResponse.items;
+      const ytVideosResponse: GoogleAppsScript.YouTube.Schema.VideoListResponse =
+        await fetch(ytApiUrl.toString(), {
+          headers: [["Accept", "application/json"]],
+        }).then((resp) => resp.ok && resp.json());
+
+      returnData.youtubePlaylistVideos = ytVideosResponse.items;
+    }
   }
 
   return returnData;

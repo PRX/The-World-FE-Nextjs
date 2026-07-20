@@ -42,7 +42,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
 }: PlayerProgressProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const updateInterval = useRef<ReturnType<typeof setInterval>>(null);
-  const { audioElm, state: playerState, seekTo } = useContext(PlayerContext);
+  const { el, state: playerState, seekTo } = useContext(PlayerContext);
   const [loaded, setLoaded] = useState(0);
   const [state, dispatch] = useReducer(
     playerProgressStateReducer,
@@ -52,7 +52,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
   const { currentTrackIndex = 0, tracks, standalone } = playerState || {};
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: trackDuration } = currentTrack || {};
-  const totalDurationSeconds = audioElm?.duration || trackDuration || 0;
+  const totalDurationSeconds = el.current?.duration || trackDuration || 0;
   const progress = scrubPosition || (played !== Infinity && played) || 0;
   const progressDuration = convertSecondsToDuration(
     Math.round(totalDurationSeconds * progress),
@@ -85,7 +85,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
    */
   const updateProgress = useCallback(
     (seconds?: number) => {
-      const { currentTime: ct = 0, duration: d } = audioElm || {};
+      const { currentTime: ct = 0, duration: d } = el.current || {};
       const updatedPlayed = seconds || seconds === 0 ? seconds : ct;
 
       dispatch({
@@ -95,7 +95,7 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
         },
       });
     },
-    [audioElm, totalDurationSeconds],
+    [el, totalDurationSeconds],
   );
 
   /**
@@ -163,17 +163,17 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
    * Interval handler to update loaded progress.
    */
   const handleUpdateLoaded = useCallback(() => {
-    if (!audioElm) return;
+    if (!el.current) return;
 
-    const { buffered } = audioElm;
-    const newLoaded = buffered.length ? buffered.end(0) / audioElm.duration : 0;
+    const { buffered, duration } = el.current;
+    const newLoaded = buffered.length ? buffered.end(0) / duration : 0;
 
     setLoaded(newLoaded);
 
     if (newLoaded >= 1 && updateInterval.current) {
       clearInterval(updateInterval.current);
     }
-  }, [audioElm]);
+  }, [el]);
 
   useEffect(() => {
     if (standalone) return;
@@ -211,14 +211,14 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
    * Setup audio element event handlers.
    */
   useEffect(() => {
-    audioElm?.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audioElm?.addEventListener("timeupdate", handleUpdate);
+    el.current?.addEventListener("loadedmetadata", handleLoadedMetadata);
+    el.current?.addEventListener("timeupdate", handleUpdate);
 
     return () => {
-      audioElm?.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audioElm?.removeEventListener("timeupdate", handleUpdate);
+      el.current?.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      el.current?.removeEventListener("timeupdate", handleUpdate);
     };
-  }, [audioElm, handleLoadedMetadata, handleUpdate]);
+  }, [el.current, handleLoadedMetadata, handleUpdate]);
 
   /**
    * Setup progress track event handlers.

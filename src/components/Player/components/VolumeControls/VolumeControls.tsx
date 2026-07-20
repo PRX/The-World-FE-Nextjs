@@ -30,10 +30,10 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
   muteButtonProps,
   ...other
 }: VolumeControlsProps) => {
-  const { audioElm, setVolume, toggleMute } = useContext(PlayerContext);
-  const { volume = 0.8 } = audioElm || {};
+  const { el, setVolume, toggleMute } = useContext(PlayerContext);
+  const { volume = 0.8 } = el.current || {};
   const [vol, setVol] = useState(volume);
-  const [muted, setMuted] = useState(!!audioElm?.muted);
+  const [muted, setMuted] = useState(!!el.current?.muted);
   const { className: muteButtonClassName, ...otherMuteButtonProps } =
     muteButtonProps || {};
   let VolumeIcon = Volume2Icon;
@@ -49,12 +49,12 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
    */
   const updateVolume = useCallback(
     (newVolume?: number) => {
-      const { volume: v } = audioElm || {};
+      const { volume: v } = el.current || {};
       const updatedVolume = newVolume || newVolume === 0 ? newVolume : v || 0.8;
 
       setVol(setVolume(updatedVolume));
     },
-    [setVolume, audioElm],
+    [setVolume, el],
   );
 
   /**
@@ -70,19 +70,19 @@ export const VolumeControls: React.FC<VolumeControlsProps> = ({
 
   useEffect(() => {
     const handleVolumeChange = () => {
-      if (audioElm && audioElm.muted !== muted) {
-        setMuted(audioElm.muted);
+      if (el.current && el.current.muted !== muted) {
+        setMuted(el.current.muted);
       }
 
-      setVol(audioElm?.volume || vol);
+      setVol(el.current?.volume || vol);
     };
 
-    audioElm?.addEventListener("volumechange", handleVolumeChange);
+    el.current?.addEventListener("volumechange", handleVolumeChange);
 
     return () => {
-      audioElm?.removeEventListener("volumechange", handleVolumeChange);
+      el.current?.removeEventListener("volumechange", handleVolumeChange);
     };
-  }, [audioElm, vol, muted]);
+  }, [el.current, vol, muted]);
 
   const renderSlider = () => (
     <Slider

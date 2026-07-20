@@ -1,15 +1,13 @@
 "use client";
 
 /**
- * @file PlayAudioButton.tsx
+ * @file PlayYoutubeButton.tsx
  * Play button component to add audio to playlist queue and toggle playing state of player.
  */
 
 import { type MouseEventHandler, useContext, useEffect, useState } from "react";
-import type { MediaItem } from "@/interfaces";
-import type { PlayerAudio } from "@/components/Player/types";
+import type { PlayerYoutube } from "@/components/Player/types";
 import { PlayerContext } from "@/components/Player/contexts/PlayerContext";
-import { parseAudioData } from "@/lib/parse/audio/parseAudioData";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -18,20 +16,23 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/util/css";
 import { PauseIcon, PlayIcon } from "lucide-react";
+import { parseYoutubeVideoData } from "@/lib/parse/video";
 
-export type PlayAudioButtonProps = React.ComponentProps<typeof Button> & {
-  audio: MediaItem;
-  fallbackProps?: Partial<PlayerAudio>;
+export type PlayYoutubeButtonProps = React.ComponentProps<typeof Button> & {
+  video: GoogleAppsScript.YouTube.Schema.Video;
+  fallbackProps?: Partial<PlayerYoutube>;
+  disableTooltip?: boolean;
 };
 
-export const PlayAudioButton = ({
+export const PlayYoutubeButton = ({
   className,
   onClick,
-  audio,
+  video,
   fallbackProps,
+  disableTooltip,
   ...rest
-}: PlayAudioButtonProps) => {
-  const audioData = parseAudioData(audio, fallbackProps);
+}: PlayYoutubeButtonProps) => {
+  const videoData = parseYoutubeVideoData(video, fallbackProps);
   const {
     state: playerState,
     playTrack,
@@ -40,15 +41,15 @@ export const PlayAudioButton = ({
   const { playing, currentTrackIndex = 0, tracks = [] } = playerState || {};
   const currentTrack = tracks[currentTrackIndex];
   const [audioIsPlaying, setAudioIsPlaying] = useState(
-    playing && !!audioData && currentTrack?.id === audioData?.id,
+    playing && !!videoData && currentTrack?.id === videoData?.id,
   );
   const tooltipText = audioIsPlaying ? "Pause" : "Play";
 
   const handlePlayClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
-    if (audioData && audioData.id !== currentTrack?.id) {
-      playTrack(audioData);
+    if (videoData && videoData.id !== currentTrack?.id) {
+      playTrack(videoData);
     } else {
       togglePlayPause();
     }
@@ -59,30 +60,36 @@ export const PlayAudioButton = ({
   };
 
   useEffect(() => {
-    if (currentTrack?.id === audioData?.id) {
+    if (currentTrack?.id === videoData?.id) {
       setAudioIsPlaying(playing);
     } else {
       setAudioIsPlaying(false);
     }
-  }, [playing, audioData, currentTrack]);
+  }, [playing, videoData, currentTrack]);
+
+  const PlayButton = () => (
+    <Button
+      className={cn("rounded-full cursor-pointer", className)}
+      size="icon"
+      onClick={handlePlayClick}
+      disabled={!videoData}
+      {...rest}
+      data-playing={audioIsPlaying || undefined}
+    >
+      {!audioIsPlaying ? (
+        <PlayIcon aria-label="Play" />
+      ) : (
+        <PauseIcon aria-label="Pause" />
+      )}
+    </Button>
+  );
+
+  if (disableTooltip) return <PlayButton />;
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button
-          className={cn("rounded-full cursor-pointer", className)}
-          size="icon"
-          onClick={handlePlayClick}
-          disabled={!audioData}
-          {...rest}
-          data-playing={audioIsPlaying || undefined}
-        >
-          {!audioIsPlaying ? (
-            <PlayIcon aria-label="Play" />
-          ) : (
-            <PauseIcon aria-label="Pause" />
-          )}
-        </Button>
+        <PlayButton />
       </TooltipTrigger>
       <TooltipContent>{tooltipText}</TooltipContent>
     </Tooltip>

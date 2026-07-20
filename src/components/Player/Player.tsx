@@ -6,7 +6,7 @@
  */
 
 import type React from "react";
-import type { IPlayerState, PlayerAudio } from "./types";
+import type { IPlayerState, PlayerAudio, PlayerTrack } from "./types";
 import {
   useCallback,
   useEffect,
@@ -28,7 +28,7 @@ export type KeyboardEventWithTarget = KeyboardEvent & {
 
 export const Player = ({ children, ...initialState }: PlayerProps) => {
   const plausible = usePlausible();
-  const audioElm = useRef<HTMLAudioElement>(null);
+  const el = useRef<HTMLAudioElement>(null);
   const [state, dispatch] = useReducer(playerStateReducer, {
     ...playerInitialState,
     ...initialState,
@@ -36,13 +36,15 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   const { tracks = [], playing, currentTrackIndex = 0, standalone } = state;
   const currentTrack = tracks?.[currentTrackIndex] || ({} as PlayerAudio);
   const currentTrackDurationSeconds = currentTrack.duration || 0;
-  const { url } = currentTrack;
+  const { mediaType } = currentTrack;
+  const isAudioTrack = mediaType === "audio";
+  const { url } = isAudioTrack ? currentTrack : {};
 
   const boundedTime = useCallback(
     (time: number) =>
       Math.min(
         Math.max(0.00001, time),
-        audioElm.current?.duration || currentTrackDurationSeconds,
+        el.current?.duration || currentTrackDurationSeconds,
       ),
     [currentTrackDurationSeconds],
   );
@@ -58,17 +60,17 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
     });
   }, []);
 
-  const playTrack = useCallback((index: number) => {
+  const playTrackAt = useCallback((index: number) => {
     dispatch({
       type: PlayerActionTypes.PLAYER_PLAY_TRACK,
       payload: index,
     });
   }, []);
 
-  const playAudio = useCallback(
-    (audioData: PlayerAudio) => {
+  const playTrack = useCallback(
+    (trackData: PlayerTrack) => {
       const audioTrackIndex = (tracks || []).findIndex(
-        ({ id }) => id === audioData.id,
+        ({ id }) => id === trackData.id,
       );
       const notQueued = audioTrackIndex === -1;
 
@@ -76,14 +78,14 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
         // Plausible: Queued
         plausible("App Player: Queued", {
           props: {
-            Title: audioData.title,
-            "Queued From": audioData.queuedFrom,
+            Title: trackData.title,
+            "Queued From": trackData.queuedFrom,
           },
         });
       }
       dispatch({
         type: PlayerActionTypes.PLAYER_PLAY_AUDIO,
-        payload: audioData,
+        payload: trackData,
       });
     },
     [plausible, tracks],
@@ -121,8 +123,8 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
 
   const seekTo = useCallback(
     (time: number) => {
-      if (audioElm.current) {
-        audioElm.current.currentTime = boundedTime(time);
+      if (el.current) {
+        el.current.currentTime = boundedTime(time);
       }
     },
     [boundedTime],
@@ -130,16 +132,14 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
 
   const seekBy = useCallback(
     (seconds: number) => {
-      seekTo((audioElm.current?.currentTime || 0) + seconds);
+      seekTo((el.current?.currentTime || 0) + seconds);
     },
     [seekTo],
   );
 
   const seekToRelative = useCallback(
     (ratio: number) => {
-      seekTo(
-        (audioElm.current?.duration || currentTrackDurationSeconds) * ratio,
-      );
+      seekTo((el.current?.duration || currentTrackDurationSeconds) * ratio);
     },
     [currentTrackDurationSeconds, seekTo],
   );
@@ -210,45 +210,41 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, []);
 
   const volumeUp = useCallback(() => {
-    const bv = boundedVolume(
-      (audioElm.current ? audioElm.current.volume : 0.8) + 0.05,
-    );
+    const bv = boundedVolume((el.current ? el.current.volume : 0.8) + 0.05);
 
-    if (audioElm.current) {
-      audioElm.current.volume = bv;
+    if (el.current) {
+      el.current.volume = bv;
     }
 
-    return audioElm.current?.volume || bv;
+    return el.current?.volume || bv;
   }, [boundedVolume]);
 
   const volumeDown = useCallback(() => {
-    const bv = boundedVolume(
-      (audioElm.current ? audioElm.current.volume : 0.8) - 0.05,
-    );
+    const bv = boundedVolume((el.current ? el.current.volume : 0.8) - 0.05);
 
-    if (audioElm.current) {
-      audioElm.current.volume = bv;
+    if (el.current) {
+      el.current.volume = bv;
     }
 
-    return audioElm.current?.volume || bv;
+    return el.current?.volume || bv;
   }, [boundedVolume]);
 
   const setVolume = useCallback(
     (newVolume: number) => {
       const bv = boundedVolume(newVolume);
 
-      if (audioElm.current) {
-        audioElm.current.volume = bv;
+      if (el.current) {
+        el.current.volume = bv;
       }
 
-      return audioElm.current ? audioElm.current.volume : bv;
+      return el.current ? el.current.volume : bv;
     },
     [boundedVolume],
   );
 
   const toggleMute = useCallback(() => {
-    if (audioElm.current) audioElm.current.muted = !audioElm.current.muted;
-    return !!audioElm.current?.muted;
+    if (el.current) el.current.muted = !el.current.muted;
+    return !!el.current?.muted;
   }, []);
 
   const isQueued = useCallback(
@@ -277,7 +273,19 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
     if (navigator && "mediaSession" in navigator) {
       navigator.mediaSession.metadata = new window.MediaMetadata({
         title: currentTrack.title,
-        artist: currentTrack.subtitle,
+        artist: currentTrack.info
+          ?.map((v) => {
+            try {
+              return Temporal.PlainDate.from(v).toLocaleString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+            } catch (_e) {
+              return v;
+            }
+          })
+          .join(" / "),
         ...(artworkSrc && {
           artwork: [
             {
@@ -314,7 +322,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
     }
   }, [
     currentTrack.imageUrl,
-    currentTrack.subtitle,
+    currentTrack.info,
     currentTrack.title,
     forward,
     replay,
@@ -328,11 +336,11 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
 
   const playerContextValue = useMemo(
     () => ({
-      audioElm: audioElm.current,
+      el,
       state,
       play,
+      playTrackAt,
       playTrack,
-      playAudio,
       pause,
       togglePlayPause,
       enableAutoplay,
@@ -358,7 +366,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
     }),
     [
       state,
-      playAudio,
+      playTrack,
       seekTo,
       seekBy,
       replay,
@@ -367,7 +375,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
       addTrack,
       setVolume,
       play,
-      playTrack,
+      playTrackAt,
       pause,
       togglePlayPause,
       enableAutoplay,
@@ -387,7 +395,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   );
 
   const startPlaying = useCallback(() => {
-    audioElm.current
+    el.current
       ?.play()
       .then(() => {
         updateMediaSession();
@@ -399,13 +407,14 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, [updateMediaSession]);
 
   const pauseAudio = useCallback(() => {
-    audioElm.current?.pause();
+    console.log(el.current);
+    el.current?.pause();
   }, []);
 
   const loadAudio = useCallback((src: string, isPlaying: boolean) => {
-    if (audioElm.current && src !== audioElm.current.src) {
-      audioElm.current.preload = isPlaying ? "auto" : "none";
-      audioElm.current.src = src;
+    if (el.current && src !== el.current.src) {
+      el.current.preload = isPlaying ? "auto" : "none";
+      el.current.src = src;
     }
   }, []);
 
@@ -418,7 +427,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, [playing]);
 
   const handlePause = useCallback(() => {
-    if (audioElm.current && !audioElm.current.ended) {
+    if (el.current && !el.current.ended) {
       dispatch({
         type: PlayerActionTypes.PLAYER_PAUSE,
       });
@@ -474,8 +483,8 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
           toggleAutoplay();
           break;
         case "KeyS":
-          if (audioElm.current) {
-            audioElm.current.playbackRate = 3 - audioElm.current.playbackRate;
+          if (el.current) {
+            el.current.playbackRate = 3 - el.current.playbackRate;
           }
           break;
         case "KeyM":
@@ -613,22 +622,19 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
 
   useEffect(() => {
     // Setup event handlers on audio element.
-    audioElm.current?.addEventListener("play", handlePlay);
-    audioElm.current?.addEventListener("pause", handlePause);
-    audioElm.current?.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audioElm.current?.addEventListener("ended", handleEnded);
+    el.current?.addEventListener("play", handlePlay);
+    el.current?.addEventListener("pause", handlePause);
+    el.current?.addEventListener("loadedmetadata", handleLoadedMetadata);
+    el.current?.addEventListener("ended", handleEnded);
 
     window.addEventListener("keydown", handleHotkey);
 
     return () => {
       // Cleanup event handlers between dependency changes.
-      audioElm.current?.removeEventListener("play", handlePlay);
-      audioElm.current?.removeEventListener("pause", handlePause);
-      audioElm.current?.removeEventListener(
-        "loadedmetadata",
-        handleLoadedMetadata,
-      );
-      audioElm.current?.removeEventListener("ended", handleEnded);
+      el.current?.removeEventListener("play", handlePlay);
+      el.current?.removeEventListener("pause", handlePause);
+      el.current?.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      el.current?.removeEventListener("ended", handleEnded);
 
       window.removeEventListener("keydown", handleHotkey);
     };
@@ -647,7 +653,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
    * Solution was for video playback, but same issue seems to apply to audio.
    */
   useLayoutEffect(() => {
-    if (!audioElm.current) return;
+    if (!el.current) return;
 
     if (!playing) {
       pauseAudio();
@@ -657,6 +663,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, [pauseAudio, playing, startPlaying]);
 
   useEffect(() => {
+    if (!url) return;
     loadAudio(url, playing);
   }, [url, playing, loadAudio]);
 
@@ -689,7 +696,7 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   return (
     <PlayerContext.Provider value={playerContextValue}>
       {/** biome-ignore lint/a11y/useMediaCaption: Captions coming soon. */}
-      <audio ref={audioElm} />
+      {isAudioTrack && <audio ref={el} />}
       {children}
     </PlayerContext.Provider>
   );

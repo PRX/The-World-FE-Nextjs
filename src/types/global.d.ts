@@ -1,3 +1,5 @@
+import "react";
+
 declare module "*.css";
 
 declare module "*.svg" {
@@ -7,30 +9,52 @@ declare module "*.svg" {
   export default content;
 }
 
-interface Uint8Array<ArrayBuffer> {
-  toBase64(
-    options?:
-      | {
-          alphabet?: "base64" | "base64url" | undefined;
-          omitPadding?: boolean | undefined;
-        }
-      | undefined,
-  ): string;
-}
-interface Uint8ArrayConstructor {
-  fromBase64(
-    string: string,
-    options?:
-      | {
-          alphabet?: "base64" | "base64url" | undefined;
-          lastChunkHandling?:
-            | "loose"
-            | "strict"
-            | "stop-before-partial"
-            | undefined;
-        }
-      | undefined,
-  ): Uint8Array<ArrayBuffer>;
+declare module "next-logger";
+
+declare module "react" {
+  namespace JSX {
+    interface IntrinsicElements {
+      "youtube-video": React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLMediaElement> & {
+          src: string;
+          width?: string;
+          height?: string;
+          // videoid?: string;
+          // autoplay?: boolean | string;
+          // controls?: boolean | string;
+        },
+        HTMLMediaElement
+      >;
+    }
+  }
 }
 
-declare module "next-logger";
+declare global {
+  interface Uint8Array<ArrayBuffer> {
+    toBase64(
+      options?:
+        | {
+            alphabet?: "base64" | "base64url" | undefined;
+            omitPadding?: boolean | undefined;
+          }
+        | undefined,
+    ): string;
+  }
+  interface Uint8ArrayConstructor {
+    fromBase64(
+      string: string,
+      options?:
+        | {
+            alphabet?: "base64" | "base64url" | undefined;
+            lastChunkHandling?:
+              | "loose"
+              | "strict"
+              | "stop-before-partial"
+              | undefined;
+          }
+        | undefined,
+    ): Uint8Array<ArrayBuffer>;
+  }
+}
+
+export {};

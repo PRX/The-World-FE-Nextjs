@@ -24,6 +24,7 @@
     "types": ["google-apps-script"]
   },
   "include": [
+    "src/types/global.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
