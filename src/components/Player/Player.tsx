@@ -407,7 +407,6 @@ export const Player = ({ children, ...initialState }: PlayerProps) => {
   }, [updateMediaSession]);
 
   const pauseAudio = useCallback(() => {
-    console.log(el.current);
     el.current?.pause();
   }, []);
 

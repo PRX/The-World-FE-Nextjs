@@ -32,6 +32,7 @@ import {
   type PlayerAudio,
   PlayYoutubeButton,
   type PlayerYoutube,
+  AddYoutubeButton,
 } from "@/components/Player";
 import type { CSSProperties } from "react";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
@@ -86,8 +87,6 @@ export default async function Home() {
       getShownMessage(messages),
     ),
   ]);
-
-  console.log(youtubePlaylistVideos);
 
   // Prepend Latest Headlines carousel config.
   carouselsData.unshift({
@@ -416,12 +415,12 @@ export default async function Home() {
                                           </span>
                                         )}
                                       </span>
-                                      {/* <AddAudioButton
+                                      <AddYoutubeButton
                                         className="text-cyan"
                                         variant="ghost"
-                                        audio={audio.node}
+                                        video={video}
                                         fallbackProps={fallbackProps}
-                                      /> */}
+                                      />
                                     </div>
                                   </CardFooter>
                                 </Card>

@@ -409,6 +409,8 @@ export default function MainUI({
           </div>
         </nav>
 
+        <MainUIVideoOverlay />
+
         <div
           ref={uiBottomRef}
           className={cn(
@@ -505,7 +507,6 @@ export default function MainUI({
               <VolumeControls className="hidden md:media-hover:flex lg:flex" />
               <AutoplayButton />
             </div>
-            <MainUIVideoOverlay />
           </div>
         </div>
 

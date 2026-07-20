@@ -1,4 +1,5 @@
 export * from "./AddAudioButton";
+export * from "./AddYoutubeButton";
 export * from "./AutoPlayButton";
 export * from "./EmbedModalContent";
 export * from "./ForwardButton";

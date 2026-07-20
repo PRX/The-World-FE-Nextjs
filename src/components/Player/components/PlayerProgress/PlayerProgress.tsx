@@ -263,7 +263,9 @@ export const PlayerProgress: React.FC<PlayerProgressProps> = ({
             data-text={progressDuration}
           />
         </TooltipTrigger>
-        <TooltipContent>{progressDuration}</TooltipContent>
+        <TooltipContent className="z-(--z-ui)">
+          {progressDuration}
+        </TooltipContent>
       </Tooltip>
     </div>
   );

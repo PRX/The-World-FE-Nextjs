@@ -33,8 +33,6 @@ export const AutoplayButton = ({
     }
   };
 
-  console.log(autoplay);
-
   return (
     <Tooltip>
       <TooltipTrigger asChild>
