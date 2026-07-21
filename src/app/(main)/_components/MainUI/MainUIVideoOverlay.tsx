@@ -48,40 +48,48 @@ export default function MainUIVideoOverlay() {
    * When non-video track is played, switch video to PIP.
    */
   useEffect(() => {
-    if (!isVideo) {
+    if (currentTrack && !isVideo) {
       setIsPipMode(true);
     }
-  }, [isVideo]);
+  }, [currentTrack, isVideo]);
 
   return (
     isVideo && (
       <>
         <Drawer open={!isPipMode} handleOnly>
-          <DrawerContent></DrawerContent>
+          <DrawerContent
+            overlayProps={{ className: "z-(--z-ui-player-video)" }}
+          ></DrawerContent>
         </Drawer>
 
         <div
-          style={{ "--aspect-ratio": aspectRatio } as CSSProperties}
+          style={
+            {
+              "--aspect-ratio": aspectRatio,
+              "--max-h": "calc(100dvh-var(--gutter-bottom)-(--spacing(8)))",
+              "--max-w": "min(1600px,100dvw-(--spacing(8)))",
+            } as CSSProperties
+          }
           className={cn(
             "group/video",
-            "fixed bottom-[calc(var(--gutter-bottom)+(--spacing(4)))] right-[calc(var(--gutter-right)+(--spacing(4)))] z-(--z-ui)",
-            "grid place-content-center",
+            "fixed bottom-[calc(var(--gutter-bottom)+(--spacing(4)))] right-[calc(var(--gutter-right)+(--spacing(4)))] z-(--z-ui-player-video)",
+            "grid place-content-center place-items-center",
             "*:col-span-full *:row-span-full",
             !isPipMode
               ? [
-                  "top-4 left-4 z-(--z-ui-player)",
+                  "top-4 left-4 z-[calc(var(--z-ui-player-video)+1)]",
                   {
-                    "grid-cols-1 grid-rows-[min-content]": aspectRatio > 1,
-                    "grid-rows-1 grid-cols-[min-content]": aspectRatio < 1,
+                    "grid-cols-1 grid-rows-[min-content] *:w-full":
+                      aspectRatio > 1,
+                    "grid-rows-1 grid-cols-[min-content] *:h-full":
+                      aspectRatio < 1,
                   },
                 ]
               : [
-                  "place-content-stretch",
+                  "place-content-stretch *:size-full",
                   {
-                    "w-100 max-w-[calc(100dvw-(--spacing(8)))]":
-                      aspectRatio > 1,
-                    "h-100 max-h-[calc(100dvh-var(--gutter-bottom)-(--spacing(8)))]":
-                      aspectRatio < 1,
+                    "w-100 max-w-(--max-w)": aspectRatio > 1,
+                    "h-100 max-h-(--max-h)": aspectRatio < 1,
                   },
                   "before:absolute before:-bottom-4 before:-right-4 before:-top-40 before:-left-40 before:pointer-events-none",
                   "before:bg-radial-[at_100%_100%] before:bg-bottom-right before:from-dark-purple before:to-70%",
@@ -98,12 +106,13 @@ export default function MainUIVideoOverlay() {
                 iv_load_policy: 3,
                 disablekb: 1,
               }}
-              className="aspect-(--aspect-ratio) min-w-auto min-h-auto rounded-md overflow-clip bg-cyan/30 backdrop-blur-lg"
+              className="aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h) rounded-md overflow-clip bg-cyan/30 backdrop-blur-lg"
             ></youtube-video>
           )}
           {isPipMode ? (
             <div
               className={cn(
+                "aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h)",
                 "opacity-0 pointer-events-none z-1",
                 "hidden media-hover:grid place-content-start p-2",
                 "bg-linear-to-br from-green to-green/0 to-80% rounded-md",
@@ -111,7 +120,7 @@ export default function MainUIVideoOverlay() {
               )}
             >
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -131,6 +140,7 @@ export default function MainUIVideoOverlay() {
           ) : (
             <div
               className={cn(
+                "aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h)",
                 "opacity-0 pointer-events-none z-1",
                 "hidden media-hover:grid place-content-end p-2",
                 "bg-linear-to-tl from-green to-green/0 to-80% rounded-md",
@@ -138,7 +148,7 @@ export default function MainUIVideoOverlay() {
               )}
             >
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"

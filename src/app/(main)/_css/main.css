@@ -26,6 +26,7 @@
   --tw-logo-globe--animation-duration: 30s;
 
   --z-ui: 1000;
-  --z-ui-player: 1001;
+  --z-ui-player: 1002;
+  --z-ui-player-video: 1001;
   --z-dialog: 10000;
 }
