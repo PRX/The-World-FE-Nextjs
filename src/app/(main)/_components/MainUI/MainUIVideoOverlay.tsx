@@ -106,7 +106,12 @@ export default function MainUIVideoOverlay() {
                 iv_load_policy: 3,
                 disablekb: 1,
               }}
-              className="aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h) rounded-md overflow-clip bg-cyan/30 backdrop-blur-lg"
+              className={cn(
+                "aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h)",
+                "rounded-md overflow-clip",
+                "bg-cyan/30 backdrop-blur-lg",
+                "shadow-navy-blue shadow",
+              )}
             ></youtube-video>
           )}
           {isPipMode ? (
@@ -114,56 +119,70 @@ export default function MainUIVideoOverlay() {
               className={cn(
                 "aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h)",
                 "opacity-0 pointer-events-none z-1",
-                "hidden media-hover:grid place-content-start p-2",
-                "bg-linear-to-br from-green to-green/0 to-80% rounded-md",
+                "hidden media-hover:grid place-content-start",
                 "group-hover/video:opacity-100",
               )}
             >
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 left-2 pointer-events-auto cursor-pointer"
-                    onClick={() => {
-                      exitPipMode();
-                    }}
-                  >
-                    <PipExitIcon />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="z-(--z-ui-player)">
-                  Exit Picture-In-Picture
-                </TooltipContent>
-              </Tooltip>
+              <div
+                className={cn(
+                  "flex items-center gap-2",
+                  "rounded-tl-md rounded-br-md p-2",
+                  "bg-green/50 backdrop-blur-sm",
+                )}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="pointer-events-auto cursor-pointer"
+                      onClick={() => {
+                        exitPipMode();
+                      }}
+                    >
+                      <PipExitIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="z-(--z-ui-player)">
+                    Exit Picture-In-Picture
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             </div>
           ) : (
             <div
               className={cn(
                 "aspect-(--aspect-ratio) min-w-auto min-h-auto max-w-400 max-h-(--max-h)",
                 "opacity-0 pointer-events-none z-1",
-                "hidden media-hover:grid place-content-end p-2",
-                "bg-linear-to-tl from-green to-green/0 to-80% rounded-md",
+                "hidden media-hover:grid place-content-end",
                 "group-hover/video:opacity-100",
               )}
             >
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="pointer-events-auto cursor-pointer"
-                    onClick={() => {
-                      enterPipMode();
-                    }}
-                  >
-                    <PipEnterIcon />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="z-(--z-ui-player)">
-                  Enter Picture-In-Picture
-                </TooltipContent>
-              </Tooltip>
+              <div
+                className={cn(
+                  "flex items-center gap-2",
+                  "rounded-tl-md rounded-br-md p-2",
+                  "bg-purple/50 backdrop-blur-sm",
+                )}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="pointer-events-auto cursor-pointer"
+                      onClick={() => {
+                        enterPipMode();
+                      }}
+                    >
+                      <PipEnterIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="z-(--z-ui-player)">
+                    Enter Picture-In-Picture
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             </div>
           )}
         </div>
