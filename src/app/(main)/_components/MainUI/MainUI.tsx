@@ -474,10 +474,11 @@ export default function MainUI({
                       }
                       className={cn(
                         "h-full flex justify-end",
-                        "bottom-(--gutter-bottom)! pl-(--padding-left) z-[calc(var(--z-ui-player)-1)] mask-t-from-[calc(100%-10rem)]",
+                        "pb-(--gutter-bottom)! pl-(--padding-left) z-(--z-ui-player-playlist) mask-t-from-[calc(100%-10rem)]",
                         "bg-transparent border-none",
                         "bg-linear-to-tr from-green/60 to-blue/40",
                       )}
+                      overlayProps={{ className: "z-(--z-ui-player-playlist)" }}
                     >
                       <DrawerTitle className="sr-only">Playlist</DrawerTitle>
                       <DrawerDescription className="sr-only">

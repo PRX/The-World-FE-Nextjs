@@ -133,7 +133,9 @@ export const PlaylistItem = ({
               {isPlaying(id) ? <PauseIcon /> : <PlayIcon />}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{isPlaying(id) ? "Pause" : "Play"}</TooltipContent>
+          <TooltipContent className="z-(--z-ui-player-playlist)">
+            {isPlaying(id) ? "Pause" : "Play"}
+          </TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -148,7 +150,9 @@ export const PlaylistItem = ({
               <ListMinusIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Remove From Playlist</TooltipContent>
+          <TooltipContent className="z-(--z-ui-player-playlist)">
+            Remove From Playlist
+          </TooltipContent>
         </Tooltip>
       </div>
     </div>
