@@ -2,7 +2,42 @@ import { SFContentTypeEnum } from "@/gen/search_filters_pb";
 import { encodeContentSearchFiltersParam } from "@/lib/util/binaryData";
 import { type NextRequest, NextResponse, type ProxyConfig } from "next/server";
 
+const deploymentEnv =
+  process.env.PRX_ENVIRONMENT || process.env.NODE_ENV || "development";
+
+function logger(
+  request: NextRequest,
+  response: NextResponse | Response,
+  requestedAt: Temporal.Instant,
+) {
+  const requestUrl = request.nextUrl.clone();
+  const now = Temporal.Now.instant();
+  const responseDuration = now.since(requestedAt);
+
+  console.log("Proxy Logger", {
+    totalTime: responseDuration.milliseconds,
+    request: {
+      path: requestUrl.pathname,
+      searchParams: requestUrl.searchParams.toString(),
+      method: request.method,
+      headers: request.headers
+        .entries()
+        // biome-ignore lint/performance/noAccumulatingSpread: Fine for now.
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}),
+    },
+    response: {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers
+        .entries()
+        // biome-ignore lint/performance/noAccumulatingSpread: Fine for now.
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}),
+    },
+  });
+}
+
 export async function proxy(request: NextRequest) {
+  const requestedAt = Temporal.Now.instant();
   const url = request.nextUrl.clone();
 
   /**
@@ -17,7 +52,11 @@ export async function proxy(request: NextRequest) {
     url.searchParams.set("sf", sf);
     url.searchParams.delete("v");
 
-    return NextResponse.redirect(url);
+    const response = NextResponse.redirect(url);
+
+    logger(request, response, requestedAt);
+
+    return response;
   }
 
   /**
@@ -33,7 +72,11 @@ export async function proxy(request: NextRequest) {
 
     url.pathname = newPath;
 
-    return NextResponse.redirect(url);
+    const response = NextResponse.redirect(url);
+
+    logger(request, response, requestedAt);
+
+    return response;
   }
 
   /**
@@ -52,13 +95,17 @@ export async function proxy(request: NextRequest) {
     }
 
     if (!isImageUrlOk) {
-      return Response.json(
+      const response = Response.json(
         {
           success: false,
           message: `Source image not accessible: ${imageApiUrl}`,
         },
         { status: 422 },
       );
+
+      logger(request, response, requestedAt);
+
+      return response;
     }
   }
 
@@ -134,6 +181,10 @@ export async function proxy(request: NextRequest) {
         });
       }
     }
+  }
+
+  if (deploymentEnv !== "development") {
+    logger(request, response, requestedAt);
   }
 
   return response;
