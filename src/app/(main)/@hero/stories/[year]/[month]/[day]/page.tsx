@@ -23,7 +23,8 @@ export default async function StoriesByDateHero({
   if (hasNanParams) {
     return null;
   }
-  const date = new Date(year, month - 1, day, 12);
+
+  const date = new Temporal.PlainDate(year, month, day);
 
   return (
     <ExplorerHero>
