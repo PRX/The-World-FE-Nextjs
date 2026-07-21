@@ -2,7 +2,12 @@
 
 import "youtube-video-element";
 import type { AppMenus, Settings } from "@/interfaces";
-import { ChevronUpIcon, HeartHandshakeIcon, MenuIcon } from "lucide-react";
+import {
+  ChevronUpIcon,
+  HeartHandshakeIcon,
+  MenuIcon,
+  XIcon,
+} from "lucide-react";
 import Link from "next/link";
 import React, {
   type CSSProperties,
@@ -85,7 +90,7 @@ export default function MainUI({
   const uiBottomRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const trackInfoRef = useRef<HTMLDivElement>(null);
-  const { state: playerState } = useContext(PlayerContext);
+  const { state: playerState, clearPlaylist } = useContext(PlayerContext);
   const { tracks } = playerState || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
@@ -494,6 +499,26 @@ export default function MainUI({
                 contentProps={{ className: "z-(--z-ui-player)" }}
               />
               {/* Track Selection Controls */}
+              {tracks?.length === 1 && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="self-end rounded-full cursor-pointer sm:hidden"
+                      size="icon"
+                      variant="ghost"
+                      aria-label="Remove Track"
+                      onClick={() => {
+                        clearPlaylist();
+                      }}
+                    >
+                      <XIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="z-(--z-ui-player)">
+                    Remove Track
+                  </TooltipContent>
+                </Tooltip>
+              )}
               <div
                 className={cn(
                   "flex justify-start items-center gap-1 empty:hidden",
