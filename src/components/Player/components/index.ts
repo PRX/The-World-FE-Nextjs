@@ -1,4 +1,5 @@
 export * from "./AddAudioButton";
+export * from "./AddYoutubeButton";
 export * from "./AutoPlayButton";
 export * from "./EmbedModalContent";
 export * from "./ForwardButton";
@@ -8,6 +9,7 @@ export * from "./PlayButton";
 export * from "./Playlist";
 export * from "./PlayerMenu";
 export * from "./PlayerProgress";
+export * from "./PlayYoutubeButton";
 export * from "./PreviousButton";
 export * from "./ReplayButton";
 export * from "./TimeInfo";

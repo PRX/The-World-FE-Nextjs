@@ -64,7 +64,7 @@ function CardImage({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="image"
       className={cn(
         "absolute inset-0 -z-2 overflow-clip rounded-sm [&>img]:transition-transform",
-        "group-hover/card:[&>img]:scale-105 group-focus-within/card:[&>img]:scale-105",
+        "group-has-data-[slot=link]/card:group-hover/card:[&>img]:scale-105 group-has-data-[slot=link]/card:group-focus-within/card:[&>img]:scale-105",
         className,
       )}
       {...props}

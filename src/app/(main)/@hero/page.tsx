@@ -18,7 +18,7 @@ export default async function HomeHero() {
           <div
             className={cn(
               "group-data-menu-open/ui:-translate-x-full delay-(--default-transition-duration) transition-transform",
-              "fixed z-(--z-ui) top-(--gutter-top) left-0 w-28",
+              "fixed z-[calc(var(--z-ui-player-video)-1)] top-(--gutter-top) left-0 w-28",
             )}
           >
             <MiniMenu />

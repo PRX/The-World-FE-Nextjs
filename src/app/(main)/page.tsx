@@ -30,10 +30,15 @@ import {
   AddAudioButton,
   PlayAudioButton,
   type PlayerAudio,
+  PlayYoutubeButton,
+  type PlayerYoutube,
+  AddYoutubeButton,
 } from "@/components/Player";
 import type { CSSProperties } from "react";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "./_components/CtaRegion";
+import { parseYoutubeVideoData } from "@/lib/parse/video";
+import YouTubeIcon from "@/assets/svg/icons/brands/youtube.svg";
 
 export const getCachedHomepage = cache(async () => fetchGqlHomepage());
 
@@ -42,7 +47,14 @@ export default async function Home() {
 
   if (!data) return null;
 
-  const { id, programContributors, posts, landingPage, menus } = data;
+  const {
+    id,
+    programContributors,
+    posts,
+    landingPage,
+    menus,
+    youtubePlaylistVideos,
+  } = data;
   const { team } = programContributors || {};
   const { quickLinks } = menus;
   const quickLinksMenu = parseMenu(quickLinks);
@@ -295,6 +307,146 @@ export default async function Home() {
                   >
                     <CtaRegion cta={shownInlineTopMessage} />
                   </div>
+                )}
+
+                {carouselIndex === 0 && youtubePlaylistVideos?.length && (
+                  <section
+                    className={cn(
+                      "grid grid-cols-[0_1fr] md:grid-cols-[var(--_menu-width)_1fr] justify-start gap-y-2 -mb-1",
+                      "pointer-coarse:snap-always pointer-coarse:snap-center",
+                    )}
+                  >
+                    <div className="col-start-2 flex justify-between">
+                      <h2 className="pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
+                        YouTube Videos
+                      </h2>
+                      <div className="flex gap-2 px-4">
+                        <Button variant="action" asChild>
+                          <Link
+                            href="https://www.youtube.com/@TheWorldNewsGBH?sub_confirmation=1"
+                            target="tw-on-youtube"
+                            title="Subscribe on YouTube"
+                          >
+                            <YouTubeIcon />
+                            <span aria-hidden="true">Subscribe</span>
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="row-start-2 col-span-2">
+                      <CardCarousel
+                        opts={{
+                          active: false,
+                          align: "center",
+                          slidesToScroll: 1,
+                          skipSnaps: true,
+                          breakpoints: {
+                            "(pointer: fine)": { active: true },
+                          },
+                        }}
+                        className="**:data-[slot=carousel-content]:pointer-coarse:overflow-x-auto **:data-[slot=carousel-content]:snap-proximity **:data-[slot=carousel-content]:snap-x"
+                      >
+                        <CarouselPrevious className="w-auto opacity-100 pl-(--_menu-width) pointer-coarse:hidden" />
+                        <CarouselContent>
+                          {youtubePlaylistVideos.map((video) => {
+                            if (!video) return null;
+
+                            const {
+                              id,
+                              title,
+                              duration,
+                              aspectRatio,
+                              imageUrl,
+                            } = parseYoutubeVideoData(video);
+                            const fallbackProps = {
+                              queuedFrom: "Card Controls",
+                            } as Partial<PlayerYoutube>;
+
+                            return (
+                              <CarouselItem
+                                style={
+                                  {
+                                    "--aspect-ratio": aspectRatio,
+                                  } as CSSProperties
+                                }
+                                className={cn(
+                                  "grid aspect-(--aspect-ratio) basis-[min(calc(--spacing(100)*var(--aspect-ratio)),80dvw)] h-100 transition-all",
+                                  "md:nth-of-type-[1]:ml-[calc(var(--_menu-width)+var(--spacing)*2)]",
+                                  "snap-always snap-center",
+                                )}
+                                key={id}
+                              >
+                                <Card className={cn("")}>
+                                  <PlayYoutubeButton
+                                    className={cn(
+                                      "absolute inset-0 grid place-items-center w-auto h-auto z-1 rounded-none",
+                                      "[&_svg]:size-20! [&_svg]:fill-current [&_svg]:stroke-none",
+                                      "opacity-50 hover:opacity-100 focus-visible:opacity-100 data-playing:opacity-100",
+                                      "hover:bg-transparent focus-visible:bg-transparent",
+                                      "hover:backdrop-blur-none focus-visible:backdrop-blur-none",
+                                      "hover:backdrop-brightness-100 focus-visible:backdrop-brightness-100",
+                                    )}
+                                    variant="ghost"
+                                    size="icon-lg"
+                                    video={video}
+                                    fallbackProps={fallbackProps}
+                                    data-slot="link"
+                                    disableTooltip
+                                  />
+                                  {imageUrl && (
+                                    <CardImage>
+                                      <Image
+                                        src={imageUrl}
+                                        alt={""}
+                                        fill
+                                        sizes={`(min-width: 768px) ${aspectRatio < 0 ? "1440px" : "900px"}, 240vw`}
+                                        style={{
+                                          objectFit: "cover",
+                                        }}
+                                        loading={
+                                          carouselIndex === 0 ? "eager" : "lazy"
+                                        }
+                                        {...(carouselIndex === 0 && {
+                                          preload: true,
+                                        })}
+                                      />
+                                    </CardImage>
+                                  )}
+                                  <CardHeader>
+                                    <CardTitle className="line-clamp-2">
+                                      {title}
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardFooter>
+                                    <div
+                                      className={cn(
+                                        "relative z-1 flex justify-between items-center leading-1",
+                                      )}
+                                    >
+                                      <span className="flex items-center gap-x-2 min-h-9">
+                                        {duration && (
+                                          <span>
+                                            {formatDuration(duration)}
+                                          </span>
+                                        )}
+                                      </span>
+                                      <AddYoutubeButton
+                                        className="text-cyan"
+                                        variant="ghost"
+                                        video={video}
+                                        fallbackProps={fallbackProps}
+                                      />
+                                    </div>
+                                  </CardFooter>
+                                </Card>
+                              </CarouselItem>
+                            );
+                          })}
+                        </CarouselContent>
+                        <CarouselNext className="opacity-100 pointer-coarse:hidden" />
+                      </CardCarousel>
+                    </div>
+                  </section>
                 )}
               </React.Fragment>
             );

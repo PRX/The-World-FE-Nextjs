@@ -19,7 +19,7 @@ export default async function StoriesByYearHero({
     return null;
   }
 
-  const date = new Date(year, 1, 1, 12);
+  const date = new Temporal.PlainDate(year, 1, 1);
 
   return (
     <ExplorerHero>
