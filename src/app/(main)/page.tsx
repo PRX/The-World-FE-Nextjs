@@ -38,6 +38,7 @@ import type { CSSProperties } from "react";
 import { getCtaRegionMessages, getShownMessage } from "@/lib/cta";
 import CtaRegion from "./_components/CtaRegion";
 import { parseYoutubeVideoData } from "@/lib/parse/video";
+import YouTubeIcon from "@/assets/svg/icons/brands/youtube.svg";
 
 export const getCachedHomepage = cache(async () => fetchGqlHomepage());
 
@@ -315,9 +316,23 @@ export default async function Home() {
                       "pointer-coarse:snap-always pointer-coarse:snap-center",
                     )}
                   >
-                    <h2 className="col-start-2 justify-self-start pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
-                      YouTube Videos
-                    </h2>
+                    <div className="col-start-2 flex justify-between">
+                      <h2 className="pl-4 font-bold text-2xl [&_svg:first-child]:size-8 [&_svg:first-child]:text-cyan">
+                        YouTube Videos
+                      </h2>
+                      <div className="flex gap-2 px-4">
+                        <Button variant="action" asChild>
+                          <Link
+                            href="https://www.youtube.com/@TheWorldNewsGBH?sub_confirmation=1"
+                            target="tw-on-youtube"
+                            title="Subscribe on YouTube"
+                          >
+                            <YouTubeIcon />
+                            <span aria-hidden="true">Subscribe</span>
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
                     <div className="row-start-2 col-span-2">
                       <CardCarousel
                         opts={{
