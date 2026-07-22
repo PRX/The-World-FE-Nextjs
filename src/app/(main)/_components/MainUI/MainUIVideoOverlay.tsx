@@ -104,10 +104,11 @@ export default function MainUIVideoOverlay() {
             // Full size video can cover all UI except player, with some space from edges.
             "top-4 left-4 bottom-[calc(var(--gutter-bottom)+(--spacing(4)))] right-4",
             isPipMode && [
+              "pointer-events-none",
               // Limit PIP video area to content area (inside gutter), with some space from edges.
               "top-[calc(var(--gutter-top)+(--spacing(4)))] left-[calc(var(--gutter-left)+(--spacing(4)))] right-[calc(var(--gutter-right)+(--spacing(4)))]",
               // Add a gradient behind video to help visually anchor to player and improve contrast with content behind video.
-              "before:absolute before:-bottom-4 before:-right-4 before:size-100 before:pointer-events-none",
+              "before:absolute before:-bottom-4 before:-right-4 before:size-100",
               "before:bg-radial-[at_100%_100%] before:bg-bottom-right before:from-dark-purple before:to-70%",
             ],
           )}
