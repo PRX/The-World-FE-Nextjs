@@ -16,7 +16,7 @@ import {
   ListMinusIcon,
   ListXIcon,
 } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PlayerContext } from "../../contexts";
 import {
   Drawer,
@@ -26,6 +26,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { EmbedModalContent } from "../EmbedModalContent";
+import type { PlayerTrack } from "../../types";
 
 export type PlayerMenuProps = React.ComponentProps<typeof DropdownMenu> & {
   triggerProps?: React.ComponentProps<typeof DropdownMenuTrigger>;
@@ -45,8 +46,17 @@ export function PlayerMenu({
   const { currentTrackIndex, tracks } = state;
   const currentTrack =
     (currentTrackIndex || currentTrackIndex === 0) && tracks[currentTrackIndex];
-  const { url: audioDownloadUrl } = currentTrack || {};
+  const { mediaType, url: audioDownloadUrl } = (currentTrack ||
+    {}) as PlayerTrack;
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
+  const canEmbed = ["audio", "youtube"].includes(mediaType);
+  const canDownload = ["audio"].includes(mediaType);
+
+  useEffect(() => {
+    if (!tracks?.length) {
+      setIsEmbedDialogOpen(false);
+    }
+  }, [tracks]);
 
   return (
     <>
@@ -83,16 +93,20 @@ export function PlayerMenu({
               </DropdownMenuItem>
             )}
 
-            <DropdownMenuItem
-              id="menu-embed-audio"
-              onClick={() => {
-                setIsEmbedDialogOpen(true);
-              }}
-            >
-              <CodeIcon /> Embed Audio
-            </DropdownMenuItem>
+            {canEmbed && (
+              <DropdownMenuItem
+                // TODO: Figure out a better way to do the embed dialog on touch, then remove this.
+                className="not-media-hover:hidden"
+                id="menu-embed-audio"
+                onClick={() => {
+                  setIsEmbedDialogOpen(true);
+                }}
+              >
+                <CodeIcon /> Embed Player
+              </DropdownMenuItem>
+            )}
 
-            {audioDownloadUrl && (
+            {audioDownloadUrl && canDownload && (
               <DropdownMenuItem asChild>
                 <a
                   href={`/api/download-external?url=${encodeURIComponent(audioDownloadUrl)}`}
@@ -109,7 +123,7 @@ export function PlayerMenu({
       {/* Embed Dialog */}
       <Drawer open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
         <DrawerContent
-          className="z-(--z-ui) pb-[calc(var(--gutter-bottom)+--spacing(4))]"
+          className="z-(--z-ui-player-playlist) pb-[calc(var(--gutter-bottom)+(--spacing(4)))]"
           aria-describedby="menu-embed-audio"
         >
           <DrawerHeader>

@@ -87,13 +87,18 @@ export const redirects: NextConfig["redirects"] = async () => {
 
     /* File Redirects */
     {
+      source: "/sites/default/files/:slug*",
+      destination: "https://media.pri.org/s3fs-public/:slug*",
+      permanent: true,
+    },
+    {
       source: "/s3/files/:slug*",
-      destination: "https://files.theworld.org/s3/files/:slug*",
+      destination: "https://media.pri.org/s3fs-public/:slug*",
       permanent: true,
     },
     {
       source: "/kraken/files/:slug*",
-      destination: "https://files.theworld.org/kraken/files/:slug*",
+      destination: "https://media.pri.org/s3fs-public/:slug*",
       permanent: true,
     },
 

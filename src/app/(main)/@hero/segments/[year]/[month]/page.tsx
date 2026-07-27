@@ -23,7 +23,7 @@ export default async function SegmentsByMonthHero({
     return null;
   }
 
-  const date = new Date(year, month - 1, 1, 12);
+  const date = new Temporal.PlainDate(year, month, 1);
 
   return (
     <ExplorerHero>

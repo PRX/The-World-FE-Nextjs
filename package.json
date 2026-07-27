@@ -25,7 +25,6 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-awesome/use-breakpoint": "^1.0.0",
-    "@tanstack/react-query": "^5.91.3",
     "@toolwind/corner-shape": "^0.0.8-3",
     "base-64": "^1.0.0",
     "class-variance-authority": "^0.7.1",
@@ -67,8 +66,10 @@
     "subset-font": "^2.5.0",
     "swr": "^2.4.1",
     "tailwind-merge": "^3.3.1",
+    "temporal-polyfill": "^1.0.1",
     "uid": "^2.0.2",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "youtube-video-element": "^1.9.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
@@ -78,6 +79,7 @@
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/base-64": "^1.0.2",
+    "@types/google-apps-script": "^2.0.11",
     "@types/htmlparser2": "^4.1.0",
     "@types/lodash": "^4.17.20",
     "@types/node": "^20.19.16",

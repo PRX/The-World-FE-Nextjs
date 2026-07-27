@@ -1,15 +1,14 @@
 "use client";
 
 /**
- * @file AddAudioButton.tsx
- * Button component to add and remove audio from playlist queue.
+ * @file AddYoutubeButton.tsx
+ * Button component to add and remove YouTube track from playlist queue.
  */
 
 import { type MouseEventHandler, useContext, useEffect, useState } from "react";
-import type { MediaItem } from "@/interfaces";
-import type { PlayerAudio } from "@/components/Player/types";
+import type { PlayerYoutube } from "@/components/Player/types";
+import { parseYoutubeVideoData } from "@/lib/parse/video";
 import { PlayerContext } from "@/components/Player/contexts/PlayerContext";
-import { parseAudioData } from "@/lib/parse/audio/parseAudioData";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -19,19 +18,19 @@ import {
 import { cn } from "@/lib/util/css";
 import { ListMinusIcon, ListPlusIcon } from "lucide-react";
 
-export type AddAudioButtonProps = React.ComponentProps<typeof Button> & {
-  audio: MediaItem;
-  fallbackProps?: Partial<PlayerAudio>;
+export type AddYoutubeButtonProps = React.ComponentProps<typeof Button> & {
+  video: GoogleAppsScript.YouTube.Schema.Video;
+  fallbackProps?: Partial<PlayerYoutube>;
 };
 
-export const AddAudioButton = ({
+export const AddYoutubeButton = ({
   className,
   onClick,
-  audio,
+  video,
   fallbackProps,
   ...rest
-}: AddAudioButtonProps) => {
-  const audioData = parseAudioData(audio, fallbackProps);
+}: AddYoutubeButtonProps) => {
+  const videoData = parseYoutubeVideoData(video, fallbackProps);
   const {
     state: playerState,
     addTrack,
@@ -45,11 +44,11 @@ export const AddAudioButton = ({
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
-    if (audioData) {
+    if (videoData) {
       if (isQueued) {
-        removeTrack(audioData);
+        removeTrack(videoData);
       } else {
-        addTrack(audioData);
+        addTrack(videoData);
       }
     }
 
@@ -60,7 +59,7 @@ export const AddAudioButton = ({
 
   useEffect(() => {
     const trackIndex = (tracks || []).findIndex(
-      ({ id }) => id === audioData?.id,
+      ({ id }) => id === videoData?.id,
     );
 
     if (trackIndex > -1) {
@@ -69,7 +68,7 @@ export const AddAudioButton = ({
     } else {
       setIsQueued(false);
     }
-  }, [currentTrackIndex, tracks, audioData]);
+  }, [currentTrackIndex, tracks, videoData]);
 
   return (
     <Tooltip>
@@ -78,7 +77,7 @@ export const AddAudioButton = ({
           className={cn("rounded-full cursor-pointer", className)}
           size="icon"
           onClick={handleClick}
-          disabled={!audioData}
+          disabled={!videoData}
           {...rest}
           data-queued={
             (isQueued && (isCurrentTrack ? "current" : true)) || undefined

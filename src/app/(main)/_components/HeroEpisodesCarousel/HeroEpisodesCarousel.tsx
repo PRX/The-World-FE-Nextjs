@@ -153,7 +153,7 @@ export default function HeroEpisodesCarousel({
                 )}
                 <DateTime
                   date={broadcastDate || date}
-                  options={{ year: "numeric", month: "short", day: "numeric" }}
+                  options={{ year: "numeric", month: "long", day: "numeric" }}
                 />
               </div>
               {hasTeaser ? (
@@ -283,7 +283,10 @@ export default function HeroEpisodesCarousel({
                             >
                               <Card className={cn("aspect-260/360")}>
                                 {segmentLinkHref && (
-                                  <CardLink href={segmentLinkHref} aria-label={title ?? undefined} />
+                                  <CardLink
+                                    href={segmentLinkHref}
+                                    aria-label={title ?? undefined}
+                                  />
                                 )}
                                 {segmentImageSrc && (
                                   <CardImage>

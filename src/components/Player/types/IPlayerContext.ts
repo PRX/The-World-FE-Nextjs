@@ -5,15 +5,16 @@
  * Interface for player context.
  */
 
-import type { PlayerAudio } from "./PlayerAudio.type";
 import type { IPlayerState } from "./IPlayerState";
+import type { RefObject } from "react";
+import type { PlayerTrack } from "./PlayerTrack.type";
 
 export interface IPlayerContext {
-  audioElm: HTMLAudioElement | null;
+  el: RefObject<HTMLMediaElement | HTMLAudioElement | HTMLVideoElement | null>;
   state: IPlayerState;
   play(): void;
-  playTrack(index: number): void;
-  playAudio(audio: PlayerAudio): void;
+  playTrackAt(index: number): void;
+  playTrack(audio: PlayerTrack): void;
   pause(): void;
   togglePlayPause(): void;
   enableAutoplay(): void;
@@ -28,10 +29,10 @@ export interface IPlayerContext {
   nextTrack(): void;
   previousTrack(): void;
   setTrack(index: number): void;
-  setTracks(tracks: PlayerAudio[]): void;
+  setTracks(tracks: PlayerTrack[]): void;
   setVolume(volume: number): number;
-  addTrack(track: PlayerAudio): void;
-  removeTrack(track: PlayerAudio): void;
+  addTrack(track: PlayerTrack): void;
+  removeTrack(track: PlayerTrack): void;
   clearPlaylist(): void;
   isQueued(id: string): boolean;
   isCurrentTrack(id: string): boolean;

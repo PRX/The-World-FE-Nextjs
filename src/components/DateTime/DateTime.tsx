@@ -6,12 +6,13 @@
  */
 
 import type { Maybe } from "@/interfaces";
+import "temporal-polyfill/global";
 import { sanitizeIso8601Date } from "@/lib/sanitize";
 import { useEffect, useState } from "react";
 
 export type DateTimeProps = {
   className?: string;
-  date?: Maybe<Date | string | number>;
+  date?: Maybe<Temporal.PlainDate | Temporal.PlainDateTime | string>;
   timeZone?: string;
   locale?: Intl.LocalesArgument;
   options?: Intl.DateTimeFormatOptions;
@@ -36,18 +37,23 @@ export const DateTime = ({
 
   if (!usedDateValue) return null;
 
-  const renderDate =
-    usedDateValue instanceof Date ? usedDateValue : new Date(usedDateValue);
+  const renderDate = ((v) => {
+    try {
+      return Temporal.PlainDateTime.from(v);
+    } catch (_e) {
+      return null;
+    }
+  })(usedDateValue);
 
-  if (renderDate.toString() === "Invalid Date") return null;
+  if (!renderDate) return null;
 
-  const formattedDate = renderDate.toLocaleDateString(locale || "en-US", {
+  const formattedDate = renderDate.toLocaleString(locale || "en-US", {
     timeZone: timeZone || "America/New_York",
     ...options,
   });
 
   return (
-    <time className={className} dateTime={`${renderDate.toISOString()}`}>
+    <time className={className} dateTime={`${renderDate.toString()}`}>
       {formattedDate}
     </time>
   );

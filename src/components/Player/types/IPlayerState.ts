@@ -3,7 +3,7 @@
  * Define state interface used by player.
  */
 
-import type { PlayerAudio } from "./PlayerAudio.type";
+import type { PlayerTrack } from "./PlayerTrack.type";
 
 export interface IPlayerState {
   /**
@@ -29,5 +29,5 @@ export interface IPlayerState {
   /**
    * Holds all the audio data that can be played.
    */
-  tracks: PlayerAudio[];
+  tracks: PlayerTrack[];
 }

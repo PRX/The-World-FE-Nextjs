@@ -18,7 +18,7 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
   className,
   ...other
 }: TimeInfoProps) => {
-  const { audioElm, state: playerState } = useContext(PlayerContext);
+  const { el, state: playerState } = useContext(PlayerContext);
   const { currentTrackIndex = 0, tracks } = playerState || {};
   const currentTrack = tracks?.[currentTrackIndex];
   const { duration: audioDuration } = currentTrack || {};
@@ -33,13 +33,13 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
    */
   const updateProgress = useCallback(
     (seconds?: number) => {
-      const { currentTime: ct, duration: d } = audioElm || {};
+      const { currentTime: ct, duration: d } = el.current || {};
       const updatedPlayed = seconds || seconds === 0 ? seconds : ct;
 
       setCurrentTime(updatedPlayed || 0);
       setDuration(d || audioDuration || 0);
     },
-    [audioElm, audioDuration],
+    [el.current, audioDuration],
   );
 
   /**
@@ -60,14 +60,14 @@ export const TimeInfo: React.FC<TimeInfoProps> = ({
    * Setup audio element event handlers.
    */
   useEffect(() => {
-    audioElm?.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audioElm?.addEventListener("timeupdate", handleUpdate);
+    el.current?.addEventListener("loadedmetadata", handleLoadedMetadata);
+    el.current?.addEventListener("timeupdate", handleUpdate);
 
     return () => {
-      audioElm?.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audioElm?.removeEventListener("timeupdate", handleUpdate);
+      el.current?.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      el.current?.removeEventListener("timeupdate", handleUpdate);
     };
-  }, [audioElm, handleLoadedMetadata, handleUpdate]);
+  }, [el.current, handleLoadedMetadata, handleUpdate]);
 
   return (
     <div

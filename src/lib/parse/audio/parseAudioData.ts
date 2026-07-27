@@ -93,11 +93,12 @@ export const parseAudioData = (
     ...(audioAuthor
       ? audioAuthor.map(({ name }: Contributor) => name).filter((v) => !!v)
       : []),
-    ...(date ? [new Date(date)] : []),
+    ...(date ? [date] : []),
     ...(fallbackInfo || []),
   ];
 
   return {
+    mediaType: "audio",
     id: id,
     url: generateAudioUrl(url),
     ...(duration && { duration: duration }),

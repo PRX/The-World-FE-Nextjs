@@ -8,13 +8,13 @@
 import type React from "react";
 import { forwardRef, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { sanitizeIso8601Date } from "@/lib/sanitize";
 import { DateTime } from "@/components/DateTime";
 import { Marquee } from "@/components/Marquee";
 import { PlayerContext } from "@/components/Player";
 import Link from "next/link";
 import { generateContentLinkHref } from "@/lib/routing";
 import { cn } from "@/lib/util/css";
+import { sanitizeIso8601Date } from "@/lib/sanitize";
 
 export type TrackInfoProps = React.ComponentProps<"div"> & {
   linkProps?: Partial<React.ComponentProps<typeof Link>>;
@@ -57,20 +57,20 @@ export const TrackInfo = forwardRef<HTMLDivElement, TrackInfoProps>(
                 {info
                   .filter((t) => !!t)
                   .map((value) => {
-                    const dateValue =
-                      value instanceof Date
-                        ? value
-                        : new Date(sanitizeIso8601Date(value) || "");
-                    const isDateValue =
-                      value instanceof Date ||
-                      !Number.isNaN(dateValue.getTime());
+                    const dateValue = ((v) => {
+                      try {
+                        const d = sanitizeIso8601Date(v.split("T")[0]);
+                        return Temporal.PlainDate.from(d);
+                      } catch (_e) {
+                        return null;
+                      }
+                    })(value);
 
-                    return isDateValue ? (
+                    return dateValue ? (
                       <DateTime
-                        className=""
                         date={dateValue}
                         options={{
-                          month: "short",
+                          month: "long",
                           day: "numeric",
                           year: "numeric",
                         }}

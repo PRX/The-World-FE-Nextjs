@@ -27,6 +27,7 @@ function Switch({
         "data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6",
         className,
       )}
+      checked={checked}
       {...props}
     >
       <SwitchPrimitive.Thumb

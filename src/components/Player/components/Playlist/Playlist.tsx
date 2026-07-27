@@ -8,7 +8,7 @@
 
 import type React from "react";
 import { useContext, useEffect, useMemo } from "react";
-import type { PlayerAudio } from "../../types";
+import type { PlayerTrack } from "../../types";
 import { AnimatePresence, Reorder } from "framer-motion";
 import debounce from "lodash/debounce";
 import { PlayerContext } from "../../contexts";
@@ -24,7 +24,7 @@ export const Playlist = ({ className, ...other }: PlaylistProps) => {
   const handleReorder = useMemo(
     () =>
       debounce(
-        (newOrder: PlayerAudio[]) => {
+        (newOrder: PlayerTrack[]) => {
           setTracks(newOrder);
         },
         100,

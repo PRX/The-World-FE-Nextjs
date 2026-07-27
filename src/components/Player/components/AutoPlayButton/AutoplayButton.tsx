@@ -38,8 +38,9 @@ export const AutoplayButton = ({
       <TooltipTrigger asChild>
         <Switch
           {...other}
+          name="autoplay"
+          value={1}
           className={cn("", className)}
-          defaultChecked={autoplay}
           checked={autoplay}
           onCheckedChange={handleClick}
         >

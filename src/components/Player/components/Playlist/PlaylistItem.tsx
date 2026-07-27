@@ -8,7 +8,7 @@
 import type React from "react";
 import { useContext } from "react";
 import { DateTime } from "@/components/DateTime";
-import { PlayerContext, type PlayerAudio } from "@/components/Player";
+import { PlayerContext } from "@/components/Player";
 import { sanitizeIso8601Date } from "@/lib/sanitize";
 import { cn } from "@/lib/util/css";
 import {
@@ -26,9 +26,10 @@ import {
 import Link from "next/link";
 import { generateContentLinkHref } from "@/lib/routing";
 import { convertSecondsToDuration } from "@/lib/parse/time";
+import type { PlayerTrack } from "../../types/PlayerTrack.type";
 
 export type PlaylistItemProps = React.ComponentProps<"div"> & {
-  audio: PlayerAudio;
+  audio: PlayerTrack;
 };
 
 export const PlaylistItem = ({
@@ -36,7 +37,7 @@ export const PlaylistItem = ({
   className,
   ...other
 }: PlaylistItemProps) => {
-  const { playAudio, removeTrack, togglePlayPause, isCurrentTrack, isPlaying } =
+  const { playTrack, removeTrack, togglePlayPause, isCurrentTrack, isPlaying } =
     useContext(PlayerContext);
   const { id, title, info, duration, linkResource } = audio;
   const linkResourceHref =
@@ -46,7 +47,7 @@ export const PlaylistItem = ({
     if (isCurrentTrack(id)) {
       togglePlayPause();
     } else {
-      playAudio(audio);
+      playTrack(audio);
     }
   };
 
@@ -77,19 +78,21 @@ export const PlaylistItem = ({
               {info
                 .filter((t) => !!t)
                 .map((value) => {
-                  const dateValue =
-                    value instanceof Date
-                      ? value
-                      : new Date(sanitizeIso8601Date(value) || "");
-                  const isDateValue =
-                    value instanceof Date || !Number.isNaN(dateValue.getTime());
+                  const dateValue = ((v) => {
+                    try {
+                      const d = sanitizeIso8601Date(v.split("T")[0]);
+                      return Temporal.PlainDate.from(d);
+                    } catch (_e) {
+                      return null;
+                    }
+                  })(value);
 
-                  return isDateValue ? (
+                  return dateValue ? (
                     <DateTime
                       className=""
                       date={dateValue}
                       options={{
-                        month: "short",
+                        month: "long",
                         day: "numeric",
                         year: "numeric",
                       }}
@@ -122,13 +125,17 @@ export const PlaylistItem = ({
               size="icon"
               variant="ghost"
               className="cursor-pointer"
-              aria-label={isPlaying(id) ? `Pause "${title}"` : `Play "${title}"`}
+              aria-label={
+                isPlaying(id) ? `Pause "${title}"` : `Play "${title}"`
+              }
               onClick={handlePlayClick}
             >
               {isPlaying(id) ? <PauseIcon /> : <PlayIcon />}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{isPlaying(id) ? "Pause" : "Play"}</TooltipContent>
+          <TooltipContent className="z-(--z-ui-player-playlist)">
+            {isPlaying(id) ? "Pause" : "Play"}
+          </TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -143,7 +150,9 @@ export const PlaylistItem = ({
               <ListMinusIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Remove From Playlist</TooltipContent>
+          <TooltipContent className="z-(--z-ui-player-playlist)">
+            Remove From Playlist
+          </TooltipContent>
         </Tooltip>
       </div>
     </div>
