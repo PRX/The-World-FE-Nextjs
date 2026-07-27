@@ -8,6 +8,7 @@ import {
 } from "@/components/Player";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { cn } from "@/lib/util/css";
+import { XIcon } from "lucide-react";
 import PipExitIcon from "@/assets/svg/icons/pip-exit.svg";
 import PipEnterIcon from "@/assets/svg/icons/pip-enter.svg";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ const videoMediaTypes = new Set(["youtube"]);
 // };
 
 export default function MainUIVideoOverlay() {
-  const { el, state: playerState } = useContext(PlayerContext);
+  const { el, state: playerState, removeTrack } = useContext(PlayerContext);
   const { tracks, currentTrackIndex, standalone } = playerState || {};
   const currentTrack = tracks[currentTrackIndex];
   const {
@@ -160,6 +161,41 @@ export default function MainUIVideoOverlay() {
             )}
 
             {/* VIDEO CONTROL OVERLAYS */}
+
+            <div
+              className={cn(
+                "absolute inset-0",
+                "opacity-0 pointer-events-none z-1",
+                "hidden media-hover:grid justify-end content-start",
+                "group-hover/video:opacity-100",
+              )}
+            >
+              <div
+                className={cn(
+                  "flex items-center gap-2",
+                  "rounded-tr-md rounded-bl-md p-2",
+                  "bg-purple/50 backdrop-blur-sm",
+                )}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="pointer-events-auto cursor-pointer"
+                      onClick={() => {
+                        removeTrack(currentTrack);
+                      }}
+                    >
+                      <XIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="z-(--z-ui-player)">
+                    Close Video
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
 
             {isPipMode ? (
               <div

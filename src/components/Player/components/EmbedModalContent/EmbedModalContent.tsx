@@ -6,9 +6,9 @@
  */
 
 import type React from "react";
-import { useContext, useState } from "react";
+import { CSSProperties, useContext, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { PlayerContext } from "@/components/Player";
+import { PlayerContext, PlayerTrack, PlayerYoutube } from "@/components/Player";
 import { ClipboardCheckIcon, ClipboardXIcon, CopyIcon } from "lucide-react";
 import { cn } from "@/lib/util/css";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,9 +29,72 @@ export function EmbedModalContent({
   const { state } = useContext(PlayerContext);
   const { tracks = [], currentTrackIndex = 0 } = state;
   const currentTrack = tracks[currentTrackIndex];
-  const { title, linkResource } = currentTrack || {};
+  const { mediaType, title, linkResource } = (currentTrack ||
+    {}) as PlayerTrack;
+  const {
+    id: videoId,
+    player,
+    aspectRatio,
+    url: youtubeUrl,
+  } = (currentTrack || {}) as PlayerYoutube;
   const { id: embedUrlId } = linkResource || {};
-  const embedCode = `<iframe title="TheWorld.org Embedded Audio Player - ${title}" src="https://theworld.org/embed/audio/${embedUrlId}" frameborder="0" height="50" width="100%" allowtransparency="true" style="background-color: transparent; color-scheme: auto; margin-block: 1rem"></iframe>`;
+  const embedCodesByMediaType = new Map<string, string | undefined>([
+    [
+      "audio",
+      `<iframe title="TheWorld.org Embedded Audio Player - ${title}" src="https://theworld.org/embed/audio/${embedUrlId}" frameborder="0" height="50" width="100%" allowtransparency="true" style="background-color: transparent; color-scheme: auto; margin-block: 1rem"></iframe>`,
+    ],
+    ["youtube", player?.embedHtml],
+  ]);
+  const embedCode = embedCodesByMediaType.get(mediaType) || "";
+  const previewByByMediaType = new Map([
+    [
+      "audio",
+      () => (
+        <iframe
+          title="Embedded Audio Player Preview"
+          frameBorder="0"
+          src={`/embed/audio/${embedUrlId}`}
+          height="50"
+          width="100%"
+          className="my-4 bg-navy-blue rounded-sm"
+          allowTransparency
+          style={{ colorScheme: "auto" }}
+        />
+      ),
+    ],
+    [
+      "youtube",
+      () => (
+        <div
+          style={
+            {
+              "--aspect-ratio": aspectRatio,
+            } as CSSProperties
+          }
+          className={cn(
+            "grow relative flex items-center aspect-(--aspect-ratio) max-w-100% max-h-100% m-0 mx-auto",
+            "after:absolute after:inset-0",
+          )}
+        >
+          <youtube-video
+            src={
+              currentTrack.url || `https://www.youtube.com/watch?v=${videoId}`
+            }
+            config={{
+              iv_load_policy: 3,
+              disablekb: 1,
+            }}
+            style={
+              {
+                colorScheme: "auto",
+              } as CSSProperties
+            }
+            className="size-full min-w-auto min-h-auto"
+          ></youtube-video>
+        </div>
+      ),
+    ],
+  ]);
   const [{ copied, failed }, setState] = useState({
     copied: false,
     failed: false,
@@ -61,23 +124,14 @@ export function EmbedModalContent({
     >
       <div
         className={cn(
-          "grow grid content-center gap-y-2 bg-white text-black p-4 rounded-sm",
+          "grow flex flex-col gap-y-2 bg-white text-black p-4 rounded-sm",
         )}
       >
         <Skeleton />
         <Skeleton />
         <Skeleton />
         <Skeleton className="w-3/4" />
-        <iframe
-          title="Embedded Audio Player Preview"
-          frameBorder="0"
-          src={`/embed/audio/${embedUrlId}`}
-          height="50"
-          width="100%"
-          className="my-4 bg-navy-blue rounded-sm"
-          allowTransparency
-          style={{ colorScheme: "auto" }}
-        />
+        {previewByByMediaType.get(mediaType)?.()}
         <Skeleton />
         <Skeleton />
         <Skeleton />

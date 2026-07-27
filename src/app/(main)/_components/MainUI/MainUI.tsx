@@ -495,30 +495,28 @@ export default function MainUI({
                 )}
               </div>
               <PlayerMenu
-                triggerProps={{ className: "max-sm:hidden" }}
+                triggerProps={{ className: "max-md:hidden" }}
                 contentProps={{ className: "z-(--z-ui-player)" }}
               />
               {/* Track Selection Controls */}
-              {tracks?.length === 1 && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      className="self-end rounded-full cursor-pointer sm:hidden"
-                      size="icon"
-                      variant="ghost"
-                      aria-label="Remove Track"
-                      onClick={() => {
-                        clearPlaylist();
-                      }}
-                    >
-                      <XIcon />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent className="z-(--z-ui-player)">
-                    Remove Track
-                  </TooltipContent>
-                </Tooltip>
-              )}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    className="self-end rounded-full cursor-pointer hover:hidden"
+                    size="icon"
+                    variant="ghost"
+                    aria-label="Remove Track"
+                    onClick={() => {
+                      clearPlaylist();
+                    }}
+                  >
+                    <XIcon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="z-(--z-ui-player)">
+                  Remove Track
+                </TooltipContent>
+              </Tooltip>
               <div
                 className={cn(
                   "flex justify-start items-center gap-1 empty:hidden",
