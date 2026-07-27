@@ -75,7 +75,7 @@ export function EmbedModalContent({
             } as CSSProperties
           }
           className={cn(
-            "grow relative flex items-center aspect-(--aspect-ratio) max-w-100% max-h-100% m-0 mx-auto",
+            "grow relative flex items-center aspect-(--aspect-ratio) min-h-75 max-w-100% max-h-100% m-0 mx-auto",
             "after:absolute after:inset-0",
           )}
         >

@@ -95,6 +95,8 @@ export function PlayerMenu({
 
             {canEmbed && (
               <DropdownMenuItem
+                // TODO: Figure out a better way to do the embed dialog on touch, then remove this.
+                className="not-media-hover:hidden"
                 id="menu-embed-audio"
                 onClick={() => {
                   setIsEmbedDialogOpen(true);
