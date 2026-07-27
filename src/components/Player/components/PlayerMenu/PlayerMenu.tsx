@@ -26,7 +26,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { EmbedModalContent } from "../EmbedModalContent";
-import { PlayerTrack } from "../../types";
+import type { PlayerTrack } from "../../types";
 
 export type PlayerMenuProps = React.ComponentProps<typeof DropdownMenu> & {
   triggerProps?: React.ComponentProps<typeof DropdownMenuTrigger>;
@@ -49,7 +49,7 @@ export function PlayerMenu({
   const { mediaType, url: audioDownloadUrl } = (currentTrack ||
     {}) as PlayerTrack;
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
-  const canEmbed = ["audio"].includes(mediaType);
+  const canEmbed = ["audio", "youtube"].includes(mediaType);
   const canDownload = ["audio"].includes(mediaType);
 
   useEffect(() => {
@@ -93,14 +93,16 @@ export function PlayerMenu({
               </DropdownMenuItem>
             )}
 
-            <DropdownMenuItem
-              id="menu-embed-audio"
-              onClick={() => {
-                setIsEmbedDialogOpen(true);
-              }}
-            >
-              <CodeIcon /> Embed Player
-            </DropdownMenuItem>
+            {canEmbed && (
+              <DropdownMenuItem
+                id="menu-embed-audio"
+                onClick={() => {
+                  setIsEmbedDialogOpen(true);
+                }}
+              >
+                <CodeIcon /> Embed Player
+              </DropdownMenuItem>
+            )}
 
             {audioDownloadUrl && canDownload && (
               <DropdownMenuItem asChild>
@@ -119,7 +121,7 @@ export function PlayerMenu({
       {/* Embed Dialog */}
       <Drawer open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
         <DrawerContent
-          className="z-(--z-ui-player-playlist) pb-[calc(var(--gutter-bottom)+--spacing(4))]"
+          className="z-(--z-ui-player-playlist) pb-[calc(var(--gutter-bottom)+(--spacing(4)))]"
           aria-describedby="menu-embed-audio"
         >
           <DrawerHeader>

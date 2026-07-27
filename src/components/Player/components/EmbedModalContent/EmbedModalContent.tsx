@@ -6,9 +6,13 @@
  */
 
 import type React from "react";
-import { CSSProperties, useContext, useState } from "react";
+import { type CSSProperties, useContext, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { PlayerContext, PlayerTrack, PlayerYoutube } from "@/components/Player";
+import {
+  PlayerContext,
+  type PlayerTrack,
+  type PlayerYoutube,
+} from "@/components/Player";
 import { ClipboardCheckIcon, ClipboardXIcon, CopyIcon } from "lucide-react";
 import { cn } from "@/lib/util/css";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -35,7 +39,6 @@ export function EmbedModalContent({
     id: videoId,
     player,
     aspectRatio,
-    url: youtubeUrl,
   } = (currentTrack || {}) as PlayerYoutube;
   const { id: embedUrlId } = linkResource || {};
   const embedCodesByMediaType = new Map<string, string | undefined>([
