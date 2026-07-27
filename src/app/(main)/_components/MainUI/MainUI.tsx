@@ -495,14 +495,14 @@ export default function MainUI({
                 )}
               </div>
               <PlayerMenu
-                triggerProps={{ className: "max-md:hidden" }}
+                triggerProps={{ className: "max-sm:hidden" }}
                 contentProps={{ className: "z-(--z-ui-player)" }}
               />
               {/* Track Selection Controls */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    className="self-end rounded-full cursor-pointer hover:hidden"
+                    className="self-end rounded-full cursor-pointer media-hover:hidden"
                     size="icon"
                     variant="ghost"
                     aria-label="Remove Track"
