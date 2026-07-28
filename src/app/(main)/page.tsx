@@ -1,8 +1,9 @@
 import React from "react";
 import { cn } from "@/lib/util/css";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import Image from "next/image";
-import { fetchGqlHomepage } from "@/lib/fetch";
+import { fetchGqlHomepage, fetchYouTubePlaylistVideos } from "@/lib/fetch";
 import {
   CarouselContent,
   CarouselItem,
@@ -40,21 +41,31 @@ import CtaRegion from "./_components/CtaRegion";
 import { parseYoutubeVideoData } from "@/lib/parse/video";
 import YouTubeIcon from "@/assets/svg/icons/brands/youtube.svg";
 
-export const getCachedHomepage = cache(async () => fetchGqlHomepage());
+export const getCachedHomepage = cache(async () =>
+  unstable_cache(() => fetchGqlHomepage(), ["homepage"], {
+    tags: ["homepage"],
+    revalidate: 3600,
+  })(),
+);
+
+const getYouTubePlaylistVideos = unstable_cache(
+  async (playlistId: string) => fetchYouTubePlaylistVideos(playlistId),
+  ["youtube"],
+  {
+    tags: ["homepage", "youtube"],
+    revalidate: 3600,
+  },
+);
 
 export default async function Home() {
-  const data = await getCachedHomepage();
+  const [data, youtubePlaylistVideos] = await Promise.all([
+    getCachedHomepage(),
+    getYouTubePlaylistVideos("PLroz2B1RPf0GiDwdj6NLexB5-v5NQnkFf"),
+  ]);
 
   if (!data) return null;
 
-  const {
-    id,
-    programContributors,
-    posts,
-    landingPage,
-    menus,
-    youtubePlaylistVideos,
-  } = data;
+  const { id, programContributors, posts, landingPage, menus } = data;
   const { team } = programContributors || {};
   const { quickLinks } = menus;
   const quickLinksMenu = parseMenu(quickLinks);
