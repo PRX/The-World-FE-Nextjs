@@ -1,1 +1,2 @@
-export * from './fetchGqlHomepage';
+export * from "./fetchGqlHomepage";
+export * from "./fetchYouTubePlaylistVideos";
