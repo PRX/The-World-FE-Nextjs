@@ -94,6 +94,7 @@ export default function SearchInput({
   const router = useRouter();
   const pathname = usePathname();
   const abortController = useRef<AbortController>(null);
+  const debounceTimeoutId = useRef<number>(null);
   const [forceLoad, setForceLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<{
@@ -164,6 +165,11 @@ export default function SearchInput({
   );
 
   useEffect(() => {
+
+    if (debounceTimeoutId.current) {
+      clearTimeout(debounceTimeoutId.current);
+    }
+
     if (forceLoad) {
       setForceLoad(false);
     }
@@ -209,10 +215,12 @@ export default function SearchInput({
       }
     };
 
-    const timeoutId = setTimeout(fetchData, 300);
+    debounceTimeoutId.current = window.setTimeout(fetchData, 1000);
 
     return () => {
-      clearTimeout(timeoutId);
+      if (debounceTimeoutId.current) {
+        clearTimeout(debounceTimeoutId.current);
+      }
       abortController.current?.abort();
     };
   }, [searchInput, forceLoad, fetchEndpoint, searchContext, inContextSearch]);
