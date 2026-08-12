@@ -224,6 +224,53 @@ export type AdditionalMedia_FieldsAdditionalImagesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** The aiExperiments setting type */
+export type AiExperimentsSettings = {
+  __typename?: 'AiExperimentsSettings';
+  /** The boolean Settings Group */
+  wpaiFeatureAbilitiesExplorerEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureAiRequestLoggingEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureAltTextGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureCommentModerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureCommentModerationFieldModerateGuests?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureConnectorApprovalEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureContentClassificationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The integer Settings Group */
+  wpaiFeatureContentClassificationFieldMaxSuggestions?: Maybe<Scalars['Int']['output']>;
+  /** The string Settings Group */
+  wpaiFeatureContentClassificationFieldStrategy?: Maybe<Scalars['String']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureContentResizingEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureEditorialNotesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureEditorialUpdatesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureExcerptGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureImageGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureKeyEncryptionEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureMetaDescriptionEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureSuggestReplyEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureSummarizationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureTitleGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeatureTypeAheadEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** The boolean Settings Group */
+  wpaiFeaturesEnabled?: Maybe<Scalars['Boolean']['output']>;
+};
+
 /** The &quot;AudioFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
 export type AudioFields = AcfFieldGroup & AcfFieldGroupFields & AudioFields_Fields & {
   __typename?: 'AudioFields';
@@ -2728,6 +2775,13 @@ export type Connection = {
   nodes: Array<Node>;
   /** Information about pagination in a connection. */
   pageInfo: PageInfo;
+};
+
+/** The connectors setting type */
+export type ConnectorsSettings = {
+  __typename?: 'ConnectorsSettings';
+  /** API key for the Anthropic connector. */
+  connectorsAiAnthropicApiKey?: Maybe<Scalars['String']['output']>;
 };
 
 /** Base interface for content objects like posts, pages, and media items. Provides common fields available across these content types. */
@@ -7268,8 +7322,14 @@ export type DatabaseIdentifier = {
 export type DateInput = {
   /** Day of the month (from 1 to 31) */
   day?: InputMaybe<Scalars['Int']['input']>;
+  /** Hour of the day (from 0 to 23) */
+  hour?: InputMaybe<Scalars['Int']['input']>;
+  /** Minute of the hour (from 0 to 59) */
+  minute?: InputMaybe<Scalars['Int']['input']>;
   /** Month number (from 1 to 12) */
   month?: InputMaybe<Scalars['Int']['input']>;
+  /** Second of the minute (from 0 to 59) */
+  second?: InputMaybe<Scalars['Int']['input']>;
   /** 4 digit year (e.g. 2017) */
   year?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -10435,6 +10495,8 @@ export type ImageFields = AcfFieldGroup & AcfFieldGroupFields & ImageFields_Fiel
    * @deprecated Use __typename instead
    */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Indicates which edge or edges the image should scale or crop from to retain focus on image subject matter. Value should be compatible with CSS `object-position` and `background-position` styles. */
+  focalEdge?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
   hideImage?: Maybe<Scalars['Boolean']['output']>;
   /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
@@ -10452,6 +10514,8 @@ export type ImageFields_Fields = {
    * @deprecated Use __typename instead
    */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Indicates which edge or edges the image should scale or crop from to retain focus on image subject matter. Value should be compatible with CSS `object-position` and `background-position` styles. */
+  focalEdge?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Hide image when we are not sure we have the rights to use it. Once usage rights have been determined or acquired, deselect this option. */
   hideImage?: Maybe<Scalars['Boolean']['output']>;
   /** Provide a human readable title to be used in title attribute of image element. Will show up as a tooltip in most browsers and read by screen readers. Should be short and descriptive, but not as descriptive as the alt text. */
@@ -19886,6 +19950,8 @@ export type RootMutationUpdateUserArgs = {
 /** The root entry point into the Graph */
 export type RootQuery = {
   __typename?: 'RootQuery';
+  /** Fields of the &#039;AiExperimentsSettings&#039; settings group */
+  aiExperimentsSettings?: Maybe<AiExperimentsSettings>;
   /** Entry point to get all settings for the site */
   allSettings?: Maybe<Settings>;
   /** An object of the callToAction Type. Manages the Call To Action custom post type */
@@ -19909,6 +19975,8 @@ export type RootQuery = {
   comment?: Maybe<Comment>;
   /** Connection between the RootQuery type and the Comment type */
   comments?: Maybe<RootQueryToCommentConnection>;
+  /** Fields of the &#039;ConnectorsSettings&#039; settings group */
+  connectorsSettings?: Maybe<ConnectorsSettings>;
   /** A node used to manage content */
   contentNode?: Maybe<ContentNode>;
   /** Connection between the RootQuery type and the ContentNode type */
@@ -25741,6 +25809,50 @@ export type SendPasswordResetEmailPayload = {
 /** All of the registered settings */
 export type Settings = {
   __typename?: 'Settings';
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureAbilitiesExplorerEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureAiRequestLoggingEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureAltTextGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureCommentModerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureCommentModerationFieldModerateGuests?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureConnectorApprovalEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureContentClassificationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the integer Settings Group */
+  aiExperimentsSettingsWpaiFeatureContentClassificationFieldMaxSuggestions?: Maybe<Scalars['Int']['output']>;
+  /** Settings of the the string Settings Group */
+  aiExperimentsSettingsWpaiFeatureContentClassificationFieldStrategy?: Maybe<Scalars['String']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureContentResizingEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureEditorialNotesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureEditorialUpdatesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureExcerptGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureImageGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureKeyEncryptionEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureMetaDescriptionEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureSuggestReplyEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureSummarizationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureTitleGenerationEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeatureTypeAheadEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the boolean Settings Group */
+  aiExperimentsSettingsWpaiFeaturesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  /** Settings of the the string Settings Group */
+  connectorsSettingsConnectorsAiAnthropicApiKey?: Maybe<Scalars['String']['output']>;
   /** Settings of the the string Settings Group */
   discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']['output']>;
   /** Settings of the the string Settings Group */
@@ -29342,8 +29454,31 @@ export type UpdateSegmentPayload = {
 
 /** Input for the updateSettings mutation. */
 export type UpdateSettingsInput = {
+  aiExperimentsSettingsWpaiFeatureAbilitiesExplorerEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureAiRequestLoggingEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureAltTextGenerationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureCommentModerationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureCommentModerationFieldModerateGuests?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureConnectorApprovalEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureContentClassificationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureContentClassificationFieldMaxSuggestions?: InputMaybe<Scalars['Int']['input']>;
+  aiExperimentsSettingsWpaiFeatureContentClassificationFieldStrategy?: InputMaybe<Scalars['String']['input']>;
+  aiExperimentsSettingsWpaiFeatureContentResizingEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureEditorialNotesEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureEditorialUpdatesEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureExcerptGenerationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureImageGenerationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureKeyEncryptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureMetaDescriptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureSuggestReplyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureSummarizationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureTitleGenerationEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeatureTypeAheadEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  aiExperimentsSettingsWpaiFeaturesEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** API key for the Anthropic connector. */
+  connectorsSettingsConnectorsAiAnthropicApiKey?: InputMaybe<Scalars['String']['input']>;
   /** Allow people to submit comments on new posts. */
   discussionSettingsDefaultCommentStatus?: InputMaybe<Scalars['String']['input']>;
   /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
@@ -29385,10 +29520,14 @@ export type UpdateSettingsInput = {
 /** The payload for the updateSettings mutation. */
 export type UpdateSettingsPayload = {
   __typename?: 'UpdateSettingsPayload';
+  /** Update the AiExperimentsSettings setting. */
+  aiExperimentsSettings?: Maybe<AiExperimentsSettings>;
   /** Update all settings. */
   allSettings?: Maybe<Settings>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Update the ConnectorsSettings setting. */
+  connectorsSettings?: Maybe<ConnectorsSettings>;
   /** Update the DiscussionSettings setting. */
   discussionSettings?: Maybe<DiscussionSettings>;
   /** Update the GeneralSettings setting. */
