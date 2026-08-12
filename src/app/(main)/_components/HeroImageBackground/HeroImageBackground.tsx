@@ -18,8 +18,6 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
     imageSrc,
   );
 
-  console.log(imageFields);
-
   /**
    * Watch for changes in image's current source, then update url used as background image.
    */
