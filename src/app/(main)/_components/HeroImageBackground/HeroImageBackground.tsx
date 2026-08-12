@@ -6,9 +6,10 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 export default function HeroImageBackground({ data }: { data: MediaItem }) {
-  const { altText, mediaDetails, mediaItemUrl, sourceUrl } = data;
+  const { altText, mediaDetails, mediaItemUrl, sourceUrl, imageFields } = data;
   const imageSrc = sourceUrl || mediaItemUrl;
   const { width, height } = mediaDetails || {};
+  const { focalEdge } = imageFields || {};
   const aspectRatio = (width || 1) / (height || 1);
   const imageRef = useRef<HTMLImageElement>(null);
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,8 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
   const [currentSrc, setCurrentSrc] = useState<Maybe<string> | undefined>(
     imageSrc,
   );
+
+  console.log(imageFields);
 
   /**
    * Watch for changes in image's current source, then update url used as background image.
@@ -62,6 +65,17 @@ export default function HeroImageBackground({ data }: { data: MediaItem }) {
           "opacity-0": !loaded && !currentSrc,
           "opacity-100": loaded || !!(loading && currentSrc),
           "blur-lg": loading && currentSrc,
+          ...(focalEdge?.[0] && {
+            "object-center": focalEdge[0] === 'center',
+            "object-top": focalEdge[0] === 'top',
+            "object-bottom": focalEdge[0] === 'bottom',
+            "object-left": focalEdge[0] === 'left',
+            "object-right": focalEdge[0] === 'right',
+            "object-top-left": focalEdge[0] === 'top left',
+            "object-top-right": focalEdge[0] === 'top right',
+            "object-bottom-left": focalEdge[0] === 'bottom left',
+            "object-bottom-right": focalEdge[0] === 'bottom right',
+          })
         })}
         style={
           {
