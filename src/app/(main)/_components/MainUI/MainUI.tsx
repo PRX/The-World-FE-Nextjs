@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import DonateModalLink from "@/components/Donate/DonateModalLink";
 import CcnLogo from "@/assets/svg/logos/CCN-Logo.svg";
 import GbhLogo from "@/assets/svg/logos/GBH-Logo.svg";
+import LuminaLogo from "@/assets/svg/logos/Lumina-Logo.svg";
 import ProgressiveLogo from "@/assets/svg/logos/Progressive-Logo.svg";
 import PrxLogo from "@/assets/svg/logos/PRX-Logo-Horizontal.svg";
 import MainUIContext from "../../_contexts/MainUIContext";
@@ -557,6 +558,7 @@ export default function MainUI({
               className="h-18!"
               aria-label="Carnegie Corporation of New York"
             />
+            <LuminaLogo className="h-18!" aria-label="Lumina Foundation" />
           </MainUIFooterLogoGroup>
         </footer>
       </div>
