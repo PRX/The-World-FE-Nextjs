@@ -5,6 +5,7 @@ import { redirects } from "./next.redirects";
 const nextConfig: NextConfig = withPlausibleProxy({
   src: "https://plausible.io/js/pa-fuF1qi-NfkrB0shZi0Ip8.js",
 })({
+  allowedDevOrigins: ["theworld.test", "localhost:3000"],
   output: "standalone",
   trailingSlash: false,
   skipProxyUrlNormalize: true,
