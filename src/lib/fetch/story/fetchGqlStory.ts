@@ -11,34 +11,6 @@ import {
   POST_SEO_PROPS,
 } from "@/lib/fetch/api/graphql";
 
-export const STORY_CARD_PROPS = gql`
-  fragment StoryCardProps on Post {
-    id
-    title
-    excerpt
-    link
-    featuredImage {
-      node {
-        ...ImageProps
-      }
-    }
-    primaryCategory {
-      id
-      name
-      link
-    }
-    additionalMedia {
-      audio {
-        node {
-          ...AudioProps
-        }
-      }
-    }
-  }
-  ${IMAGE_PROPS}
-  ${AUDIO_PROPS}
-`;
-
 export const GET_STORY_POST = gql`
   query getPost($id: ID!, $idType: PostIdType) {
     post(id: $id, idType: $idType) {
@@ -166,8 +138,9 @@ export const GET_STORY_POST = gql`
       }
     }
   }
-  ${STORY_CARD_PROPS}
   ${POST_SEO_PROPS}
+  ${IMAGE_PROPS}
+  ${AUDIO_PROPS}
 `;
 
 export const fetchGqlStory = async (
