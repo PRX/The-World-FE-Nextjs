@@ -111,11 +111,6 @@ export const GET_STORY_POST = gql`
         id
         name
         link
-        posts(first: 4, where: { notIn: [$id] }) {
-          nodes {
-            ...StoryCardProps
-          }
-        }
       }
       tags {
         nodes {
