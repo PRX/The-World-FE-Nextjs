@@ -125,7 +125,7 @@ export function StationFinder({
             ];
 
             if (!isUSA) {
-              locationParts.push(countries?.nodes[0].name);
+              locationParts.push(countries?.nodes[0]?.name);
             }
 
             const location = locationParts
@@ -146,7 +146,12 @@ export function StationFinder({
                 )}
                 key={id}
               >
-                {website && <CardLink href={website} aria-label={callLetters ?? undefined} />}
+                {website && (
+                  <CardLink
+                    href={website}
+                    aria-label={callLetters ?? undefined}
+                  />
+                )}
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <span className="grow flex items-start gap-x-1">
