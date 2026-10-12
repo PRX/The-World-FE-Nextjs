@@ -70,79 +70,82 @@ export default async function PodcastsPage() {
     <main className="mt-10 px-8 md:ml-(--gutter-left) md:mr-(--gutter-right)">
       {rssData?.length ? (
         <div className="grid gap-8 max-w-5xl mx-auto">
-          {rssData.map(({ feedUrl, title, image, description, podcast }) => {
-            const { links } = podcast?.follow?.data || {};
-            const followLinks = [
-              ...(links || []),
-              { href: feedUrl, text: "RSS Feed", service: "rss" },
-            ];
-            const hasImage = !!image?.url;
+          {rssData.map(
+            ({ feedUrl, title, image, description, podcast, itunes }) => {
+              const { links } = podcast?.follow?.data || {};
+              const followLinks = [
+                ...(links || []),
+                { href: feedUrl, text: "RSS Feed", service: "rss" },
+              ];
+              const thumbnailImage = itunes?.image || image?.url;
+              const hasImage = !!thumbnailImage;
 
-            return (
-              <React.Fragment key={feedUrl}>
-                <section
-                  className={cn("grid gap-8 items-center", {
-                    "md:grid-cols-[--spacing(50)_1fr]": hasImage,
-                  })}
-                >
-                  {hasImage && (
-                    <Image
-                      src={image.url}
-                      alt={`Podcast logo for "${title}"`}
-                      width={200}
-                      height={200}
-                      sizes="400px"
-                      className="self-start"
-                    />
-                  )}
-                  <div className="grid gap-2">
-                    <h2 className="text-2xl/tight font-bold">{title}</h2>
-                    {!!description?.trim().length && (
-                      <HtmlContent html={description} />
+              return (
+                <React.Fragment key={feedUrl}>
+                  <section
+                    className={cn("grid gap-8 items-center", {
+                      "md:grid-cols-[--spacing(50)_1fr]": hasImage,
+                    })}
+                  >
+                    {thumbnailImage && (
+                      <Image
+                        src={thumbnailImage}
+                        alt={`Podcast logo for "${title}"`}
+                        width={200}
+                        height={200}
+                        sizes="400px"
+                        className="self-start"
+                      />
                     )}
-                    {!!followLinks?.length && (
-                      <div className="flex flex-wrap gap-2 mt-4 pt-2 border-t border-t-muted">
-                        {followLinks
-                          ?.map((l) => ({
-                            ...l,
-                            service:
-                              getServiceFromUrl(l.href) || l.service || null,
-                          }))
-                          .map(({ service, href, text }) => {
-                            if (!service) return null;
+                    <div className="grid gap-2">
+                      <h2 className="text-2xl/tight font-bold">{title}</h2>
+                      {!!description?.trim().length && (
+                        <HtmlContent html={description} />
+                      )}
+                      {!!followLinks?.length && (
+                        <div className="flex flex-wrap gap-2 mt-4 pt-2 border-t border-t-muted">
+                          {followLinks
+                            ?.map((l) => ({
+                              ...l,
+                              service:
+                                getServiceFromUrl(l.href) || l.service || null,
+                            }))
+                            .map(({ service, href, text }) => {
+                              if (!service) return null;
 
-                            const { IconComponent, label } =
-                              serviceAssetsMap.get(service) || {};
+                              const { IconComponent, label } =
+                                serviceAssetsMap.get(service) || {};
 
-                            return (
-                              IconComponent && (
-                                <a
-                                  href={href}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  key={`${service}:${href}`}
-                                  className={cn(
-                                    "p-1 bg-white/10 backdrop-blur-lg rounded-full corner-squircle",
-                                    "hover:backdrop-brightness-125 focus-visible:backdrop-brightness-125",
-                                  )}
-                                >
-                                  <IconComponent
-                                    aria-label={`Listen on ${text || label}`}
-                                    width={40}
-                                    height={40}
-                                  />
-                                </a>
-                              )
-                            );
-                          })}
-                      </div>
-                    )}
-                  </div>
-                </section>
-                <Separator />
-              </React.Fragment>
-            );
-          })}
+                              return (
+                                IconComponent && (
+                                  <a
+                                    href={href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    key={`${service}:${href}`}
+                                    className={cn(
+                                      "p-1 bg-white/10 backdrop-blur-lg rounded-full corner-squircle",
+                                      "hover:backdrop-brightness-125 focus-visible:backdrop-brightness-125",
+                                    )}
+                                  >
+                                    <IconComponent
+                                      aria-label={`Listen on ${text || label}`}
+                                      width={40}
+                                      height={40}
+                                    />
+                                  </a>
+                                )
+                              );
+                            })}
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                  <Separator />
+                </React.Fragment>
+              );
+            },
+          )}
         </div>
       ) : (
         <Empty>
