@@ -1,5 +1,9 @@
+"use client";
+
 import type { Maybe } from "@/interfaces";
 import Link from "next/link";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { generateShareLinks } from "@/lib/generate/social";
-import { Share2Icon, MailIcon } from "lucide-react";
+import { Share2Icon, MailIcon, ClipboardCopyIcon } from "lucide-react";
 import FacebookIcon from "@/assets/svg/icons/brands/facebook.svg";
 import BlueskyIcon from "@/assets/svg/icons/brands/bluesky.svg";
 import TwitterXIcon from "@/assets/svg/icons/brands/twitter.svg";
@@ -42,10 +46,25 @@ export default function ShareButton({
 }: ShareButtonProps) {
   if (!url || !title) return null;
 
-  const links = generateShareLinks(url, title);
+  const linkProtocol = "https";
+  const linkHostname = "theworld.org";
+  const linkUrl = new URL(url, `${linkProtocol}://${linkHostname}`);
+
+  linkUrl.protocol = linkProtocol;
+  linkUrl.hostname = linkHostname;
+
+  const links = generateShareLinks(linkUrl.toString(), title);
   const { className: buttonClassName, ...buttonRest } = buttonProps || {};
   const { className: menuContentClassName, ...menuContentRest } =
     menuContentProps || {};
+
+  const handleCopy = (_text: string, copied: boolean) => {
+    if (copied) {
+      toast.success("Copied to clipboard.");
+    } else {
+      toast.warning("Unable to copy to clipboard.");
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -80,6 +99,13 @@ export default function ShareButton({
             </DropdownMenuItem>
           );
         })}
+
+        <CopyToClipboard text={linkUrl.toString()} onCopy={handleCopy}>
+          <DropdownMenuItem>
+            <ClipboardCopyIcon />
+            <span>Copy Link</span>
+          </DropdownMenuItem>
+        </CopyToClipboard>
       </DropdownMenuContent>
     </DropdownMenu>
   );
