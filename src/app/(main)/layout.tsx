@@ -83,7 +83,14 @@ export default async function MainLayout({
             className="absolute left-0 bottom-0 aspect-square w-[calc(max(110vw,110vh))] max-h-[160vh] translate-x-[-30%] translate-y-[50%] opacity-10"
           />
         </div>
-        <PlausibleProvider>
+        <PlausibleProvider
+          src="/js/script.js"
+          init={{
+            endpoint: "/api/event",
+            captureOnLocalhost: false,
+            hashBasedRouting: false,
+          }}
+        >
           <Player>
             <MainUI {...mainUiProps}>{children}</MainUI>
           </Player>

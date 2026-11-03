@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
-import { withPlausibleProxy } from "next-plausible";
 import { redirects } from "./next.redirects";
 
-const nextConfig: NextConfig = withPlausibleProxy({
-  src: "https://plausible.io/js/pa-fuF1qi-NfkrB0shZi0Ip8.js",
-})({
+const nextConfig: NextConfig = {
   allowedDevOrigins: ["theworld.test", "localhost:3000"],
   output: "standalone",
   trailingSlash: false,
@@ -40,6 +37,6 @@ const nextConfig: NextConfig = withPlausibleProxy({
     },
   }, // Tells Turbopack to skip bundling this package and its dependencies
   serverExternalPackages: ["subset-font", "harfbuzzjs"],
-});
+};
 
 export default nextConfig;
