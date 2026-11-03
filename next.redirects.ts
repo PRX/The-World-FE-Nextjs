@@ -40,7 +40,7 @@ export const redirects: NextConfig["redirects"] = async () => {
     /* External Redirects */
     {
       source: "/(give|donate/pris-world)",
-      destination: "https://give.prx.org/campaign/804766/donate",
+      destination: "https://give.prx.org/campaign/859811/donate",
       permanent: false,
     },
     {
