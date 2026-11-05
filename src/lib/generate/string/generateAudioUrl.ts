@@ -10,7 +10,7 @@ export const generateAudioUrl = (audioUrl: string) => {
     const audioUrlWithProtocol = /^\/\//.test(audioUrl)
       ? `https:${audioUrl}`
       : audioUrl;
-    const url = new URL(audioUrlWithProtocol);
+    const url = new URL(audioUrlWithProtocol, "https://media.pri.org");
 
     // Fix for deprecated podtrac redirect URL pattern.
     if (url.href.startsWith("https://www.podtrac.com/pts")) {
