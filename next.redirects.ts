@@ -221,5 +221,11 @@ export const redirects: NextConfig["redirects"] = async () => {
       destination: "/explore?search=:query",
       permanent: false,
     },
+    {
+      source:
+        "/stories/2015/06/25/how-struggling-single-mom-papua-new-guinea-found-her-cloth-new-york-fashion",
+      destination: "/stories/2015/06/23/bilum-bags",
+      permanent: false,
+    },
   ];
 };
