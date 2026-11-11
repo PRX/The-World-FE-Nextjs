@@ -84,7 +84,7 @@ export default async function MainLayout({
           />
         </div>
         <PlausibleProvider
-          src="/js/script.js"
+          src="/js/pa-fuF1qi-NfkrB0shZi0Ip8.js"
           init={{
             endpoint: "/api/event",
             captureOnLocalhost: false,
